@@ -1,0 +1,9 @@
+HTTP/2 200 
+x-content-type-options: nosniff
+referrer-policy: strict-origin-when-cross-origin
+vary: Accept-Encoding
+cache-control: no-cache
+content-type: application/json
+date: Tue, 06 Oct 2026 19:27:44 GMT
+server: Apache
+
