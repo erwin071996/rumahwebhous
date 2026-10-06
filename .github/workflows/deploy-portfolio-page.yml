@@ -26,8 +26,8 @@ jobs:
       - name: Validate portfolio source
         run: |
           test -s projects.html
-          grep -q "Portofolio Proyek 3DKan Advertising" projects.html
-          grep -q "Lihat proyek pilihan" projects.html
+          grep -q "Portofolio & Studi Kasus Proyek" projects.html
+          grep -q "Lihat studi kasus" projects.html
           if grep -q "Video dokumentasi asli berhasil diarsipkan" projects.html; then
             echo "Internal upload/archive status is still present."
             exit 1
@@ -71,8 +71,8 @@ jobs:
             bye
           " || true
           test -s /tmp/remote-projects.html
-          grep -q "Portofolio Proyek 3DKan Advertising" /tmp/remote-projects.html
-          grep -q "Produksi & pemasangan" /tmp/remote-projects.html
+          grep -q "Portofolio & Studi Kasus Proyek" /tmp/remote-projects.html
+          grep -q "STUDI KASUS TERPILIH" /tmp/remote-projects.html
           ! grep -q "Video dokumentasi asli berhasil diarsipkan" /tmp/remote-projects.html
           ! grep -q "bukan gambar proyek buatan AI" /tmp/remote-projects.html
           echo "Portfolio page verified directly on Rumahweb FTPS."
