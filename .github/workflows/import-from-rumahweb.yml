@@ -13,10 +13,11 @@ permissions:
 
 concurrency:
   group: rumahweb-production
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
   import:
+    if: github.event_name == 'workflow_dispatch'
     name: Import public_html to GitHub
     runs-on: ubuntu-latest
 
