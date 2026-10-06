@@ -1,0 +1,19 @@
+Directories: 46
+Files: 67
+Candidates: 9
+Matches: 1
+
+MATCH: public_html/projects.html
+HITS: portofolio, Portofolio, PORTOFOLIO
+SAVED: quick_portfolio/files/projects.html
+
+Top candidates:
+public_html/portfolio.php
+public_html/projects.html
+public_html/index.html
+public_html/subpage/index.html
+public_html/jobs-1-item/2-developer-sales/index.html
+public_html/jobs-1-item/1-accountant-tech/index.html
+public_html/jobs-1-item/6-analyst-sales/index.html
+public_html/jobs-1-item/4-accountant-human-resources/index.html
+public_html/jobs-1-item/3-analyst-sales/index.html

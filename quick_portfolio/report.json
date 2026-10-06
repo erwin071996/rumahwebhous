@@ -1,0 +1,74 @@
+{
+  "directories_scanned": 46,
+  "files_seen": 67,
+  "candidates": [
+    {
+      "path": "public_html/portfolio.php",
+      "size": 762
+    },
+    {
+      "path": "public_html/projects.html",
+      "size": 27282
+    },
+    {
+      "path": "public_html/index.html",
+      "size": 24835
+    },
+    {
+      "path": "public_html/subpage/index.html",
+      "size": 7105
+    },
+    {
+      "path": "public_html/jobs-1-item/2-developer-sales/index.html",
+      "size": 18155
+    },
+    {
+      "path": "public_html/jobs-1-item/1-accountant-tech/index.html",
+      "size": 18157
+    },
+    {
+      "path": "public_html/jobs-1-item/6-analyst-sales/index.html",
+      "size": 18145
+    },
+    {
+      "path": "public_html/jobs-1-item/4-accountant-human-resources/index.html",
+      "size": 18190
+    },
+    {
+      "path": "public_html/jobs-1-item/3-analyst-sales/index.html",
+      "size": 18145
+    }
+  ],
+  "matches": [
+    {
+      "path": "public_html/projects.html",
+      "size": 27282,
+      "hits": [
+        "portofolio",
+        "Portofolio",
+        "PORTOFOLIO"
+      ],
+      "saved_as": "quick_portfolio/files/projects.html"
+    }
+  ],
+  "errors": [
+    "GET public_html/jobs-1-item/3-analyst-sales/index.html: The read operation timed out",
+    "LIST public_html/jobs-1-item/5-engineer-sales: 200 TYPE is now ASCII",
+    "LIST public_html/js: 200 TYPE is now ASCII",
+    "LIST public_html/legal-notice: 200 TYPE is now ASCII",
+    "LIST public_html/bundles: 200 TYPE is now ASCII",
+    "LIST public_html/g: 200 TYPE is now ASCII",
+    "LIST public_html/layanan-maros: 200 TYPE is now ASCII",
+    "LIST public_html/privacy: 200 TYPE is now ASCII",
+    "LIST public_html/real-estate-single-page-layout: 200 TYPE is now ASCII",
+    "LIST public_html/includes: 200 TYPE is now ASCII",
+    "LIST public_html/webcard: 200 TYPE is now ASCII",
+    "LIST public_html/css: 200 TYPE is now ASCII",
+    "LIST public_html/images: 200 TYPE is now ASCII",
+    "LIST public_html/tes: 200 TYPE is now ASCII",
+    "LIST public_html/assets: 200 TYPE is now ASCII",
+    "LIST public_html/modules-1-item: 200 TYPE is now ASCII",
+    "LIST public_html/3dkanadvertising.store: 200 TYPE is now ASCII",
+    "LIST public_html/blog-single-page-layout: 200 TYPE is now ASCII"
+  ]
+}
