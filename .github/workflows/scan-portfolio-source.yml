@@ -1,0 +1,115 @@
+name: Scan Portfolio Source on Rumahweb
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - '.github/workflows/scan-portfolio-source.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: rumahweb-portfolio-scan
+  cancel-in-progress: true
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Scan remote text source
+        env:
+          FTP_SERVER: ${{ secrets.FTP_SERVER }}
+          FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
+          FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
+        run: |
+          python - <<'PY'
+          import ftplib, ssl, os, posixpath, re, json
+          host=os.environ["FTP_SERVER"]; user=os.environ["FTP_USERNAME"]; pw=os.environ["FTP_PASSWORD"]
+          ctx=ssl.create_default_context(); ctx.check_hostname=False; ctx.verify_mode=ssl.CERT_NONE
+          ftp=ftplib.FTP_TLS(context=ctx, timeout=30)
+          ftp.connect(host,21); ftp.login(user,pw); ftp.prot_p()
+          root="public_html"
+          exts={".php",".html",".htm",".css",".js",".json",".xml",".txt"}
+          needles=[
+              "PORTOFOLIO PEKERJAAN NYATA","PORTOFOLIO","Rak Aluminium",
+              "Siap untuk klien","upload berhasil","upload gagal",
+              "berhasil upload","gagal upload","portfolio"
+          ]
+          out=[]; scanned=0; errors=[]
+          os.makedirs("portfolio_scan/files", exist_ok=True)
+
+          def listdir(path):
+              try:
+                  return list(ftp.mlsd(path))
+              except Exception:
+                  try:
+                      names=ftp.nlst(path)
+                      result=[]
+                      for n in names:
+                          base=posixpath.basename(n.rstrip("/"))
+                          if base in (".",".."): continue
+                          result.append((base,{}))
+                      return result
+                  except Exception as e:
+                      errors.append(f"{path}: {e}")
+                      return []
+
+          stack=[root]
+          while stack:
+              d=stack.pop()
+              for name,facts in listdir(d):
+                  p=posixpath.join(d,name)
+                  typ=facts.get("type","")
+                  if typ=="dir":
+                      if name not in {".git","node_modules","vendor","cache","tmp","backup","backups"}:
+                          stack.append(p)
+                      continue
+                  if typ not in ("file","") and typ:
+                      continue
+                  ext=os.path.splitext(name.lower())[1]
+                  if ext not in exts: continue
+                  size=facts.get("size")
+                  try:
+                      if size and int(size)>2_000_000: continue
+                  except: pass
+                  buf=bytearray()
+                  try:
+                      ftp.retrbinary("RETR "+p, buf.extend)
+                  except Exception as e:
+                      errors.append(f"{p}: {e}")
+                      continue
+                  scanned+=1
+                  text=bytes(buf).decode("utf-8","ignore")
+                  hit=[n for n in needles if n.lower() in text.lower()]
+                  if hit:
+                      rel=p[len(root):].lstrip("/")
+                      safe=rel.replace("/","__")
+                      dest=os.path.join("portfolio_scan/files",safe)
+                      with open(dest,"w",encoding="utf-8") as f: f.write(text)
+                      out.append({"remote_path":p,"relative_path":rel,"saved_as":dest,"hits":hit,"size":len(buf)})
+          ftp.quit()
+          with open("portfolio_scan/report.json","w",encoding="utf-8") as f:
+              json.dump({"scanned_text_files":scanned,"matches":out,"errors":errors[:100]},f,ensure_ascii=False,indent=2)
+          with open("portfolio_scan/REPORT.txt","w",encoding="utf-8") as f:
+              f.write(f"Scanned text files: {scanned}\nMatches: {len(out)}\n")
+              for x in out:
+                  f.write(f"\n{x['remote_path']}\n  hits: {', '.join(x['hits'])}\n  saved: {x['saved_as']}\n")
+          print(open("portfolio_scan/REPORT.txt",encoding="utf-8").read())
+          PY
+
+      - name: Push scan branch
+        run: |
+          git config user.name "Rumahweb Portfolio Scanner"
+          git config user.email "actions@github.com"
+          git checkout -B portfolio-source-scan
+          git add -f portfolio_scan
+          git commit -m "Scan portfolio source from Rumahweb" || true
+          git push -f origin HEAD:portfolio-source-scan
