@@ -79,7 +79,10 @@ jobs:
                       with open(dest,"w",encoding="utf-8") as f:f.write(text)
                       matches.append({"path":p,"size":len(buf),"hits":hits,"saved_as":dest})
 
-          ftp.quit()
+          try:
+              ftp.quit()
+          except Exception:
+              pass
           report={"directories_scanned":dirs,"files_seen":files,"candidates":candidates[:1000],"matches":matches,"errors":errors[:100]}
           with open("quick_portfolio/report.json","w",encoding="utf-8") as f:json.dump(report,f,ensure_ascii=False,indent=2)
           with open("quick_portfolio/REPORT.txt","w",encoding="utf-8") as f:
