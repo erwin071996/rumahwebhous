@@ -95,7 +95,10 @@ jobs:
                       dest=os.path.join("portfolio_scan/files",safe)
                       with open(dest,"w",encoding="utf-8") as f: f.write(text)
                       out.append({"remote_path":p,"relative_path":rel,"saved_as":dest,"hits":hit,"size":len(buf)})
-          ftp.quit()
+          try:
+              ftp.quit()
+          except Exception:
+              pass
           with open("portfolio_scan/report.json","w",encoding="utf-8") as f:
               json.dump({"scanned_text_files":scanned,"matches":out,"errors":errors[:100]},f,ensure_ascii=False,indent=2)
           with open("portfolio_scan/REPORT.txt","w",encoding="utf-8") as f:
