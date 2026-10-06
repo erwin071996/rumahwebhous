@@ -44,7 +44,7 @@ jobs:
           lftp -u "${FTP_USERNAME},${FTP_PASSWORD}" "ftp://${FTP_SERVER}:21" -e "
             set ftp:ssl-force true;
             set ftp:ssl-protect-data true;
-            set ssl:verify-certificate yes;
+            set ssl:verify-certificate no;
             set net:max-retries 3;
             set net:timeout 20;
 
