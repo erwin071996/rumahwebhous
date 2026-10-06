@@ -1,0 +1,101 @@
+name: Import Source Snapshot from Rumahweb
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - '.github/workflows/import-source-snapshot.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: rumahweb-source-scan
+  cancel-in-progress: true
+
+jobs:
+  snapshot:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y lftp rsync
+
+      - name: Download source files only
+        env:
+          FTP_SERVER: ${{ secrets.FTP_SERVER }}
+          FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
+          FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
+        run: |
+          rm -rf /tmp/rumahweb-source
+          mkdir -p /tmp/rumahweb-source
+
+          lftp -u "${FTP_USERNAME},${FTP_PASSWORD}" "ftp://${FTP_SERVER}:21" -e "
+            set ftp:ssl-force true;
+            set ftp:ssl-protect-data true;
+            set ssl:verify-certificate no;
+            set net:max-retries 2;
+            set net:timeout 30;
+
+            mirror \
+              --verbose \
+              --parallel=6 \
+              --exclude-glob '*.mp4' \
+              --exclude-glob '*.mov' \
+              --exclude-glob '*.avi' \
+              --exclude-glob '*.mkv' \
+              --exclude-glob '*.webm' \
+              --exclude-glob '*.mp3' \
+              --exclude-glob '*.wav' \
+              --exclude-glob '*.jpg' \
+              --exclude-glob '*.jpeg' \
+              --exclude-glob '*.png' \
+              --exclude-glob '*.gif' \
+              --exclude-glob '*.webp' \
+              --exclude-glob '*.avif' \
+              --exclude-glob '*.ico' \
+              --exclude-glob '*.pdf' \
+              --exclude-glob '*.zip' \
+              --exclude-glob '*.tar' \
+              --exclude-glob '*.tar.gz' \
+              --exclude-glob '*.sql' \
+              --exclude-glob '*.sql.gz' \
+              --exclude-glob '*.woff' \
+              --exclude-glob '*.woff2' \
+              --exclude-glob '*.ttf' \
+              --exclude-glob '*.otf' \
+              public_html/ /tmp/rumahweb-source/;
+
+            bye
+          "
+
+      - name: Build searchable snapshot
+        run: |
+          rm -rf site_snapshot
+          mkdir -p site_snapshot
+          rsync -a /tmp/rumahweb-source/ site_snapshot/
+
+          {
+            echo "Potential portfolio source files:"
+            grep -RIlE 'PORTOFOLIO PEKERJAAN NYATA|PORTOFOLIO|Rak Aluminium|Siap untuk klien|upload berhasil|upload gagal|video' site_snapshot 2>/dev/null || true
+          } > site_snapshot/MATCHES.txt
+
+          echo "Snapshot file count: $(find site_snapshot -type f | wc -l)"
+          sed -n '1,200p' site_snapshot/MATCHES.txt
+
+      - name: Push snapshot branch
+        run: |
+          git config user.name "Rumahweb Source Snapshot"
+          git config user.email "actions@github.com"
+          git checkout -B site-source-snapshot
+          git add -f site_snapshot
+          git commit -m "Snapshot lightweight website source from Rumahweb" || true
+          git push -f origin HEAD:site-source-snapshot
