@@ -1,0 +1,111 @@
+name: Crawl Live Site for Client Portfolio Page
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - '.github/workflows/crawl-live-portfolio.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: live-portfolio-crawl
+  cancel-in-progress: true
+
+jobs:
+  crawl:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Crawl live site and locate portfolio UI
+        run: |
+          python - <<'PY'
+          import ssl, re, json, os, time
+          from urllib.request import Request, urlopen
+          from urllib.parse import urljoin, urlparse, urldefrag
+          from pathlib import Path
+
+          start="https://www.3dkanadvertising.store/"
+          host=urlparse(start).netloc
+          ctx=ssl.create_default_context(); ctx.check_hostname=False; ctx.verify_mode=ssl.CERT_NONE
+          needles=[
+              "PORTOFOLIO PEKERJAAN NYATA",
+              "Rak Aluminium",
+              "Siap untuk klien",
+              "upload berhasil",
+              "upload gagal",
+              "berhasil upload",
+              "gagal upload",
+              "laporan keberhasilan",
+              "portfolio"
+          ]
+          skip_ext=re.compile(r"\.(?:jpg|jpeg|png|gif|webp|avif|svg|ico|pdf|zip|rar|7z|mp4|mov|avi|mkv|webm|mp3|wav|woff2?|ttf|otf)(?:$|\?)",re.I)
+          href_re=re.compile(r'''href\s*=\s*["']([^"'#]+)''',re.I)
+          q=[start]
+          seen=set()
+          results=[]
+          crawled=[]
+          Path("live_crawl/matches").mkdir(parents=True,exist_ok=True)
+
+          # add common likely paths even if not linked
+          for p in ["portfolio","portofolio","projects","project","clientzone","client-zone","portfolio-klien","portofolio-klien","showcase"]:
+              q.append(urljoin(start,p))
+
+          while q and len(seen)<120:
+              url=q.pop(0)
+              url=urldefrag(url)[0]
+              if url in seen: continue
+              u=urlparse(url)
+              if u.netloc and u.netloc!=host: continue
+              if skip_ext.search(url): continue
+              seen.add(url)
+              try:
+                  req=Request(url,headers={"User-Agent":"Mozilla/5.0"})
+                  with urlopen(req,context=ctx,timeout=12) as r:
+                      ctype=r.headers.get("Content-Type","")
+                      data=r.read(2_500_000)
+                      final=r.geturl()
+                  text=data.decode("utf-8","ignore")
+              except Exception as e:
+                  crawled.append({"url":url,"error":str(e)})
+                  continue
+
+              hits=[n for n in needles if n.lower() in text.lower()]
+              crawled.append({"url":url,"final":final,"content_type":ctype,"bytes":len(data),"hits":hits})
+              if hits:
+                  safe=re.sub(r"[^a-zA-Z0-9._-]+","_",urlparse(final).path.strip("/") or "home")
+                  dest=f"live_crawl/matches/{safe}.html"
+                  Path(dest).write_text(text,encoding="utf-8")
+                  results.append({"url":url,"final":final,"hits":hits,"saved_as":dest,"bytes":len(data)})
+
+              if "text/html" in ctype.lower() or "<html" in text[:1000].lower():
+                  for h in href_re.findall(text):
+                      nxt=urljoin(final,h)
+                      nu=urlparse(nxt)
+                      if nu.netloc==host and nxt not in seen and not skip_ext.search(nxt):
+                          if len(q)<600:
+                              q.append(nxt)
+
+          report={"matches":results,"crawled":crawled}
+          Path("live_crawl/report.json").write_text(json.dumps(report,ensure_ascii=False,indent=2),encoding="utf-8")
+          lines=[f"Pages checked: {len(crawled)}",f"Matches: {len(results)}"]
+          for r in results:
+              lines += ["",f"URL: {r['final']}",f"HITS: {', '.join(r['hits'])}",f"FILE: {r['saved_as']}"]
+          Path("live_crawl/REPORT.txt").write_text("\n".join(lines)+"\n",encoding="utf-8")
+          print(Path("live_crawl/REPORT.txt").read_text())
+          PY
+
+      - name: Push crawl results
+        run: |
+          git config user.name "Live Portfolio Crawler"
+          git config user.email "actions@github.com"
+          git checkout -B live-portfolio-crawl
+          git add -f live_crawl
+          git commit -m "Locate client-facing portfolio page on live site" || true
+          git push -f origin HEAD:live-portfolio-crawl
