@@ -1,0 +1,102 @@
+name: Quick Locate Portfolio Page
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - '.github/workflows/quick-portfolio-locate.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: rumahweb-quick-portfolio
+  cancel-in-progress: true
+
+jobs:
+  locate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Locate portfolio files
+        env:
+          FTP_SERVER: ${{ secrets.FTP_SERVER }}
+          FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
+          FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
+        run: |
+          python - <<'PY'
+          import ftplib, ssl, os, posixpath, json, re
+          ctx=ssl.create_default_context(); ctx.check_hostname=False; ctx.verify_mode=ssl.CERT_NONE
+          ftp=ftplib.FTP_TLS(context=ctx,timeout=20)
+          ftp.connect(os.environ["FTP_SERVER"],21); ftp.login(os.environ["FTP_USERNAME"],os.environ["FTP_PASSWORD"]); ftp.prot_p()
+
+          root="public_html"
+          skip={"node_modules","vendor","cache","tmp","backup","backups",".git","storage","logs"}
+          exts={".php",".html",".htm",".js",".json",".css"}
+          name_re=re.compile(r"(portof|portfolio|project|gallery|work|video|index|home)",re.I)
+          text_re=re.compile(r"(PORTOFOLIO PEKERJAAN NYATA|Rak Aluminium|Siap untuk klien|upload berhasil|upload gagal|berhasil upload|gagal upload|portofolio)",re.I)
+          candidates=[]; matches=[]; dirs=0; files=0; errors=[]
+          os.makedirs("quick_portfolio/files",exist_ok=True)
+
+          stack=[root]
+          while stack:
+              d=stack.pop(); dirs+=1
+              try:
+                  entries=list(ftp.mlsd(d))
+              except Exception as e:
+                  errors.append(f"LIST {d}: {e}"); continue
+              for name,facts in entries:
+                  if name in (".",".."): continue
+                  p=posixpath.join(d,name)
+                  typ=facts.get("type","")
+                  if typ=="dir":
+                      if name.lower() not in skip and dirs < 5000:
+                          stack.append(p)
+                      continue
+                  if typ!="file": continue
+                  files+=1
+                  ext=os.path.splitext(name.lower())[1]
+                  if ext not in exts: continue
+                  if not name_re.search(name) and not name_re.search(p): continue
+                  size=int(facts.get("size","0") or 0)
+                  if size>3_000_000: continue
+                  candidates.append({"path":p,"size":size})
+                  buf=bytearray()
+                  try:
+                      ftp.retrbinary("RETR "+p,buf.extend)
+                  except Exception as e:
+                      errors.append(f"GET {p}: {e}"); continue
+                  text=bytes(buf).decode("utf-8","ignore")
+                  hits=sorted(set(m.group(0) for m in text_re.finditer(text)),key=str.lower)
+                  if hits:
+                      safe=p[len(root):].lstrip("/").replace("/","__")
+                      dest="quick_portfolio/files/"+safe
+                      with open(dest,"w",encoding="utf-8") as f:f.write(text)
+                      matches.append({"path":p,"size":len(buf),"hits":hits,"saved_as":dest})
+
+          ftp.quit()
+          report={"directories_scanned":dirs,"files_seen":files,"candidates":candidates[:1000],"matches":matches,"errors":errors[:100]}
+          with open("quick_portfolio/report.json","w",encoding="utf-8") as f:json.dump(report,f,ensure_ascii=False,indent=2)
+          with open("quick_portfolio/REPORT.txt","w",encoding="utf-8") as f:
+              f.write(f"Directories: {dirs}\nFiles: {files}\nCandidates: {len(candidates)}\nMatches: {len(matches)}\n")
+              for m in matches:
+                  f.write(f"\nMATCH: {m['path']}\nHITS: {', '.join(m['hits'])}\nSAVED: {m['saved_as']}\n")
+              f.write("\nTop candidates:\n")
+              for c in candidates[:200]:
+                  f.write(c["path"]+"\n")
+          print(open("quick_portfolio/REPORT.txt",encoding="utf-8").read())
+          PY
+
+      - name: Push result branch
+        run: |
+          git config user.name "Portfolio Locator"
+          git config user.email "actions@github.com"
+          git checkout -B portfolio-locate
+          git add -f quick_portfolio
+          git commit -m "Locate portfolio page source" || true
+          git push -f origin HEAD:portfolio-locate
