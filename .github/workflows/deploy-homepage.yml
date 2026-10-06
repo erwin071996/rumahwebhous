@@ -1,0 +1,76 @@
+name: Deploy Homepage Only
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'index.html'
+      - '.github/workflows/deploy-homepage.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: rumahweb-homepage
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Validate homepage source
+        run: |
+          test -s index.html
+          grep -q "Signage yang membuat usaha" index.html
+          grep -q "Pilih konteks proyek Anda" index.html
+          grep -q "PORTOFOLIO TERPILIH" index.html
+          grep -q "BRIEF CEPAT" index.html
+          grep -q "homepage-conversion-v100" index.html
+
+      - name: Install lftp
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y lftp
+
+      - name: Upload index.html only
+        env:
+          FTP_SERVER: ${{ secrets.FTP_SERVER }}
+          FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
+          FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
+        run: |
+          lftp -u "${FTP_USERNAME},${FTP_PASSWORD}" "ftp://${FTP_SERVER}:21" -e "
+            set ftp:ssl-force true;
+            set ftp:ssl-protect-data true;
+            set ssl:verify-certificate no;
+            set net:max-retries 3;
+            set net:timeout 30;
+            put index.html -o public_html/index.html;
+            bye
+          "
+
+      - name: Verify uploaded homepage over FTPS
+        env:
+          FTP_SERVER: ${{ secrets.FTP_SERVER }}
+          FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
+          FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
+        run: |
+          rm -f /tmp/remote-index.html
+          timeout 35s lftp -u "${FTP_USERNAME},${FTP_PASSWORD}" "ftp://${FTP_SERVER}:21" -e "
+            set ftp:ssl-force true;
+            set ftp:ssl-protect-data true;
+            set ssl:verify-certificate no;
+            set net:max-retries 2;
+            set net:timeout 15;
+            get public_html/index.html -o /tmp/remote-index.html;
+            bye
+          " || true
+          test -s /tmp/remote-index.html
+          grep -q "Signage yang membuat usaha" /tmp/remote-index.html
+          grep -q "Pilih konteks proyek Anda" /tmp/remote-index.html
+          grep -q "homepage-conversion-v100" /tmp/remote-index.html
+          echo "Homepage verified directly on Rumahweb FTPS."
