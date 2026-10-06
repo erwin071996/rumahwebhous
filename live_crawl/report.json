@@ -1,0 +1,855 @@
+{
+  "matches": [
+    {
+      "url": "https://www.3dkanadvertising.store/",
+      "final": "https://www.3dkanadvertising.store/",
+      "hits": [
+        "portfolio"
+      ],
+      "saved_as": "live_crawl/matches/home.html",
+      "bytes": 24835
+    },
+    {
+      "url": "https://www.3dkanadvertising.store/assets/marketing-20261006/site.css",
+      "final": "https://www.3dkanadvertising.store/assets/marketing-20261006/site.css",
+      "hits": [
+        "portfolio"
+      ],
+      "saved_as": "live_crawl/matches/assets_marketing-20261006_site.css.html",
+      "bytes": 53120
+    },
+    {
+      "url": "https://www.3dkanadvertising.store/projects.html",
+      "final": "https://www.3dkanadvertising.store/projects.html",
+      "hits": [
+        "portfolio"
+      ],
+      "saved_as": "live_crawl/matches/projects.html.html",
+      "bytes": 27282
+    }
+  ],
+  "crawled": [
+    {
+      "url": "https://www.3dkanadvertising.store/",
+      "final": "https://www.3dkanadvertising.store/",
+      "content_type": "text/html",
+      "bytes": 24835,
+      "hits": [
+        "portfolio"
+      ]
+    },
+    {
+      "url": "https://www.3dkanadvertising.store/portfolio",
+      "final": "https://www.3dkanadvertising.store/portfolio",
+      "content_type": "application/json",
+      "bytes": 1628,
+      "hits": []
+    },
+    {
+      "url": "https://www.3dkanadvertising.store/portofolio",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "url": "https://www.3dkanadvertising.store/projects",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "url": "https://www.3dkanadvertising.store/project",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "url": "https://www.3dkanadvertising.store/clientzone",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "url": "https://www.3dkanadvertising.store/client-zone",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "url": "https://www.3dkanadvertising.store/portfolio-klien",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "url": "https://www.3dkanadvertising.store/portofolio-klien",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "url": "https://www.3dkanadvertising.store/showcase",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "url": "https://www.3dkanadvertising.store/assets/marketing-20261006/site.css",
+      "final": "https://www.3dkanadvertising.store/assets/marketing-20261006/site.css",
+      "content_type": "text/css",
+      "bytes": 53120,
+      "hits": [
+        "portfolio"
+      ]
+    },
+    {
+      "url": "https://www.3dkanadvertising.store/contact.html",
+      "final": "https://www.3dkanadvertising.store/contact.html",
+      "content_type": "text/html",
+      "bytes": 11454,
+      "hits": []
+    },
+    {
+      "url": "https://www.3dkanadvertising.store/layanan/huruf-timbul",
+      "final": "https://www.3dkanadvertising.store/layanan/huruf-timbul",
+      "content_type": "text/html; charset=UTF-8",
+      "bytes": 11949,
+      "hits": []
+    },
+    {
+      "url": "https://www.3dkanadvertising.store/layanan/neon-flex",
+      "final": "https://www.3dkanadvertising.store/layanan/neon-flex",
+      "content_type": "text/html; charset=UTF-8",
+      "bytes": 11433,
+      "hits": []
+    },
+    {
+      "url": "https://www.3dkanadvertising.store/layanan/papan-nama",
+      "final": "https://www.3dkanadvertising.store/layanan/papan-nama",
+      "content_type": "text/html; charset=UTF-8",
+      "bytes": 11890,
+      "hits": []
+    },
+    {
+      "url": "https://www.3dkanadvertising.store/layanan/stiker-cutting",
+      "final": "https://www.3dkanadvertising.store/layanan/stiker-cutting",
+      "content_type": "text/html; charset=UTF-8",
+      "bytes": 11495,
+      "hits": []
+    },
+    {
+      "url": "https://www.3dkanadvertising.store/layanan/neon-box",
+      "final": "https://www.3dkanadvertising.store/layanan/neon-box",
+      "content_type": "text/html; charset=UTF-8",
+      "bytes": 11821,
+      "hits": []
+    },
+    {
+      "url": "https://www.3dkanadvertising.store/layanan/reklame",
+      "final": "https://www.3dkanadvertising.store/layanan/reklame",
+      "content_type": "text/html; charset=UTF-8",
+      "bytes": 11807,
+      "hits": []
+    },
+    {
+      "url": "https://www.3dkanadvertising.store/layanan/nametag",
+      "final": "https://www.3dkanadvertising.store/layanan/nametag",
+      "content_type": "text/html; charset=UTF-8",
+      "bytes": 11790,
+      "hits": []
+    },
+    {
+      "url": "https://www.3dkanadvertising.store/produk.html",
+      "final": "https://www.3dkanadvertising.store/produk.html",
+      "content_type": "text/html",
+      "bytes": 12696,
+      "hits": []
+    },
+    {
+      "url": "https://www.3dkanadvertising.store/alat/susun-brief",
+      "final": "https://www.3dkanadvertising.store/alat/susun-brief",
+      "content_type": "text/html; charset=UTF-8",
+      "bytes": 11546,
+      "hits": []
+    },
+    {
+      "url": "https://www.3dkanadvertising.store/projects.html",
+      "final": "https://www.3dkanadvertising.store/projects.html",
+      "content_type": "text/html",
+      "bytes": 27282,
+      "hits": [
+        "portfolio"
+      ]
+    },
+    {
+      "url": "https://www.3dkanadvertising.store/panduan.html",
+      "final": "https://www.3dkanadvertising.store/panduan.html",
+      "content_type": "text/html",
+      "bytes": 16403,
+      "hits": []
+    },
+    {
+      "url": "https://www.3dkanadvertising.store/bantuan/pusat-pengetahuan",
+      "final": "https://www.3dkanadvertising.store/bantuan/pusat-pengetahuan",
+      "content_type": "text/html; charset=UTF-8",
+      "bytes": 13767,
+      "hits": []
+    },
+    {
+      "url": "https://www.3dkanadvertising.store/about.html",
+      "final": "https://www.3dkanadvertising.store/about.html",
+      "content_type": "text/html",
+      "bytes": 13603,
+      "hits": []
+    },
+    {
+      "url": "https://www.3dkanadvertising.store/topik/ukuran",
+      "final": "https://www.3dkanadvertising.store/topik/ukuran",
+      "content_type": "text/html; charset=UTF-8",
+      "bytes": 16639,
+      "hits": []
+    },
+    {
+      "url": "https://www.3dkanadvertising.store/topik/akrilik",
+      "final": "https://www.3dkanadvertising.store/topik/akrilik",
+      "content_type": "text/html; charset=UTF-8",
+      "bytes": 17391,
+      "hits": []
+    },
+    {
+      "url": "https://www.3dkanadvertising.store/topik/stainless",
+      "final": "https://www.3dkanadvertising.store/topik/stainless",
+      "content_type": "text/html; charset=UTF-8",
+      "bytes": 17218,
+      "hits": []
+    },
+    {
+      "url": "https://www.3dkanadvertising.store/topik/penawaran",
+      "final": "https://www.3dkanadvertising.store/topik/penawaran",
+      "content_type": "text/html; charset=UTF-8",
+      "bytes": 16375,
+      "hits": []
+    },
+    {
+      "url": "https://www.3dkanadvertising.store/toko/toko-1",
+      "final": "https://www.3dkanadvertising.store/toko/toko-1",
+      "content_type": "text/html; charset=UTF-8",
+      "bytes": 11735,
+      "hits": []
+    },
+    {
+      "url": "https://www.3dkanadvertising.store/toko/toko-2",
+      "final": "https://www.3dkanadvertising.store/toko/toko-2",
+      "content_type": "text/html; charset=UTF-8",
+      "bytes": 11735,
+      "hits": []
+    },
+    {
+      "url": "https://www.3dkanadvertising.store/toko/toko-3",
+      "final": "https://www.3dkanadvertising.store/toko/toko-3",
+      "content_type": "text/html; charset=UTF-8",
+      "bytes": 11734,
+      "hits": []
+    },
+    {
+      "url": "https://www.3dkanadvertising.store/wilayah.html",
+      "final": "https://www.3dkanadvertising.store/wilayah.html",
+      "content_type": "text/html",
+      "bytes": 12027,
+      "hits": []
+    },
+    {
+      "url": "https://www.3dkanadvertising.store/cara-pemesanan.html",
+      "final": "https://www.3dkanadvertising.store/cara-pemesanan.html",
+      "content_type": "text/html",
+      "bytes": 10894,
+      "hits": []
+    },
+    {
+      "url": "https://www.3dkanadvertising.store/bantuan/rujukan-editorial",
+      "final": "https://www.3dkanadvertising.store/bantuan/rujukan-editorial",
+      "content_type": "text/html; charset=UTF-8",
+      "bytes": 18246,
+      "hits": []
+    },
+    {
+      "url": "https://www.3dkanadvertising.store/bantuan/privasi-pengunjung",
+      "final": "https://www.3dkanadvertising.store/bantuan/privasi-pengunjung",
+      "content_type": "text/html; charset=UTF-8",
+      "bytes": 9572,
+      "hits": []
+    },
+    {
+      "url": "https://www.3dkanadvertising.store/kota/makassar",
+      "final": "https://www.3dkanadvertising.store/kota/makassar",
+      "content_type": "text/html; charset=UTF-8",
+      "bytes": 13150,
+      "hits": []
+    },
+    {
+      "url": "https://www.3dkanadvertising.store/kota/maros",
+      "final": "https://www.3dkanadvertising.store/kota/maros",
+      "content_type": "text/html; charset=UTF-8",
+      "bytes": 12999,
+      "hits": []
+    },
+    {
+      "url": "https://www.3dkanadvertising.store/kota/gowa",
+      "final": "https://www.3dkanadvertising.store/kota/gowa",
+      "content_type": "text/html; charset=UTF-8",
+      "bytes": 12961,
+      "hits": []
+    },
+    {
+      "url": "https://www.3dkanadvertising.store/kota/pangkajene-dan-kepulauan",
+      "final": "https://www.3dkanadvertising.store/kota/pangkajene-dan-kepulauan",
+      "content_type": "text/html; charset=UTF-8",
+      "bytes": 13261,
+      "hits": []
+    },
+    {
+      "url": "https://www.3dkanadvertising.store/kota/takalar",
+      "final": "https://www.3dkanadvertising.store/kota/takalar",
+      "content_type": "text/html; charset=UTF-8",
+      "bytes": 12869,
+      "hits": []
+    },
+    {
+      "url": "https://www.3dkanadvertising.store/kota/jeneponto",
+      "final": "https://www.3dkanadvertising.store/kota/jeneponto",
+      "content_type": "text/html; charset=UTF-8",
+      "bytes": 12895,
+      "hits": []
+    },
+    {
+      "url": "https://www.3dkanadvertising.store/kota/bantaeng",
+      "final": "https://www.3dkanadvertising.store/kota/bantaeng",
+      "content_type": "text/html; charset=UTF-8",
+      "bytes": 12985,
+      "hits": []
+    },
+    {
+      "url": "https://www.3dkanadvertising.store/kota/bulukumba",
+      "final": "https://www.3dkanadvertising.store/kota/bulukumba",
+      "content_type": "text/html; charset=UTF-8",
+      "bytes": 12933,
+      "hits": []
+    },
+    {
+      "url": "https://www.3dkanadvertising.store/kota/sinjai",
+      "final": "https://www.3dkanadvertising.store/kota/sinjai",
+      "content_type": "text/html; charset=UTF-8",
+      "bytes": 12993,
+      "hits": []
+    },
+    {
+      "url": "https://www.3dkanadvertising.store/kota/bone",
+      "final": "https://www.3dkanadvertising.store/kota/bone",
+      "content_type": "text/html; charset=UTF-8",
+      "bytes": 12879,
+      "hits": []
+    },
+    {
+      "url": "https://www.3dkanadvertising.store/kota/wajo",
+      "final": "https://www.3dkanadvertising.store/kota/wajo",
+      "content_type": "text/html; charset=UTF-8",
+      "bytes": 12794,
+      "hits": []
+    },
+    {
+      "url": "https://www.3dkanadvertising.store/kota/soppeng",
+      "final": "https://www.3dkanadvertising.store/kota/soppeng",
+      "content_type": "text/html; charset=UTF-8",
+      "bytes": 12946,
+      "hits": []
+    },
+    {
+      "url": "https://www.3dkanadvertising.store/kota/parepare",
+      "final": "https://www.3dkanadvertising.store/kota/parepare",
+      "content_type": "text/html; charset=UTF-8",
+      "bytes": 12835,
+      "hits": []
+    },
+    {
+      "url": "https://www.3dkanadvertising.store/kota/barru",
+      "final": "https://www.3dkanadvertising.store/kota/barru",
+      "content_type": "text/html; charset=UTF-8",
+      "bytes": 12776,
+      "hits": []
+    },
+    {
+      "url": "https://www.3dkanadvertising.store/kota/pinrang",
+      "final": "https://www.3dkanadvertising.store/kota/pinrang",
+      "content_type": "text/html; charset=UTF-8",
+      "bytes": 12862,
+      "hits": []
+    },
+    {
+      "url": "https://www.3dkanadvertising.store/kota/sidenreng-rappang",
+      "final": "https://www.3dkanadvertising.store/kota/sidenreng-rappang",
+      "content_type": "text/html; charset=UTF-8",
+      "bytes": 12998,
+      "hits": []
+    },
+    {
+      "url": "https://www.3dkanadvertising.store/kota/enrekang",
+      "final": "https://www.3dkanadvertising.store/kota/enrekang",
+      "content_type": "text/html; charset=UTF-8",
+      "bytes": 12884,
+      "hits": []
+    },
+    {
+      "url": "https://www.3dkanadvertising.store/kota/luwu",
+      "final": "https://www.3dkanadvertising.store/kota/luwu",
+      "content_type": "text/html; charset=UTF-8",
+      "bytes": 12824,
+      "hits": []
+    },
+    {
+      "url": "https://www.3dkanadvertising.store/kota/palopo",
+      "final": "https://www.3dkanadvertising.store/kota/palopo",
+      "content_type": "text/html; charset=UTF-8",
+      "bytes": 12846,
+      "hits": []
+    },
+    {
+      "url": "https://www.3dkanadvertising.store/kota/luwu-utara",
+      "final": "https://www.3dkanadvertising.store/kota/luwu-utara",
+      "content_type": "text/html; charset=UTF-8",
+      "bytes": 12923,
+      "hits": []
+    },
+    {
+      "url": "https://www.3dkanadvertising.store/kota/luwu-timur",
+      "final": "https://www.3dkanadvertising.store/kota/luwu-timur",
+      "content_type": "text/html; charset=UTF-8",
+      "bytes": 12974,
+      "hits": []
+    },
+    {
+      "url": "https://www.3dkanadvertising.store/kota/tana-toraja",
+      "final": "https://www.3dkanadvertising.store/kota/tana-toraja",
+      "content_type": "text/html; charset=UTF-8",
+      "bytes": 12940,
+      "hits": []
+    },
+    {
+      "url": "https://www.3dkanadvertising.store/kota/toraja-utara",
+      "final": "https://www.3dkanadvertising.store/kota/toraja-utara",
+      "content_type": "text/html; charset=UTF-8",
+      "bytes": 12887,
+      "hits": []
+    },
+    {
+      "url": "https://www.3dkanadvertising.store/kota/kepulauan-selayar",
+      "final": "https://www.3dkanadvertising.store/kota/kepulauan-selayar",
+      "content_type": "text/html; charset=UTF-8",
+      "bytes": 13127,
+      "hits": []
+    },
+    {
+      "url": "https://www.3dkanadvertising.store/produk/huruf-timbul-akrilik",
+      "final": "https://www.3dkanadvertising.store/produk/huruf-timbul-akrilik",
+      "content_type": "text/html; charset=UTF-8",
+      "bytes": 11734,
+      "hits": []
+    },
+    {
+      "url": "https://www.3dkanadvertising.store/produk/huruf-timbul-stainless",
+      "final": "https://www.3dkanadvertising.store/produk/huruf-timbul-stainless",
+      "content_type": "text/html; charset=UTF-8",
+      "bytes": 11859,
+      "hits": []
+    },
+    {
+      "url": "https://www.3dkanadvertising.store/produk/huruf-timbul-acp",
+      "final": "https://www.3dkanadvertising.store/produk/huruf-timbul-acp",
+      "content_type": "text/html; charset=UTF-8",
+      "bytes": 11661,
+      "hits": []
+    },
+    {
+      "url": "https://www.3dkanadvertising.store/produk/huruf-timbul-galvanis",
+      "final": "https://www.3dkanadvertising.store/produk/huruf-timbul-galvanis",
+      "content_type": "text/html; charset=UTF-8",
+      "bytes": 11744,
+      "hits": []
+    },
+    {
+      "url": "https://www.3dkanadvertising.store/produk/huruf-timbul-akrilik-spon",
+      "final": "https://www.3dkanadvertising.store/produk/huruf-timbul-akrilik-spon",
+      "content_type": "text/html; charset=UTF-8",
+      "bytes": 11800,
+      "hits": []
+    },
+    {
+      "url": "https://www.3dkanadvertising.store/produk/huruf-timbul-mdf",
+      "final": "https://www.3dkanadvertising.store/produk/huruf-timbul-mdf",
+      "content_type": "text/html; charset=UTF-8",
+      "bytes": 11785,
+      "hits": []
+    },
+    {
+      "url": "https://www.3dkanadvertising.store/produk/neon-box-bulat",
+      "final": "https://www.3dkanadvertising.store/produk/neon-box-bulat",
+      "content_type": "text/html; charset=UTF-8",
+      "bytes": 11621,
+      "hits": []
+    },
+    {
+      "url": "https://www.3dkanadvertising.store/produk/neon-box-kotak",
+      "final": "https://www.3dkanadvertising.store/produk/neon-box-kotak",
+      "content_type": "text/html; charset=UTF-8",
+      "bytes": 11533,
+      "hits": []
+    },
+    {
+      "url": "https://www.3dkanadvertising.store/produk/nametag-akrilik",
+      "final": "https://www.3dkanadvertising.store/produk/nametag-akrilik",
+      "content_type": "text/html; charset=UTF-8",
+      "bytes": 11587,
+      "hits": []
+    },
+    {
+      "url": "https://www.3dkanadvertising.store/topik/brief",
+      "final": "https://www.3dkanadvertising.store/topik/brief",
+      "content_type": "text/html; charset=UTF-8",
+      "bytes": 16896,
+      "hits": []
+    },
+    {
+      "url": "https://www.3dkanadvertising.store/topik/tipografi",
+      "final": "https://www.3dkanadvertising.store/topik/tipografi",
+      "content_type": "text/html; charset=UTF-8",
+      "bytes": 17048,
+      "hits": []
+    },
+    {
+      "url": "https://www.3dkanadvertising.store/topik/warna",
+      "final": "https://www.3dkanadvertising.store/topik/warna",
+      "content_type": "text/html; charset=UTF-8",
+      "bytes": 16716,
+      "hits": []
+    },
+    {
+      "url": "https://www.3dkanadvertising.store/topik/panel-metal",
+      "final": "https://www.3dkanadvertising.store/topik/panel-metal",
+      "content_type": "text/html; charset=UTF-8",
+      "bytes": 17077,
+      "hits": []
+    },
+    {
+      "url": "https://www.3dkanadvertising.store/topik/interior",
+      "final": "https://www.3dkanadvertising.store/topik/interior",
+      "content_type": "text/html; charset=UTF-8",
+      "bytes": 17069,
+      "hits": []
+    },
+    {
+      "url": "https://www.3dkanadvertising.store/topik/led",
+      "final": "https://www.3dkanadvertising.store/topik/led",
+      "content_type": "text/html; charset=UTF-8",
+      "bytes": 16782,
+      "hits": []
+    },
+    {
+      "url": "https://www.3dkanadvertising.store/topik/neon-box",
+      "final": "https://www.3dkanadvertising.store/topik/neon-box",
+      "content_type": "text/html; charset=UTF-8",
+      "bytes": 17034,
+      "hits": []
+    },
+    {
+      "url": "https://www.3dkanadvertising.store/topik/neon-flex",
+      "final": "https://www.3dkanadvertising.store/topik/neon-flex",
+      "content_type": "text/html; charset=UTF-8",
+      "bytes": 17096,
+      "hits": []
+    },
+    {
+      "url": "https://www.3dkanadvertising.store/topik/stiker",
+      "final": "https://www.3dkanadvertising.store/topik/stiker",
+      "content_type": "text/html; charset=UTF-8",
+      "bytes": 16790,
+      "hits": []
+    },
+    {
+      "url": "https://www.3dkanadvertising.store/topik/file",
+      "final": "https://www.3dkanadvertising.store/topik/file",
+      "content_type": "text/html; charset=UTF-8",
+      "bytes": 17537,
+      "hits": []
+    },
+    {
+      "url": "https://www.3dkanadvertising.store/topik/pemasangan",
+      "final": "https://www.3dkanadvertising.store/topik/pemasangan",
+      "content_type": "text/html; charset=UTF-8",
+      "bytes": 16965,
+      "hits": []
+    },
+    {
+      "url": "https://www.3dkanadvertising.store/topik/pemeriksaan",
+      "final": "https://www.3dkanadvertising.store/topik/pemeriksaan",
+      "content_type": "text/html; charset=UTF-8",
+      "bytes": 16565,
+      "hits": []
+    },
+    {
+      "url": "https://www.3dkanadvertising.store/topik/perawatan",
+      "final": "https://www.3dkanadvertising.store/topik/perawatan",
+      "content_type": "text/html; charset=UTF-8",
+      "bytes": 17139,
+      "hits": []
+    },
+    {
+      "url": "https://www.3dkanadvertising.store/topik/pengiriman",
+      "final": "https://www.3dkanadvertising.store/topik/pengiriman",
+      "content_type": "text/html; charset=UTF-8",
+      "bytes": 16914,
+      "hits": []
+    },
+    {
+      "url": "https://www.3dkanadvertising.store/topik/jenis-usaha",
+      "final": "https://www.3dkanadvertising.store/topik/jenis-usaha",
+      "content_type": "text/html; charset=UTF-8",
+      "bytes": 17086,
+      "hits": []
+    },
+    {
+      "url": "https://www.3dkanadvertising.store/topik/pelanggan",
+      "final": "https://www.3dkanadvertising.store/topik/pelanggan",
+      "content_type": "text/html; charset=UTF-8",
+      "bytes": 17426,
+      "hits": []
+    },
+    {
+      "url": "https://www.3dkanadvertising.store/panduan/mengukur-bidang-signage",
+      "final": "https://www.3dkanadvertising.store/panduan/mengukur-bidang-signage",
+      "content_type": "text/html; charset=UTF-8",
+      "bytes": 11654,
+      "hits": []
+    },
+    {
+      "url": "https://www.3dkanadvertising.store/panduan/frontlight-backlight-nonlampu",
+      "final": "https://www.3dkanadvertising.store/panduan/frontlight-backlight-nonlampu",
+      "content_type": "text/html; charset=UTF-8",
+      "bytes": 11534,
+      "hits": []
+    },
+    {
+      "url": "https://www.3dkanadvertising.store/panduan/brief-pesanan-banyak-titik",
+      "final": "https://www.3dkanadvertising.store/panduan/brief-pesanan-banyak-titik",
+      "content_type": "text/html; charset=UTF-8",
+      "bytes": 11309,
+      "hits": []
+    },
+    {
+      "url": "https://www.3dkanadvertising.store/panduan/menyiapkan-file-logo",
+      "final": "https://www.3dkanadvertising.store/panduan/menyiapkan-file-logo",
+      "content_type": "text/html; charset=UTF-8",
+      "bytes": 11689,
+      "hits": []
+    },
+    {
+      "url": "https://www.3dkanadvertising.store/panduan/pengiriman-signage-luar-kota",
+      "final": "https://www.3dkanadvertising.store/panduan/pengiriman-signage-luar-kota",
+      "content_type": "text/html; charset=UTF-8",
+      "bytes": 11519,
+      "hits": []
+    },
+    {
+      "url": "https://www.3dkanadvertising.store/panduan/merawat-signage",
+      "final": "https://www.3dkanadvertising.store/panduan/merawat-signage",
+      "content_type": "text/html; charset=UTF-8",
+      "bytes": 11680,
+      "hits": []
+    },
+    {
+      "url": "https://www.3dkanadvertising.store/panduan/memilih-neon-box",
+      "final": "https://www.3dkanadvertising.store/panduan/memilih-neon-box",
+      "content_type": "text/html; charset=UTF-8",
+      "bytes": 11301,
+      "hits": []
+    },
+    {
+      "url": "https://www.3dkanadvertising.store/panduan/stiker-cutting-untuk-kaca",
+      "final": "https://www.3dkanadvertising.store/panduan/stiker-cutting-untuk-kaca",
+      "content_type": "text/html; charset=UTF-8",
+      "bytes": 11739,
+      "hits": []
+    },
+    {
+      "url": "https://www.3dkanadvertising.store/panduan/membaca-penawaran-signage",
+      "final": "https://www.3dkanadvertising.store/panduan/membaca-penawaran-signage",
+      "content_type": "text/html; charset=UTF-8",
+      "bytes": 11282,
+      "hits": []
+    },
+    {
+      "url": "https://www.3dkanadvertising.store/panduan/nametag-dan-daftar-nama",
+      "final": "https://www.3dkanadvertising.store/panduan/nametag-dan-daftar-nama",
+      "content_type": "text/html; charset=UTF-8",
+      "bytes": 11219,
+      "hits": []
+    },
+    {
+      "url": "https://www.3dkanadvertising.store/panduan/mengganti-papan-lama",
+      "final": "https://www.3dkanadvertising.store/panduan/mengganti-papan-lama",
+      "content_type": "text/html; charset=UTF-8",
+      "bytes": 11428,
+      "hits": []
+    },
+    {
+      "url": "https://www.3dkanadvertising.store/panduan/neon-flex-untuk-interior",
+      "final": "https://www.3dkanadvertising.store/panduan/neon-flex-untuk-interior",
+      "content_type": "text/html; charset=UTF-8",
+      "bytes": 11399,
+      "hits": []
+    },
+    {
+      "url": "https://www.3dkanadvertising.store/alat/hitung-karakter",
+      "final": "https://www.3dkanadvertising.store/alat/hitung-karakter",
+      "content_type": "text/html; charset=UTF-8",
+      "bytes": 10454,
+      "hits": []
+    },
+    {
+      "url": "https://www.3dkanadvertising.store/alat/konversi-satuan",
+      "final": "https://www.3dkanadvertising.store/alat/konversi-satuan",
+      "content_type": "text/html; charset=UTF-8",
+      "bytes": 10486,
+      "hits": []
+    },
+    {
+      "url": "https://www.3dkanadvertising.store/alat/luas-panel",
+      "final": "https://www.3dkanadvertising.store/alat/luas-panel",
+      "content_type": "text/html; charset=UTF-8",
+      "bytes": 10626,
+      "hits": []
+    },
+    {
+      "url": "https://www.3dkanadvertising.store/alat/proporsi-logo",
+      "final": "https://www.3dkanadvertising.store/alat/proporsi-logo",
+      "content_type": "text/html; charset=UTF-8",
+      "bytes": 10582,
+      "hits": []
+    },
+    {
+      "url": "https://www.3dkanadvertising.store/alat/bidang-efektif",
+      "final": "https://www.3dkanadvertising.store/alat/bidang-efektif",
+      "content_type": "text/html; charset=UTF-8",
+      "bytes": 11076,
+      "hits": []
+    },
+    {
+      "url": "https://www.3dkanadvertising.store/alat/ukuran-lingkaran",
+      "final": "https://www.3dkanadvertising.store/alat/ukuran-lingkaran",
+      "content_type": "text/html; charset=UTF-8",
+      "bytes": 10334,
+      "hits": []
+    },
+    {
+      "url": "https://www.3dkanadvertising.store/alat/energi-lampu",
+      "final": "https://www.3dkanadvertising.store/alat/energi-lampu",
+      "content_type": "text/html; charset=UTF-8",
+      "bytes": 10958,
+      "hits": []
+    },
+    {
+      "url": "https://www.3dkanadvertising.store/alat/berat-volumetrik",
+      "final": "https://www.3dkanadvertising.store/alat/berat-volumetrik",
+      "content_type": "text/html; charset=UTF-8",
+      "bytes": 11013,
+      "hits": []
+    },
+    {
+      "url": "https://www.3dkanadvertising.store/alat/resolusi-cetak",
+      "final": "https://www.3dkanadvertising.store/alat/resolusi-cetak",
+      "content_type": "text/html; charset=UTF-8",
+      "bytes": 10408,
+      "hits": []
+    },
+    {
+      "url": "https://www.3dkanadvertising.store/alat/skala-gambar",
+      "final": "https://www.3dkanadvertising.store/alat/skala-gambar",
+      "content_type": "text/html; charset=UTF-8",
+      "bytes": 10517,
+      "hits": []
+    },
+    {
+      "url": "https://www.3dkanadvertising.store/alat/banding-penawaran",
+      "final": "https://www.3dkanadvertising.store/alat/banding-penawaran",
+      "content_type": "text/html; charset=UTF-8",
+      "bytes": 12361,
+      "hits": []
+    },
+    {
+      "url": "https://www.3dkanadvertising.store/alat/checklist-penerimaan",
+      "final": "https://www.3dkanadvertising.store/alat/checklist-penerimaan",
+      "content_type": "text/html; charset=UTF-8",
+      "bytes": 12328,
+      "hits": []
+    },
+    {
+      "url": "https://www.3dkanadvertising.store/alat/log-perawatan",
+      "final": "https://www.3dkanadvertising.store/alat/log-perawatan",
+      "content_type": "text/html; charset=UTF-8",
+      "bytes": 11161,
+      "hits": []
+    },
+    {
+      "url": "https://www.3dkanadvertising.store/panduan/membedakan-ukuran-bidang-dan-ukuran-tulisan",
+      "final": "https://www.3dkanadvertising.store/panduan/membedakan-ukuran-bidang-dan-ukuran-tulisan",
+      "content_type": "text/html; charset=UTF-8",
+      "bytes": 15239,
+      "hits": []
+    },
+    {
+      "url": "https://www.3dkanadvertising.store/panduan/mengukur-fasad-dari-foto-dengan-satu-ukuran-pembanding",
+      "final": "https://www.3dkanadvertising.store/panduan/mengukur-fasad-dari-foto-dengan-satu-ukuran-pembanding",
+      "content_type": "text/html; charset=UTF-8",
+      "bytes": 15490,
+      "hits": []
+    },
+    {
+      "url": "https://www.3dkanadvertising.store/panduan/menentukan-area-efektif-setelah-dikurangi-margin",
+      "final": "https://www.3dkanadvertising.store/panduan/menentukan-area-efektif-setelah-dikurangi-margin",
+      "content_type": "text/html; charset=UTF-8",
+      "bytes": 15369,
+      "hits": []
+    },
+    {
+      "url": "https://www.3dkanadvertising.store/panduan/mengukur-susunan-huruf-dua-baris",
+      "final": "https://www.3dkanadvertising.store/panduan/mengukur-susunan-huruf-dua-baris",
+      "content_type": "text/html; charset=UTF-8",
+      "bytes": 14946,
+      "hits": []
+    },
+    {
+      "url": "https://www.3dkanadvertising.store/panduan/memperkirakan-skala-logo-tanpa-mengubah-proporsi",
+      "final": "https://www.3dkanadvertising.store/panduan/memperkirakan-skala-logo-tanpa-mengubah-proporsi",
+      "content_type": "text/html; charset=UTF-8",
+      "bytes": 15326,
+      "hits": []
+    },
+    {
+      "url": "https://www.3dkanadvertising.store/panduan/mencatat-penghalang-pada-bidang-pemasangan",
+      "final": "https://www.3dkanadvertising.store/panduan/mencatat-penghalang-pada-bidang-pemasangan",
+      "content_type": "text/html; charset=UTF-8",
+      "bytes": 15251,
+      "hits": []
+    },
+    {
+      "url": "https://www.3dkanadvertising.store/panduan/memilih-titik-acuan-saat-mengukur-beberapa-papan",
+      "final": "https://www.3dkanadvertising.store/panduan/memilih-titik-acuan-saat-mengukur-beberapa-papan",
+      "content_type": "text/html; charset=UTF-8",
+      "bytes": 15237,
+      "hits": []
+    },
+    {
+      "url": "https://www.3dkanadvertising.store/panduan/menuliskan-ukuran-dalam-milimeter-dan-sentimeter-dengan-aman",
+      "final": "https://www.3dkanadvertising.store/panduan/menuliskan-ukuran-dalam-milimeter-dan-sentimeter-dengan-aman",
+      "content_type": "text/html; charset=UTF-8",
+      "bytes": 15463,
+      "hits": []
+    },
+    {
+      "url": "https://www.3dkanadvertising.store/panduan/membedakan-diameter-dan-keliling-neon-box-bulat",
+      "final": "https://www.3dkanadvertising.store/panduan/membedakan-diameter-dan-keliling-neon-box-bulat",
+      "content_type": "text/html; charset=UTF-8",
+      "bytes": 15187,
+      "hits": []
+    },
+    {
+      "url": "https://www.3dkanadvertising.store/panduan/mencatat-ketinggian-pemasangan-tanpa-memanjat",
+      "final": "https://www.3dkanadvertising.store/panduan/mencatat-ketinggian-pemasangan-tanpa-memanjat",
+      "content_type": "text/html; charset=UTF-8",
+      "bytes": 15306,
+      "hits": []
+    }
+  ]
+}

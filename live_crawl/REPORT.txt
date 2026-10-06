@@ -1,0 +1,14 @@
+Pages checked: 120
+Matches: 3
+
+URL: https://www.3dkanadvertising.store/
+HITS: portfolio
+FILE: live_crawl/matches/home.html
+
+URL: https://www.3dkanadvertising.store/assets/marketing-20261006/site.css
+HITS: portfolio
+FILE: live_crawl/matches/assets_marketing-20261006_site.css.html
+
+URL: https://www.3dkanadvertising.store/projects.html
+HITS: portfolio
+FILE: live_crawl/matches/projects.html.html
