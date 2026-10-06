@@ -2,6 +2,11 @@ name: Import Website from Rumahweb
 
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - '.github/workflows/import-from-rumahweb.yml'
 
 permissions:
   contents: write
@@ -62,6 +67,16 @@ jobs:
 
             bye
           "
+
+      - name: Verify downloaded site
+        run: |
+          test -d /tmp/rumahweb-site
+          FILE_COUNT="$(find /tmp/rumahweb-site -type f | wc -l)"
+          echo "Downloaded files: $FILE_COUNT"
+          if [ "$FILE_COUNT" -lt 2 ]; then
+            echo "Import dibatalkan: isi public_html tampak kosong atau path FTPS salah."
+            exit 1
+          fi
 
       - name: Synchronize website into repository
         run: |
