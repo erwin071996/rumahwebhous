@@ -1,0 +1,64 @@
+name: Deploy Portfolio Page Only
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'projects.html'
+      - '.github/workflows/deploy-portfolio-page.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: rumahweb-portfolio-page
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Validate portfolio source
+        run: |
+          test -s projects.html
+          grep -q "Portofolio Proyek 3DKan Advertising" projects.html
+          grep -q "Lihat proyek pilihan" projects.html
+          if grep -q "Video dokumentasi asli berhasil diarsipkan" projects.html; then
+            echo "Internal upload/archive status is still present."
+            exit 1
+          fi
+
+      - name: Install lftp
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y lftp
+
+      - name: Upload projects.html only
+        env:
+          FTP_SERVER: ${{ secrets.FTP_SERVER }}
+          FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
+          FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
+        run: |
+          lftp -u "${FTP_USERNAME},${FTP_PASSWORD}" "ftp://${FTP_SERVER}:21" -e "
+            set ftp:ssl-force true;
+            set ftp:ssl-protect-data true;
+            set ssl:verify-certificate no;
+            set net:max-retries 3;
+            set net:timeout 30;
+            put projects.html -o public_html/projects.html;
+            bye
+          "
+
+      - name: Verify live page
+        run: |
+          sleep 3
+          curl -k -L --fail --max-time 30 -A "Mozilla/5.0"             "https://www.3dkanadvertising.store/projects.html"             -o /tmp/live-projects.html
+          grep -q "Portofolio Proyek 3DKan Advertising" /tmp/live-projects.html
+          grep -q "Produksi &amp; pemasangan\|Produksi & pemasangan" /tmp/live-projects.html
+          ! grep -q "Video dokumentasi asli berhasil diarsipkan" /tmp/live-projects.html
+          echo "Client-facing portfolio page verified live."
