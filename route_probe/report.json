@@ -1,0 +1,276 @@
+[
+  {
+    "path": "/",
+    "url": "https://www.3dkanadvertising.store/",
+    "meta": "__HTTP__200__TYPE__text/html__URL__https://www.3dkanadvertising.store/",
+    "bytes": 24835,
+    "hits": [],
+    "returncode": 0,
+    "saved_as": "route_probe/pages/home.html"
+  },
+  {
+    "path": "/portfolio",
+    "url": "https://www.3dkanadvertising.store/portfolio",
+    "meta": "__HTTP__200__TYPE__application/json__URL__https://www.3dkanadvertising.store/portfolio",
+    "bytes": 1628,
+    "hits": [],
+    "returncode": 0
+  },
+  {
+    "path": "/portfolio/",
+    "url": "https://www.3dkanadvertising.store/portfolio/",
+    "meta": "__HTTP__200__TYPE__application/json__URL__https://www.3dkanadvertising.store/portfolio/",
+    "bytes": 1628,
+    "hits": [],
+    "returncode": 0
+  },
+  {
+    "path": "/portofolio",
+    "url": "https://www.3dkanadvertising.store/portofolio",
+    "meta": "__HTTP__404__TYPE__text/html__URL__https://www.3dkanadvertising.store/portofolio",
+    "bytes": 5736,
+    "hits": [],
+    "returncode": 0,
+    "saved_as": "route_probe/pages/portofolio.html"
+  },
+  {
+    "path": "/portofolio/",
+    "url": "https://www.3dkanadvertising.store/portofolio/",
+    "meta": "__HTTP__404__TYPE__text/html__URL__https://www.3dkanadvertising.store/portofolio/",
+    "bytes": 5736,
+    "hits": [],
+    "returncode": 0,
+    "saved_as": "route_probe/pages/portofolio.html"
+  },
+  {
+    "path": "/portfolio-klien",
+    "url": "https://www.3dkanadvertising.store/portfolio-klien",
+    "meta": "__HTTP__404__TYPE__text/html__URL__https://www.3dkanadvertising.store/portfolio-klien",
+    "bytes": 5736,
+    "hits": [],
+    "returncode": 0,
+    "saved_as": "route_probe/pages/portfolio_klien.html"
+  },
+  {
+    "path": "/portfolio-klien/",
+    "url": "https://www.3dkanadvertising.store/portfolio-klien/",
+    "meta": "__HTTP__404__TYPE__text/html__URL__https://www.3dkanadvertising.store/portfolio-klien/",
+    "bytes": 5736,
+    "hits": [],
+    "returncode": 0,
+    "saved_as": "route_probe/pages/portfolio_klien.html"
+  },
+  {
+    "path": "/portofolio-klien",
+    "url": "https://www.3dkanadvertising.store/portofolio-klien",
+    "meta": "__HTTP__000__TYPE____URL__https://www.3dkanadvertising.store/portofolio-klien",
+    "bytes": 0,
+    "hits": [],
+    "returncode": 28
+  },
+  {
+    "path": "/portofolio-klien/",
+    "url": "https://www.3dkanadvertising.store/portofolio-klien/",
+    "meta": "__HTTP__404__TYPE__text/html__URL__https://www.3dkanadvertising.store/portofolio-klien/",
+    "bytes": 5736,
+    "hits": [],
+    "returncode": 0,
+    "saved_as": "route_probe/pages/portofolio_klien.html"
+  },
+  {
+    "path": "/clientzone",
+    "url": "https://www.3dkanadvertising.store/clientzone",
+    "meta": "__HTTP__404__TYPE__text/html__URL__https://www.3dkanadvertising.store/clientzone",
+    "bytes": 5736,
+    "hits": [],
+    "returncode": 0,
+    "saved_as": "route_probe/pages/clientzone.html"
+  },
+  {
+    "path": "/clientzone/",
+    "url": "https://www.3dkanadvertising.store/clientzone/",
+    "meta": "__HTTP__404__TYPE__text/html__URL__https://www.3dkanadvertising.store/clientzone/",
+    "bytes": 5736,
+    "hits": [],
+    "returncode": 0,
+    "saved_as": "route_probe/pages/clientzone.html"
+  },
+  {
+    "path": "/client-zone",
+    "url": "https://www.3dkanadvertising.store/client-zone",
+    "meta": "__HTTP__404__TYPE__text/html__URL__https://www.3dkanadvertising.store/client-zone",
+    "bytes": 5736,
+    "hits": [],
+    "returncode": 0,
+    "saved_as": "route_probe/pages/client_zone.html"
+  },
+  {
+    "path": "/client-zone/",
+    "url": "https://www.3dkanadvertising.store/client-zone/",
+    "meta": "__HTTP__404__TYPE__text/html__URL__https://www.3dkanadvertising.store/client-zone/",
+    "bytes": 5736,
+    "hits": [],
+    "returncode": 0,
+    "saved_as": "route_probe/pages/client_zone.html"
+  },
+  {
+    "path": "/projects",
+    "url": "https://www.3dkanadvertising.store/projects",
+    "meta": "__HTTP__404__TYPE__text/html__URL__https://www.3dkanadvertising.store/projects",
+    "bytes": 5736,
+    "hits": [],
+    "returncode": 0,
+    "saved_as": "route_probe/pages/projects.html"
+  },
+  {
+    "path": "/projects/",
+    "url": "https://www.3dkanadvertising.store/projects/",
+    "meta": "__HTTP__404__TYPE__text/html__URL__https://www.3dkanadvertising.store/projects/",
+    "bytes": 5736,
+    "hits": [],
+    "returncode": 0,
+    "saved_as": "route_probe/pages/projects.html"
+  },
+  {
+    "path": "/project",
+    "url": "https://www.3dkanadvertising.store/project",
+    "meta": "__HTTP__000__TYPE____URL__https://www.3dkanadvertising.store/project",
+    "bytes": 0,
+    "hits": [],
+    "returncode": 28
+  },
+  {
+    "path": "/project/",
+    "url": "https://www.3dkanadvertising.store/project/",
+    "meta": "__HTTP__404__TYPE__text/html__URL__https://www.3dkanadvertising.store/project/",
+    "bytes": 5736,
+    "hits": [],
+    "returncode": 0,
+    "saved_as": "route_probe/pages/project.html"
+  },
+  {
+    "path": "/video",
+    "url": "https://www.3dkanadvertising.store/video",
+    "meta": "__HTTP__404__TYPE__text/html__URL__https://www.3dkanadvertising.store/video",
+    "bytes": 5736,
+    "hits": [],
+    "returncode": 0,
+    "saved_as": "route_probe/pages/video.html"
+  },
+  {
+    "path": "/video/",
+    "url": "https://www.3dkanadvertising.store/video/",
+    "meta": "__HTTP__404__TYPE__text/html__URL__https://www.3dkanadvertising.store/video/",
+    "bytes": 5736,
+    "hits": [],
+    "returncode": 0,
+    "saved_as": "route_probe/pages/video.html"
+  },
+  {
+    "path": "/videos",
+    "url": "https://www.3dkanadvertising.store/videos",
+    "meta": "__HTTP__404__TYPE__text/html__URL__https://www.3dkanadvertising.store/videos",
+    "bytes": 5736,
+    "hits": [],
+    "returncode": 0,
+    "saved_as": "route_probe/pages/videos.html"
+  },
+  {
+    "path": "/videos/",
+    "url": "https://www.3dkanadvertising.store/videos/",
+    "meta": "__HTTP__404__TYPE__text/html__URL__https://www.3dkanadvertising.store/videos/",
+    "bytes": 5736,
+    "hits": [],
+    "returncode": 0,
+    "saved_as": "route_probe/pages/videos.html"
+  },
+  {
+    "path": "/video-portfolio",
+    "url": "https://www.3dkanadvertising.store/video-portfolio",
+    "meta": "__HTTP__404__TYPE__text/html__URL__https://www.3dkanadvertising.store/video-portfolio",
+    "bytes": 5736,
+    "hits": [],
+    "returncode": 0,
+    "saved_as": "route_probe/pages/video_portfolio.html"
+  },
+  {
+    "path": "/video-portfolio/",
+    "url": "https://www.3dkanadvertising.store/video-portfolio/",
+    "meta": "__HTTP__404__TYPE__text/html__URL__https://www.3dkanadvertising.store/video-portfolio/",
+    "bytes": 5736,
+    "hits": [],
+    "returncode": 0,
+    "saved_as": "route_probe/pages/video_portfolio.html"
+  },
+  {
+    "path": "/portfolio-pekerjaan",
+    "url": "https://www.3dkanadvertising.store/portfolio-pekerjaan",
+    "meta": "__HTTP__404__TYPE__text/html__URL__https://www.3dkanadvertising.store/portfolio-pekerjaan",
+    "bytes": 5736,
+    "hits": [],
+    "returncode": 0,
+    "saved_as": "route_probe/pages/portfolio_pekerjaan.html"
+  },
+  {
+    "path": "/portfolio-pekerjaan/",
+    "url": "https://www.3dkanadvertising.store/portfolio-pekerjaan/",
+    "meta": "__HTTP__404__TYPE__text/html__URL__https://www.3dkanadvertising.store/portfolio-pekerjaan/",
+    "bytes": 5736,
+    "hits": [],
+    "returncode": 0,
+    "saved_as": "route_probe/pages/portfolio_pekerjaan.html"
+  },
+  {
+    "path": "/portfolio-nyata",
+    "url": "https://www.3dkanadvertising.store/portfolio-nyata",
+    "meta": "__HTTP__404__TYPE__text/html__URL__https://www.3dkanadvertising.store/portfolio-nyata",
+    "bytes": 5736,
+    "hits": [],
+    "returncode": 0,
+    "saved_as": "route_probe/pages/portfolio_nyata.html"
+  },
+  {
+    "path": "/portfolio-nyata/",
+    "url": "https://www.3dkanadvertising.store/portfolio-nyata/",
+    "meta": "__HTTP__404__TYPE__text/html__URL__https://www.3dkanadvertising.store/portfolio-nyata/",
+    "bytes": 5736,
+    "hits": [],
+    "returncode": 0,
+    "saved_as": "route_probe/pages/portfolio_nyata.html"
+  },
+  {
+    "path": "/showcase",
+    "url": "https://www.3dkanadvertising.store/showcase",
+    "meta": "__HTTP__000__TYPE____URL__https://www.3dkanadvertising.store/showcase",
+    "bytes": 0,
+    "hits": [],
+    "returncode": 28
+  },
+  {
+    "path": "/showcase/",
+    "url": "https://www.3dkanadvertising.store/showcase/",
+    "meta": "__HTTP__404__TYPE__text/html__URL__https://www.3dkanadvertising.store/showcase/",
+    "bytes": 5736,
+    "hits": [],
+    "returncode": 0,
+    "saved_as": "route_probe/pages/showcase.html"
+  },
+  {
+    "path": "/work",
+    "url": "https://www.3dkanadvertising.store/work",
+    "meta": "__HTTP__404__TYPE__text/html__URL__https://www.3dkanadvertising.store/work",
+    "bytes": 5736,
+    "hits": [],
+    "returncode": 0,
+    "saved_as": "route_probe/pages/work.html"
+  },
+  {
+    "path": "/work/",
+    "url": "https://www.3dkanadvertising.store/work/",
+    "meta": "__HTTP__404__TYPE__text/html__URL__https://www.3dkanadvertising.store/work/",
+    "bytes": 5736,
+    "hits": [],
+    "returncode": 0,
+    "saved_as": "route_probe/pages/work.html"
+  }
+]
