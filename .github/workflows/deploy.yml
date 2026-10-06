@@ -4,18 +4,37 @@ on:
   push:
     branches:
       - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: rumahweb-production
+  cancel-in-progress: false
 
 jobs:
   web-deploy:
-    name: Deploy
+    name: Deploy Website
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 2
+
+      - name: Check initial Rumahweb import
+        id: ready
+        shell: bash
+        run: |
+          if [ -f ".site-source-ready" ]; then
+            echo "ready=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "ready=false" >> "$GITHUB_OUTPUT"
+            echo "Deployment diblokir: website belum di-import dari Rumahweb."
+          fi
 
       - name: Sync Files to Rumahweb
+        if: steps.ready.outputs.ready == 'true'
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
           server: ${{ secrets.FTP_SERVER }}
@@ -23,10 +42,26 @@ jobs:
           password: ${{ secrets.FTP_PASSWORD }}
           protocol: ftps
           port: 21
+          local-dir: ./
           server-dir: public_html/
+          dangerous-clean-slate: false
           exclude: |
             **/.git*
             **/.git*/**
-            **/node_modules/**
             .github/**
             README.md
+            .site-source-ready
+            **/node_modules/**
+            .env
+            .env.*
+            **/.env
+            **/.env.*
+            wp-config.php
+            configuration.php
+            error_log
+            **/*.log
+            **/*.sql
+            **/*.sql.gz
+            **/*.zip
+            **/*.tar
+            **/*.tar.gz
