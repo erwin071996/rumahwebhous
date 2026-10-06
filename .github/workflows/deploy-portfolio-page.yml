@@ -54,11 +54,25 @@ jobs:
             bye
           "
 
-      - name: Verify live page
+      - name: Verify uploaded page over FTPS
+        env:
+          FTP_SERVER: ${{ secrets.FTP_SERVER }}
+          FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
+          FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
         run: |
-          sleep 3
-          curl -k -L --fail --max-time 30 -A "Mozilla/5.0"             "https://www.3dkanadvertising.store/projects.html"             -o /tmp/live-projects.html
-          grep -q "Portofolio Proyek 3DKan Advertising" /tmp/live-projects.html
-          grep -q "Produksi &amp; pemasangan\|Produksi & pemasangan" /tmp/live-projects.html
-          ! grep -q "Video dokumentasi asli berhasil diarsipkan" /tmp/live-projects.html
-          echo "Client-facing portfolio page verified live."
+          rm -f /tmp/remote-projects.html
+          lftp -u "${FTP_USERNAME},${FTP_PASSWORD}" "ftp://${FTP_SERVER}:21" -e "
+            set ftp:ssl-force true;
+            set ftp:ssl-protect-data true;
+            set ssl:verify-certificate no;
+            set net:max-retries 3;
+            set net:timeout 30;
+            get public_html/projects.html -o /tmp/remote-projects.html;
+            bye
+          "
+          test -s /tmp/remote-projects.html
+          grep -q "Portofolio Proyek 3DKan Advertising" /tmp/remote-projects.html
+          grep -q "Produksi & pemasangan" /tmp/remote-projects.html
+          ! grep -q "Video dokumentasi asli berhasil diarsipkan" /tmp/remote-projects.html
+          ! grep -q "bukan gambar proyek buatan AI" /tmp/remote-projects.html
+          echo "Portfolio page verified directly on Rumahweb FTPS."
