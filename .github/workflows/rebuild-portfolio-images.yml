@@ -1,0 +1,196 @@
+name: Rebuild Portfolio Images
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/rebuild-portfolio-images.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: rebuild-portfolio-images
+  cancel-in-progress: true
+
+jobs:
+  rebuild:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install media tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y lftp ffmpeg
+          python -m pip install --upgrade pip
+          python -m pip install pillow numpy
+
+      - name: Download original portfolio media from Rumahweb
+        env:
+          FTP_SERVER: ${{ secrets.FTP_SERVER }}
+          FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
+          FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
+        run: |
+          rm -rf /tmp/portfolio-media
+          mkdir -p /tmp/portfolio-media/videos /tmp/portfolio-media/stills
+
+          lftp -u "${FTP_USERNAME},${FTP_PASSWORD}" "ftp://${FTP_SERVER}:21" -e "
+            set ftp:ssl-force true;
+            set ftp:ssl-protect-data true;
+            set ssl:verify-certificate no;
+            set net:max-retries 3;
+            set net:timeout 30;
+
+            get public_html/assets/portfolio-real/videos/cimb-niaga-signage-atm.mp4 -o /tmp/portfolio-media/videos/cimb-niaga-signage-atm.mp4;
+            get public_html/assets/portfolio-real/videos/kementerian-pertanian-brmp.mp4 -o /tmp/portfolio-media/videos/kementerian-pertanian-brmp.mp4;
+            get public_html/assets/portfolio-real/videos/pt-makassar-metro-network.mp4 -o /tmp/portfolio-media/videos/pt-makassar-metro-network.mp4;
+            get public_html/assets/portfolio-real/videos/gadget-solution-neonbox.mp4 -o /tmp/portfolio-media/videos/gadget-solution-neonbox.mp4;
+            get public_html/assets/portfolio-real/videos/shop-sign-retail-neonbox.mp4 -o /tmp/portfolio-media/videos/shop-sign-retail-neonbox.mp4;
+
+            get public_html/assets/portfolio-real/koperasi-merah-putih-mandalle.webp -o /tmp/portfolio-media/stills/koperasi-merah-putih-mandalle.webp;
+            get public_html/assets/portfolio-real/kantor-pelayanan-desa-lekopancing.webp -o /tmp/portfolio-media/stills/kantor-pelayanan-desa-lekopancing.webp;
+            get public_html/assets/portfolio-real/kantor-desa-minsa-baji.webp -o /tmp/portfolio-media/stills/kantor-desa-minsa-baji.webp;
+            get public_html/assets/portfolio-real/koperasi-merah-putih-ampekale.webp -o /tmp/portfolio-media/stills/koperasi-merah-putih-ampekale.webp;
+            get public_html/assets/portfolio-real/signage-masjid-eksterior.webp -o /tmp/portfolio-media/stills/signage-masjid-eksterior.webp;
+            get public_html/assets/portfolio-real/proses-huruf-timbul-custom.webp -o /tmp/portfolio-media/stills/proses-huruf-timbul-custom.webp;
+            bye
+          "
+
+      - name: Rebuild clean high-quality images
+        run: |
+          python - <<'PY'
+          import json, math, os, subprocess, tempfile
+          from pathlib import Path
+          import numpy as np
+          from PIL import Image, ImageFilter, ImageOps, ImageStat
+
+          root=Path("/tmp/portfolio-media")
+          out=Path("assets/portfolio-real/clean")
+          out.mkdir(parents=True, exist_ok=True)
+          report={"video_posters":{}, "stills":{}, "process_frames":{}}
+
+          def duration(path):
+              r=subprocess.run([
+                  "ffprobe","-v","error","-show_entries","format=duration",
+                  "-of","default=noprint_wrappers=1:nokey=1",str(path)
+              ],capture_output=True,text=True,check=True)
+              return max(float(r.stdout.strip()),1.0)
+
+          def extract(path,t,dest):
+              subprocess.run([
+                  "ffmpeg","-y","-hide_banner","-loglevel","error",
+                  "-ss",f"{t:.3f}","-i",str(path),"-frames:v","1","-q:v","2",str(dest)
+              ],check=True)
+
+          def lap_var(im):
+              a=np.asarray(im.convert("L").resize((min(900,im.width), max(1,int(im.height*min(900,im.width)/im.width)))),dtype=np.float32)
+              p=np.pad(a,1,mode="edge")
+              lap=(-4*p[1:-1,1:-1]+p[:-2,1:-1]+p[2:,1:-1]+p[1:-1,:-2]+p[1:-1,2:])
+              return float(lap.var())
+
+          def quality_score(im):
+              gray=np.asarray(im.convert("L"),dtype=np.float32)
+              mean=float(gray.mean())
+              clip=float(((gray<8)|(gray>247)).mean())
+              sharp=lap_var(im)
+              exposure_penalty=abs(mean-128)*0.8 + clip*500
+              return sharp-exposure_penalty, {"sharpness":sharp,"mean":mean,"clip":clip}
+
+          def finish(im,dest):
+              im=im.convert("RGB")
+              maxdim=max(im.size)
+              if maxdim<1800:
+                  scale=1800/maxdim
+                  im=im.resize((round(im.width*scale),round(im.height*scale)),Image.Resampling.LANCZOS)
+              im=ImageOps.autocontrast(im,cutoff=0.35)
+              im=im.filter(ImageFilter.UnsharpMask(radius=1.15,percent=75,threshold=3))
+              im.save(dest,"WEBP",quality=94,method=6)
+              return {"size":im.size,"bytes":dest.stat().st_size}
+
+          video_map={
+              "cimb-niaga-signage-atm":"cimb-niaga-signage-atm.mp4",
+              "kementerian-pertanian-brmp":"kementerian-pertanian-brmp.mp4",
+              "pt-makassar-metro-network":"pt-makassar-metro-network.mp4",
+              "gadget-solution-neonbox":"gadget-solution-neonbox.mp4",
+              "shop-sign-retail-neonbox":"shop-sign-retail-neonbox.mp4",
+          }
+
+          fractions=np.linspace(0.08,0.92,24)
+          for slug,fn in video_map.items():
+              video=root/"videos"/fn
+              d=duration(video)
+              candidates=[]
+              with tempfile.TemporaryDirectory() as td:
+                  td=Path(td)
+                  for i,f in enumerate(fractions):
+                      jpg=td/f"{i:02d}.jpg"
+                      t=float(d*f)
+                      try:
+                          extract(video,t,jpg)
+                          with Image.open(jpg) as im:
+                              score,meta=quality_score(im)
+                              candidates.append((score,t,jpg.read_bytes(),meta,im.size))
+                      except Exception:
+                          pass
+              if not candidates:
+                  raise RuntimeError(f"No frames extracted for {slug}")
+              candidates.sort(key=lambda x:x[0],reverse=True)
+              score,t,b,meta,size=candidates[0]
+              tmp=Path("/tmp")/f"{slug}-best.jpg"
+              tmp.write_bytes(b)
+              with Image.open(tmp) as im:
+                  fin=finish(im,out/f"{slug}.webp")
+              report["video_posters"][slug]={"time":t,"duration":d,"score":score,"source_size":size,**meta,**fin}
+
+          process_specs={
+              "proses-produksi-cimb-niaga":("cimb-niaga-signage-atm.mp4",0.24),
+              "uji-nyala-cimb-niaga":("cimb-niaga-signage-atm.mp4",0.62),
+              "proses-gadget-solution":("gadget-solution-neonbox.mp4",0.34),
+              "proses-instalasi-brmp":("kementerian-pertanian-brmp.mp4",0.48),
+          }
+          for slug,(fn,f) in process_specs.items():
+              video=root/"videos"/fn
+              d=duration(video)
+              tmp=Path("/tmp")/f"{slug}.jpg"
+              extract(video,d*f,tmp)
+              with Image.open(tmp) as im:
+                  meta=finish(im,out/f"{slug}.webp")
+              report["process_frames"][slug]={"time":d*f,"duration":d,**meta}
+
+          stills=[
+              "koperasi-merah-putih-mandalle",
+              "kantor-pelayanan-desa-lekopancing",
+              "kantor-desa-minsa-baji",
+              "koperasi-merah-putih-ampekale",
+              "signage-masjid-eksterior",
+              "proses-huruf-timbul-custom",
+          ]
+          for slug in stills:
+              src=root/"stills"/f"{slug}.webp"
+              with Image.open(src) as im:
+                  source_size=im.size
+                  meta=finish(im,out/f"{slug}.webp")
+              report["stills"][slug]={"source_size":source_size,**meta}
+
+          Path("assets/portfolio-real/clean/PROCESSING_REPORT.json").write_text(
+              json.dumps(report,ensure_ascii=False,indent=2),encoding="utf-8"
+          )
+          print(json.dumps(report,ensure_ascii=False,indent=2))
+          PY
+
+      - name: Commit rebuilt image assets
+        run: |
+          git config user.name "3DKan Image Rebuild"
+          git config user.email "actions@github.com"
+          git add assets/portfolio-real/clean
+          if git diff --cached --quiet; then
+            echo "No rebuilt image changes."
+            exit 0
+          fi
+          git commit -m "Rebuild portfolio images from original media"
+          git push origin HEAD:main
