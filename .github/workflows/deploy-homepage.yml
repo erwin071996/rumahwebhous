@@ -26,27 +26,51 @@ jobs:
       - name: Validate homepage source
         run: |
           test -s index.html
-          grep -q "Signage yang membuat usaha" index.html
-          grep -q "Pilih konteks proyek Anda" index.html
-          grep -q "PORTOFOLIO TERPILIH" index.html
-          grep -q "BRIEF CEPAT" index.html
-          grep -q "homepage-conversion-v100" index.html
+          grep -q "Nama usaha Anda." index.html
+          grep -q "Dua jalur. Satu tim produksi." index.html
+          grep -q "PROYEK TERPILIH" index.html
+          grep -q "BRIEF CEPAT · WHATSAPP" index.html
+          grep -q "Butuh harga? Mulai dari brief yang jelas." index.html
 
-      - name: Prepare homepage deployment
+      - name: Install lftp
         run: |
-          rm -rf homepage-deploy
-          mkdir -p homepage-deploy
-          cp index.html homepage-deploy/index.html
+          sudo apt-get update
+          sudo apt-get install -y lftp
 
-      - name: Upload homepage to Rumahweb
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
-        with:
-          server: ${{ secrets.FTP_SERVER }}
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          protocol: ftps
-          port: 21
-          local-dir: ./homepage-deploy/
-          server-dir: public_html/
-          dangerous-clean-slate: false
-          log-level: standard
+      - name: Upload index.html only
+        env:
+          FTP_SERVER: ${{ secrets.FTP_SERVER }}
+          FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
+          FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
+        run: |
+          lftp -u "${FTP_USERNAME},${FTP_PASSWORD}" "ftp://${FTP_SERVER}:21" -e "
+            set ftp:ssl-force true;
+            set ftp:ssl-protect-data true;
+            set ssl:verify-certificate no;
+            set net:max-retries 3;
+            set net:timeout 30;
+            put index.html -o public_html/index.html;
+            bye
+          "
+
+      - name: Verify homepage over FTPS
+        env:
+          FTP_SERVER: ${{ secrets.FTP_SERVER }}
+          FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
+          FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
+        run: |
+          rm -f /tmp/remote-index.html
+          timeout 35s lftp -u "${FTP_USERNAME},${FTP_PASSWORD}" "ftp://${FTP_SERVER}:21" -e "
+            set ftp:ssl-force true;
+            set ftp:ssl-protect-data true;
+            set ssl:verify-certificate no;
+            set net:max-retries 2;
+            set net:timeout 15;
+            get public_html/index.html -o /tmp/remote-index.html;
+            bye
+          " || true
+          test -s /tmp/remote-index.html
+          grep -q "Nama usaha Anda." /tmp/remote-index.html
+          grep -q "BRIEF CEPAT · WHATSAPP" /tmp/remote-index.html
+          grep -q "Butuh harga? Mulai dari brief yang jelas." /tmp/remote-index.html
+          echo "Homepage verified directly on Rumahweb FTPS."
