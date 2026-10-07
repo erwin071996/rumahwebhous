@@ -1,0 +1,195 @@
+{
+  "video_posters": {
+    "cimb-niaga-signage-atm": {
+      "time": 1.68,
+      "duration": 21.0,
+      "score": 2967.571367051866,
+      "source_size": [
+        720,
+        1280
+      ],
+      "sharpness": 2987.649658203125,
+      "mean": 127.1256332397461,
+      "clip": 0.03875759548611111,
+      "size": [
+        1012,
+        1800
+      ],
+      "bytes": 612162
+    },
+    "kementerian-pertanian-brmp": {
+      "time": 1.6104236,
+      "duration": 20.130295,
+      "score": 1179.4650383843316,
+      "source_size": [
+        720,
+        1280
+      ],
+      "sharpness": 1201.2392578125,
+      "mean": 115.80229949951172,
+      "clip": 0.024032118055555555,
+      "size": [
+        1012,
+        1800
+      ],
+      "bytes": 448556
+    },
+    "pt-makassar-metro-network": {
+      "time": 1.6104236,
+      "duration": 20.130295,
+      "score": 905.8866984049479,
+      "source_size": [
+        360,
+        640
+      ],
+      "sharpness": 1020.8515014648438,
+      "mean": 42.708709716796875,
+      "clip": 0.09346354166666666,
+      "size": [
+        1012,
+        1800
+      ],
+      "bytes": 164524
+    },
+    "gadget-solution-neonbox": {
+      "time": 1.60928336,
+      "duration": 20.116042,
+      "score": 1831.0216881646052,
+      "source_size": [
+        360,
+        640
+      ],
+      "sharpness": 2044.5924072265625,
+      "mean": 33.45413589477539,
+      "clip": 0.27586805555555555,
+      "size": [
+        1012,
+        1800
+      ],
+      "bytes": 193204
+    },
+    "shop-sign-retail-neonbox": {
+      "time": 1.6104236,
+      "duration": 20.130295,
+      "score": 2358.2098497178818,
+      "source_size": [
+        720,
+        1280
+      ],
+      "sharpness": 2441.90185546875,
+      "mean": 99.80575561523438,
+      "clip": 0.12227322048611111,
+      "size": [
+        1012,
+        1800
+      ],
+      "bytes": 641662
+    }
+  },
+  "stills": {
+    "koperasi-merah-putih-mandalle": {
+      "source_size": [
+        742,
+        1280
+      ],
+      "size": [
+        1043,
+        1800
+      ],
+      "bytes": 186230
+    },
+    "kantor-pelayanan-desa-lekopancing": {
+      "source_size": [
+        720,
+        1241
+      ],
+      "size": [
+        1044,
+        1800
+      ],
+      "bytes": 222044
+    },
+    "kantor-desa-minsa-baji": {
+      "source_size": [
+        720,
+        1241
+      ],
+      "size": [
+        1044,
+        1800
+      ],
+      "bytes": 206860
+    },
+    "koperasi-merah-putih-ampekale": {
+      "source_size": [
+        360,
+        621
+      ],
+      "size": [
+        1043,
+        1800
+      ],
+      "bytes": 154852
+    },
+    "signage-masjid-eksterior": {
+      "source_size": [
+        720,
+        1241
+      ],
+      "size": [
+        1044,
+        1800
+      ],
+      "bytes": 395250
+    },
+    "proses-huruf-timbul-custom": {
+      "source_size": [
+        720,
+        1241
+      ],
+      "size": [
+        1044,
+        1800
+      ],
+      "bytes": 192724
+    }
+  },
+  "process_frames": {
+    "proses-produksi-cimb-niaga": {
+      "time": 5.04,
+      "duration": 21.0,
+      "size": [
+        1012,
+        1800
+      ],
+      "bytes": 612162
+    },
+    "uji-nyala-cimb-niaga": {
+      "time": 13.02,
+      "duration": 21.0,
+      "size": [
+        1012,
+        1800
+      ],
+      "bytes": 612162
+    },
+    "proses-gadget-solution": {
+      "time": 6.839454280000001,
+      "duration": 20.116042,
+      "size": [
+        1012,
+        1800
+      ],
+      "bytes": 193204
+    },
+    "proses-instalasi-brmp": {
+      "time": 9.662541599999999,
+      "duration": 20.130295,
+      "size": [
+        1012,
+        1800
+      ],
+      "bytes": 448732
+    }
+  }
+}
