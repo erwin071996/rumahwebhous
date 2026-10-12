@@ -120,7 +120,7 @@ async function buildFixtures() {
  for(const [label,files] of [["baseline",baseline],["candidate",candidate]]) inventory[label]=[...files].map(([pathname,b])=>({path:pathname,bytes:b.length,sha256:digest(b)}));
  return {baseline,candidate,sharedSnapshot:{observedAt:manifest.observedAt,provenance:manifest.provenance,records}};
 }
-async function proveGuard(page,canary) {
+async function proveGuard(page,canary,phase) {
  const before=canary.hits;
  await page.evaluate(async origin=>{
   try { await fetch(origin+"/fetch"); } catch(e) {}
@@ -130,8 +130,17 @@ async function proveGuard(page,canary) {
  try {
   const tree=await session.send("Page.getFrameTree");
   for(const includeCredentials of [false,true]) {
-   const response=await session.send("Network.loadNetworkResource",{frameId:tree.frameTree.frame.id,url:canary.origin+"/source-map-"+includeCredentials,options:{disableCache:true,includeCredentials}});
-   assert.equal(response.resource.success,false,"CDP source-map guard did not reject canary (credentials="+includeCredentials+")");
+   const beforeProbe=canary.hits;
+   let response,blockedByCSP=false;
+   try {
+    response=await session.send("Network.loadNetworkResource",{frameId:tree.frameTree.frame.id,url:canary.origin+"/source-map-"+includeCredentials,options:{disableCache:true,includeCredentials}});
+   } catch(error) {
+    if(error.name!=="ProtocolError"||error.message!=="Protocol error (Network.loadNetworkResource): CSP violation") throw error;
+    blockedByCSP=true;
+   }
+   if(!blockedByCSP) assert.equal(response?.resource?.success,false,"CDP source-map guard did not reject canary (credentials="+includeCredentials+")");
+   assert.equal(canary.hits,beforeProbe,"Canary request reached server");
+   (metadata.canaryProof||=[]).push({phase,includeCredentials,outcome:blockedByCSP?"explicit protocol CSP rejection":"resource success=false rejection",hitsBefore:beforeProbe,hitsAfter:canary.hits});
   }
  } finally { await session.detach(); }
  await new Promise(resolve=>setTimeout(resolve,50));
@@ -193,11 +202,11 @@ async function checkpoint(status) {
      }return request.continue();
     });
     page.on("pageerror",e=>pageErrors.push(e.message));
-    await page.goto(site.origin+"/__performance_guard.html");await proveGuard(page,canary);
+    await page.goto(site.origin+"/__performance_guard.html");await proveGuard(page,canary,label+" before");
     let deadline;
     const result=await Promise.race([lighthouse(site.origin+url,{onlyCategories:["performance"],output:"json",logLevel:"error",disableStorageReset:false,disableFullPageScreenshot:true},device==="desktop"?desktopConfig:undefined,page),new Promise((_,reject)=>{deadline=setTimeout(()=>{measurementTimedOut=true;reject(Error("Lighthouse whole-run deadline 120s; owned Chromium termination required"));},120000);})]).finally(()=>clearTimeout(deadline));
     assert(result&&result.lhr,"Lighthouse returned no result");const lhr=result.lhr;assert(!lhr.runtimeError,JSON.stringify(lhr.runtimeError));assert.equal(lhr.lighthouseVersion,"13.5.0");
-    await proveGuard(page,canary);assert.equal(site.hits,0,"Unexpected local WebSocket upgrade");assert.equal(site.unexpected.length,0,"Unexpected local requests: "+JSON.stringify(site.unexpected));
+    await proveGuard(page,canary,label+" after");assert.equal(site.hits,0,"Unexpected local WebSocket upgrade");assert.equal(site.unexpected.length,0,"Unexpected local requests: "+JSON.stringify(site.unexpected));
     assert.equal(pageErrors.length,0,"Uncaught page runtime errors: "+JSON.stringify(pageErrors));
     assert.equal(typeof lhr.categories.performance.score,"number","Missing performance score");
     const measured={performanceScore:lhr.categories.performance.score*100};

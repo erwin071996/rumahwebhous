@@ -1,4 +1,5 @@
-/* Real MP4 fixture QA. Separate from native-qa.cjs deliberate 404 coverage. */
+/* Real MP4 fixture QA. Separate from native-qa.cjs deliberate 404 coverage.
+   Chromium may retain historical currentSrc after load(); close gates use the empty player state. */
 "use strict";
 const { chromium } = require("playwright");
 const fs = require("node:fs/promises");
@@ -58,6 +59,7 @@ async function state(p) {
 return p.locator("#real-video-player").evaluate(v=>({
 paused:v.paused,src:v.getAttribute("src"),currentSrc:v.currentSrc,time:v.currentTime,duration:Number.isFinite(v.duration)?v.duration:null,
 width:v.videoWidth,height:v.videoHeight,readyState:v.readyState,networkState:v.networkState,muted:v.muted,volume:v.volume,
+sourceObject:v.srcObject!==null,childSource:!!v.querySelector("source"),decodedFrames:typeof v.getVideoPlaybackQuality==="function"?v.getVideoPlaybackQuality().totalVideoFrames:null,
 error:v.error?{code:v.error.code,message:v.error.message}:null,visibility:document.visibilityState,
 mp4Support:v.canPlayType("video/mp4"),audioTracks:v.audioTracks?.length??null,audioDecodedBytes:v.webkitAudioDecodedByteCount??null,
 probe:v.__mediaProbe?{kind:v.__mediaProbe.kind,advances:v.__mediaProbe.advances,events:v.__mediaProbe.events}:null,
@@ -94,18 +96,21 @@ return v.currentSrc===url&&!v.paused&&v.readyState>=2&&!v.error&&v.currentTime>=
 },{url:expected,...baseline},{timeout:6000});
 }
 async function cleanup(p,trigger) {
-await p.waitForFunction(()=>{const d=document.querySelector("#real-video-dialog"),v=document.querySelector("#real-video-player");return !d.hasAttribute("open")&&v.paused&&!v.hasAttribute("src")&&v.currentSrc===""&&v.readyState===0;},null,{timeout:2000});
+await p.waitForFunction(()=>{const d=document.querySelector("#real-video-dialog"),v=document.querySelector("#real-video-player");return !d.hasAttribute("open")&&v.paused&&!v.hasAttribute("src")&&v.srcObject===null&&!v.querySelector("source")&&v.networkState===v.NETWORK_EMPTY&&v.readyState===v.HAVE_NOTHING&&Number.isNaN(v.duration)&&v.currentTime===0&&v.videoWidth===0&&v.videoHeight===0&&!v.error;},null,{timeout:2000});
 await p.waitForFunction(el=>document.activeElement===el,await trigger.elementHandle(),{timeout:2000});
 const first=await state(p);
 const quiet=await p.locator("#real-video-player").evaluate(v=>new Promise(resolve=>{
 let violation=null,samples=0;
-const sample=()=>{samples++;if(!violation&&(!v.paused||v.hasAttribute("src")||v.currentSrc!==""))violation={paused:v.paused,src:v.getAttribute("src"),currentSrc:v.currentSrc,time:v.currentTime};};
+const frameBaseline=typeof v.getVideoPlaybackQuality==="function"?v.getVideoPlaybackQuality().totalVideoFrames:null;
+const audioBaseline=v.webkitAudioDecodedByteCount??null;
+const sample=()=>{samples++;if(!violation&&(!v.paused||v.hasAttribute("src")||v.srcObject!==null||v.querySelector("source")||v.networkState!==v.NETWORK_EMPTY||v.readyState!==v.HAVE_NOTHING||!Number.isNaN(v.duration)||v.currentTime!==0||v.videoWidth!==0||v.videoHeight!==0||v.error||(frameBaseline!==null&&v.getVideoPlaybackQuality().totalVideoFrames>frameBaseline)||(audioBaseline!==null&&v.webkitAudioDecodedByteCount>audioBaseline)))violation={paused:v.paused,src:v.getAttribute("src"),currentSrc:v.currentSrc,time:v.currentTime};};
 const names=["play","playing","loadedmetadata"];names.forEach(n=>v.addEventListener(n,sample));
 const timer=setInterval(sample,25);sample();setTimeout(()=>{clearInterval(timer);names.forEach(n=>v.removeEventListener(n,sample));sample();resolve({samples,violation});},1000);
 }));
 const last=await state(p);
 assert.equal(quiet.violation,null,"Playback/source revived during settled close window: "+JSON.stringify(quiet.violation));
-assert(last.paused&&!last.src&&!last.currentSrc&&Math.abs(last.time-first.time)<=.05,"Playback resumed after settled close");
+assert(last.paused&&!last.src&&!last.sourceObject&&!last.childSource&&last.readyState===0&&last.networkState===0&&last.duration===null&&last.width===0&&last.height===0&&Math.abs(last.time-first.time)<=.05,"Playback resumed after settled close");
+if(first.decodedFrames!==null&&last.decodedFrames!==null)assert(last.decodedFrames<=first.decodedFrames,"Video frame counter advanced after source unload");
 assert(await p.locator("video").evaluateAll(es=>es.every(v=>v.paused)),"Another player continued");
 if(first.audioDecodedBytes!==null&&last.audioDecodedBytes!==null)assert(last.audioDecodedBytes<=first.audioDecodedBytes,"Audio decode counter advanced after source unload");
 await p.locator("#real-video-player").evaluate(v=>v.__mediaCancel?.());
