@@ -46,6 +46,60 @@ SECRET_PATTERN = re.compile(
 )
 
 
+PUBLIC_TEXT_SUFFIXES = {".php", ".json", ".js", ".html", ".txt", ".xml", ".css", ".svg"}
+CREDENTIAL_KEY = (
+    rb"(?:password|passwd|pwd|pass|token|secret|"
+    rb"(?:db|database|mysql|ftp|smtp)[_-]?(?:password|passwd|pwd|pass)|"
+    rb"api[_-]?(?:key|secret)|client[_-]?secret|"
+    rb"(?:access|auth|refresh|secret)[_-]?token|"
+    rb"(?:aws[_-]?)?secret[_-]?access[_-]?key|private[_-]?key)"
+)
+_CREDENTIAL_LABEL = rb"""(?P<keyquote>['"]?)""" + CREDENTIAL_KEY + rb"(?P=keyquote)"
+_CREDENTIAL_VALUE = rb"""(?P<quote>['"])(?P<value>(?:\\.|(?!(?P=quote)).)*)(?P=quote)"""
+CREDENTIAL_ASSIGNMENTS = (
+    re.compile(rb"(?<![A-Za-z0-9_])\$?" + _CREDENTIAL_LABEL
+               + rb"\s*\]?\s*(?:=>|=|:)\s*" + _CREDENTIAL_VALUE, re.I | re.S),
+    re.compile(rb"\bdefine\s*\(\s*" + _CREDENTIAL_LABEL
+               + rb"\s*,\s*" + _CREDENTIAL_VALUE, re.I | re.S),
+    re.compile(rb"^\s*SetEnv\s+" + _CREDENTIAL_LABEL
+               + rb"\s+" + _CREDENTIAL_VALUE, re.I | re.M | re.S),
+    re.compile(rb"^\s*SetEnv\s+" + _CREDENTIAL_LABEL
+               + rb"\s+(?P<value>[^\s\"'#]+)", re.I | re.M),
+)
+CREDENTIAL_PLACEHOLDER = re.compile(
+    rb"(?:CHANGE[_ -]ME|REPLACE[_ -]ME|YOUR_[A-Z0-9_]+|"
+    rb"\$\{[A-Z_][A-Z0-9_]*\}|\{\{\s*[A-Z_][A-Z0-9_.]*\s*\}\}|"
+    rb"<[A-Z_][A-Z0-9_ .-]*>|REDACTED|\[REDACTED\]|\*{3,})", re.I
+)
+
+
+ENV_CREDENTIAL_FALLBACKS = (
+    re.compile(rb"\b(?:getenv|env)\s*\(\s*['\"][A-Z0-9_]*(?:PASSWORD|PASSWD|TOKEN|SECRET|API_?KEY)[A-Z0-9_]*['\"]\s*,\s*" + _CREDENTIAL_VALUE, re.I | re.S),
+    re.compile(rb"\b(?:getenv|env)\s*\(\s*['\"][A-Z0-9_]*(?:PASSWORD|PASSWD|TOKEN|SECRET|API_?KEY)[A-Z0-9_]*['\"]\s*\)\s*(?:\?\s*:|\?\?)\s*" + _CREDENTIAL_VALUE, re.I | re.S),
+    re.compile(rb"\bprocess\.env\.[A-Z0-9_]*(?:PASSWORD|PASSWD|TOKEN|SECRET|API_?KEY)[A-Z0-9_]*\s*(?:\|\||\?\?)\s*" + _CREDENTIAL_VALUE, re.I | re.S),
+    re.compile(rb"\b[a-z][a-z0-9+.-]*://[^/\s:@]+:(?P<value>[^@\s/]+)@", re.I),
+)
+AUTH_RUNTIME_DEPENDENCY = re.compile(rb"^\s*AuthUserFile\s+\S", re.I | re.M)
+
+
+def contains_credential(data):
+    """Flag literal candidates without returning their values."""
+    if SECRET_PATTERN.search(data):
+        return True
+    try:
+        data.decode("utf-8")
+    except UnicodeError:
+        return True
+    if b"\0" in data or AUTH_RUNTIME_DEPENDENCY.search(data):
+        return True
+    for pattern in (*CREDENTIAL_ASSIGNMENTS, *ENV_CREDENTIAL_FALLBACKS):
+        for match in pattern.finditer(data):
+            value = match.group("value").strip()
+            if value and not CREDENTIAL_PLACEHOLDER.fullmatch(value):
+                return True
+    return False
+
+
 class SiteCheck:
     def __init__(self, repo):
         self.repo = repo.resolve()
@@ -115,8 +169,9 @@ class SiteCheck:
             self.require(not forbidden, f"Credential/runtime file in payload: {relative}")
             self.require(not file.is_symlink(), f"Symlink in payload: {relative}")
             if (file.is_file() and not file.is_symlink()
-                    and file.suffix.lower() in {".php", ".json", ".js", ".html", ".txt", ".xml"}):
-                self.require(not SECRET_PATTERN.search(file.read_bytes()),
+                    and (file.suffix.lower() in PUBLIC_TEXT_SUFFIXES
+                         or file.name.lower() == ".htaccess")):
+                self.require(not contains_credential(file.read_bytes()),
                              f"Possible credential in payload: {relative} (value redacted)")
 
     def check_images(self, groups):

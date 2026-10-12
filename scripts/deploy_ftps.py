@@ -7,6 +7,8 @@ from pathlib import Path, PurePosixPath
 import re
 import shutil
 import subprocess
+import sys
+import unittest
 import tempfile
 import time
 from urllib.parse import quote
@@ -150,11 +152,24 @@ class Server:
         except CurlError as error:
             if error.code != 78:
                 raise
-            parent = str(PurePosixPath(path).parent)
-            entries = self.list("" if parent == "." else parent)
-            if any(name == PurePosixPath(path).name for name, _ in entries):
+            if not self.confirmed_absent(path):
                 raise
             return None
+
+    def confirmed_absent(self, path):
+        """Confirm absence from a successful parent or ancestor listing."""
+        safe(path)
+        parent = str(PurePosixPath(path).parent)
+        parent = "" if parent == "." else parent
+        try:
+            entries = self.list(parent)
+        except CurlError as error:
+            # Only a confirmed missing ancestor permits creating a new path.
+            # Denied listings and an inaccessible existing directory propagate.
+            if error.code == 78 and parent and self.confirmed_absent(parent):
+                return True
+            raise
+        return not any(name == PurePosixPath(path).name for name, _ in entries)
 
     def write(self, path, data):
         with tempfile.TemporaryDirectory() as folder:
@@ -222,19 +237,17 @@ def verify_live():
     expected = {DOMAIN + row["path"] for rows in registry["groups"].values() for row in rows}
     if len(found) != 500 or set(found) != expected:
         raise RuntimeError("Live sitemap URLs differ from the reviewed 500-page source")
-    for path in ["/", "/about.html", "/contact.html",
+    for path in ["/", "/projects.html", "/about.html", "/contact.html",
                  "/toko/toko-1", "/toko/toko-2", "/toko/toko-3",
                  "/alat/hitung-karakter", "/panduan.html"]:
         html = https(path)
         if b"<html" not in html.lower():
             raise RuntimeError("A live page returned an unexpected body")
-        if path == "/":
-            local = (SITE / "index.html").read_bytes()
-            marker = re.search(rb'<meta name="3dkan-release" content="([^"]+)">', local)
-            live_marker = re.search(rb'<meta name="3dkan-release" content="([^"]+)">', html)
-            if (marker.group(0) if marker else None) != (live_marker.group(0) if live_marker else None):
-                raise RuntimeError("Live release metadata does not match the repository")
-    return {"sitemaps": 11, "unique_urls": 500, "http_samples": 8}
+        if path in {"/", "/projects.html"}:
+            local_path = "index.html" if path == "/" else "projects.html"
+            if html != (SITE / local_path).read_bytes():
+                raise RuntimeError("Live static page differs from the reviewed source: " + local_path)
+    return {"sitemaps": 11, "unique_urls": 500, "http_samples": 9}
 
 
 def baseline_preflight(server, manifest):
@@ -394,11 +407,24 @@ def run_deployment(server, manifest, report):
                    state_update=(old_state, desired_state))
 
 
+def require_local_checks():
+    """Do not construct a credential-bearing transport until checks pass."""
+    repo = Path(__file__).resolve().parents[1]
+    suite = unittest.TestLoader().discover(str(repo / "tests"))
+    if suite.countTestCases() == 0:
+        raise RuntimeError("Deployment requires a nonempty unittest suite")
+    if not unittest.TextTestRunner(verbosity=2).run(suite).wasSuccessful():
+        raise RuntimeError("Deployment unit tests failed")
+    subprocess.run([sys.executable, str(repo / "scripts/check_site.py"),
+                    "--repo-root", str(repo)], cwd=repo, check=True)
+
+
 def main():
     REPORT.mkdir(exist_ok=True)
     report = {"status": "started", "uploaded": [], "already_current": [], "rollback": "not needed"}
     server = None
     try:
+        require_local_checks()
         manifest = json.loads(MANIFEST.read_text(encoding="utf-8"))
         server = Server()
         run_deployment(server, manifest, report)
