@@ -8,6 +8,8 @@ on:
       - 'public_html/assets/ui/**'
       - 'tests/brief*.cjs'
       - 'tests/frontend*.cjs'
+      - 'tests/branding.test.cjs'
+      - 'public_html/assets/branding/**'
       - '.github/workflows/validate-brief.yml'
 
 permissions:
@@ -37,6 +39,7 @@ jobs:
           node tests/brief-markup.test.cjs
           node --check public_html/assets/ui/frontend.js
           node tests/frontend.test.cjs
+          node tests/branding.test.cjs
 
       - name: Verify rollback source matches live pages
         shell: bash

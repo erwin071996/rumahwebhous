@@ -157,3 +157,8 @@ html { scroll-padding-top: 7rem; }
 /* Review fixes: shared .page-intro text inheritance and normal-size proof copy. */
 .sprint-ui .portfolio-hero-note p { color: var(--muted); }
 .sprint-ui .home-proof span { color: var(--muted); }
+
+/* Attribute-based video fallback remains reachable without native dialog support. */
+.sprint-ui #real-video-dialog:not([open]) { display: none; }
+.sprint-ui #real-video-dialog[open] { display: block; }
+.sprint-ui #real-video-dialog[data-video-fallback="true"][open] { position: fixed; inset: 1rem 1rem auto; margin: 0 auto; z-index: 70; }

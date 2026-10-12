@@ -1,0 +1,105 @@
+/* Blue UI inspired by the visually verified original 3DKan logo.
+   These UI colors are chosen for contrast; they are not claimed sampled master hex. */
+.sprint-ui {
+  --ink: #17243c;
+  --muted: #4e607a;
+  --navy: #102347;
+  --green: #123bd6;
+  --orange: #123bd6;
+  --orange-dark: #123bd6;
+  --soft: #f3f6fc;
+  --line: #d8e0ed;
+  --paper: #ffffff;
+  --brand-primary: #123bd6;
+  --brand-accent: #174bfa;
+  color: var(--ink);
+  background: var(--paper);
+}
+.sprint-ui .site-header { background: var(--paper); border-color: var(--line); }
+.sprint-ui .brand { background: #ffffff; }
+.sprint-ui .brand img { height: auto; aspect-ratio: 2048 / 654; object-fit: contain; }
+.sprint-ui .footer-brand { padding: .75rem; border-radius: .5rem; }
+.sprint-ui .footer-brand img { filter: none; }
+.sprint-ui .business-bar { background: var(--soft); color: var(--ink); border-color: var(--line); }
+.sprint-ui .business-bar a,.sprint-ui .business-bar .social-links a { color: var(--ink); }
+.sprint-ui .nav-services .mega-panel { background: var(--paper); border-color: var(--line); }
+.sprint-ui .mega-feature { background: var(--soft); }
+.sprint-ui #site-nav > a:hover,.sprint-ui .nav-services[open] > summary { color: var(--brand-primary); }
+.sprint-ui .mega-panel a:hover { color: var(--brand-primary); background: var(--soft); }
+.sprint-ui .btn-primary { background: var(--brand-primary); color: #ffffff; border-color: var(--brand-primary); }
+.sprint-ui .btn-primary:hover { background: #0d2eaf; border-color: #0d2eaf; color: #ffffff; }
+.sprint-ui .btn-outline { color: var(--ink); background: transparent; border-color: #607392; }
+.sprint-ui .btn-outline:hover { background: var(--soft); }
+.sprint-ui .text-link { color: var(--brand-primary); }
+.sprint-ui :is(a,button,summary,input,select,textarea):focus-visible { outline: 3px solid var(--ink); outline-offset: 4px; }
+.sprint-ui :is(.audience-card.corporate,.home-industries,.vendor-cap,.site-footer,.closing-strip) :is(a,button,summary):focus-visible { outline-color: #ffffff; }
+.sprint-ui :is(.audience-card.corporate,.vendor-cap) .btn-primary { border-color: #ffffff; }
+.sprint-ui .home-hero,.sprint-ui .portfolio-hero { background: linear-gradient(135deg,#ffffff,var(--soft)); }
+.sprint-ui :is(.home-services,.home-brief,.procurement,.section-soft,.contact-band) { background: var(--soft); }
+.sprint-ui :is(.audience-card,.home-process-grid article,.real-proof article,.case-study,.project-brief-form,.portfolio-hero-note) { border-color: var(--line); }
+.sprint-ui :is(.audience-card,.home-process-grid article,.case-study,.portfolio-hero-note) { background: var(--paper); }
+.sprint-ui .hero-trust span { color: var(--ink); background: var(--paper); border-color: #bcc9df; }
+.sprint-ui :is(.eyebrow,.home-proof small,.home-service span,.home-case-copy small,.assurance-grid small,.case-kicker,.real-proof small,.portfolio-hero-note small) { color: var(--brand-primary); }
+.sprint-ui :is(.home-proof span,.real-proof span,.real-meta,.case-fact small,.portfolio-hero-note p,.client-tools-label span) { color: var(--muted); }
+.sprint-ui .home-visual figcaption { color: var(--muted); }
+.sprint-ui .audience-list li::before { color: var(--brand-primary); }
+.sprint-ui :is(.audience-card.corporate,.home-industries,.vendor-cap,.closing-strip) { color: #ffffff; background: var(--navy); border-color: #455a7b; }
+.sprint-ui :is(.audience-card.corporate,.home-industries,.vendor-cap) .eyebrow { color: #ffffff; }
+.sprint-ui .audience-card.corporate p,.sprint-ui .vendor-cap-lead { color: #dde5f8; }
+.sprint-ui .audience-card.corporate .audience-list li::before { color: #ffffff; }
+.sprint-ui .industry-grid article,.sprint-ui .vendor-cap-item { background: #18345d; border-color: #526a8d; }
+.sprint-ui .industry-grid small,.sprint-ui .vendor-cap-item small { color: #ffffff; }
+.sprint-ui .industry-grid span,.sprint-ui .vendor-cap-item span { color: #dde5f8; }
+.sprint-ui .home-process-grid b,.sprint-ui .workflow-step b { color: #ffffff; background: var(--navy); }
+.sprint-ui .real-proof article { background: var(--soft); }
+.sprint-ui .real-proof b,.sprint-ui .presentation-summary strong { color: var(--ink); }
+.sprint-ui .presentation-summary { background: var(--line); border-color: var(--line); }
+.sprint-ui .presentation-summary article { background: var(--paper); }
+.sprint-ui .portfolio-link,.sprint-ui .case-cta { background: var(--paper); color: var(--ink); border-color: #607392; }
+.sprint-ui .portfolio-link:hover,.sprint-ui .case-cta:hover { background: var(--soft); border-color: var(--brand-primary); }
+.sprint-ui .vendor-cap .portfolio-link { background: #ffffff; color: var(--navy); border-color: #ffffff; }
+.sprint-ui .case-video,.sprint-ui .real-video { background: var(--soft); color: var(--brand-primary); border-color: var(--brand-primary); }
+.sprint-ui .case-video:hover,.sprint-ui .real-video:hover { background: #e5ecff; border-color: #0d2eaf; color: #0d2eaf; }
+.sprint-ui .case-sector,.sprint-ui .real-tag { background: var(--navy); color: #ffffff; }
+.sprint-ui .case-facts { background: var(--line); border-color: var(--line); }
+.sprint-ui .case-fact { background: var(--paper); }
+.sprint-ui .case-note { background: var(--soft); border-color: var(--line); }
+.sprint-ui .case-note b { color: var(--brand-primary); }
+.sprint-ui .client-checklist li { background: var(--soft); border-color: var(--line); color: var(--ink); }
+.sprint-ui .client-checklist li::before { color: var(--brand-primary); }
+.sprint-ui .procurement-note { color: var(--ink); background: var(--soft); font-size: .875rem; }
+.sprint-ui .brief-benefit { color: var(--muted); }
+.sprint-ui .brief-benefit b { color: var(--brand-primary); background: var(--soft); }
+.sprint-ui .client-tools-wrap { background: var(--paper); border-color: var(--line); }
+.sprint-ui .client-tools-dot { background: var(--brand-primary); box-shadow: 0 0 0 5px #123bd618; }
+.sprint-ui .client-tool-btn { color: var(--ink); background: var(--paper); border-color: #607392; }
+.sprint-ui .client-tool-btn.primary { color: #ffffff; background: var(--navy); border-color: var(--navy); }
+.sprint-ui .client-tool-btn:hover { color: var(--ink); background: var(--soft); border-color: var(--brand-primary); }
+.sprint-ui .client-tool-btn.primary:hover { color: #ffffff; background: #18345d; border-color: #18345d; }
+.sprint-ui .real-dialog-bar button { color: #ffffff; background: var(--navy); }
+.sprint-ui .closing-copy span { color: #dde5f8; }
+.sprint-ui .closing-actions .hot { color: #ffffff; background: var(--brand-primary); border: 1px solid #ffffff; }
+.sprint-ui .closing-actions .ghost { color: #ffffff; border-color: #dde5f8; }
+.sprint-ui .site-footer { background: var(--navy); color: #dde5f8; }
+.sprint-ui .site-footer .social-links a,.sprint-ui .site-footer .text-link { color: #dde5f8; }
+.sprint-ui .footer-bottom { color: #dde5f8; border-color: #455a7b; }
+@media (max-width:1020px) {
+  .sprint-ui #site-nav { background: var(--paper); border-color: var(--line); }
+  .sprint-ui .menu-toggle { background: var(--paper); color: var(--ink); border-color: #607392; }
+}
+@media print {
+  .sprint-ui { color: #111111; background: #ffffff; }
+  .sprint-ui :is(.home-hero,.portfolio-hero,.home-services,.audience-card,.home-industries,.vendor-cap,.procurement,.contact-band,.site-footer) { color: #111111; background: #ffffff !important; }
+  .sprint-ui :is(.home-industries,.vendor-cap,.site-footer) * { color: #111111 !important; }
+}
+
+/* Control boundaries remain visible before focus on light surfaces. */
+.sprint-ui form[data-brief-form] :is(input,select,textarea),
+.sprint-ui .share-fallback input { color: var(--ink); background: #ffffff; border-color: #607392; }
+.sprint-ui form[data-brief-form] :is(input,textarea)::placeholder { color: var(--muted); opacity: 1; }
+.sprint-ui .real-filter { color: var(--ink); background: #ffffff; border-color: #607392; }
+.sprint-ui .real-filter.active { color: #ffffff; background: var(--navy); border-color: var(--navy); }
+
+.sprint-ui form[data-brief-form] :is(input,select,textarea):focus,
+.sprint-ui .share-fallback input:focus { border-color: var(--ink); box-shadow: none; }
+.sprint-ui .real-filter:not(.active):hover { color: var(--ink); background: var(--soft); border-color: var(--brand-primary); }

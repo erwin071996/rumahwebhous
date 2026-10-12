@@ -10,9 +10,9 @@ async function main() {
   const js = fs.readFileSync(path.join(root, "assets/ui/frontend.js"), "utf8");
   const css = fs.readFileSync(path.join(root, "assets/ui/frontend.css"), "utf8");
   const harness = fs.readFileSync(path.join(__dirname, "frontend-controller-harness.cjs"), "utf8");
-  assert.equal(hash(js), "55046a52fe7356287b9829f8cf15befac356a669bfcbd56346b3c2813f4534a6", "Reviewed controller bytes changed");
-  assert.equal(hash(css), "af3558c60cba36d61eaa82878f72d8e4b577478d3ffdc62b2eb8a7825ab6a7ff", "Reviewed CSS bytes changed");
-  assert.equal(hash(harness), "2d1e4b25f9194edc6a4091911cf6a3370aef12bd05f8fe52e8ce47e232617206", "Reviewed harness bytes changed");
+  assert.equal(hash(js), "e2a55d98273daabe61b3636e2bf8ee50bc0ca6bad86e6da075c7ac3cce4ed971", "Reviewed controller bytes changed");
+  assert.equal(hash(css), "15cb99e7acd5aa9ab8a08764b0b98d89ddb8cf04bf0ff6f757007a70400c9908", "Reviewed CSS bytes changed");
+  assert.equal(hash(harness), "85b9b4a0de644a4b2b7440e749167b23922e06c80ef6c0bb60f1ca480c1b4b92", "Reviewed harness bytes changed");
   for (const name of ["index.html", "projects.html"]) {
     const html = fs.readFileSync(path.join(root, name), "utf8");
     const ids = Array.from(html.matchAll(/\bid="([^"]+)"/g), m => m[1]);
@@ -21,11 +21,11 @@ async function main() {
     for (const source of ["/assets/marketing-20261006/site.js", "/assets/marketing-20261006/tools.js", "/assets/ui/frontend.js", "/assets/ui/brief.js"]) {
       assert.equal(Array.from(html.matchAll(/\bsrc="([^"]+)"/g)).filter(m => m[1] === source).length, 1, name + ": script dependency must remain exactly once");
     }
-    assert.ok(!html.includes('id="client-tools-js"') && !html.includes('id="real-portfolio-gallery-js"'), name + ": legacy controller must not duplicate listeners");
+    assert.ok(!html.includes('id="client-tools-js"') && !html.includes('id="real-portfolio-js"'), name + ": legacy controller must not duplicate listeners");
   }
   const result = await runFrontendControllerTests(js);
   console.log(JSON.stringify(result, null, 2));
   assert.equal(result.failed, 0, "Controller stub failed");
-  assert.equal(result.passed, 32, "Expected reviewed regression suite");
+  assert.equal(result.passed, 39, "Expected reviewed regression suite");
 }
 main().catch(error => { console.error(error); process.exitCode = 1; });

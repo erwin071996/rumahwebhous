@@ -87,18 +87,22 @@
   let opener = null;
   let playbackGeneration = 0;
   let dialogUsesFallback = false;
+  function isVideoOpen() {
+    return !!dialog && (dialog.open === true || dialog.hasAttribute("open"));
+  }
   function closeVideo() {
     if (!dialog || !video) return;
     playbackGeneration += 1;
     video.pause();
     video.removeAttribute("src");
     video.load();
-    if (dialog.open) {
-      if (typeof dialog.close === "function") dialog.close();
+    if (isVideoOpen()) {
+      if (!dialogUsesFallback && typeof dialog.close === "function") dialog.close();
       else { dialog.removeAttribute("open"); if (opener) opener.focus(); }
     }
   }
   if (dialog && video && title && closeButton && status && source) {
+    dialog.setAttribute("role", "dialog");
     document.querySelectorAll(".real-video").forEach(function (button) {
       button.type = "button";
       button.disabled = false;
@@ -112,6 +116,8 @@
         title.textContent = button.dataset.title || "Dokumentasi video proyek";
         video.src = url;
         dialogUsesFallback = typeof dialog.showModal !== "function";
+        dialog.setAttribute("aria-modal", String(!dialogUsesFallback));
+        dialog.setAttribute("data-video-fallback", String(dialogUsesFallback));
         if (dialogUsesFallback) {
           status.textContent = "Peramban ini belum mendukung pemutar dialog. Buka file video melalui tautan.";
           dialog.setAttribute("open", "");
@@ -121,26 +127,26 @@
         dialog.showModal();
         closeButton.focus();
         video.play().catch(function () {
-          if (generation === playbackGeneration && dialog.open && !video.error) status.textContent = "Tekan tombol putar untuk melihat dokumentasi.";
+          if (generation === playbackGeneration && isVideoOpen() && !video.error) status.textContent = "Tekan tombol putar untuk melihat dokumentasi.";
         });
       });
     });
-    video.addEventListener("playing", function () { status.textContent = "Dokumentasi video sedang diputar."; });
+    video.addEventListener("playing", function () { if (isVideoOpen() && video.hasAttribute("src")) status.textContent = "Dokumentasi video sedang diputar."; });
     video.addEventListener("error", function () {
-      if (dialog.open) status.textContent = "Video belum dapat dimuat. Coba buka file video, atau bahas dokumentasi proyek dengan tim kami.";
+      if (isVideoOpen()) status.textContent = "Video belum dapat dimuat. Coba buka file video, atau bahas dokumentasi proyek dengan tim kami.";
     });
     closeButton.addEventListener("click", closeVideo);
     dialog.addEventListener("click", function (event) { if (event.target === dialog) closeVideo(); });
     dialog.addEventListener("cancel", function (event) { event.preventDefault(); closeVideo(); });
     document.addEventListener("keydown", function (event) {
-      if (event.key === "Escape" && dialog.open && dialogUsesFallback) {
+      if (event.key === "Escape" && isVideoOpen() && dialogUsesFallback) {
         event.preventDefault();
         event.stopImmediatePropagation();
         closeVideo();
       }
     }, true);
     dialog.addEventListener("close", function () {
-      if (dialog.open) return;
+      if (isVideoOpen()) return;
       playbackGeneration += 1;
       video.pause();
       video.removeAttribute("src");
