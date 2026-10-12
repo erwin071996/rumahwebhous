@@ -103,6 +103,31 @@ class CurlError(RuntimeError):
         self.code = code
 
 
+RECOVERABLE_PUBLIC_PATHS = frozenset({
+    "assets/branding/logo-3dkan-688.webp", "assets/branding/logo-3dkan-original.jpg",
+    "assets/portfolio-real/responsive/cimb-niaga-signage-atm-480.webp",
+    "assets/portfolio-real/responsive/cimb-niaga-signage-atm-768.webp",
+    "assets/ui/brief.css", "assets/ui/brief.js", "assets/ui/frontend.css",
+    "assets/ui/frontend.js", "assets/ui/theme.css", "index.html", "projects.html",
+})
+
+
+def is_recoverable_public_path(path):
+    if not isinstance(path, str) or path == STATE_PATH:
+        return False
+    try:
+        return safe(path) == path and path in RECOVERABLE_PUBLIC_PATHS
+    except ValueError:
+        return False
+
+
+def is_stor_response_timeout(error):
+    """Only the observed natural curl response-timeout diagnostic is eligible."""
+    return (isinstance(error, CurlError) and error.code == 28 and
+            re.fullmatch(r"curl: \(28\) FTP response timeout(?:\ncurl: \(28\) FTP response timeout){0,2}\n?",
+                         str(error)) is not None)
+
+
 class Server:
     """Strict FTPS using the transport verified by the read-only snapshot."""
     def __init__(self):
@@ -308,7 +333,8 @@ def baseline_preflight(server, manifest):
     print(f"Baseline preflight passed for {len(entries)} files; no upload required.")
 
 
-def deploy_changes(server, changes, base, report, *, state_update=None):
+def deploy_changes(server, changes, base, report, *, state_update=None,
+                   allow_uncertain_public_stor=False):
     # state_update is supplied by run_deployment after validating the remote
     # successful commit; direct transaction tests may omit state publication.
     if state_update is not None:
@@ -360,7 +386,22 @@ def deploy_changes(server, changes, base, report, *, state_update=None):
             # Record before STOR, because failed transfers can still truncate.
             touched.append((path, remote))
             save_rollback_plan()
-            server.write(path, desired)
+            try:
+                server.write(path, desired)
+            except CurlError as error:
+                if (not allow_uncertain_public_stor or path == STATE_PATH or
+                        not is_recoverable_public_path(path) or
+                        not is_stor_response_timeout(error)):
+                    raise
+                # Recovery adds only a fresh RETR, never another upload invocation.
+                try:
+                    matches = server.read(path) == desired
+                except Exception:
+                    matches = False
+                if not matches:
+                    raise error from None
+                report.setdefault("recovered_stor_response_timeouts", []).append(
+                    {"path": path, "sha256": digest(desired)})
             if server.read(path) != desired:
                 raise RuntimeError("FTPS readback differs after upload: " + path)
             report["uploaded"].append({"path": path, "sha256": digest(desired)})
@@ -426,7 +467,8 @@ def run_deployment(server, manifest, report):
         report["mode"] = "reviewed source changes"
         changes = planned_changes(base, head)
     deploy_changes(server, changes, base, report,
-                   state_update=(old_state, desired_state))
+                   state_update=(old_state, desired_state),
+                   allow_uncertain_public_stor=True)
 
 
 def require_local_checks():
