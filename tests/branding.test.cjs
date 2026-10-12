@@ -30,4 +30,6 @@ for(const name of ["index.html","projects.html"]) {
  assert(head.lastIndexOf("/assets/ui/theme.css")>head.lastIndexOf("/assets/ui/frontend.css"));
  assert(head.lastIndexOf("/assets/ui/theme.css")>head.lastIndexOf("</style>"));
 }
+const derivativeEvidence=require("./homepage-image-integrity.cjs")();
+assert.equal(derivativeEvidence.status,"PASS");
 console.log("Original logo size/hash/frame and both page/theme references PASS (rendering remains separate)");

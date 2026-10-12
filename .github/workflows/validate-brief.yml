@@ -39,6 +39,8 @@ jobs:
           node tests/brief-markup.test.cjs
           node --check public_html/assets/ui/frontend.js
           node tests/frontend.test.cjs
+          node --check tests/webp-derivative-guard.cjs
+          node tests/webp-derivative-guard.test.cjs
           node tests/branding.test.cjs
 
       - name: Verify rollback source matches live pages

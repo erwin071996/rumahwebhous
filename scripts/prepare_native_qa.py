@@ -119,9 +119,34 @@ def prepare(root, manifest_file, output):
                         "obtainedAt": datetime.now(timezone.utc).isoformat()})
         output.write_text(json.dumps({"manifestObservation": manifest.get("observedAt"),
                           "provenance": manifest.get("provenance"), "records": records}, indent=2) + "\n", encoding="utf-8")
+    # Derivatives are a separate reviewed inventory; original 17 inputs stay exact.
+    derivative_manifest = json.loads(Path("tests/homepage-image-manifest.json").read_text(encoding="utf-8"))
+    expected_derivatives = {
+        "/assets/branding/logo-3dkan-688.webp",
+        "/assets/portfolio-real/responsive/cimb-niaga-signage-atm-480.webp",
+        "/assets/portfolio-real/responsive/cimb-niaga-signage-atm-768.webp",
+    }
+    derivative_entries = derivative_manifest.get("files")
+    if (derivative_manifest.get("schemaVersion") != 1 or not isinstance(derivative_entries, list)
+            or len(derivative_entries) != 3
+            or {entry.get("path") for entry in derivative_entries} != expected_derivatives):
+        raise ValueError("Invalid reviewed derivative inventory")
+    for entry in derivative_entries:
+        relative = validate_entry(entry)
+        if entry.get("mime") != "image/webp" or entry.get("checkoutSource") != "public_html/" + str(relative):
+            raise ValueError("Invalid reviewed derivative source")
+        source_file = root.joinpath(*relative.parts)
+        if source_file.is_symlink() or not source_file.is_file():
+            raise RuntimeError("Missing reviewed derivative: " + entry["path"])
+        with source_file.open("rb") as stream:
+            data = stream.read(entry["bytes"] + 1)
+        verify_data(entry, data, "image/webp")
     candidate_paths = ("index.html", "projects.html", "assets/ui/brief.js", "assets/ui/brief.css",
                        "assets/ui/frontend.js", "assets/ui/frontend.css", "assets/ui/theme.css",
-                       "assets/branding/logo-3dkan-original.jpg")
+                       "assets/branding/logo-3dkan-original.jpg",
+                       "assets/branding/logo-3dkan-688.webp",
+                       "assets/portfolio-real/responsive/cimb-niaga-signage-atm-480.webp",
+                       "assets/portfolio-real/responsive/cimb-niaga-signage-atm-768.webp")
     for relative in candidate_paths:
         file = root / relative
         if file.is_symlink() or not file.is_file():

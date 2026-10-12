@@ -11,7 +11,7 @@ async function main() {
   const css = fs.readFileSync(path.join(root, "assets/ui/frontend.css"), "utf8");
   const harness = fs.readFileSync(path.join(__dirname, "frontend-controller-harness.cjs"), "utf8");
   assert.equal(hash(js), "0f2137981e0b5e6eea0e3ac5899266a0f59ced724090d5ad4b0b504dbddef828", "Reviewed controller bytes changed");
-  assert.equal(hash(css), "f124f0f247e7f0300e7dd98ff333c5048772c59d6171046a725f95511cf2e7f8", "Reviewed CSS bytes changed");
+  assert.equal(hash(css), "fe7371158e9bdd9943944d03a278246f6daf33d606501de0390b2f9a8cf0a107", "Reviewed CSS bytes changed");
   assert.equal(hash(harness), "a2d28ea04daa5e7d26c5e76dd12212c57db68b5be0b9e5c0850af5859eade74d", "Reviewed harness bytes changed");
   for (const name of ["index.html", "projects.html"]) {
     const html = fs.readFileSync(path.join(root, name), "utf8");

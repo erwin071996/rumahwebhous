@@ -1,0 +1,99 @@
+{
+  "schemaVersion": 1,
+  "sourceCommit": "ab9335cb8a80039eb710c0231167c6d490d66e37",
+  "generatorCommit": "d4fda02644f3bb629379ab77c252df07789c37a9",
+  "workflowRun": 38270787344,
+  "artifactId": 11757141182,
+  "encoder": {
+    "pillow": "12.3.0",
+    "resample": "full-frame LANCZOS with rounded proportional height",
+    "crop": false,
+    "colorConversion": false
+  },
+  "masters": [
+    {
+      "path": "public_html/assets/branding/logo-3dkan-original.jpg",
+      "bytes": 191744,
+      "sha256": "2072e61fb6c1391a8c893dd9f37dcb95846220c6d9a4118d4b72ec83b84405d0"
+    },
+    {
+      "path": "public_html/assets/portfolio-real/clean/cimb-niaga-signage-atm.webp",
+      "bytes": 612162,
+      "sha256": "501e6f982db106e44c739b40dcf9416ae31692651c277a00980b3d0b80edf476"
+    }
+  ],
+  "files": [
+    {
+      "path": "/assets/branding/logo-3dkan-688.webp",
+      "checkoutSource": "public_html/assets/branding/logo-3dkan-688.webp",
+      "guardPath": "logo-3dkan-688.webp",
+      "bytes": 41084,
+      "sha256": "30fbd8c27c754bc242c610cb8a88856e9d2f3226eec6149b185bb868168b1ad9",
+      "gitBlob": "4f5791193ff1dcd83546bf0c24bbf5ca584a4b2b",
+      "mime": "image/webp",
+      "dimensions": [
+        688,
+        220
+      ],
+      "codec": "VP8L",
+      "sourcePath": "public_html/assets/branding/logo-3dkan-original.jpg",
+      "sourceSha256": "2072e61fb6c1391a8c893dd9f37dcb95846220c6d9a4118d4b72ec83b84405d0",
+      "encoding": {
+        "lossless": true,
+        "quality": 100,
+        "method": 6,
+        "exact": true
+      },
+      "iccBytes": 0,
+      "iccSha256": null
+    },
+    {
+      "path": "/assets/portfolio-real/responsive/cimb-niaga-signage-atm-480.webp",
+      "checkoutSource": "public_html/assets/portfolio-real/responsive/cimb-niaga-signage-atm-480.webp",
+      "guardPath": "responsive/cimb-niaga-signage-atm-480.webp",
+      "bytes": 151778,
+      "sha256": "a44417b85ba29e0fc3ca596a62ef07f665243049e1c1679b4b4f95ba514d956e",
+      "gitBlob": "265f45955fbb0f9765118c47b7dd1be12657e969",
+      "mime": "image/webp",
+      "dimensions": [
+        480,
+        854
+      ],
+      "codec": "VP8",
+      "sourcePath": "public_html/assets/portfolio-real/clean/cimb-niaga-signage-atm.webp",
+      "sourceSha256": "501e6f982db106e44c739b40dcf9416ae31692651c277a00980b3d0b80edf476",
+      "encoding": {
+        "lossless": false,
+        "quality": 90,
+        "method": 6,
+        "exact": true
+      },
+      "iccBytes": 0,
+      "iccSha256": null
+    },
+    {
+      "path": "/assets/portfolio-real/responsive/cimb-niaga-signage-atm-768.webp",
+      "checkoutSource": "public_html/assets/portfolio-real/responsive/cimb-niaga-signage-atm-768.webp",
+      "guardPath": "responsive/cimb-niaga-signage-atm-768.webp",
+      "bytes": 329912,
+      "sha256": "9b10e4c2d908eef2850541862b523219820ee5db9ba310cc67d2c4eb7c7d5130",
+      "gitBlob": "412bb40ff01048c25769b5503dc52ba89571ea33",
+      "mime": "image/webp",
+      "dimensions": [
+        768,
+        1366
+      ],
+      "codec": "VP8",
+      "sourcePath": "public_html/assets/portfolio-real/clean/cimb-niaga-signage-atm.webp",
+      "sourceSha256": "501e6f982db106e44c739b40dcf9416ae31692651c277a00980b3d0b80edf476",
+      "encoding": {
+        "lossless": false,
+        "quality": 90,
+        "method": 6,
+        "exact": true
+      },
+      "iccBytes": 0,
+      "iccSha256": null
+    }
+  ]
+}

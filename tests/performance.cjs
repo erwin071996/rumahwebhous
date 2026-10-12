@@ -11,7 +11,7 @@ const {execFileSync} = require("node:child_process");
 const {pathToFileURL} = require("node:url");
 const BASE = "5217e1cf524cff9cf6bd9977ba90551389cef51d";
 const HTML = { "index.html": ["d73ab8912162d276a8be606da6d56ecc20db994a", "510984abb196d40c09e96224e6a4166b7698b326ced09a481f143e4dff40a821"], "projects.html": ["82843cc1fb0576a49563e050c4926dc16ec13575", "a7d9f952ef79c554220898abe82d1b98db4e305b312b0cb8295f38e8b20c3033"] };
-const candidatePaths = ["index.html","projects.html","assets/ui/brief.js","assets/ui/brief.css","assets/ui/frontend.js","assets/ui/frontend.css","assets/ui/theme.css","assets/branding/logo-3dkan-original.jpg"];
+const candidatePaths = ["index.html","projects.html","assets/ui/brief.js","assets/ui/brief.css","assets/ui/frontend.js","assets/ui/frontend.css","assets/ui/theme.css","assets/branding/logo-3dkan-original.jpg","assets/branding/logo-3dkan-688.webp","assets/portfolio-real/responsive/cimb-niaga-signage-atm-480.webp","assets/portfolio-real/responsive/cimb-niaga-signage-atm-768.webp"];
 const metrics = ["first-contentful-paint","largest-contentful-paint","speed-index","total-blocking-time","cumulative-layout-shift"];
 const fixture = path.resolve(process.env.PERF_FIXTURE_DIR || "artifacts/native-qa/fixture");
 const out = path.resolve(process.env.PERF_ARTIFACT_DIR || "artifacts/performance");
@@ -100,8 +100,12 @@ async function buildFixtures() {
   if(!entry.checkoutSource) baseline.set(entry.path,b);
   records.push({path:entry.path,bytes:b.length,sha256:digest(b),source:entry.checkoutSource?"immutable checkout photo":"same integrity-pinned public dependency snapshot"});
  }
+ const derivativeManifest=JSON.parse(await fs.readFile("tests/homepage-image-manifest.json","utf8"));
+ assert.equal(derivativeManifest.schemaVersion,1);
+ assert.deepEqual(derivativeManifest.files.map(e=>e.path).sort(),["/assets/branding/logo-3dkan-688.webp","/assets/portfolio-real/responsive/cimb-niaga-signage-atm-480.webp","/assets/portfolio-real/responsive/cimb-niaga-signage-atm-768.webp"].sort());
  for(const relative of candidatePaths) {
   const b=await readChecked(path.join(fixture,relative)),original=await readChecked(path.join("public_html",relative));
+  const derivative=derivativeManifest.files.find(e=>e.path==="/"+relative);if(derivative)checkBytes(b,derivative);
   assert.equal(digest(b),digest(original),"Fixture differs from candidate: "+relative);candidate.set("/"+relative,b);
  }
  for(const [file,[blob,sha256]] of Object.entries(HTML)) {

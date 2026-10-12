@@ -165,3 +165,6 @@ html { scroll-padding-top: 7rem; }
 
 /* Contextual contact links keep these two pages clear of the legacy overlay. */
 .sprint-ui .floating-wa { display: none !important; }
+
+/* Responsive derivatives retain original documentation and print fallback. */
+.sprint-ui picture.responsive-documentation { display: block; }

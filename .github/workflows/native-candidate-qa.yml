@@ -40,6 +40,8 @@ jobs:
           test "$(git rev-parse HEAD)" = "$QA_CANDIDATE_SHA"
           node --version
           python3 --version
+          node --check tests/webp-derivative-guard.cjs
+          node tests/webp-derivative-guard.test.cjs
           node tests/branding.test.cjs
           node --check tests/native-qa.cjs
           python3 -m py_compile scripts/prepare_native_qa.py

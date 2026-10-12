@@ -125,6 +125,68 @@ throw Error("Focus assertion timeout: "+JSON.stringify(info));
 }
 };
 const poll=(p,fn,arg)=>p.waitForFunction(fn,arg,{timeout:4000});
+/* R2 responsive assets: hashes/decoded metadata must pass fixture preparation first. */
+async function responsiveDocumentation(p,mode) {
+const config={mode,logoMaster:"/assets/branding/logo-3dkan-original.jpg",photoMaster:"/assets/portfolio-real/clean/cimb-niaga-signage-atm.webp",logoScreen:"/assets/branding/logo-3dkan-688.webp",photo480:"/assets/portfolio-real/responsive/cimb-niaga-signage-atm-480.webp",photo768:"/assets/portfolio-real/responsive/cimb-niaga-signage-atm-768.webp"};
+assert(["screen","print"].includes(mode),"Unknown responsive media mode");
+try { await p.waitForFunction(c=>{
+const pictures=Array.from(document.querySelectorAll("picture.responsive-documentation"));
+if(pictures.length!==4)return false;
+let logos=0,photos=0,visiblePhotos=0;
+const ok=pictures.every(picture=>{
+const source=picture.querySelector("source"),img=picture.querySelector("img");
+if(!source||!img||picture.querySelectorAll("source").length!==1||picture.querySelectorAll("img").length!==1)return false;
+if(source.getAttribute("media")!=="screen"||source.getAttribute("type")!=="image/webp"||matchMedia(source.media).matches!==(c.mode==="screen"))return false;
+const fallback=new URL(img.src);
+if(fallback.origin!==location.origin)return false;
+const logo=fallback.pathname===c.logoMaster,photo=fallback.pathname===c.photoMaster;
+if(!logo&&!photo)return false;
+if(logo)logos++;else photos++;
+if(img.getAttribute("width")!==(logo?"2048":"1012")||img.getAttribute("height")!==(logo?"654":"1800"))return false;
+const expectedSet=logo?c.logoScreen:c.photo480+" 480w, "+c.photo768+" 768w, "+c.photoMaster+" 1012w";
+const actualSet=(source.getAttribute("srcset")||"").split(",").map(value=>value.trim().replace(/\s+/g," ")).join(", ");
+if(actualSet!==expectedSet)return false;
+const r=img.getBoundingClientRect(),visible=r.width>0&&r.height>0;
+if(c.mode==="print"&&logo)return !visible; /* Header/footer are intentionally hidden on paper. */
+if(c.mode==="print"){if(!visible)return false;visiblePhotos++;}
+if(!img.currentSrc||!img.complete)return false;
+const current=new URL(img.currentSrc);
+if(current.origin!==location.origin)return false;
+const dimensions=logo
+ ? {[c.logoScreen]:[688,220],[c.logoMaster]:[2048,654]}
+ : {[c.photo480]:[480,854],[c.photo768]:[768,1366],[c.photoMaster]:[1012,1800]};
+const expected=dimensions[current.pathname];
+if(!expected||img.naturalWidth<=0||img.naturalHeight<=0||Math.abs(img.naturalWidth/img.naturalHeight-expected[0]/expected[1])>.01)return false;
+if(logo&&(img.naturalWidth!==expected[0]||img.naturalHeight!==expected[1]))return false;
+return c.mode==="print"?current.pathname===c.photoMaster:logo?current.pathname===c.logoScreen:true;
+});
+return ok&&logos===2&&photos===2&&(c.mode!=="print"||visiblePhotos===2);
+},config,{timeout:4000}); }
+catch(error) {
+const details=await p.evaluate(()=>Array.from(document.querySelectorAll("picture.responsive-documentation img")).map(img=>{const r=img.getBoundingClientRect();return {src:img.getAttribute("src"),currentSrc:img.currentSrc,complete:img.complete,naturalWidth:img.naturalWidth,naturalHeight:img.naturalHeight,visible:r.width>0&&r.height>0};}));
+throw Error("Responsive "+mode+" source switch failed: "+JSON.stringify(details));
+}
+await p.evaluate(async c=>{
+const images=Array.from(document.querySelectorAll("picture.responsive-documentation img")).filter(img=>{const r=img.getBoundingClientRect();return c.mode==="screen"||(r.width>0&&r.height>0);});
+const dimensions={[c.logoScreen]:[688,220],[c.logoMaster]:[2048,654],[c.photo480]:[480,854],[c.photo768]:[768,1366],[c.photoMaster]:[1012,1800]},verified=new Set();
+for(const img of images){
+await img.decode();
+const selected=img.currentSrc,url=new URL(selected),expected=dimensions[url.pathname];
+if(url.origin!==location.origin||!expected)throw Error("Unverified selected image: "+selected);
+if(!verified.has(selected)){
+/* A detached src-only image avoids density correction from w-descriptor srcset. */
+const probe=new Image();probe.decoding="async";probe.src=selected;let timer;
+try {await Promise.race([probe.decode(),new Promise((_,reject)=>{timer=setTimeout(()=>reject(Error("Encoded image decode timeout: "+url.pathname)),4000);})]);}
+finally {clearTimeout(timer);}
+if(probe.naturalWidth!==expected[0]||probe.naturalHeight!==expected[1])throw Error("Encoded dimensions mismatch: "+url.pathname+" "+probe.naturalWidth+"x"+probe.naturalHeight);
+verified.add(selected);
+}
+if(img.currentSrc!==selected)throw Error("Image selection changed during decode: "+selected);
+}
+await new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)));
+},config);
+}
+
 async function visibleFocused(p,locator,label) {
 await focused(p,locator);
 const handle=await locator.elementHandle();
@@ -258,13 +320,17 @@ for(let i=0;i<await images.count();i++) {
 const img=images.nth(i); await img.scrollIntoViewIfNeeded(); await img.evaluate(el=>el.decode());
 assert(await img.evaluate(el=>el.complete&&el.naturalWidth>0&&el.naturalHeight>0),"Image failed: "+await img.getAttribute("src"));
 }
+if(url==="/") await responsiveDocumentation(p,"screen");
 for(const selector of [".site-header .brand",".site-footer .footer-brand"]) {
 const brand=p.locator(selector),img=brand.locator("img");
 await img.scrollIntoViewIfNeeded();
-assert(await img.evaluate(el=>{
-const r=el.getBoundingClientRect(),s=getComputedStyle(el),b=getComputedStyle(el.parentElement);
-return new URL(el.currentSrc).pathname==="/assets/branding/logo-3dkan-original.jpg"&&el.naturalWidth===2048&&el.naturalHeight===654&&Math.abs(r.width/r.height-2048/654)<.01&&s.objectFit==="contain"&&s.filter==="none"&&s.opacity==="1"&&s.mixBlendMode==="normal"&&b.backgroundColor==="rgb(255, 255, 255)"&&r.left>=-1&&r.right<=innerWidth+1;
-}),"Original logo geometry/backing failed: "+selector);
+assert(await img.evaluate((el,responsiveHome)=>{
+const backing=el.closest(".brand")||el.closest(".footer-brand");
+if(!backing)return false;
+const r=el.getBoundingClientRect(),s=getComputedStyle(el),b=getComputedStyle(backing);
+const expected=responsiveHome?{path:"/assets/branding/logo-3dkan-688.webp",width:688,height:220}:{path:"/assets/branding/logo-3dkan-original.jpg",width:2048,height:654};
+return new URL(el.currentSrc).pathname===expected.path&&el.naturalWidth===expected.width&&el.naturalHeight===expected.height&&Math.abs(r.width/r.height-2048/654)<.01&&s.objectFit==="contain"&&s.filter==="none"&&s.opacity==="1"&&s.mixBlendMode==="normal"&&b.backgroundColor==="rgb(255, 255, 255)"&&r.left>=-1&&r.right<=innerWidth+1;
+},url==="/"),"Verified logo geometry/backing failed: "+selector);
 }
 const menu=p.locator(".menu-toggle"),headerLogo=p.locator(".site-header .brand img");
 if(await menu.isVisible()) assert(await headerLogo.evaluate((el,m)=>el.getBoundingClientRect().right<=m.getBoundingClientRect().left-4,await menu.elementHandle()),"Logo overlaps mobile Menu");
@@ -272,6 +338,7 @@ await p.locator(".site-footer .footer-brand").scrollIntoViewIfNeeded();await sho
 },why);
 if(viewport.width===1280) await check(key+" print PDF captured (visual review pending)",async()=>{
 if(url==="/projects.html") await p.locator(".real-filter[data-filter=retail]").click(); await p.emulateMedia({media:"print"});
+if(url==="/") await responsiveDocumentation(p,"print");
 if(url==="/projects.html") assert(await p.locator(".real-card").evaluateAll(es=>es.length===10&&es.every(e=>getComputedStyle(e).display!=="none")));
 if(url==="/") {
 assert(await p.locator(".audience-card.corporate p,.audience-card.corporate .eyebrow,.industry-grid span").evaluateAll(es=>es.length>0&&es.every(e=>getComputedStyle(e).color==="rgb(17, 17, 17)")),"Print text is not readable ink");
@@ -287,6 +354,7 @@ if(url==="/") assert(await p.locator("#faq .faq-grid > div:first-child,#faq h2")
 if(url==="/") assert(await p.locator(".location-grid,.location-card").evaluateAll(es=>es.length===4&&es.every(e=>getComputedStyle(e).breakInside==="avoid")),"Printed store-location cards may split");
 const file=path.join(out,key+".pdf"); await p.pdf({path:file,format:"A4",printBackground:true}); artifacts.push(file);
 const defaultPaper=path.join(out,key+"-no-background.pdf"); await p.pdf({path:defaultPaper,format:"A4",printBackground:false}); artifacts.push(defaultPaper); await p.emulateMedia({media:"screen"});
+if(url==="/") await responsiveDocumentation(p,"screen");
 },why);
 dependencyStates.get(c).closing=true; await c.close();
 }
