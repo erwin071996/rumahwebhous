@@ -33,6 +33,7 @@ jobs:
           node -e "if(Number(process.versions.node.split('.')[0]) < 22) throw new Error('Node 22 or later is required')"
           node --check public_html/assets/ui/brief.js
           node tests/brief.test.cjs
+          node tests/brief-markup.test.cjs
 
       - name: Verify rollback source matches live pages
         shell: bash
