@@ -1,0 +1,24 @@
+name: Validate Website Source
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  source-validation:
+    name: Validate imported website source
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+      - name: Validate content, sitemaps, assets, and deployment payload
+        run: python3 scripts/check_site.py
+      - name: Verify drift refusal and failed-upload rollback
+        run: python3 -m unittest discover -s tests -v
+      - name: Check PHP syntax
+        run: find public_html -type f -name '*.php' -print0 | xargs -0 -n1 php -l
