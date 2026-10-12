@@ -120,6 +120,18 @@ class Server:
     def quoted(value):
         return '"' + str(value).replace("\\", "\\\\").replace('"', '\\"').replace("\n", "\\n").replace("\r", "\\r") + '"'
 
+    def trace(self, operation, path=""):
+        if operation not in {"read", "list", "write", "delete"}:
+            raise ValueError("Unexpected FTPS operation")
+        display = safe(path) if path else "[site root]"
+        if path == STATE_PATH:
+            display = "release-state"
+        message = f"FTPS {operation}: {display}"
+        for value in (getattr(self, "user", ""), getattr(self, "password", "")):
+            if value:
+                message = message.replace(value, "[REDACTED]")
+        print(json.dumps(message, ensure_ascii=True)[1:-1], flush=True)
+
     def request(self, path="", extra=()):
         if path:
             safe(path)
@@ -132,12 +144,18 @@ class Server:
             "url = " + self.quoted("ftp://" + self.host + ":21/public_html/" + quote(path, safe="/")),
             *extra,
         ]
-        result = subprocess.run(
-            [self.curl, "-q", "--config", "-"],
-            input=("\n".join(config) + "\n").encode(),
-            capture_output=True, timeout=180,
-            creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0),
-        )
+        # Three 60-second attempts plus two one-second retry delays can
+        # reach 182 seconds. Keep startup margin outside that curl window.
+        try:
+            result = subprocess.run(
+                [self.curl, "-q", "--config", "-"],
+                input=("\n".join(config) + "\n").encode(),
+                capture_output=True, timeout=210,
+                creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0),
+            )
+        except subprocess.TimeoutExpired:
+            # Never expose TimeoutExpired's command, input or captured streams.
+            raise CurlError(28, "FTPS curl exceeded the 210-second subprocess deadline") from None
         if result.returncode:
             error = result.stderr.decode("utf-8", "replace")
             for value in [self.user, self.password]:
@@ -147,6 +165,7 @@ class Server:
         return result.stdout
 
     def read(self, path):
+        self.trace("read", path)
         try:
             return self.request(safe(path))
         except CurlError as error:
@@ -172,15 +191,18 @@ class Server:
         return not any(name == PurePosixPath(path).name for name, _ in entries)
 
     def write(self, path, data):
+        self.trace("write", path)
         with tempfile.TemporaryDirectory() as folder:
             local = Path(folder) / "payload"
             local.write_bytes(data)
             self.request(safe(path), ["ftp-create-dirs", "upload-file = " + self.quoted(local)])
 
     def delete_created(self, path):
+        self.trace("delete", path)
         self.request("", ["list-only", "quote = " + self.quoted("DELE /public_html/" + safe(path))])
 
     def list(self, directory):
+        self.trace("list", directory)
         path = safe(directory).rstrip("/") + "/" if directory else ""
         raw = self.request(path, ['request = "MLSD"']).decode("utf-8")
         entries = []
