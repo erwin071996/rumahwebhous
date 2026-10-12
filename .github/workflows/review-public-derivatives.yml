@@ -1,0 +1,38 @@
+name: Review public image derivatives
+on:
+  pull_request:
+    paths:
+      - "scripts/generate_public_derivatives.py"
+      - "tests/test_public_derivatives.py"
+      - ".github/workflows/review-public-derivatives.yml"
+permissions:
+  contents: read
+jobs:
+  derivative-artifacts:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          persist-credentials: false
+          fetch-depth: 0
+      - name: Install pinned artifact encoder
+        run: |
+          python3 --version
+          python3 -m pip install --disable-pip-version-check --only-binary=:all: --target "$RUNNER_TEMP/3dkan-pillow" Pillow==12.3.0
+          printf 'PYTHONPATH=%s\n' "$RUNNER_TEMP/3dkan-pillow" >> "$GITHUB_ENV"
+      - name: Check synthetic byte and encoder guards
+        run: |
+          python3 -m py_compile scripts/generate_public_derivatives.py tests/test_public_derivatives.py
+          DERIVATIVE_CODEC_TESTS=1 python3 -m unittest discover -s tests -p "test_public_derivatives.py" -v
+      - name: Produce reviewed public artifacts only
+        run: python3 scripts/generate_public_derivatives.py --emit-public-transfer
+      - name: Save derivation report and comparison sheets
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: public-image-derivatives-${{ github.event.pull_request.head.sha }}
+          path: artifacts/public-derivatives
+          if-no-files-found: warn
+          retention-days: 7
