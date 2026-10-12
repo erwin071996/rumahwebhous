@@ -1,4 +1,4 @@
-name: Verify FTPS TLS Compatibility
+name: Verify FTPS Connection Reuse
 on:
   push:
     branches: ['codex/ftps-probe-20261012']
@@ -10,21 +10,24 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 5
     steps:
-      - name: Read-only FTPS target and TLS 1.2 probe
+      - name: Read-only serial multi-file FTPS probe
         env:
           FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
           FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
         run: |
           python - <<'PY'
-          import os, subprocess, hashlib
-          def q(s): return '"'+s.replace('\\','\\\\').replace('"','\\"')+'"'
+          import os, subprocess, hashlib, tempfile, pathlib, json
+          def q(s): return '"'+str(s).replace('\\','\\\\').replace('"','\\"')+'"'
           user=os.environ['FTP_USERNAME']; password=os.environ['FTP_PASSWORD']
-          config=['silent','show-error','ssl-reqd','ipv4','tlsv1.2','tls-max = "1.2"','ftp-method = "singlecwd"','connect-timeout = 12','max-time = 45','user = '+q(user+':'+password),'url = "ftp://kilimanjaro.iixcp.rumahweb.net:21/public_html/index.html"']
-          r=subprocess.run(['curl','-q','--config','-'],input=('\n'.join(config)+'\n').encode(),capture_output=True,timeout=60)
-          if r.returncode:
-              error=r.stderr.decode('utf-8','replace').replace(user,'[REDACTED]').replace(password,'[REDACTED]')
-              print('FTPS_PROBE_FAILED',r.returncode,error[:400]); raise SystemExit(1)
-          sha=hashlib.sha256(r.stdout).hexdigest()
-          assert sha=='510984abb196d40c09e96224e6a4166b7698b326ced09a481f143e4dff40a821', 'Unexpected live source; no import permitted'
-          print('FTPS_PROBE_OK',len(r.stdout),sha)
+          expected=json.loads("{\".htaccess\":\"3ea113bad3488ffd60e5b760a9522166e6f0dbc3a1a19ef944c96c1549396b73\",\"index.html\":\"510984abb196d40c09e96224e6a4166b7698b326ced09a481f143e4dff40a821\",\"includes/content-index.json\":\"76776a7b338c045eb8093f2a32588fb3f21dd2c6e2ad53f66a0857243216d527\"}")
+          with tempfile.TemporaryDirectory() as folder:
+              config=['silent','show-error','ssl-reqd','ipv4','tlsv1.2','tls-max = "1.2"','ftp-method = "singlecwd"','fail-early','connect-timeout = 12','max-time = 45','user = '+q(user+':'+password)]
+              for i,path in enumerate(expected): config.extend(['url = '+q('ftp://kilimanjaro.iixcp.rumahweb.net:21/public_html/'+path),'output = '+q(pathlib.Path(folder)/str(i))])
+              r=subprocess.run(['curl','-q','--config','-'],input=('\n'.join(config)+'\n').encode(),capture_output=True,timeout=150)
+              if r.returncode:
+                  error=r.stderr.decode('utf-8','replace').replace(user,'[REDACTED]').replace(password,'[REDACTED]')
+                  print('FTPS_MULTI_PROBE_FAILED',r.returncode,error[:400]); raise SystemExit(1)
+              for i,path in enumerate(expected):
+                  assert hashlib.sha256((pathlib.Path(folder)/str(i)).read_bytes()).hexdigest()==expected[path], 'Unexpected source bytes'
+              print('FTPS_MULTI_PROBE_OK',len(expected))
           PY
