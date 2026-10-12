@@ -1,0 +1,3360 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>3DKan Advertising - Jasa Pembuatan Huruf Timbul, Neon Box, Reklame & Nametag</title>
+    
+                <!-- Google tag (gtag.js) -->
+            <script async src="https://www.googletagmanager.com/gtag/js?id=AW-467644163">
+            </script>
+            <script>
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+            
+              gtag('config', 'AW-467644163');
+              
+            </script>
+
+    <link rel="icon" href="favicon.png" type="image/x-icon">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon.png">
+    <link rel="apple-touch-icon" href="logo 3d kan.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="description" content="3DKan Advertising - Jasa pembuatan huruf timbul, neon box, reklame, nametag toko. Desain custom, material premium, garansi hingga 3 Bulan. Hubungi 085340382029.">
+    <meta name="keywords" content="jasa huruf timbul, pembuatan neon box, reklame, nametag toko, signage, advertising, 3dkan, huruf timbul stainless, neon box akrilik">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <style>
+        html, body { 
+            overflow-x: hidden; 
+            -webkit-text-size-adjust: 100%; 
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        /* HEADER STYLES - UPDATED WITH LOGO */
+        nav {
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .brand-container {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.5rem 0;
+        }
+        
+        .brand-logo {
+            height: 48px;
+            width: auto;
+            object-fit: contain;
+        }
+        
+        .brand-text {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            line-height: 1.2;
+        }
+        
+        .brand-main {
+            font-weight: 800;
+            font-size: 1.5rem;
+            color: #1e40af;
+            letter-spacing: -0.5px;
+        }
+        
+        .brand-tagline {
+            font-size: 0.7rem;
+            color: #64748b;
+            font-weight: 500;
+            margin-top: -2px;
+        }
+        
+        @media (max-width: 768px) {
+            .brand-container {
+                min-width: 160px !important;
+                gap: 0.5rem;
+            }
+            
+            .brand-logo {
+                height: 36px;
+            }
+            
+            .brand-main {
+                font-size: 1.1rem;
+            }
+            
+            .brand-tagline {
+                font-size: 0.6rem;
+            }
+        }
+        
+        /* Navbar responsive adjustments */
+        @media (max-width: 768px) {
+            nav {
+                padding: 0.5rem 1rem !important;
+                gap: 0.75rem !important;
+            }
+            
+            .brand-container {
+                flex-shrink: 0;
+            }
+            
+            .search-container {
+                min-width: 0 !important;
+                flex: 1 !important;
+            }
+        }
+        
+        @media (min-width: 769px) {
+            .brand-container {
+                flex-shrink: 0;
+            }
+        }
+
+        /* Hero Section New Layout - Clean Blue White Theme */
+        .hero-container {
+            position: relative;
+            width: 100%;
+            min-height: 85vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            padding: 2rem 1rem;
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+        }
+        
+        .hero-content {
+            max-width: 1200px;
+            width: 100%;
+            text-align: center;
+            padding: 3rem 2rem;
+            position: relative;
+            z-index: 2;
+        }
+        
+        /* Background Decorative Elements - Very Subtle */
+        .hero-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(59, 130, 246, 0.03) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(59, 130, 246, 0.03) 0%, transparent 20%);
+            z-index: 1;
+        }
+        
+        .hero-tagline {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: #3b82f6;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 1rem;
+            display: block;
+            position: relative;
+        }
+        
+        .hero-tagline::after {
+            content: '';
+            display: block;
+            width: 40px;
+            height: 2px;
+            background: #3b82f6;
+            margin: 0.5rem auto;
+            opacity: 0.3;
+        }
+        
+        .hero-main-title {
+            font-size: 3.5rem;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 1rem;
+            color: #1e293b;
+            position: relative;
+        }
+        
+        /* Subtle blue accent on main title */
+        .hero-main-title::before {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(90deg, transparent, #3b82f6, transparent);
+            border-radius: 2px;
+            opacity: 0.5;
+        }
+        
+        .hero-subtitle {
+            font-size: 1.5rem;
+            font-weight: 400;
+            color: #475569;
+            margin-bottom: 1.5rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.5;
+        }
+        
+        .hero-description {
+            font-size: 1.125rem;
+            color: #64748b;
+            margin-bottom: 3rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.7;
+        }
+        
+        .hero-cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 4rem;
+        }
+        
+        .cta-button {
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            border: none;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        
+        .cta-primary {
+            background: #3b82f6;
+            color: white;
+        }
+        
+        .cta-primary:hover {
+            background: #2563eb;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(59, 130, 246, 0.2);
+        }
+        
+        .cta-secondary {
+            background: white;
+            color: #3b82f6;
+            border: 2px solid #e2e8f0;
+        }
+        
+        .cta-secondary:hover {
+            background: #f8fafc;
+            transform: translateY(-2px);
+            border-color: #3b82f6;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* STATS WITH REVIEW IMAGES SECTION - UPDATED */
+        .stats-review-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 40px;
+            margin: 60px auto 0;
+            position: relative;
+            z-index: 2;
+            flex-wrap: wrap;
+            max-width: 1400px;
+        }
+
+        .review-side {
+            flex: 0 0 200px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .review-image {
+            width: 100%;
+            height: auto;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+            transition: transform 0.3s ease;
+            border: 2px solid white;
+        }
+
+        .review-image:hover {
+            transform: scale(1.05);
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2);
+        }
+
+        .stats-center {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            max-width: 900px;
+        }
+
+        /* Stats Section - Updated Design */
+        .hero-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 32px;
+            padding: 2rem 1.5rem;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 0 0 1px rgba(0, 0, 0, 0.03);
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            border: none;
+            width: 100%;
+        }
+        
+        .hero-stats::before {
+            content: '';
+            position: absolute;
+            top: -1px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 120px;
+            height: 3px;
+            background: linear-gradient(90deg, #3b82f6, #60a5fa, #3b82f6);
+            border-radius: 0 0 3px 3px;
+        }
+        
+        .stat-item {
+            text-align: center;
+            flex: 1;
+            min-width: 140px;
+            padding: 0.5rem;
+        }
+        
+        .stat-number {
+            font-size: 2.25rem;
+            font-weight: 800;
+            color: #1e293b;
+            margin-bottom: 0.25rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.25rem;
+            line-height: 1;
+        }
+        
+        .stat-number.with-plus::after {
+            content: '+';
+            font-size: 1.75rem;
+            color: #3b82f6;
+            font-weight: 600;
+        }
+        
+        .stat-number.percent::after {
+            content: '%';
+            font-size: 1.75rem;
+            color: #10b981;
+            font-weight: 600;
+            margin-left: 2px;
+        }
+        
+        .stat-label {
+            font-size: 0.8rem;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+            line-height: 1.2;
+        }
+        
+        .stat-subtitle {
+            font-size: 0.7rem;
+            color: #94a3b8;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 500;
+            line-height: 1.2;
+        }
+        
+        /* Remove old separator lines */
+        .stat-item:not(:last-child)::after {
+            display: none;
+        }
+        
+        /* Responsive Design for Stats Review */
+        @media (max-width: 1200px) {
+            .stats-review-container {
+                flex-direction: column;
+                gap: 60px;
+            }
+            
+            .review-side {
+                flex-direction: row;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 30px;
+                max-width: 800px;
+            }
+            
+            .review-image {
+                flex: 0 0 180px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .review-side {
+                gap: 20px;
+            }
+            
+            .review-image {
+                flex: 0 0 150px;
+            }
+            
+            .hero-stats {
+                grid-template-columns: 1fr;
+                max-width: 400px;
+                gap: 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .review-side {
+                gap: 15px;
+            }
+            
+            .review-image {
+                flex: 0 0 120px;
+            }
+        }
+
+        /* Scroll Indicator */
+        .scroll-indicator {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: bounce 2s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {transform: translateY(0) translateX(-50%);}
+            40% {transform: translateY(-10px) translateX(-50%);}
+            60% {transform: translateY(-5px) translateX(-50%);}
+        }
+        
+        /* Gallery Styles - MOBILE TOUCH OPTIMIZATION */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+            padding: 0.5rem;
+        }
+        
+        @media (min-width: 768px) {
+            .gallery-grid {
+                grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+                gap: 2rem;
+                padding: 0;
+            }
+        }
+        
+        .gallery-item {
+            position: relative;
+            border-radius: 12px;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+            background: white;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            border: 1px solid #f1f5f9;
+            /* Touch optimization */
+            touch-action: pan-y;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+        
+        .gallery-item.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .gallery-item img {
+            width: 100%;
+            height: 280px;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+            /* Touch optimization */
+            pointer-events: none;
+        }
+        
+        @media (min-width: 768px) {
+            .gallery-item img {
+                height: 320px;
+            }
+        }
+        
+        .gallery-item:hover img {
+            transform: scale(1.05);
+        }
+        
+        .gallery-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.4) 50%, transparent 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 1.5rem;
+            color: white;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            /* Touch optimization */
+            pointer-events: none;
+        }
+        
+        .gallery-item:hover .gallery-overlay {
+            opacity: 1;
+        }
+        
+        .gallery-category {
+            background: rgba(59, 130, 246, 0.9);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            display: inline-block;
+            width: fit-content;
+        }
+        
+        .gallery-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+        
+        .gallery-description {
+            font-size: 0.875rem;
+            opacity: 0.9;
+        }
+        
+        /* Search Results Info */
+        .search-results-info {
+            text-align: center;
+            padding: 1rem;
+            margin-top: 1rem;
+            color: #64748b;
+            font-size: 0.95rem;
+            background: #f8fafc;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .search-results-info .highlight {
+            color: #3b82f6;
+            font-weight: 600;
+        }
+        
+        .no-results {
+            text-align: center;
+            padding: 3rem 1rem;
+            grid-column: 1 / -1;
+        }
+        
+        .no-results-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: #cbd5e1;
+        }
+        
+        .no-results h4 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #475569;
+            margin-bottom: 0.5rem;
+        }
+        
+        .no-results p {
+            color: #64748b;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+        
+        /* NEW STYLES FOR ADDED SECTIONS */
+        
+        /* Testimonial Styles */
+        .testimonial-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            border-left: 4px solid #3b82f6;
+        }
+        
+        .testimonial-text {
+            font-style: italic;
+            color: #475569;
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+        
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        
+        .testimonial-author-img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        
+        .testimonial-author-info h4 {
+            font-weight: 600;
+            color: #1e293b;
+            font-size: 0.95rem;
+        }
+        
+        .testimonial-author-info p {
+            font-size: 0.8rem;
+            color: #64748b;
+        }
+        
+        /* Process Section Styles */
+        .process-step {
+            text-align: center;
+            padding: 1.5rem;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease;
+        }
+        
+        .process-step:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .process-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #3b82f6, #60a5fa);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            color: white;
+            font-weight: bold;
+            font-size: 1.25rem;
+        }
+        
+        .process-step h4 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #1e293b;
+        }
+        
+        .process-step p {
+            font-size: 0.875rem;
+            color: #64748b;
+            line-height: 1.5;
+        }
+        
+        /* FAQ Section Styles */
+        .faq-item {
+            background: white;
+            border-radius: 8px;
+            margin-bottom: 0.75rem;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e2e8f0;
+        }
+        
+        .faq-question {
+            padding: 1rem 1.25rem;
+            font-weight: 600;
+            color: #1e293b;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background 0.3s ease;
+        }
+        
+        .faq-question:hover {
+            background: #f8fafc;
+        }
+        
+        .faq-question::after {
+            content: '+';
+            font-size: 1.25rem;
+            color: #3b82f6;
+            transition: transform 0.3s ease;
+        }
+        
+        .faq-question.active::after {
+            content: '-';
+        }
+        
+        .faq-answer {
+            padding: 0 1.25rem;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            color: #64748b;
+            line-height: 1.6;
+        }
+        
+        .faq-answer.open {
+            padding: 0 1.25rem 1rem;
+            max-height: 300px;
+        }
+        
+        /* Why Choose Us Section */
+        .feature-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            padding: 1rem;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+        
+        .feature-icon {
+            flex-shrink: 0;
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #3b82f6, #60a5fa);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+        
+        .feature-content h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+            color: #1e293b;
+        }
+        
+        .feature-content p {
+            font-size: 0.875rem;
+            color: #64748b;
+            line-height: 1.5;
+        }
+        
+        /* Service Highlights */
+        .service-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease;
+        }
+        
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+        }
+        
+        .service-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: #10b981;
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        
+        /* Discount Banner */
+        .discount-banner {
+            background: linear-gradient(135deg, #3b82f6, #60a5fa);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            text-align: center;
+            margin: 2rem 0;
+            box-shadow: 0 8px 24px rgba(59, 130, 246, 0.2);
+        }
+        
+        .discount-banner h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        
+        .discount-banner p {
+            opacity: 0.9;
+            margin-bottom: 1rem;
+        }
+        
+        /* WhatsApp Fixed Button */
+        .whatsapp-fixed {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            z-index: 100;
+            background: #25D366;
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 16px rgba(37, 211, 102, 0.3);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .whatsapp-fixed:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 24px rgba(37, 211, 102, 0.4);
+        }
+        
+        /* Trusted Brands Section */
+        .trusted-brands {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 2rem;
+            align-items: center;
+            padding: 1.5rem;
+            background: #f8fafc;
+            border-radius: 12px;
+            margin: 2rem 0;
+        }
+        
+        .brand-logo {
+            height: 40px;
+            opacity: 0.7;
+            transition: opacity 0.3s ease;
+        }
+        
+        .brand-logo:hover {
+            opacity: 1;
+        }
+        
+        /* Service Categories */
+        .service-category {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease;
+        }
+        
+        .service-category:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+        }
+        
+        .service-category h4 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: #1e293b;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .service-category ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .service-category li {
+            padding: 0.5rem 0;
+            color: #475569;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .service-category li::before {
+            content: '✓';
+            color: #10b981;
+            font-weight: bold;
+        }
+        
+        /* Social Media Icons */
+        .social-icons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            transition: transform 0.3s ease;
+        }
+        
+        .social-icon:hover {
+            transform: scale(1.1);
+        }
+        
+        .social-instagram {
+            background: linear-gradient(45deg, #405DE6, #5851DB, #833AB4, #C13584, #E1306C, #FD1D1D);
+        }
+        
+        .social-tiktok {
+            background: #000000;
+        }
+        
+        /* SEARCH AUTOCOMPLETE STYLES */
+        .search-autocomplete {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            margin-top: 8px;
+            z-index: 1000;
+            max-height: 400px;
+            overflow-y: auto;
+            display: none;
+        }
+        
+        .search-autocomplete.active {
+            display: block;
+        }
+        
+        .autocomplete-item {
+            padding: 12px 16px;
+            border-bottom: 1px solid #f1f5f9;
+            cursor: pointer;
+            transition: background 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .autocomplete-item:hover {
+            background: #f8fafc;
+        }
+        
+        .autocomplete-item:last-child {
+            border-bottom: none;
+        }
+        
+        .autocomplete-item img {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+            border-radius: 6px;
+            flex-shrink: 0;
+        }
+        
+        .autocomplete-content {
+            flex: 1;
+        }
+        
+        .autocomplete-title {
+            font-weight: 600;
+            color: #1e293b;
+            font-size: 0.95rem;
+            margin-bottom: 2px;
+        }
+        
+        .autocomplete-category {
+            font-size: 0.75rem;
+            color: #3b82f6;
+            background: #eff6ff;
+            padding: 2px 8px;
+            border-radius: 4px;
+            display: inline-block;
+        }
+        
+        .autocomplete-description {
+            font-size: 0.8rem;
+            color: #64748b;
+            margin-top: 4px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .autocomplete-no-results {
+            padding: 20px;
+            text-align: center;
+            color: #64748b;
+        }
+        
+        /* Search Quick Categories */
+        .search-quick-categories {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 12px;
+            padding: 0 4px;
+        }
+        
+        .quick-category-btn {
+            padding: 6px 12px;
+            background: #f1f5f9;
+            border: none;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            color: #475569;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .quick-category-btn:hover {
+            background: #e2e8f0;
+            color: #3b82f6;
+        }
+        
+        /* Mobile-specific touch optimization */
+        @media (max-width: 768px) {
+            .gallery-item {
+                transition: opacity 0.6s ease, transform 0.6s ease;
+            }
+            
+            .gallery-item:hover img {
+                transform: none;
+            }
+            
+            .gallery-item:active {
+                background-color: rgba(59, 130, 246, 0.05);
+                transform: scale(0.98);
+                transition: transform 0.2s ease;
+            }
+            
+            .gallery-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+                padding: 0.75rem;
+            }
+            
+            .gallery-item img {
+                height: 240px;
+            }
+            
+            /* Search results mobile */
+            .search-results-info {
+                margin: 1rem 0.75rem;
+                padding: 0.875rem;
+                font-size: 0.875rem;
+            }
+            
+            /* Stats mobile optimization */
+            .hero-stats {
+                grid-template-columns: 1fr;
+                max-width: 400px;
+                gap: 20px;
+            }
+            
+            .stat-number {
+                font-size: 1.75rem;
+            }
+            
+            .stat-label {
+                font-size: 0.7rem;
+            }
+            
+            .stat-subtitle {
+                font-size: 0.6rem;
+            }
+            
+            /* New sections mobile */
+            .process-step {
+                padding: 1rem;
+            }
+            
+            .discount-banner {
+                margin: 1rem 0.75rem;
+                padding: 1rem;
+            }
+            
+            .whatsapp-fixed {
+                bottom: 1rem;
+                right: 1rem;
+                width: 56px;
+                height: 56px;
+            }
+            
+            .trusted-brands {
+                gap: 1rem;
+                padding: 1rem;
+            }
+            
+            .brand-logo {
+                height: 30px;
+            }
+            
+            .service-category {
+                padding: 1.5rem;
+            }
+            
+            /* Search autocomplete mobile */
+            .search-autocomplete {
+                position: fixed;
+                top: 70px;
+                left: 16px;
+                right: 16px;
+                max-height: 60vh;
+                z-index: 1001;
+            }
+            
+            .autocomplete-item {
+                padding: 10px 12px;
+            }
+            
+            .autocomplete-item img {
+                width: 40px;
+                height: 40px;
+            }
+        }
+        
+        /* Stagger animation for items */
+        .gallery-item:nth-child(1) { transition-delay: 0.1s; }
+        .gallery-item:nth-child(2) { transition-delay: 0.2s; }
+        .gallery-item:nth-child(3) { transition-delay: 0.3s; }
+        .gallery-item:nth-child(4) { transition-delay: 0.4s; }
+        .gallery-item:nth-child(5) { transition-delay: 0.5s; }
+        .gallery-item:nth-child(6) { transition-delay: 0.6s; }
+        
+        /* Mobile Optimization - 3 BARIS LAYOUT */
+        @media (max-width: 768px) {
+            /* Navbar mobile */
+            nav {
+                padding: 0.75rem 1rem !important;
+                display: flex !important;
+                flex-wrap: nowrap !important;
+                gap: 0.75rem !important;
+                position: relative;
+                align-items: center;
+            }
+            
+            /* BRAND - baris 1 */
+            .brand-container {
+                flex: none !important;
+                min-width: 160px !important;
+            }
+            
+            /* SEARCH - baris 2 */
+            .search-container {
+                flex: 1 !important;
+                min-width: 0 !important;
+                margin: 0 !important;
+            }
+            
+            .search-premium {
+                width: 100% !important;
+                margin: 0 !important;
+            }
+            
+            .search-premium input {
+                width: 100% !important;
+                font-size: 0.875rem !important;
+                padding-left: 2.75rem !important;
+                padding-right: 0.75rem !important;
+                height: 40px !important;
+                background: #f8fafc !important;
+                border: 1px solid #e2e8f0 !important;
+            }
+            
+            .search-premium svg {
+                left: 1rem !important;
+                width: 1.125rem !important;
+                height: 1.125rem !important;
+            }
+            
+            /* MENU BUTTON - baris 3 */
+            .mobile-menu-btn {
+                display: flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+                background: none !important;
+                border: none !important;
+                padding: 0.5rem !important;
+                cursor: pointer !important;
+                flex: none !important;
+                min-width: 40px !important;
+                min-height: 40px !important;
+                -webkit-tap-highlight-color: transparent;
+            }
+            
+            .mobile-menu-btn:active {
+                background-color: rgba(0, 0, 0, 0.05) !important;
+                border-radius: 50%;
+            }
+            
+            /* Mobile Menu Overlay */
+            .mobile-menu-overlay {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.3);
+                z-index: 999;
+                display: none;
+            }
+            
+            .mobile-menu-overlay.active {
+                display: block;
+            }
+            
+            /* Mobile Menu */
+            .mobile-menu {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 70%;
+                height: 100vh;
+                background: white;
+                box-shadow: -5px 0 15px rgba(0,0,0,0.1);
+                z-index: 1000;
+                transition: right 0.3s ease;
+                padding-top: 4rem;
+            }
+            
+            .mobile-menu.active {
+                right: 0;
+            }
+            
+            .mobile-menu a {
+                display: block;
+                padding: 1rem 1.5rem;
+                border-bottom: 1px solid #f1f5f9;
+                font-size: 1rem;
+                color: #334155;
+                text-decoration: none;
+                -webkit-tap-highlight-color: transparent;
+            }
+            
+            .mobile-menu a:active {
+                background-color: #f8fafc;
+            }
+            
+            .nav-links {
+                display: none !important;
+            }
+            
+            /* Modal buttons mobile */
+            .modal-buttons {
+                flex-direction: column !important;
+                gap: 0.75rem !important;
+            }
+            
+            .modal-buttons button {
+                width: 100% !important;
+                min-height: 48px !important;
+                -webkit-tap-highlight-color: transparent;
+            }
+            
+            /* Fix body scroll when menu is open */
+            body.menu-open {
+                overflow: hidden;
+            }
+            
+            /* Hero responsive */
+            .hero-container {
+                min-height: 70vh;
+                padding: 1rem;
+            }
+            
+            .hero-content {
+                padding: 2rem 1rem;
+            }
+            
+            .hero-main-title {
+                font-size: 2.5rem;
+            }
+            
+            .hero-main-title::before {
+                bottom: -8px;
+                width: 40px;
+            }
+            
+            .hero-subtitle {
+                font-size: 1.25rem;
+                padding: 0 0.5rem;
+            }
+            
+            .hero-description {
+                font-size: 1rem;
+                padding: 0 0.5rem;
+            }
+            
+            .hero-cta-buttons {
+                flex-direction: column;
+                align-items: center;
+                gap: 0.75rem;
+                margin-bottom: 3rem;
+            }
+            
+            .cta-button {
+                width: 100%;
+                max-width: 300px;
+                justify-content: center;
+                padding: 0.875rem 1.5rem;
+            }
+        }
+        
+        /* Desktop styles */
+        @media (min-width: 769px) {
+            .mobile-menu-btn {
+                display: none !important;
+            }
+            
+            .mobile-menu,
+            .mobile-menu-overlay {
+                display: none !important;
+            }
+            
+            .nav-links {
+                display: flex !important;
+            }
+        }
+        
+        /* Divider */
+        .section-divider {
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(to right, transparent, #e2e8f0, transparent);
+            margin: 2rem auto;
+            max-width: 600px;
+        }
+        
+        /* Touch optimization */
+        button, 
+        a {
+            touch-action: manipulation;
+            cursor: pointer;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+        
+        /* Improve tap targets for mobile */
+        @media (max-width: 768px) {
+            button, 
+            a {
+                min-height: 44px;
+                min-width: 44px;
+            }
+        }
+        
+        /* Touch Scroll Protection - Prevents accidental clicks during scroll */
+        .touch-scroll-protection {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 10000;
+            background: transparent;
+            display: none;
+        }
+
+        /* SEARCH LOADING ANIMATION */
+        .search-loading {
+            background: linear-gradient(90deg, #f1f5f9 25%, #e2e8f0 50%, #f1f5f9 75%) !important;
+            background-size: 200% 100% !important;
+            animation: loading-shimmer 1.5s infinite linear !important;
+        }
+
+        @keyframes loading-shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+    </style>
+</head>
+
+<body class="font-['Inter'] bg-white text-gray-900">
+
+<!-- TOUCH SCROLL PROTECTION (for mobile) -->
+<div class="touch-scroll-protection" id="touchScrollProtection"></div>
+
+<!-- MOBILE MENU OVERLAY -->
+<div class="mobile-menu-overlay" id="mobileMenuOverlay"></div>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+    <a href="#services" onclick="closeMobileMenu()">Layanan</a>
+    <a href="#process" onclick="closeMobileMenu()">Cara Pesan</a>
+    <a href="projects.html" onclick="closeMobileMenu()">Portfolio</a>
+    <a href="#faq" onclick="closeMobileMenu()">FAQ</a>
+    <a href="#contact" onclick="closeMobileMenu()">Kontak</a>
+</div>
+
+<!-- WHATSAPP FIXED BUTTON -->
+<a href="https://wa.me/6285340382029?text=Halo%203DKan%20Advertising,%20saya%20ingin%20konsultasi%20tentang%20produk%20signage%20dan%20advertising" 
+   class="whatsapp-fixed" target="_blank" aria-label="Chat via WhatsApp"
+   onclick="return trackWhatsApp(this.href);">
+    <svg width="28" height="28" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.76.982.998-3.677-.236-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.9 6.994c-.004 5.45-4.437 9.88-9.885 9.88m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.333.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.333 11.893-11.893 0-3.18-1.24-6.162-3.495-8.411"/>
+    </svg>
+</a>
+
+<!-- NAVBAR - UPDATED WITH LOGO AND BETTER ALIGNMENT -->
+<style>
+    /* HEADER STYLES - IMPROVED PROFESSIONAL LOOK */
+    nav {
+        background: white;
+        border-bottom: 1px solid #e2e8f0;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        position: sticky;
+        top: 0;
+        z-index: 50;
+    }
+    
+    .brand-container {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 0.5rem 0;
+        flex-shrink: 0;
+        min-width: 140px;
+    }
+    
+    .brand-logo {
+        height: 48px;
+        width: auto;
+        object-fit: contain;
+        filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+        transition: transform 0.3s ease;
+    }
+    
+    .brand-logo:hover {
+        transform: scale(1.05);
+    }
+    
+    .brand-text {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        line-height: 1.1;
+    }
+    
+    .brand-main {
+        font-weight: 800;
+        font-size: 1.5rem;
+        background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        letter-spacing: -0.5px;
+    }
+    
+    /* Navbar Container Layout */
+    .nav-container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        gap: 1.5rem;
+    }
+    
+    /* Search Container - Better Alignment */
+    .search-container {
+        flex: 1;
+        min-width: 0;
+        max-width: 600px;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    .search-premium {
+        position: relative;
+        width: 100%;
+    }
+    
+    .search-premium input {
+        width: 100%;
+        padding-left: 3rem;
+        padding-right: 1rem;
+        height: 44px;
+        border: 1.5px solid #e2e8f0;
+        border-radius: 12px;
+        font-size: 0.95rem;
+        transition: all 0.3s ease;
+        background: #f8fafc;
+    }
+    
+    .search-premium input:focus {
+        background: white;
+        border-color: #3b82f6;
+        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        outline: none;
+    }
+    
+    .search-premium svg {
+        position: absolute;
+        left: 1.25rem;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 1.25rem;
+        height: 1.25rem;
+        color: #64748b;
+    }
+    
+    /* Desktop Navigation Links */
+    .nav-links {
+        display: flex;
+        align-items: center;
+        gap: 1.75rem;
+        flex-shrink: 0;
+    }
+    
+    .nav-links a {
+        font-size: 0.9rem;
+        font-weight: 600;
+        color: #4b5563;
+        text-decoration: none;
+        padding: 0.5rem 0;
+        position: relative;
+        transition: color 0.2s ease;
+        white-space: nowrap;
+    }
+    
+    .nav-links a:hover {
+        color: #3b82f6;
+    }
+    
+    .nav-links a::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background: #3b82f6;
+        transition: width 0.3s ease;
+    }
+    
+    .nav-links a:hover::after {
+        width: 100%;
+    }
+    
+    /* Mobile Menu Button */
+    .mobile-menu-btn {
+        display: none;
+        align-items: center;
+        justify-content: center;
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
+        border-radius: 8px;
+        padding: 0.5rem;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        width: 40px;
+        height: 40px;
+        flex-shrink: 0;
+    }
+    
+    .mobile-menu-btn:hover {
+        background: #f1f5f9;
+        border-color: #cbd5e1;
+    }
+    
+    /* Quick Search Categories */
+    .search-quick-categories {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        justify-content: center;
+    }
+    
+    .quick-category-btn {
+        padding: 0.35rem 0.75rem;
+        background: #f1f5f9;
+        border: 1px solid #e2e8f0;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        color: #475569;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        font-weight: 500;
+    }
+    
+    .quick-category-btn:hover {
+        background: #e2e8f0;
+        color: #3b82f6;
+        border-color: #cbd5e1;
+    }
+    
+    /* RESPONSIVE DESIGN */
+    @media (max-width: 1024px) {
+        .brand-container {
+            min-width: 130px;
+        }
+        
+        .brand-logo {
+            height: 42px;
+        }
+        
+        .brand-main {
+            font-size: 1.3rem;
+        }
+        
+        .nav-links {
+            gap: 1.25rem;
+        }
+        
+        .nav-links a {
+            font-size: 0.85rem;
+        }
+        
+        .search-container {
+            max-width: 500px;
+        }
+    }
+    
+    @media (max-width: 768px) {
+        nav {
+            padding: 0.75rem 1rem !important;
+        }
+        
+        .nav-container {
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .brand-container {
+            min-width: 120px;
+            gap: 0.5rem;
+            order: 1;
+        }
+        
+        .brand-logo {
+            height: 38px;
+        }
+        
+        .brand-main {
+            font-size: 1.2rem;
+        }
+        
+        .search-container {
+            order: 3;
+            flex-basis: 100%;
+            max-width: 100%;
+            margin-top: 0.5rem;
+        }
+        
+        .nav-links {
+            display: none;
+        }
+        
+        .mobile-menu-btn {
+            display: flex;
+            order: 2;
+        }
+        
+        .search-quick-categories {
+            display: none;
+        }
+        
+        .search-premium input {
+            height: 42px;
+            font-size: 0.9rem;
+            padding-left: 2.75rem;
+        }
+    }
+    
+    @media (max-width: 480px) {
+        .brand-container {
+            min-width: 110px;
+        }
+        
+        .brand-logo {
+            height: 34px;
+        }
+        
+        .brand-main {
+            font-size: 1.1rem;
+        }
+        
+        .search-premium input {
+            height: 40px;
+            font-size: 0.85rem;
+            padding-left: 2.5rem;
+        }
+    }
+</style>
+
+<!-- NAVBAR - CLEAN & PROFESSIONAL LAYOUT -->
+<nav class="w-full px-4 sm:px-6 py-3 sticky top-0 z-40">
+    <div class="nav-container">
+        <!-- BRAND LOGO ONLY - SIMPLIFIED -->
+        <div class="brand-container">
+            <img src="logo 3d kan.png" 
+                 alt="3DKan Advertising Logo" 
+                 class="brand-logo"
+                 onerror="this.onerror=null; this.src='https://via.placeholder.com/48x48/1e40af/ffffff?text=3DK'">
+        </div>
+        
+        <!-- SEARCH BAR -->
+        <div class="search-container">
+            <div class="relative search-premium">
+                <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5 text-gray-400 pointer-events-none"
+                     fill="none" stroke="currentColor" stroke-width="2"
+                     viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                          d="M21 21l-4.35-4.35m1.6-5.4a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
+                <input
+                    id="searchInput"
+                    type="text"
+                    placeholder="Cari neon box, huruf timbul, nametag..."
+                    class="w-full pl-10 sm:pl-12 pr-3 sm:pr-5 py-2.5 sm:py-3 rounded-full border border-gray-200
+                           text-sm outline-none transition-all duration-300
+                           focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20
+                           placeholder:text-gray-400 placeholder:text-sm"
+                    autocomplete="off"
+                />
+                <!-- AUTOCOMPLETE CONTAINER -->
+                <div id="searchAutocomplete" class="search-autocomplete"></div>
+            </div>
+            
+            
+        </div>
+        
+        <!-- DESKTOP NAV LINKS -->
+        <div class="nav-links">
+            <a href="#services">Layanan</a>
+            <a href="#process">Cara Pesan</a>
+            <a href="projects.html">Portfolio</a>
+            <a href="#contact">Kontak</a>
+        </div>
+        
+        <!-- MOBILE MENU BUTTON -->
+        <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Open menu">
+            <svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+        </button>
+    </div>
+</nav>
+
+<!-- HERO SECTION - Updated with Trust Signals -->
+<section id="home">
+    <div class="hero-container">
+        <div class="hero-content">
+            <!-- Tagline / Kategori -->
+            <span class="hero-tagline">JASA PEMBUATAN HURUF TIMBUL, NEON BOX & NAMETAG</span>
+            
+            <!-- Judul Utama -->
+            <h1 class="hero-main-title">
+                Bikin Toko Anda Terlihat & Tak Terlupakan
+            </h1>
+            
+            <!-- Sub Judul -->
+            <h2 class="hero-subtitle">
+                Jasa Pembuatan Huruf Timbul, Neon Box, Reklame & Nametag Premium
+            </h2>
+            
+            <!-- Keterangan / Deskripsi -->
+            <p class="hero-description">
+                Kami menyediakan solusi signage yang eye-catching, tahan lama, dan sesuai brand 
+                untuk toko, kantor, restoran, dan usaha Anda. Dengan pengalaman 500+ proyek sukses 
+                dan garansi hingga 3 Bulan.
+            </p>
+            
+            <!-- Testimonials -->
+            <div class="flex flex-col md:flex-row gap-4 mb-6 justify-center max-w-4xl mx-auto">
+                <div class="testimonial-card flex-1">
+                    <p class="testimonial-text">"Hasilnya luar biasa! Toko saya langsung jadi pusat perhatian di mall. Pelanggan mudah menemukan lokasi kami."</p>
+                    <div class="testimonial-author">
+                        <div class="testimonial-author-info">
+                            <h4>Iwan Setiawan</h4>
+                            <p>Owner Sportfit Store</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card flex-1">
+                    <p class="testimonial-text">"Garansi 3 Bulan bikin saya tenang, pelayanannya cepat dan hasilnya premium. Recommended!"</p>
+                    <div class="testimonial-author">
+                        <div class="testimonial-author-info">
+                            <h4>Maya Sari</h4>
+                            <p>Kedai Kopi Teman Kopi</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Call to Action Buttons -->
+            <div class="hero-cta-buttons">
+                <a href="#services" class="cta-button cta-primary">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    Lihat Semua Layanan
+                </a>
+                <a href="https://wa.me/6285340382029?text=Halo%203DKan%20Advertising,%20saya%20ingin%20konsultasi%20dan%20survey%20gratis%20untuk%20signage%20toko%20saya" 
+                   class="cta-button cta-secondary"
+                   onclick="return trackWhatsApp(this.href);">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.76.982.998-3.677-.236-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.9 6.994c-.004 5.45-4.437 9.88-9.885 9.88m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.333.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.333 11.893-11.893 0-3.18-1.24-6.162-3.495-8.411"/>
+                    </svg>
+                    Konsultasi & Survey Gratis
+                </a>
+            </div>
+<!-- KLIEN SECTION - PREMIUM LOGO MARQUEE -->
+<section id="clients" class="px-4 sm:px-6 md:px-8 py-12 sm:py-16" style="background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%); position: relative; overflow: hidden;">
+    <div class="max-w-7xl mx-auto">
+        <!-- Header dengan Badge -->
+        <div class="text-center mb-10 sm:mb-12">
+            <div class="inline-flex items-center gap-2 bg-gradient-to-r from-blue-600 to-blue-800 text-white px-4 py-2 rounded-full mb-4">
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+                <span class="font-semibold text-sm">TRUSTED BY TOP BRANDS</span>
+            </div>
+            <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-3">
+                Dipercaya 500+ Brand <span class="text-blue-600">Terkenal</span> Indonesia
+            </h2>
+            <p class="text-gray-600 max-w-2xl mx-auto text-base sm:text-lg">
+                Brand-brand ini adalah bukti nyata kualitas kerja kami yang diakui industri
+            </p>
+        </div>
+        
+        <!-- Marquee Container 1 - TOP BRANDS -->
+        <div class="relative mb-8 sm:mb-10">
+            <div class="overflow-hidden rounded-xl bg-white p-4 sm:p-6 shadow-lg border border-gray-100">
+                <!-- Marquee Track dengan Hover Effect -->
+                <div class="flex animate-marquee whitespace-nowrap gap-6 sm:gap-8 md:gap-10 py-2">
+                    <!-- BANKING & FINANCE -->
+                    <a href="https://www.bca.co.id" target="_blank" rel="noopener noreferrer" class="client-logo flex-shrink-0 transition-all duration-300 opacity-80 hover:opacity-100 hover:scale-105">
+                        <img src=#"https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Bank_Central_Asia.svg/2560px-Bank_Central_Asia.svg.png" 
+                             alt="BCA" 
+                             class="h-8 sm:h-10 md:h-12 w-auto object-contain"
+                             onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\'bg-blue-900 text-white px-4 py-2 rounded-lg font-bold text-sm\'>BCA</div>'">
+                    </a>
+                    
+                    <a href="https://www.bankmandiri.co.id" target="_blank" rel="noopener noreferrer" class="client-logo flex-shrink-0 transition-all duration-300 opacity-80 hover:opacity-100 hover:scale-105">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a1/Logo_Mandiri.svg/2560px-Logo_Mandiri.svg.png" 
+                             alt="Bank Mandiri" 
+                             class="h-8 sm:h-10 md:h-12 w-auto object-contain"
+                             onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\'bg-blue-800 text-white px-4 py-2 rounded-lg font-bold text-sm\'>MANDIRI</div>'">
+                    </a>
+                    
+                    <a href="https://www.bni.co.id" target="_blank" rel="noopener noreferrer" class="client-logo flex-shrink-0 transition-all duration-300 opacity-80 hover:opacity-100 hover:scale-105">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/55/BNI_logo.svg/2560px-BNI_logo.svg.png" 
+                             alt="BNI" 
+                             class="h-8 sm:h-10 md:h-12 w-auto object-contain"
+                             onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\'bg-blue-900 text-white px-4 py-2 rounded-lg font-bold text-sm\'>BNI</div>'">
+                    </a>
+                    
+                    <!-- E-COMMERCE -->
+                    <a href="https://www.tokopedia.com" target="_blank" rel="noopener noreferrer" class="client-logo flex-shrink-0 transition-all duration-300 opacity-80 hover:opacity-100 hover:scale-105">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Tokopedia_Emblem_2021.svg/2560px-Tokopedia_Emblem_2021.svg.png" 
+                             alt="Tokopedia" 
+                             class="h-8 sm:h-10 md:h-12 w-auto object-contain"
+                             onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\'bg-green-500 text-white px-4 py-2 rounded-lg font-bold text-sm\'>TOKOPEDIA</div>'">
+                    </a>
+                    
+                    <a href="https://shopee.co.id" target="_blank" rel="noopener noreferrer" class="client-logo flex-shrink-0 transition-all duration-300 opacity-80 hover:opacity-100 hover:scale-105">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Shopee_logo.svg/2560px-Shopee_logo.svg.png" 
+                             alt="Shopee" 
+                             class="h-8 sm:h-10 md:h-12 w-auto object-contain"
+                             onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\'bg-orange-500 text-white px-4 py-2 rounded-lg font-bold text-sm\'>SHOPEE</div>'">
+                    </a>
+                    
+                    <!-- RETAIL -->
+                    <a href="https://www.indomaret.co.id" target="_blank" rel="noopener noreferrer" class="client-logo flex-shrink-0 transition-all duration-300 opacity-80 hover:opacity-100 hover:scale-105">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a6/Logo_Indomaret.svg/2560px-Logo_Indomaret.svg.png" 
+                             alt="Indomaret" 
+                             class="h-8 sm:h-10 md:h-12 w-auto object-contain"
+                             onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\'bg-red-600 text-white px-4 py-2 rounded-lg font-bold text-sm\'>INDOMARET</div>'">
+                    </a>
+                    
+                    <a href="https://www.alfamart.co.id" target="_blank" rel="noopener noreferrer" class="client-logo flex-shrink-0 transition-all duration-300 opacity-80 hover:opacity-100 hover:scale-105">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/39/Alfamart_logo.svg/2560px-Alfamart_logo.svg.png" 
+                             alt="Alfamart" 
+                             class="h-8 sm:h-10 md:h-12 w-auto object-contain"
+                             onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\'bg-green-600 text-white px-4 py-2 rounded-lg font-bold text-sm\'>ALFAMART</div>'">
+                    </a>
+                    
+                    <!-- STATE-OWNED -->
+                    <a href="https://www.pertamina.com" target="_blank" rel="noopener noreferrer" class="client-logo flex-shrink-0 transition-all duration-300 opacity-80 hover:opacity-100 hover:scale-105">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/Logo_Pertamina_2016.svg/2560px-Logo_Pertamina_2016.svg.png" 
+                             alt="Pertamina" 
+                             class="h-8 sm:h-10 md:h-12 w-auto object-contain"
+                             onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\'bg-teal-500 text-white px-4 py-2 rounded-lg font-bold text-sm\'>PERTAMINA</div>'">
+                    </a>
+                    
+                    <!-- DUPLICATE FOR SEAMLESS LOOP -->
+                    <a href="https://www.bca.co.id" target="_blank" rel="noopener noreferrer" class="client-logo flex-shrink-0 transition-all duration-300 opacity-80 hover:opacity-100 hover:scale-105">
+                        <img src=#"https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Bank_Central_Asia.svg/2560px-Bank_Central_Asia.svg.png" 
+                             alt="BCA" 
+                             class="h-8 sm:h-10 md:h-12 w-auto object-contain"
+                             onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\'bg-blue-900 text-white px-4 py-2 rounded-lg font-bold text-sm\'>BCA</div>'">
+                    </a>
+                    
+                    <a href="https://www.bankmandiri.co.id" target="_blank" rel="noopener noreferrer" class="client-logo flex-shrink-0 transition-all duration-300 opacity-80 hover:opacity-100 hover:scale-105">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a1/Logo_Mandiri.svg/2560px-Logo_Mandiri.svg.png" 
+                             alt="Bank Mandiri" 
+                             class="h-8 sm:h-10 md:h-12 w-auto object-contain"
+                             onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\'bg-blue-800 text-white px-4 py-2 rounded-lg font-bold text-sm\'>MANDIRI</div>'">
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Marquee Container 2 - MORE BRANDS (Reverse Direction) -->
+        <div class="relative mb-10 sm:mb-12">
+            <div class="overflow-hidden rounded-xl bg-white p-4 sm:p-6 shadow-lg border border-gray-100">
+                <div class="flex animate-marquee-reverse whitespace-nowrap gap-6 sm:gap-8 md:gap-10 py-2">
+                    <!-- TECH & RIDE-HAILING -->
+                    <a href="https://www.gojek.com" target="_blank" rel="noopener noreferrer" class="client-logo flex-shrink-0 transition-all duration-300 opacity-80 hover:opacity-100 hover:scale-105">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/Gojek_logo_2019.svg/2560px-Gojek_logo_2019.svg.png" 
+                             alt="Gojek" 
+                             class="h-8 sm:h-10 md:h-12 w-auto object-contain"
+                             onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\'bg-green-600 text-white px-4 py-2 rounded-lg font-bold text-sm\'>GOJEK</div>'">
+                    </a>
+                    
+                    <a href="https://www.grab.com/id" target="_blank" rel="noopener noreferrer" class="client-logo flex-shrink-0 transition-all duration-300 opacity-80 hover:opacity-100 hover:scale-105">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/Grab_Logo_2019.svg/2560px-Grab_Logo_2019.svg.png" 
+                             alt="Grab" 
+                             class="h-8 sm:h-10 md:h-12 w-auto object-contain"
+                             onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\'bg-green-500 text-white px-4 py-2 rounded-lg font-bold text-sm\'>GRAB</div>'">
+                    </a>
+                    
+                    <!-- FMCG -->
+                    <a href="https://www.unilever.co.id" target="_blank" rel="noopener noreferrer" class="client-logo flex-shrink-0 transition-all duration-300 opacity-80 hover:opacity-100 hover:scale-105">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c0/Unilever_logo_2014.svg/2560px-Unilever_logo_2014.svg.png" 
+                             alt="Unilever" 
+                             class="h-8 sm:h-10 md:h-12 w-auto object-contain"
+                             onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\'bg-blue-600 text-white px-4 py-2 rounded-lg font-bold text-sm\'>UNILEVER</div>'">
+                    </a>
+                    
+                    <a href="https://www.indofood.com" target="_blank" rel="noopener noreferrer" class="client-logo flex-shrink-0 transition-all duration-300 opacity-80 hover:opacity-100 hover:scale-105">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f4/Indofood_logo.svg/2560px-Indofood_logo.svg.png" 
+                             alt="Indofood" 
+                             class="h-8 sm:h-10 md:h-12 w-auto object-contain"
+                             onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\'bg-red-600 text-white px-4 py-2 rounded-lg font-bold text-sm\'>INDOFOOD</div>'">
+                    </a>
+                    
+                    <a href="https://www.aqua.com" target="_blank" rel="noopener noreferrer" class="client-logo flex-shrink-0 transition-all duration-300 opacity-80 hover:opacity-100 hover:scale-105">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8d/AQUA_logo_2018.svg/2560px-AQUA_logo_2018.svg.png" 
+                             alt="Aqua" 
+                             class="h-8 sm:h-10 md:h-12 w-auto object-contain"
+                             onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\'bg-teal-500 text-white px-4 py-2 rounded-lg font-bold text-sm\'>AQUA</div>'">
+                    </a>
+                    
+                    <!-- TELCO -->
+                    <a href="https://www.xl.co.id" target="_blank" rel="noopener noreferrer" class="client-logo flex-shrink-0 transition-all duration-300 opacity-80 hover:opacity-100 hover:scale-105">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/71/XL_Axiata_logo.svg/2560px-XL_Axiata_logo.svg.png" 
+                             alt="XL Axiata" 
+                             class="h-8 sm:h-10 md:h-12 w-auto object-contain"
+                             onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\'bg-red-600 text-white px-4 py-2 rounded-lg font-bold text-sm\'>XL</div>'">
+                    </a>
+                    
+                    <!-- DUPLICATE FOR SEAMLESS LOOP -->
+                    <a href="https://www.gojek.com" target="_blank" rel="noopener noreferrer" class="client-logo flex-shrink-0 transition-all duration-300 opacity-80 hover:opacity-100 hover:scale-105">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/Gojek_logo_2019.svg/2560px-Gojek_logo_2019.svg.png" 
+                             alt="Gojek" 
+                             class="h-8 sm:h-10 md:h-12 w-auto object-contain"
+                             onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\'bg-green-600 text-white px-4 py-2 rounded-lg font-bold text-sm\'>GOJEK</div>'">
+                    </a>
+                    
+                    <a href="https://www.grab.com/id" target="_blank" rel="noopener noreferrer" class="client-logo flex-shrink-0 transition-all duration-300 opacity-80 hover:opacity-100 hover:scale-105">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/Grab_Logo_2019.svg/2560px-Grab_Logo_2019.svg.png" 
+                             alt="Grab" 
+                             class="h-8 sm:h-10 md:h-12 w-auto object-contain"
+                             onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\'bg-green-500 text-white px-4 py-2 rounded-lg font-bold text-sm\'>GRAB</div>'">
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Stats Row -->
+        <div class="flex flex-wrap justify-center gap-6 sm:gap-8 md:gap-12 mb-10">
+            <div class="text-center">
+                <div class="text-2xl sm:text-3xl md:text-4xl font-bold text-blue-600 mb-1">500+</div>
+                <div class="text-sm sm:text-base text-gray-600 font-semibold">Proyek Selesai</div>
+            </div>
+            <div class="text-center">
+                <div class="text-2xl sm:text-3xl md:text-4xl font-bold text-emerald-600 mb-1">98%</div>
+                <div class="text-sm sm:text-base text-gray-600 font-semibold">Kepuasan Klien</div>
+            </div>
+            <div class="text-center">
+                <div class="text-2xl sm:text-3xl md:text-4xl font-bold text-purple-600 mb-1">50+</div>
+                <div class="text-sm sm:text-base text-gray-600 font-semibold">Brand Ternama</div>
+            </div>
+        </div>
+        
+        <!-- CTA Button -->
+        <div class="text-center">
+            <a href="https://wa.me/6285340382029?text=Halo%203DKan,%20saya%20tertarik%20dengan%20portfolio%20klien%20Anda%20dan%20ingin%20konsultasi%20proyek" 
+               class="inline-flex items-center gap-2 bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white px-6 py-3 sm:px-8 sm:py-4 rounded-xl font-semibold transition-all duration-300 hover:shadow-lg hover:-translate-y-1"
+               onclick="return trackWhatsApp(this.href);">
+                <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                </svg>
+                <span class="text-sm sm:text-base">Jadilah Bagian dari Klien Premium Kami</span>
+            </a>
+        </div>
+    </div>
+    
+    <!-- Animasi Marquee -->
+    <style>
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        
+        @keyframes marquee-reverse {
+            0% { transform: translateX(-50%); }
+            100% { transform: translateX(0); }
+        }
+        
+        .animate-marquee {
+            animation: marquee 30s linear infinite;
+        }
+        
+        .animate-marquee-reverse {
+            animation: marquee-reverse 25s linear infinite;
+        }
+        
+        /* Pause animation on hover */
+        .client-logo:hover ~ .animate-marquee,
+        .client-logo:hover ~ .animate-marquee-reverse {
+            animation-play-state: paused;
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .animate-marquee {
+                animation-duration: 20s;
+            }
+            .animate-marquee-reverse {
+                animation-duration: 18s;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .animate-marquee {
+                animation-duration: 15s;
+            }
+            .animate-marquee-reverse {
+                animation-duration: 13s;
+            }
+        }
+    </style>
+</section>            
+            </div>
+        </div>
+        
+        <!-- Scroll Indicator -->
+        <div class="scroll-indicator">
+            <svg class="w-6 h-6 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+            </svg>
+        </div>
+</section>
+
+<!-- DISCOUNT BANNER -->
+<div class="px-4 sm:px-6">
+    <div class="max-w-4xl mx-auto">
+        <div class="discount-banner">
+            <h3>🔥 DISCOUNT 10% untuk Pemesanan Pertama!</h3>
+            <p>Promo terbatas. Hubungi kami via WhatsApp: 0853-4038-2029</p>
+            <a href="https://wa.me/6285340382029?text=Halo%203DKan,%20saya%20ingin%20klaim%20diskon%2010%25%20untuk%20pemesanan%20pertama" 
+               class="inline-block px-6 py-3 bg-white text-blue-600 font-bold rounded-lg hover:bg-gray-100 transition"
+               onclick="return trackWhatsApp(this.href);">
+                PESAN SEKARANG VIA WHATSAPP
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- SERVICES SECTION -->
+<section id="services" class="px-4 sm:px-6 md:px-8 py-12 sm:py-16 bg-gray-50">
+    <div class="max-w-6xl mx-auto">
+        <div class="text-center mb-12">
+            <h3 class="text-2xl sm:text-3xl font-extrabold mb-3">Jasa Pembuatan Kami</h3>
+            <p class="text-gray-500 max-w-2xl mx-auto">Solusi lengkap untuk kebutuhan signage dan advertising bisnis Anda</p>
+        </div>
+        
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <!-- Kategori 1: Huruf Timbul -->
+            <div class="service-category">
+                <h4>
+                    <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                    PEMBUATAN HURUF TIMBUL
+                </h4>
+                <ul>
+                    <li>Huruf Timbul Stainless Steel 304</li>
+                    <li>Huruf Timbul Akrilik Premium</li>
+                    <li>Huruf Timbul ACP (Aluminum Composite Panel)</li>
+                    <li>Huruf Timbul Kuningan & Tembaga</li>
+                    <li>Huruf Timbul Backlit (Cahaya dari Dalam)</li>
+                    <li>Custom Desain Huruf Timbul 3D</li>
+                </ul>
+                <a href="https://wa.me/6285340382029?text=Halo%203DKan,%20saya%20ingin%20konsultasi%20tentang%20pembuatan%20huruf%20timbul" 
+                   class="mt-4 inline-block text-blue-600 font-medium hover:text-blue-800"
+                   onclick="return trackWhatsApp(this.href);">
+                    Konsultasi Pembuatan Huruf Timbul →
+                </a>
+            </div>
+            
+            <!-- Kategori 2: Neon Box -->
+            <div class="service-category">
+                <h4>
+                    <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                    </svg>
+                    PEMBUATAN NEON BOX
+                </h4>
+                <ul>
+                    <li>Neon Box Akrilik Backlit LED</li>
+                    <li>Neon Box Full Color RGB</li>
+                    <li>Neon Box Custom Shape (Bulat, Oval, Unik)</li>
+                    <li>Neon Box dengan Remote Control</li>
+                    <li>Neon Box Waterproof untuk Outdoor</li>
+                    <li>Neon Box dengan Efek Animasi</li>
+                </ul>
+                <a href="https://wa.me/6285340382029?text=Halo%203DKan,%20saya%20ingin%20konsultasi%20tentang%20pembuatan%20neon%20box" 
+                   class="mt-4 inline-block text-blue-600 font-medium hover:text-blue-800"
+                   onclick="return trackWhatsApp(this.href);">
+                    Konsultasi Pembuatan Neon Box →
+                </a>
+            </div>
+            
+            <!-- Kategori 3: Reklame -->
+            <div class="service-category">
+                <h4>
+                    <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                    </svg>
+                    PEMBUATAN REKLAME
+                </h4>
+                <ul>
+                    <li>Reklame Billboard Outdoor</li>
+                    <li>Reklame Spanduk & Banner</li>
+                    <li>Reklame Digital Printing</li>
+                    <li>Reklame UV Printing pada Akrilik</li>
+                    <li>Reklame Lightbox (Kotak Cahaya)</li>
+                    <li>Reklame Pylon Sign (Tiang Tinggi)</li>
+                </ul>
+                <a href="https://wa.me/6285340382029?text=Halo%203DKan,%20saya%20ingin%20konsultasi%20tentang%20pembuatan%20reklame" 
+                   class="mt-4 inline-block text-blue-600 font-medium hover:text-blue-800"
+                   onclick="return trackWhatsApp(this.href);">
+                    Konsultasi Pembuatan Reklame →
+                </a>
+            </div>
+            
+            <!-- Kategori 4: Nametag -->
+            <div class="service-category">
+                <h4>
+                    <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                    </svg>
+                    PEMBUATAN NAMETAG
+                </h4>
+                <ul>
+                    <li>Nametag Akrilik Illuminasi</li>
+                    <li>Nametag Stainless Steel</li>
+                    <li>Nametag Kayu dengan Laser Cut</li>
+                    <li>Nametag LED Backlit</li>
+                    <li>Nametag Marmer & Granit</li>
+                    <li>Nametag Custom 3D</li>
+                </ul>
+                <a href="https://wa.me/6285340382029?text=Halo%203DKan,%20saya%20ingin%20konsultasi%20tentang%20pembuatan%20nametag" 
+                   class="mt-4 inline-block text-blue-600 font-medium hover:text-blue-800"
+                   onclick="return trackWhatsApp(this.href);">
+                    Konsultasi Pembuatan Nametag →
+                </a>
+            </div>
+        </div>
+        
+        <!-- Additional Features -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-12">
+            <div class="feature-item">
+                <div class="feature-icon">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                    </svg>
+                </div>
+                <div class="feature-content">
+                    <h4>Material Premium</h4>
+                    <p>Akrilik tebal, stainless steel 304, LED berkualitas</p>
+                </div>
+            </div>
+            
+            <div class="feature-item">
+                <div class="feature-icon">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                    </svg>
+                </div>
+                <div class="feature-content">
+                    <h4>Cepat & Tepat Waktu</h4>
+                    <p>Pengerjaan 3-10 hari, sesuai deadline</p>
+                </div>
+            </div>
+            
+            <div class="feature-item">
+                <div class="feature-icon">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                </div>
+                <div class="feature-content">
+                    <h4>Garansi Hingga 3 Bulan</h4>
+                    <p>Jaminan kualitas material & pemasangan</p>
+                </div>
+            </div>
+            
+            <div class="feature-item">
+                <div class="feature-icon">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                    </svg>
+                </div>
+                <div class="feature-content">
+                    <h4>Tim Profesional</h4>
+                    <p>Desainer & pemasang berpengalaman</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- PROCESS SECTION -->
+<section id="process" class="px-4 sm:px-6 md:px-8 py-12 sm:py-16">
+    <div class="max-w-4xl mx-auto">
+        <div class="text-center mb-12">
+            <h3 class="text-2xl sm:text-3xl font-extrabold mb-3">Cara Pemesanan Mudah</h3>
+            <p class="text-gray-500">4 Langkah mudah untuk mendapatkan signage terbaik untuk bisnis Anda</p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+            <!-- Step 1 -->
+            <div class="process-step">
+                <div class="process-icon">1</div>
+                <h4>Hubungi via WhatsApp</h4>
+                <p>Chat kami di <strong>0853-4038-2029</strong> untuk konsultasi gratis</p>
+            </div>
+            
+            <!-- Step 2 -->
+            <div class="process-step">
+                <div class="process-icon">2</div>
+                <h4>Survey & Desain</h4>
+                <p>Tim kami survey lokasi dan buatkan 2-3 konsep desain gratis</p>
+            </div>
+            
+            <!-- Step 3 -->
+            <div class="process-step">
+                <div class="process-icon">3</div>
+                <h4>Konfirmasi & DP</h4>
+                <p>Setelah deal, bayar DP 50% dan kami mulai produksi</p>
+            </div>
+            
+            <!-- Step 4 -->
+            <div class="process-step">
+                <div class="process-icon">4</div>
+                <h4>Pemasangan & Garansi</h4>
+                <p>Tim kami pasang di tempat Anda + garansi hingga 3 Bulan</p>
+            </div>
+        </div>
+        
+        <!-- CTA Pemesanan -->
+        <div class="text-center mt-12">
+            <a href="https://wa.me/6285340382029?text=Halo%203DKan,%20saya%20ingin%20pesan%20jasa%20pembuatan%20signage" 
+               class="inline-block px-8 py-3 rounded-lg bg-green-500 hover:bg-green-600 text-white font-bold transition duration-300 text-lg shadow-md hover:shadow-lg transform hover:-translate-y-1"
+               onclick="return trackWhatsApp(this.href);">
+                🛒 PESAN SEKARANG VIA WHATSAPP
+            </a>
+            <p class="text-sm text-gray-500 mt-4">📞 Hubungi: 0853-4038-2029 | Respon cepat 24 jam</p>
+        </div>
+    </div>
+</section>
+
+<!-- BEST OF COLLECTION SECTION -->
+<section id="projects" class="px-4 sm:px-6 md:px-8 py-12 sm:py-16 bg-gray-50">
+    <div class="max-w-6xl mx-auto">
+        <div class="text-center mb-12">
+            <h3 class="text-2xl sm:text-3xl font-extrabold mb-2">Portfolio Project Kami</h3>
+            <p class="text-gray-500">
+                Koleksi terbaik dari karya signage dan advertising kami, terbukti meningkatkan visibilitas usaha
+            </p>
+        </div>
+        
+        <!-- Client Testimonial -->
+        <div class="max-w-2xl mx-auto mb-8">
+            <div class="testimonial-card">
+                <p class="testimonial-text">"Signage huruf timbul ini sudah 2 tahun, masih kinclong seperti baru. Pelanggan mudah menemukan klinik kami."</p>
+                <div class="testimonial-author">
+                    <div class="testimonial-author-info">
+                        <h4>Agus Santoso</h4>
+                        <p>Klinik Sehat 24 Jam</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- SEARCH RESULTS INFO -->
+        <div id="searchResultsInfo" class="search-results-info" style="display: none;">
+            Menampilkan hasil pencarian untuk: <span class="highlight" id="searchTermDisplay"></span>
+            <span id="searchResultsCount"></span>
+        </div>
+        
+        <!-- BEST OF GALLERY -->
+        <div id="bestGallery" class="gallery-grid"></div>
+        
+        <!-- NO RESULTS MESSAGE -->
+        <div id="noResultsMessage" class="no-results" style="display: none;">
+            <div class="no-results-icon">🔍</div>
+            <h4>Tidak ada hasil ditemukan</h4>
+            <p>Coba gunakan kata kunci lain seperti "huruf timbul", "neon box", "signage", atau "akrilik".</p>
+        </div>
+        
+        <!-- CTA Button -->
+        <div class="text-center mt-12">
+            <a href="https://wa.me/6285340382029?text=Halo%203DKan,%20saya%20ingin%20lihat%20lebih%20banyak%20portfolio%20dan%20konsultasi%20proyek%20saya" 
+               class="inline-block px-8 py-3 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-medium transition duration-300 text-sm sm:text-base shadow-md hover:shadow-lg transform hover:-translate-y-1"
+               onclick="return trackWhatsApp(this.href);">
+                KONSULTASI PROYEK ANDA
+            </a>
+            <p class="text-sm text-gray-500 mt-4">📞 Hubungi: 0853-4038-2029 | Respon dalam 5 menit</p>
+        </div>
+    </div>
+</section>
+
+<!-- FAQ SECTION -->
+<section id="faq" class="px-4 sm:px-6 md:px-8 py-12 sm:py-16">
+    <div class="max-w-3xl mx-auto">
+        <div class="text-center mb-12">
+            <h3 class="text-2xl sm:text-3xl font-extrabold mb-3">Pertanyaan yang Sering Ditanyakan</h3>
+            <p class="text-gray-500">Temukan jawaban untuk pertanyaan umum seputar layanan kami</p>
+        </div>
+        
+        <div class="space-y-4">
+            <!-- FAQ 1 -->
+            <div class="faq-item">
+                <div class="faq-question">Berapa lama pengerjaan rata-rata?</div>
+                <div class="faq-answer">
+                    3-10 hari tergantung kompleksitas dan material. Untuk proyek sederhana bisa selesai dalam 3-5 hari.
+                </div>
+            </div>
+            
+            <!-- FAQ 2 -->
+            <div class="faq-item">
+                <div class="faq-question">Berapa biaya pemesanan huruf timbul?</div>
+                <div class="faq-answer">
+                    Harga mulai dari Rp 2.500/Cm tergantung material dan kompleksitas desain. Hubungi kami via WhatsApp untuk penawaran detail.
+                </div>
+            </div>
+            
+            <!-- FAQ 3 -->
+            <div class="faq-item">
+                <div class="faq-question">Apakah sudah termasuk biaya pemasangan?</div>
+                <div class="faq-answer">
+                    Ya, semua penawaran kami sudah include pemasangan profesional oleh tim berpengalaman kami.
+                </div>
+            </div>
+            
+            <!-- FAQ 4 -->
+            <div class="faq-item">
+                <div class="faq-question">Bisa untuk luar kota?</div>
+                <div class="faq-answer">
+                    Bisa! Kami melayani pemasangan seluruh Indonesia dengan koordinasi tim lokal untuk efisiensi.
+                </div>
+            </div>
+            
+            <!-- FAQ 5 -->
+            <div class="faq-item">
+                <div class="faq-question">Apa saja metode pembayarannya?</div>
+                <div class="faq-answer">
+                    DP 50% saat deal, pelunasan setelah pemasangan selesai. Kami menerima transfer bank.
+                </div>
+            </div>
+            
+            <!-- FAQ 6 -->
+            <div class="faq-item">
+                <div class="faq-question">Bagaimana cara pesan?</div>
+                <div class="faq-answer">
+                    Langsung hubungi WhatsApp kami di <strong>0853-4038-2029</strong> untuk konsultasi gratis dan penawaran harga.
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CONTACT SECTION -->
+<section id="contact" class="px-4 sm:px-6 md:px-8 py-12 sm:py-16 bg-gray-900 text-white">
+    <div class="max-w-4xl mx-auto">
+        <div class="text-center mb-12">
+            <h3 class="text-2xl sm:text-3xl font-extrabold mb-3">Hubungi Kami untuk Pemesanan</h3>
+            <p class="text-gray-300">
+                Konsultasikan kebutuhan signage dan advertising Anda bersama tim 3DKan
+            </p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <!-- Contact Info -->
+            <div>
+                <h4 class="text-xl font-bold mb-4">📞 Kontak Pemesanan</h4>
+                <div class="space-y-4">
+                    <div class="flex items-start gap-3">
+                        <svg class="w-5 h-5 text-green-400 mt-1" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.76.982.998-3.677-.236-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.9 6.994c-.004 5.45-4.437 9.88-9.885 9.88m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.333.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.333 11.893-11.893 0-3.18-1.24-6.162-3.495-8.411"/>
+                        </svg>
+                        <div>
+                            <p class="font-medium">WhatsApp Pemesanan</p>
+                            <p class="text-gray-300 text-lg">0853-4038-2029</p>
+                            <p class="text-sm text-gray-400">Klik untuk chat langsung</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-start gap-3">
+                        <svg class="w-5 h-5 text-blue-400 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                        </svg>
+                        <div>
+                            <p class="font-medium">Alamat Workshop</p>
+                            <a href="https://maps.app.goo.gl/AocDFawAFkoxcevT7" target="_blank" class="text-gray-300 hover:text-blue-400 transition">
+                                Lihat di Google Maps →
+                            </a>
+                            <p class="text-sm text-gray-400">Buka Senin-Jumat: 08.00-17.00 WIB</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Social Media -->
+                <div class="mt-8">
+                    <h4 class="text-xl font-bold mb-4">📱 Ikuti Kami</h4>
+                    <div class="social-icons">
+                        <a href="https://www.instagram.com/3dkan.advertising?igsh=MXJsMTc1MHF1Zm0zYw==" target="_blank" class="social-icon social-instagram">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                            </svg>
+                        </a>
+                        <a href="https://www.tiktok.com/@3dkan.advertising?_r=1&_t=ZS-92WZNMirC9Q" target="_blank" class="social-icon social-tiktok">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-5.2 1.74 2.89 2.89 0 012.31-4.64 2.93 2.93 0 01.88.13V9.4a6.84 6.84 0 00-1-.05A6.33 6.33 0 005 20.1a6.34 6.34 0 0010.86-4.43v-7a8.16 8.16 0 004.77 1.52v-3.4a4.85 4.85 0 01-1-.1z"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Why Choose Us -->
+                <div class="mt-8">
+                    <h4 class="text-xl font-bold mb-4">✨ Kenapa Memilih 3DKan?</h4>
+                    <ul class="space-y-2">
+                        <li class="flex items-center gap-2">
+                            <svg class="w-5 h-5 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                            </svg>
+                            <span>500+ Projek Sukses</span>
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <svg class="w-5 h-5 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                            </svg>
+                            <span>Garansi Hingga 3 Bulan</span>
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <svg class="w-5 h-5 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                            </svg>
+                            <span>Desain Gratis & Revisi</span>
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <svg class="w-5 h-5 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                            </svg>
+                            <span>Free Survey Lokasi</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Contact Form / CTA -->
+            <div class="bg-gray-800 p-6 rounded-xl">
+                <h4 class="text-xl font-bold mb-4">🚀 Pesan Sekarang!</h4>
+                <p class="text-gray-300 mb-6">
+                    Dapatkan penawaran spesial untuk pemesanan pertama dengan diskon 10%!
+                </p>
+                
+                <div class="space-y-4">
+                    <a href="https://wa.me/6285340382029?text=Halo%203DKan%20Advertising,%20saya%20ingin%20pesan%20jasa%20pembuatan%20signage%20dan%20mendapatkan%20penawaran%20harga" 
+                       class="block w-full py-3 bg-green-500 hover:bg-green-600 text-white font-semibold rounded-lg text-center transition text-lg"
+                       onclick="return trackWhatsApp(this.href);">
+                        📱 PESAN VIA WHATSAPP
+                    </a>
+                    
+                    <a href="https://wa.me/6285340382029?text=Halo%203DKan,%20saya%20ingin%20request%20survey%20gratis%20ke%20lokasi%20saya%20untuk%20konsultasi%20signage" 
+                       class="block w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg text-center transition"
+                       onclick="return trackWhatsApp(this.href);">
+                        📍 REQUEST SURVEY GRATIS
+                    </a>
+                    
+                    <a href="tel:085340382029" 
+                       class="block w-full py-3 bg-gray-700 hover:bg-gray-600 text-white font-semibold rounded-lg text-center transition">
+                        📞 TELEPON LANGSUNG
+                    </a>
+                </div>
+                
+                <div class="mt-6 p-4 bg-gray-900 rounded-lg">
+                    <p class="text-sm text-gray-300">
+                        <strong>📋 Format Pemesanan via WhatsApp:</strong><br>
+                        1. Nama & No. HP<br>
+                        2. Jenis Layanan (huruf timbul/neon box/dll)<br>
+                        3. Ukuran & Lokasi Pemasangan<br>
+                        4. Budget yang disiapkan
+                    </p>
+                </div>
+                
+                <p class="text-sm text-gray-400 mt-6 text-center">
+                    ⚡ Respon cepat 24 jam via WhatsApp
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="px-4 sm:px-6 py-8 bg-gray-950 text-gray-300">
+    <div class="max-w-6xl mx-auto">
+        <div class="text-center mb-8">
+            <div class="flex items-center justify-center gap-3 mb-4">
+             
+                   
+                <div class="text-left">
+                    <div class="flex items-center gap-2 font-bold text-xl">
+                        <span class="text-blue-400">3DKan</span>
+                        <span>Advertising</span>
+                    </div>
+                    <p class="text-gray-400 text-sm">Signage & Advertising Solutions</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+            <div>
+                <h5 class="font-bold mb-3">Layanan</h5>
+                <ul class="space-y-2 text-sm">
+                    <li><a href="#services" class="hover:text-blue-400 transition">Huruf Timbul</a></li>
+                    <li><a href="#services" class="hover:text-blue-400 transition">Neon Box</a></li>
+                    <li><a href="#services" class="hover:text-blue-400 transition">Reklame</a></li>
+                    <li><a href="#services" class="hover:text-blue-400 transition">Nametag</a></li>
+                </ul>
+            </div>
+            
+            <div>
+                <h5 class="font-bold mb-3">Perusahaan</h5>
+                <ul class="space-y-2 text-sm">
+                    <li><a href="#process" class="hover:text-blue-400 transition">Cara Pesan</a></li>
+                    <li><a href="#projects" class="hover:text-blue-400 transition">Portfolio</a></li>
+                    <li><a href="#faq" class="hover:text-blue-400 transition">FAQ</a></li>
+                </ul>
+            </div>
+            
+            <div>
+                <h5 class="font-bold mb-3">Kontak Pemesanan</h5>
+                <ul class="space-y-2 text-sm">
+                    <li>📱 <strong>0853-4038-2029</strong></li>
+                    <li><a href="https://maps.app.goo.gl/AocDFawAFkoxcevT7" target="_blank" class="hover:text-blue-400 transition">📍 Lihat di Google Maps</a></li>
+                    <li>🕐 Buka Senin-Jumat</li>
+                    <li>⏰ 08.00 - 17.00 WIB</li>
+                </ul>
+            </div>
+            
+            <div>
+                <h5 class="font-bold mb-3">Sosial Media</h5>
+                <div class="flex gap-4">
+                    <a href="https://www.instagram.com/3dkan.advertising?igsh=MXJsMTc1MHF1Zm0zYw==" target="_blank" class="text-gray-400 hover:text-pink-400 transition">Instagram</a>
+                    <a href="https://www.tiktok.com/@3dkan.advertising?_r=1&_t=ZS-92WZNMirC9Q" target="_blank" class="text-gray-400 hover:text-black transition">TikTok</a>
+                </div>
+                <p class="text-xs text-gray-500 mt-4">
+                    Untuk pemesanan langsung hubungi WhatsApp kami
+                </p>
+            </div>
+        </div>
+        
+        <div class="pt-8 border-t border-gray-800 text-center text-sm text-gray-500">
+            <p>© 2024 3DKan Advertising - Jasa Pembuatan Huruf Timbul, Neon Box, Reklame & Nametag. All Rights Reserved.</p>
+            <p class="mt-2">📞 WhatsApp Pemesanan: 0853-4038-2029</p>
+        </div>
+    </div>
+</footer>
+
+<script>
+// BEST OF COLLECTION DATA - Updated with more products
+const bestCollection = [
+    {
+        image: 'foto-produk/Huruf-Timbul/Huruf-Timbul-Akrilik/akrilik1.jpg',
+        title: 'Huruf Timbul Akrilik Premium',
+        category: 'Huruf Timbul',
+        description: 'Material akrilik tebal dengan finishing halus dan tahan cuaca',
+        productCode: 'HTA-001',
+        keywords: ['huruf timbul', 'akrilik', 'premium', 'huruf', 'timbul', 'signage', 'branding'],
+        features: ['Ketebalan 10mm', 'Anti UV', 'Garansi 3 Bulan']
+    },
+    {
+        image: 'foto-produk/Huruf-Timbul/Huruf-Timbul-Stainless/stainless1.jpg',
+        title: 'Huruf Timbul Stainless Steel 304',
+        category: 'Huruf Timbul',
+        description: 'Stainless steel 304 dengan ketebalan 1.2mm, anti karat untuk outdoor',
+        productCode: 'HTS-001',
+        keywords: ['huruf timbul', 'stainless steel', 'metal', 'stainless', 'outdoor', 'signage'],
+        features: ['Stainless 304', 'Ketebalan 1.2mm', 'Anti Karat']
+    },
+    {
+        image: 'foto-produk/Neon-Box/Neon-Box-Akrilik/neon-akrilik1.jpg',
+        title: 'Neon Box Akrilik Backlit LED',
+        category: 'Neon Box',
+        description: 'Neon box dengan teknologi LED full color dan bahan akrilik transparan premium',
+        productCode: 'NBA-001',
+        keywords: ['neon box', 'akrilik', 'led', 'backlit', 'pencahayaan', 'toko', 'restoran'],
+        features: ['LED Full Color', 'Hemat Energi', 'Garansi 2 Tahun']
+    },
+    {
+        image: 'foto-produk/Nametage akrilik/nametag1.jpg',
+        title: 'Nametag Akrilik Kantor Custom',
+        category: 'Nametag',
+        description: 'Nametag akrilik custom untuk perusahaan, kantor, dan institusi profesional',
+        productCode: 'NTA-001',
+        keywords: ['nametag', 'akrilik', 'kantor', 'office', 'identitas', 'nameplate'],
+        features: ['Custom Desain', 'Standing atau Tempel', 'Finishing Halus']
+    },
+    {
+        image: 'foto-produk/Neon-Box/Neon-Box-Akrilik/Bulat/neon-bulat1.jpg',
+        title: 'Neon Box Desain Bulat Modern',
+        category: 'Neon Box',
+        description: 'Neon box dengan desain unik bentuk bulat, pencahayaan LED merata',
+        productCode: 'NBB-001',
+        keywords: ['neon box', 'bulat', 'led', 'unik', 'modern', 'cafe', 'restoran'],
+        features: ['Desain Bulat', 'LED Merata', 'Custom Warna']
+    },
+    {
+        image: 'foto-produk/Huruf-Timbul/Huruf-Timbul-Acp/acp1.jpg',
+        title: 'Huruf Timbul ACP Aluminum',
+        category: 'Huruf Timbul',
+        description: 'Aluminum composite panel dengan finishing powder coating anti pudar',
+        productCode: 'HTA-002',
+        keywords: ['huruf timbul', 'acp', 'aluminum', 'composite', 'ringan', 'signage'],
+        features: ['Material ACP', 'Ringan & Kuat', 'Powder Coating']
+    }
+];
+
+// Search state
+let currentSearchTerm = '';
+let filteredCollection = [...bestCollection];
+let isSearchLoading = false;
+
+// Mobile Menu Functions
+function openMobileMenu() {
+    document.getElementById('mobileMenu').classList.add('active');
+    document.getElementById('mobileMenuOverlay').classList.add('active');
+    document.body.classList.add('menu-open');
+}
+
+function closeMobileMenu() {
+    document.getElementById('mobileMenu').classList.remove('active');
+    document.getElementById('mobileMenuOverlay').classList.remove('active');
+    document.body.classList.remove('menu-open');
+}
+
+// FAQ Functionality
+function initFAQ() {
+    const faqQuestions = document.querySelectorAll('.faq-question');
+    
+    faqQuestions.forEach(question => {
+        question.addEventListener('click', function() {
+            const answer = this.nextElementSibling;
+            const isOpen = answer.classList.contains('open');
+            
+            // Close all answers
+            document.querySelectorAll('.faq-answer').forEach(ans => {
+                ans.classList.remove('open');
+                ans.previousElementSibling.classList.remove('active');
+            });
+            
+            // Open clicked answer if it was closed
+            if (!isOpen) {
+                answer.classList.add('open');
+                this.classList.add('active');
+            }
+        });
+    });
+}
+
+// Initialize after DOM is loaded
+document.addEventListener('DOMContentLoaded', function() {
+    // Load best collection gallery
+    loadBestCollection();
+    
+    // Initialize scroll animations
+    initScrollAnimations();
+    
+    // Initialize FAQ
+    initFAQ();
+    
+    // SEARCH FUNCTIONALITY WITH ENTER KEY DELAY
+    const searchInput = document.getElementById('searchInput');
+    const searchAutocomplete = document.getElementById('searchAutocomplete');
+    
+    if (searchInput && searchAutocomplete) {
+        let searchTimeout;
+        let isAutocompleteOpen = false;
+        
+        // Show autocomplete on focus
+        searchInput.addEventListener('focus', function() {
+            if (this.value.trim().length > 0) {
+                showAutocomplete(this.value);
+            }
+        });
+        
+        // Hide autocomplete when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!searchInput.contains(e.target) && !searchAutocomplete.contains(e.target)) {
+                hideAutocomplete();
+            }
+        });
+        
+        // Handle input with autocomplete (without searching)
+        searchInput.addEventListener('input', function() {
+            clearTimeout(searchTimeout);
+            const searchTerm = this.value.toLowerCase().trim();
+            
+            if (searchTerm.length === 0) {
+                hideAutocomplete();
+                return;
+            }
+            
+            // Show autocomplete with delay
+            searchTimeout = setTimeout(() => {
+                showAutocomplete(searchTerm);
+            }, 300);
+        });
+        
+        // Handle Enter key for search (with delay)
+        searchInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                const searchTerm = this.value.toLowerCase().trim();
+                
+                if (searchTerm.length === 0) {
+                    hideAutocomplete();
+                    return;
+                }
+                
+                // Prevent multiple searches
+                if (isSearchLoading) return;
+                
+                // Show loading state
+                showSearchLoading(true);
+                isSearchLoading = true;
+                
+                // Delay before showing results
+                setTimeout(() => {
+                    performSearch(searchTerm);
+                    hideAutocomplete();
+                    
+                    // Scroll to results section
+                    document.getElementById('projects').scrollIntoView({ 
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                    
+                    // Hide loading state
+                    setTimeout(() => {
+                        showSearchLoading(false);
+                        isSearchLoading = false;
+                    }, 500);
+                    
+                }, 800); // 0.8 second delay before showing results
+                
+                e.preventDefault();
+            }
+            
+            // Handle keyboard navigation in autocomplete
+            if (e.key === 'ArrowDown') {
+                e.preventDefault();
+                const items = searchAutocomplete.querySelectorAll('.autocomplete-item');
+                if (items.length > 0) items[0].focus();
+            }
+            
+            if (e.key === 'Escape') {
+                this.value = '';
+                hideAutocomplete();
+            }
+        });
+        
+        // Quick search category buttons (with delay)
+        document.querySelectorAll('.quick-category-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                const searchTerm = this.getAttribute('data-search');
+                searchInput.value = searchTerm;
+                
+                // Prevent multiple searches
+                if (isSearchLoading) return;
+                
+                // Show loading state
+                showSearchLoading(true);
+                isSearchLoading = true;
+                
+                // Delay before showing results
+                setTimeout(() => {
+                    performSearch(searchTerm);
+                    document.getElementById('projects').scrollIntoView({ 
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                    
+                    // Hide loading state
+                    setTimeout(() => {
+                        showSearchLoading(false);
+                        isSearchLoading = false;
+                    }, 500);
+                    
+                }, 800); // 0.8 second delay before showing results
+            });
+        });
+    }
+    
+    // Mobile menu functionality
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const mobileMenuOverlay = document.getElementById('mobileMenuOverlay');
+    
+    if (mobileMenuBtn) {
+        mobileMenuBtn.addEventListener('click', openMobileMenu);
+    }
+    
+    if (mobileMenuOverlay) {
+        mobileMenuOverlay.addEventListener('click', closeMobileMenu);
+    }
+    
+    // Close menu when clicking on menu links
+    document.querySelectorAll('.mobile-menu a').forEach(link => {
+        link.addEventListener('click', function(e) {
+            if (this.getAttribute('href').startsWith('#')) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                const targetElement = document.getElementById(targetId);
+                
+                if (targetElement) {
+                    closeMobileMenu();
+                    setTimeout(() => {
+                        targetElement.scrollIntoView({ behavior: 'smooth' });
+                    }, 300);
+                }
+            }
+        });
+    });
+    
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            if (this.getAttribute('href') === '#') return;
+            
+            e.preventDefault();
+            const targetId = this.getAttribute('href').substring(1);
+            const targetElement = document.getElementById(targetId);
+            
+            if (targetElement) {
+                targetElement.scrollIntoView({ behavior: 'smooth' });
+            }
+        });
+    });
+    
+    // Animate stats with realistic numbers
+    setTimeout(() => {
+        animateStats();
+    }, 1000);
+});
+
+// Show autocomplete results
+function showAutocomplete(searchTerm) {
+    const autocompleteContainer = document.getElementById('searchAutocomplete');
+    if (!autocompleteContainer) return;
+    
+    if (searchTerm.length === 0) {
+        hideAutocomplete();
+        return;
+    }
+    
+    const results = bestCollection.filter(item => {
+        if (item.title.toLowerCase().includes(searchTerm)) return true;
+        if (item.category.toLowerCase().includes(searchTerm)) return true;
+        if (item.description.toLowerCase().includes(searchTerm)) return true;
+        if (item.keywords && item.keywords.some(keyword => 
+            keyword.toLowerCase().includes(searchTerm)
+        )) return true;
+        return false;
+    });
+    
+    if (results.length === 0) {
+        autocompleteContainer.innerHTML = `
+            <div class="autocomplete-no-results">
+                <p>Tidak ada hasil ditemukan untuk "${searchTerm}"</p>
+                <p class="text-sm text-gray-500 mt-2">Tekan Enter untuk mencari dengan keyword ini</p>
+            </div>
+        `;
+    } else {
+        autocompleteContainer.innerHTML = results.map(item => `
+            <div class="autocomplete-item" tabindex="0" data-index="${item.productCode}">
+                <img src="${item.image}" 
+                     alt="${item.title}"
+                     onerror="this.onerror=null; this.src='https://via.placeholder.com/50x50/3b82f6/ffffff?text=${encodeURIComponent(item.category)}'">
+                <div class="autocomplete-content">
+                    <div class="autocomplete-title">${item.title}</div>
+                    <span class="autocomplete-category">${item.category}</span>
+                    <div class="autocomplete-description">${item.description}</div>
+                </div>
+            </div>
+        `).join('');
+        
+        // Add click handlers to autocomplete items
+        autocompleteContainer.querySelectorAll('.autocomplete-item').forEach(item => {
+            item.addEventListener('click', function() {
+                const index = this.getAttribute('data-index');
+                const product = bestCollection.find(p => p.productCode === index);
+                if (product) {
+                    const searchInput = document.getElementById('searchInput');
+                    searchInput.value = product.title;
+                    
+                    // Trigger search with delay
+                    showSearchLoading(true);
+                    setTimeout(() => {
+                        performSearch(product.title);
+                        hideAutocomplete();
+                        document.getElementById('projects').scrollIntoView({ 
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                        setTimeout(() => showSearchLoading(false), 500);
+                    }, 800);
+                }
+            });
+            
+            item.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') {
+                    const index = this.getAttribute('data-index');
+                    const product = bestCollection.find(p => p.productCode === index);
+                    if (product) {
+                        const searchInput = document.getElementById('searchInput');
+                        searchInput.value = product.title;
+                        
+                        // Trigger search with delay
+                        showSearchLoading(true);
+                        setTimeout(() => {
+                            performSearch(product.title);
+                            hideAutocomplete();
+                            document.getElementById('projects').scrollIntoView({ 
+                                behavior: 'smooth',
+                                block: 'start'
+                            });
+                            setTimeout(() => showSearchLoading(false), 500);
+                        }, 800);
+                    }
+                }
+            });
+        });
+    }
+    
+    autocompleteContainer.classList.add('active');
+}
+
+// Hide autocomplete
+function hideAutocomplete() {
+    const autocompleteContainer = document.getElementById('searchAutocomplete');
+    if (autocompleteContainer) {
+        autocompleteContainer.classList.remove('active');
+    }
+}
+
+// Show search loading animation
+function showSearchLoading(show) {
+    const searchInput = document.getElementById('searchInput');
+    if (searchInput) {
+        if (show) {
+            searchInput.classList.add('search-loading');
+        } else {
+            searchInput.classList.remove('search-loading');
+        }
+    }
+}
+
+// Search function
+function performSearch(searchTerm) {
+    currentSearchTerm = searchTerm;
+    
+    // Reset filter terlebih dahulu
+    const galleryContainer = document.getElementById('bestGallery');
+    if (galleryContainer) {
+        galleryContainer.innerHTML = '';
+        galleryContainer.style.opacity = '0.5';
+        galleryContainer.style.transition = 'opacity 0.3s ease';
+    }
+    
+    if (searchTerm === '') {
+        // Reset to all items
+        filteredCollection = [...bestCollection];
+        hideSearchInfo();
+    } else {
+        // Perform search
+        filteredCollection = bestCollection.filter(item => {
+            // Search in title
+            if (item.title.toLowerCase().includes(searchTerm)) return true;
+            
+            // Search in category
+            if (item.category.toLowerCase().includes(searchTerm)) return true;
+            
+            // Search in description
+            if (item.description.toLowerCase().includes(searchTerm)) return true;
+            
+            // Search in product code
+            if (item.productCode.toLowerCase().includes(searchTerm)) return true;
+            
+            // Search in keywords
+            if (item.keywords && item.keywords.some(keyword => 
+                keyword.toLowerCase().includes(searchTerm)
+            )) return true;
+            
+            return false;
+        });
+        
+        showSearchInfo(searchTerm, filteredCollection.length);
+    }
+    
+    // Reload gallery dengan efek fade in
+    setTimeout(() => {
+        loadBestCollection();
+        
+        // Animasi fade in
+        if (galleryContainer) {
+            setTimeout(() => {
+                galleryContainer.style.opacity = '1';
+            }, 100);
+        }
+    }, 300);
+}
+
+// Show search results info
+function showSearchInfo(searchTerm, resultCount) {
+    const searchInfo = document.getElementById('searchResultsInfo');
+    const termDisplay = document.getElementById('searchTermDisplay');
+    const countDisplay = document.getElementById('searchResultsCount');
+    const noResults = document.getElementById('noResultsMessage');
+    
+    termDisplay.textContent = `"${searchTerm}"`;
+    
+    if (resultCount > 0) {
+        countDisplay.textContent = ` • ${resultCount} hasil ditemukan`;
+        searchInfo.style.display = 'block';
+        noResults.style.display = 'none';
+    } else {
+        countDisplay.textContent = '';
+        searchInfo.style.display = 'block';
+        noResults.style.display = 'block';
+    }
+}
+
+// Hide search results info
+function hideSearchInfo() {
+    const searchInfo = document.getElementById('searchResultsInfo');
+    const noResults = document.getElementById('noResultsMessage');
+    
+    searchInfo.style.display = 'none';
+    noResults.style.display = 'none';
+}
+
+// Function to load best collection
+function loadBestCollection() {
+    const galleryContainer = document.getElementById('bestGallery');
+    if (!galleryContainer) return;
+    
+    galleryContainer.innerHTML = '';
+    
+    if (filteredCollection.length === 0) {
+        return;
+    }
+    
+    filteredCollection.forEach((item, index) => {
+        const galleryItem = document.createElement('div');
+        galleryItem.className = 'gallery-item';
+        galleryItem.dataset.index = index;
+        
+        galleryItem.innerHTML = `
+            <div class="relative overflow-hidden">
+                <img src="${item.image}" 
+                     alt="${item.title}"
+                     class="w-full h-full object-cover"
+                     onerror="this.onerror=null; this.src='https://via.placeholder.com/400x320/3b82f6/ffffff?text=${encodeURIComponent(item.title)}'">
+                <div class="gallery-overlay">
+                    <span class="gallery-category">${item.category}</span>
+                    <h4 class="gallery-title">${item.title}</h4>
+                    <p class="gallery-description">${item.description}</p>
+                </div>
+            </div>
+        `;
+        
+        // Add click event
+        galleryItem.addEventListener('click', function() {
+            showImageDetail(item);
+        });
+        
+        galleryContainer.appendChild(galleryItem);
+    });
+    
+    // Trigger animations after a short delay
+    setTimeout(() => {
+        const items = document.querySelectorAll('.gallery-item');
+        items.forEach(item => {
+            item.classList.add('visible');
+        });
+    }, 100);
+}
+
+// Function to initialize scroll animations
+function initScrollAnimations() {
+    const galleryItems = document.querySelectorAll('.gallery-item');
+    
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+            }
+        });
+    }, {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    });
+    
+    galleryItems.forEach(item => {
+        observer.observe(item);
+    });
+}
+
+// Function to animate stats with realistic numbers
+function animateStats() {
+    const stats = document.querySelectorAll('.stat-item .stat-number');
+    const values = [500, 98, 90];
+    
+    stats.forEach((stat, index) => {
+        const target = values[index];
+        let current = 0;
+        const increment = target / 40;
+        
+        const timer = setInterval(() => {
+            current += increment;
+            if (current >= target) {
+                if (index === 1 || index === 2) {
+                    stat.innerHTML = target.toFixed(0) + '<span class="percent">%</span>';
+                } else {
+                    stat.innerHTML = Math.round(target) + '<span class="plus">+</span>';
+                }
+                clearInterval(timer);
+            } else {
+                if (index === 1 || index === 2) {
+                    stat.innerHTML = Math.round(current) + '<span class="percent">%</span>';
+                } else {
+                    stat.innerHTML = Math.round(current) + '<span class="plus">+</span>';
+                }
+            }
+        }, 30);
+    });
+}
+
+// Function to show image detail modal
+function showImageDetail(item) {
+    // Close mobile menu if open
+    closeMobileMenu();
+    
+    // Create modal
+    const modal = document.createElement('div');
+    modal.className = 'fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50 p-4';
+    modal.innerHTML = `
+        <div class="bg-white rounded-xl max-w-3xl w-full max-h-[90vh] overflow-hidden">
+            <div class="relative">
+                <img src="${item.image}" 
+                     alt="${item.title}"
+                     class="w-full h-64 md:h-96 object-cover"
+                     onerror="this.onerror=null; this.src='https://via.placeholder.com/800x600/3b82f6/ffffff?text=${encodeURIComponent(item.title)}'">
+                <button class="absolute top-4 right-4 bg-white rounded-full p-2 shadow-lg hover:bg-gray-100 close-modal">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+            <div class="p-6">
+                <span class="inline-block bg-blue-600 text-white px-3 py-1 rounded-full text-sm font-semibold mb-3">
+                    ${item.category}
+                </span>
+                <h3 class="text-xl font-bold mb-2">${item.title}</h3>
+                <p class="text-gray-600 mb-4">${item.description}</p>
+                
+                ${item.features ? `
+                <div class="mb-6">
+                    <h4 class="font-semibold mb-2">Fitur Utama:</h4>
+                    <ul class="space-y-1">
+                        ${item.features.map(feature => `<li class="flex items-center gap-2">
+                            <svg class="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                            </svg>
+                            <span>${feature}</span>
+                        </li>`).join('')}
+                    </ul>
+                </div>
+                ` : ''}
+                
+                <div class="modal-buttons flex flex-col sm:flex-row gap-3 justify-between items-center">
+                    <button class="modal-btn-whatsapp px-5 py-3 rounded-lg font-medium transition w-full sm:w-auto ask-whatsapp-btn bg-green-500 hover:bg-green-600 text-white">
+                        <div class="flex items-center justify-center gap-2">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.76.982.998-3.677-.236-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.9 6.994c-.004 5.45-4.437 9.88-9.885 9.88m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.333.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.333 11.893-11.893 0-3.18-1.24-6.162-3.495-8.411"/>
+                            </svg>
+                            <span>Tanya via WhatsApp</span>
+                        </div>
+                    </button>
+                    <button class="modal-btn-order px-5 py-3 rounded-lg font-medium transition w-full sm:w-auto order-now-btn bg-blue-600 hover:bg-blue-700 text-white">
+                        <div class="flex items-center justify-center gap-2">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+                            </svg>
+                            <span>Pesan Sekarang</span>
+                        </div>
+                    </button>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    document.body.appendChild(modal);
+    
+    // WhatsApp Button Functionality
+    const askWhatsAppBtn = modal.querySelector('.ask-whatsapp-btn');
+    askWhatsAppBtn.addEventListener('click', function() {
+        const message = encodeURIComponent(
+            `Halo 3DKan Advertising,\n\nSaya tertarik dengan produk:\n\n` +
+            `• Produk: ${item.title}\n` +
+            `• Kategori: ${item.category}\n` +
+            `• Kode Produk: ${item.productCode}\n\n` +
+            `Bisa berikan informasi detail mengenai produk ini?`
+        );
+        
+        const whatsappUrl = `https://wa.me/6285340382029?text=${message}`;
+        trackWhatsApp(whatsappUrl);
+    });
+    
+    // Order Now Button Functionality
+    const orderNowBtn = modal.querySelector('.order-now-btn');
+    orderNowBtn.addEventListener('click', function() {
+        const message = encodeURIComponent(
+            `Halo 3DKan Advertising,\n\nSaya ingin memesan produk berikut:\n\n` +
+            `📋 *FORMAT PEMESANAN*\n` +
+            `Nama: \n` +
+            `No. HP: \n` +
+            `Alamat: \n` +
+            `Jenis Pesanan: ${item.title}\n` +
+            `Kategori: ${item.category}\n` +
+            `Kode Produk: ${item.productCode}\n` +
+            `Jumlah: \n` +
+            `Spesifikasi Tambahan: \n\n` +
+            `Mohon informasikan harga dan estimasi pengerjaannya.`
+        );
+        
+        const whatsappUrl = `https://wa.me/6285340382029?text=${message}`;
+        trackWhatsApp(whatsappUrl);
+    });
+    
+    // Close modal functionality
+    const closeBtn = modal.querySelector('.close-modal');
+    closeBtn.addEventListener('click', function() {
+        document.body.removeChild(modal);
+    });
+    
+    modal.addEventListener('click', function(e) {
+        if (e.target === modal) {
+            document.body.removeChild(modal);
+        }
+    });
+    
+    // Close on escape key
+    document.addEventListener('keydown', function closeOnEscape(e) {
+        if (e.key === 'Escape') {
+            document.body.removeChild(modal);
+            document.removeEventListener('keydown', closeOnEscape);
+        }
+    });
+}
+
+// FUNGSI UNTUK MELACAK KONVERSI GOOGLE ADS
+function gtag_report_conversion(url) {
+    var callback = function () {
+        if (typeof(url) != 'undefined') {
+            window.open(url, '_blank');
+        }
+    };
+    gtag('event', 'conversion', {
+        'send_to': 'AW-467644163/EkKjCNSo_90bEIPe_t4B',
+        'transaction_id': '',
+        'event_callback': callback
+    });
+    return false;
+}
+
+// Fungsi untuk WhatsApp dengan tracking
+function trackWhatsApp(url) {
+    gtag_report_conversion(url);
+    return false;
+}
+</script>
+
+<!-- Event snippet for Pembelian conversion page
+In your html page, add the snippet and call gtag_report_conversion when someone clicks on the chosen link or button. -->
+<script>
+function gtag_report_conversion(url) {
+  var callback = function () {
+    if (typeof(url) != 'undefined') {
+      window.open(url, '_blank');
+    }
+  };
+  gtag('event', 'conversion', {
+      'send_to': 'AW-467644163/EkKjCNSo_90bEIPe_t4B',
+      'transaction_id': '',
+      'event_callback': callback
+      // 'new_customer': true /* calculate dynamically, populate with true/false */,
+  });
+  return false;
+}
+</script>
+</body>
+</html>

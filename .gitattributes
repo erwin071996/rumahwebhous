@@ -1,0 +1,6 @@
+# Imported production files must retain their exact snapshot bytes.
+*.py text eol=lf
+*.yml text eol=lf
+*.md text eol=lf
+*.json text eol=lf
+public_html/** -text
