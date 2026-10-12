@@ -1,0 +1,30 @@
+name: Verify preserved public baseline read only
+on:
+  pull_request:
+    paths:
+      - "scripts/verify_rollback_public.py"
+      - ".github/workflows/verify-rollback-public.yml"
+permissions:
+  contents: read
+jobs:
+  public-read-only:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          persist-credentials: false
+          fetch-depth: 0
+      - name: Compile read-only verifier
+        run: python3 -m py_compile scripts/verify_rollback_public.py
+      - name: Verify public bytes and reviewed sitemap inventory
+        run: python3 scripts/verify_rollback_public.py
+      - name: Save public digest evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: rollback-public-${{ github.event.pull_request.head.sha }}
+          path: artifacts/rollback-public/result.json
+          if-no-files-found: warn
+          retention-days: 7
