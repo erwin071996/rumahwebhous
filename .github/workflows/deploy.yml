@@ -2,8 +2,7 @@ name: Deploy to Rumahweb via FTPS
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
   workflow_dispatch:
 
 permissions:
@@ -16,52 +15,30 @@ concurrency:
 jobs:
   web-deploy:
     name: Deploy Website
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
-
+    timeout-minutes: 30
     steps:
-      - name: Checkout Repository
+      - name: Checkout reviewed source
         uses: actions/checkout@v4
-
-      - name: Check initial Rumahweb import
-        id: ready
-        shell: bash
-        run: |
-          if [ -f ".site-source-ready" ]; then
-            echo "ready=true" >> "$GITHUB_OUTPUT"
-          else
-            echo "ready=false" >> "$GITHUB_OUTPUT"
-            echo "Deployment diblokir: website belum di-import dari Rumahweb."
-          fi
-
-      - name: Sync Files to Rumahweb
-        if: steps.ready.outputs.ready == 'true'
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
-          server: ${{ secrets.FTP_SERVER }}
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          protocol: ftps
-          port: 21
-          local-dir: ./
-          server-dir: public_html/
-          dangerous-clean-slate: false
-          exclude: |
-            **/.git*
-            **/.git*/**
-            .github/**
-            README.md
-            .site-source-ready
-            **/node_modules/**
-            .env
-            .env.*
-            **/.env
-            **/.env.*
-            wp-config.php
-            configuration.php
-            error_log
-            **/*.log
-            **/*.sql
-            **/*.sql.gz
-            **/*.zip
-            **/*.tar
-            **/*.tar.gz
+          fetch-depth: 0
+      - name: Validate complete website source
+        run: python scripts/check_site.py
+      - name: Check PHP syntax
+        run: find public_html -type f -name '*.php' -print0 | xargs -0 -n1 php -l
+      - name: Verify baseline or deploy reviewed changes with rollback
+        env:
+          FTP_SERVER: ${{ secrets.FTP_SERVER }}
+          FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
+          FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
+          BEFORE_SHA: ${{ github.event.before }}
+        run: python scripts/deploy_ftps.py
+      - name: Save deployment evidence and changed-file rollback copies
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: rumahweb-deployment-${{ github.run_id }}
+          path: deployment-result/
+          if-no-files-found: ignore
+          retention-days: 14

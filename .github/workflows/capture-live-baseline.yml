@@ -1,0 +1,37 @@
+name: Capture Reviewed Live Baseline
+on:
+  push:
+    branches: ['codex/live-baseline-20261012']
+    paths: ['.github/workflows/capture-live-baseline.yml','scripts/capture_live.py','deployment/live-baseline.json']
+
+permissions:
+  contents: write
+
+concurrency:
+  group: rumahweb-production
+  cancel-in-progress: false
+
+jobs:
+  capture:
+    if: github.ref_name == 'codex/live-baseline-20261012'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Capture the exact reviewed source through read-only FTPS
+        env:
+          FTP_SERVER: kilimanjaro.iixcp.rumahweb.net
+          FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
+          FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
+        run: python scripts/capture_live.py
+      - name: Commit complete baseline to the isolated branch
+        env:
+          CAPTURE_BRANCH: ${{ github.ref_name }}
+        run: |
+          git config user.name '3DKan Source Sync'
+          git config user.email 'actions@github.com'
+          git add -A
+          git commit -m 'Import exact reviewed 500-page live baseline from Rumahweb'
+          git push origin "HEAD:$CAPTURE_BRANCH"
