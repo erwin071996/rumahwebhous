@@ -43,7 +43,7 @@ class MemoryServer:
         self.closed = True
 
 
-class DeployChangesTests(unittest.TestCase):
+class DeploymentFixture(unittest.TestCase):
     def setUp(self):
         workspace = SCRIPT.parents[1]
         self.temp = tempfile.TemporaryDirectory(prefix=".deploy-test-", dir=workspace)
@@ -82,6 +82,8 @@ class DeployChangesTests(unittest.TestCase):
         local.write_bytes(desired)
         self.old[path] = before
 
+
+class DeployChangesTests(DeploymentFixture):
     def test_drift_refuses_entire_batch_before_any_upload(self):
         self.prepare("index.html", b"old home", b"new home")
         self.prepare("includes/footer.html", b"old footer", b"new footer")
@@ -205,6 +207,143 @@ class DeployChangesTests(unittest.TestCase):
         self.assertEqual((self.report_dir / "before/index.html").read_bytes(), b"old home")
         self.assertEqual(storage["index.html"], b"ne")
         self.assertTrue(server.closed)
+
+
+class SuccessfulReleaseTests(DeploymentFixture):
+    BASE = "a" * 40
+    FAILED = "b" * 40
+    HEAD = "c" * 40
+
+    def git_for(self, head, paths):
+        def respond(*args):
+            if args == ("rev-parse", "HEAD"):
+                return head.encode()
+            if args[0] == "cat-file":
+                return b"commit\n"
+            if args[0] == "merge-base":
+                return b""
+            if args[0] == "diff":
+                self.assertEqual(args[4:6], (self.BASE, head))
+                return b"".join(b"M\0public_html/" + path.encode() + b"\0" for path in paths)
+            self.fail("Unexpected Git operation: " + args[0])
+        return respond
+
+    def report_for_run(self):
+        return {"uploaded": [], "already_current": [], "rollback": "not needed"}
+
+    def test_failed_a_then_independent_b_deploys_all_pending_changes(self):
+        self.prepare("a.html", b"original A", b"change from commit A")
+        self.prepare("b.html", b"original B", b"original B")
+        original_state = DEPLOY.encode_successful_state(self.BASE)
+        original = {
+            "a.html": b"original A", "b.html": b"original B",
+            DEPLOY.STATE_PATH: original_state,
+        }
+        storage = original.copy()
+        failed_server = MemoryServer(storage, fail_path="a.html")
+        restore = MemoryServer(storage)
+        with patch.object(DEPLOY, "git", side_effect=self.git_for(self.FAILED, ["a.html"])):
+            with patch.object(DEPLOY, "Server", return_value=restore):
+                with self.assertRaisesRegex(OSError, "interrupted transfer"):
+                    DEPLOY.run_deployment(failed_server, {}, self.report)
+        self.assertEqual(storage, original)
+        self.assertEqual(self.report["rollback"], "verified")
+
+        # Commit B changes a different file; push.before points to failed A.
+        # The remote success remains BASE, so both source changes must be sent.
+        self.prepare("b.html", b"original B", b"independent change from commit B")
+        server = MemoryServer(storage)
+        report_b = self.report_for_run()
+        with patch.dict(DEPLOY.os.environ, {"BEFORE_SHA": self.FAILED}):
+            with patch.object(DEPLOY, "git", side_effect=self.git_for(self.HEAD, ["a.html", "b.html"])) as git_mock:
+                DEPLOY.run_deployment(server, {}, report_b)
+        self.assertEqual(storage["a.html"], b"change from commit A")
+        self.assertEqual(storage["b.html"], b"independent change from commit B")
+        self.assertEqual(DEPLOY.json.loads(storage[DEPLOY.STATE_PATH])["commit"], self.HEAD)
+        self.assertEqual(server.writes, ["a.html", "b.html", DEPLOY.STATE_PATH])
+        self.assertEqual(report_b["previous_successful_commit"], self.BASE)
+        self.assertEqual(report_b["successful_release_commit"], self.HEAD)
+        diff_call = [call for call in git_mock.call_args_list if call.args[0] == "diff"]
+        self.assertEqual(len(diff_call), 1)
+        self.assertEqual(diff_call[0].args[4], self.BASE)
+
+    def test_failed_state_publication_restores_source_and_old_state(self):
+        self.prepare("index.html", b"old home", b"new home")
+        old_state = DEPLOY.encode_successful_state(self.BASE)
+        original = {"index.html": b"old home", DEPLOY.STATE_PATH: old_state}
+        storage = original.copy()
+        server = MemoryServer(storage, fail_path=DEPLOY.STATE_PATH)
+        restore = MemoryServer(storage)
+        with patch.object(DEPLOY, "Server", return_value=restore):
+            with self.assertRaisesRegex(OSError, "interrupted transfer"):
+                DEPLOY.deploy_changes(server, ["index.html"], self.BASE, self.report,
+                    state_update=(old_state, DEPLOY.encode_successful_state(self.HEAD)))
+        self.assertEqual(storage, original)
+        self.assertEqual(restore.writes, [DEPLOY.STATE_PATH, "index.html"])
+        self.assertEqual(self.report["rollback"], "verified")
+        self.assertNotIn("successful_release_commit", self.report)
+        self.assertEqual((self.report_dir / "before" / DEPLOY.STATE_PATH).read_bytes(), old_state)
+        self.verify.assert_called_once_with()
+
+    def test_state_readback_mismatch_restores_source_and_old_state(self):
+        self.prepare("index.html", b"old home", b"new home")
+        old_state = DEPLOY.encode_successful_state(self.BASE)
+        original = {"index.html": b"old home", DEPLOY.STATE_PATH: old_state}
+        storage = original.copy()
+        server = MemoryServer(storage, corrupt_path=DEPLOY.STATE_PATH)
+        restore = MemoryServer(storage)
+        with patch.object(DEPLOY, "Server", return_value=restore):
+            with self.assertRaisesRegex(RuntimeError, "state readback differs"):
+                DEPLOY.deploy_changes(server, ["index.html"], self.BASE, self.report,
+                    state_update=(old_state, DEPLOY.encode_successful_state(self.HEAD)))
+        self.assertEqual(storage, original)
+        self.assertEqual(self.report["rollback"], "verified")
+
+    def test_missing_state_establishes_verified_baseline_before_publication(self):
+        storage = {}
+        server = MemoryServer(storage)
+        self.verify.side_effect = lambda: (
+            self.assertNotIn(DEPLOY.STATE_PATH, storage) or self.live_verification
+        )
+        with patch.object(DEPLOY, "git", side_effect=self.git_for(self.HEAD, [])) as git_mock:
+            with patch.object(DEPLOY, "baseline_preflight") as preflight:
+                DEPLOY.run_deployment(server, {"files": {}}, self.report)
+        preflight.assert_called_once_with(server, {"files": {}})
+        self.verify.assert_called_once_with()
+        self.assertEqual(server.writes, [DEPLOY.STATE_PATH])
+        self.assertEqual(self.report["mode"], "live baseline import")
+        self.assertEqual(self.report["successful_release_commit"], self.HEAD)
+        self.assertFalse(any(call.args[0] == "diff" for call in git_mock.call_args_list))
+
+    def test_marker_change_without_successful_baseline_is_refused(self):
+        self.prepare("index.html", b"imported baseline", b"baseline with release marker")
+        storage = {"index.html": b"imported baseline"}
+        server = MemoryServer(storage)
+        manifest = {"files": {"index.html": {
+            "sha256": DEPLOY.digest(b"imported baseline"),
+            "size": len(b"imported baseline"), "modify": "20261012000000",
+        }}}
+        with patch.object(DEPLOY, "git", side_effect=self.git_for(self.HEAD, [])):
+            with self.assertRaisesRegex(RuntimeError, "Initial source differs"):
+                DEPLOY.run_deployment(server, manifest, self.report)
+        self.assertEqual(server.writes, [])
+        self.assertNotIn(DEPLOY.STATE_PATH, storage)
+        self.verify.assert_not_called()
+
+    def test_state_sha_must_be_valid_and_available_commit_object(self):
+        for value in ["HEAD", "0" * 40, "A" * 40, self.BASE + ":index.html"]:
+            with self.subTest(value=value):
+                storage = {DEPLOY.STATE_PATH: DEPLOY.json.dumps(
+                    {"website": DEPLOY.DOMAIN, "commit": value}).encode()}
+                with self.assertRaisesRegex(RuntimeError, "invalid commit"):
+                    DEPLOY.read_successful_state(MemoryServer(storage))
+        storage = {DEPLOY.STATE_PATH: DEPLOY.encode_successful_state(self.BASE)}
+        with patch.object(DEPLOY, "git", side_effect=DEPLOY.subprocess.CalledProcessError(1, ["git", "cat-file"])):
+            with self.assertRaisesRegex(RuntimeError, "unavailable"):
+                DEPLOY.read_successful_state(MemoryServer(storage))
+        with patch.object(DEPLOY, "git", return_value=b"blob\n"):
+            with self.assertRaisesRegex(RuntimeError, "Git commit"):
+                DEPLOY.read_successful_state(MemoryServer(storage))
 
 
 if __name__ == "__main__":

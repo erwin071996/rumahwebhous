@@ -29,6 +29,7 @@ FORBIDDEN_NAMES = {
     ".git", ".github", "node_modules", "__pycache__", ".netrc",
     "wp-config.php", "configuration.php", "error_log", "ftps.json",
     "ftps.pass", "credentials.json", "credentials.php",
+    ".3dkan-deployment-state.json",
 }
 FORBIDDEN_SUFFIXES = (
     ".log", ".sql", ".sql.gz", ".zip", ".tar", ".tar.gz", ".bak",

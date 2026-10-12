@@ -1,4 +1,5 @@
 """Deploy reviewed site changes, fail on live drift, and restore on failure."""
+from concurrent.futures import ThreadPoolExecutor
 import hashlib
 import json
 import os
@@ -16,6 +17,9 @@ SITE = Path("public_html")
 DOMAIN = "https://www.3dkanadvertising.store"
 REPORT = Path("deployment-result")
 MANIFEST = Path("deployment/live-baseline.json")
+# Server-owned state lives under the directory already denied by .htaccess.
+# It must never be imported into the public source or inferred from push events.
+STATE_PATH = "includes/.3dkan-deployment-state.json"
 
 
 def digest(data):
@@ -29,6 +33,57 @@ def git(*args):
 def previous(base, path):
     result = subprocess.run(["git", "show", f"{base}:{path}"], capture_output=True)
     return result.stdout if result.returncode == 0 else None
+
+
+def checked_commit(value):
+    if (not isinstance(value, str) or not re.fullmatch(r"[0-9a-f]{40}", value)
+            or value == "0" * 40):
+        raise RuntimeError("Successful release state has an invalid commit")
+    try:
+        kind = git("cat-file", "-t", value).decode().strip()
+    except subprocess.CalledProcessError as exc:
+        raise RuntimeError("Successful release commit is unavailable in this checkout") from exc
+    if kind != "commit":
+        raise RuntimeError("Successful release state does not identify a Git commit")
+    return value
+
+
+def read_successful_state(server):
+    raw = server.read(STATE_PATH)
+    if raw is None:
+        return None, None
+    try:
+        state = json.loads(raw)
+    except (ValueError, UnicodeError) as exc:
+        raise RuntimeError("Successful release state is invalid; review before deploying") from exc
+    if (not isinstance(state, dict) or set(state) != {"website", "commit"}
+            or state.get("website") != DOMAIN):
+        raise RuntimeError("Successful release state identifies an unexpected website")
+    return checked_commit(state.get("commit")), raw
+
+
+def encode_successful_state(commit):
+    return (json.dumps({"website": DOMAIN, "commit": commit}, sort_keys=True) + "\n").encode()
+
+
+def planned_changes(base, head):
+    # A failed commit can be part of HEAD history without ever reaching the
+    # server. Compare the whole pending source with the last verified success.
+    delta = git("diff", "--name-status", "--no-renames", "-z", base, head,
+                "--", "public_html/")
+    parts = delta.decode().split("\0")
+    changes = []
+    for offset in range(0, len(parts) - 1, 2):
+        status, repo_path = parts[offset:offset + 2]
+        if status == "D":
+            raise RuntimeError("Remote deletion requires a separate reviewed cleanup")
+        if status not in {"A", "M"} or not repo_path.startswith("public_html/"):
+            raise RuntimeError("Unexpected source change requires separate review")
+        path = safe(repo_path.removeprefix("public_html/"))
+        if path == STATE_PATH:
+            raise RuntimeError("Successful release state must remain server-owned")
+        changes.append(path)
+    return changes
 
 
 def safe(path):
@@ -68,6 +123,7 @@ class Server:
             safe(path)
         config = [
             "silent", "show-error", "ssl-reqd", "ipv4",
+            "tlsv1.2", 'tls-max = "1.2"', 'ftp-method = "singlecwd"',
             "connect-timeout = 12", "max-time = 60",
             "retry = 2", "retry-delay = 1", "retry-max-time = 150",
             "user = " + self.quoted(self.user + ":" + self.password),
@@ -92,7 +148,7 @@ class Server:
         try:
             return self.request(safe(path))
         except CurlError as error:
-            if error.code not in (9, 78):
+            if error.code != 78:
                 raise
             parent = str(PurePosixPath(path).parent)
             entries = self.list("" if parent == "." else parent)
@@ -111,12 +167,7 @@ class Server:
 
     def list(self, directory):
         path = safe(directory).rstrip("/") + "/" if directory else ""
-        try:
-            raw = self.request(path, ['request = "MLSD"']).decode("utf-8")
-        except CurlError as error:
-            if error.code in (9, 78):
-                return []
-            raise
+        raw = self.request(path, ['request = "MLSD"']).decode("utf-8")
         entries = []
         for line in raw.splitlines():
             if not line.strip():
@@ -188,14 +239,22 @@ def verify_live():
 
 def baseline_preflight(server, manifest):
     entries = manifest["files"]
+    local_paths = {path.relative_to(SITE).as_posix() for path in SITE.rglob("*") if path.is_file()}
+    if local_paths != set(entries):
+        raise RuntimeError("Initial source file set differs from the reviewed live manifest")
     by_dir = {}
     for path, entry in entries.items():
         if digest((SITE / safe(path)).read_bytes()) != entry["sha256"]:
             raise RuntimeError("Initial source differs from the live snapshot: " + path)
         parent = str(PurePosixPath(path).parent)
         by_dir.setdefault("" if parent == "." else parent, []).append((path, entry))
+    print(f"Checking {len(by_dir)} baseline folders with four parallel read-only connections...", flush=True)
+    # Curl creates an independent verified-TLS subprocess for each request.
+    # Collect every listing before any state publication can be considered.
+    with ThreadPoolExecutor(max_workers=4) as pool:
+        listings = dict(zip(by_dir, pool.map(server.list, by_dir)))
     for directory, files in by_dir.items():
-        remote = {name: facts for name, facts in server.list(directory)}
+        remote = {name: facts for name, facts in listings[directory]}
         for path, entry in files:
             facts = remote.get(PurePosixPath(path).name, {})
             if (facts.get("type") != "file" or
@@ -214,7 +273,17 @@ def baseline_preflight(server, manifest):
     print(f"Baseline preflight passed for {len(entries)} files; no upload required.")
 
 
-def deploy_changes(server, changes, base, report):
+def deploy_changes(server, changes, base, report, *, state_update=None):
+    # state_update is supplied by run_deployment after validating the remote
+    # successful commit; direct transaction tests may omit state publication.
+    if state_update is not None:
+        old_state, desired_state = state_update
+        if server.read(STATE_PATH) != old_state:
+            raise RuntimeError("Successful release state changed; refusing to deploy")
+        if old_state is not None:
+            backup = REPORT / "before" / STATE_PATH
+            backup.parent.mkdir(parents=True, exist_ok=True)
+            backup.write_bytes(old_state)
     prepared = []
     for path in changes:
         desired = (SITE / safe(path)).read_bytes()
@@ -231,15 +300,46 @@ def deploy_changes(server, changes, base, report):
             backup.parent.mkdir(parents=True, exist_ok=True)
             backup.write_bytes(remote)
     touched = []
+    rollback_plan = None
+    if state_update is not None:
+        rollback_plan = {
+            "files": [{"path": path, "before_existed": remote is not None,
+                       "before_sha256": digest(remote) if remote is not None else None}
+                      for path, _, remote in prepared],
+            "state": {"path": STATE_PATH, "before_existed": old_state is not None,
+                      "before_commit": json.loads(old_state)["commit"] if old_state is not None else None,
+                      "target_commit": json.loads(desired_state)["commit"]},
+            "touched_paths": [],
+        }
+
+    def save_rollback_plan():
+        if rollback_plan is not None:
+            REPORT.mkdir(parents=True, exist_ok=True)
+            rollback_plan["touched_paths"] = [path for path, _ in touched]
+            (REPORT / "rollback-plan.json").write_text(
+                json.dumps(rollback_plan, indent=2) + "\n", encoding="utf-8")
+
+    save_rollback_plan()
     try:
         for path, desired, remote in prepared:
             # Record before STOR, because failed transfers can still truncate.
             touched.append((path, remote))
+            save_rollback_plan()
             server.write(path, desired)
             if server.read(path) != desired:
                 raise RuntimeError("FTPS readback differs after upload: " + path)
             report["uploaded"].append({"path": path, "sha256": digest(desired)})
         report["live"] = verify_live()
+        # Publish success only after both FTPS readback and the HTTP checks.
+        # Failed/truncated state writes are included in the same rollback.
+        if state_update is not None:
+            if old_state != desired_state:
+                touched.append((STATE_PATH, old_state))
+                save_rollback_plan()
+                server.write(STATE_PATH, desired_state)
+                if server.read(STATE_PATH) != desired_state:
+                    raise RuntimeError("Successful release state readback differs")
+            report["successful_release_commit"] = json.loads(desired_state)["commit"]
     except Exception:
         if not touched:
             report["rollback"] = "no files changed"
@@ -258,6 +358,8 @@ def deploy_changes(server, changes, base, report):
                     restore.write(path, old)
                     if restore.read(path) != old:
                         raise RuntimeError("Rollback readback differs: " + path)
+            if state_update is not None and restore.read(STATE_PATH) != old_state:
+                raise RuntimeError("Previous successful release state could not be verified")
             report["rollback"] = "verified" if touched else "no files changed"
         except Exception:
             report["rollback"] = "failed; restore the saved before/ files"
@@ -267,31 +369,39 @@ def deploy_changes(server, changes, base, report):
         raise
 
 
+def run_deployment(server, manifest, report):
+    head = checked_commit(git("rev-parse", "HEAD").decode().strip())
+    base, old_state = read_successful_state(server)
+    report["head_commit"] = head
+    report["previous_successful_commit"] = base
+    report["successful_state_path"] = STATE_PATH
+    report["successful_state_existed_before"] = old_state is not None
+    desired_state = encode_successful_state(head)
+    if base is None:
+        # No successful state exists: establish the exact imported baseline.
+        # A metadata/source change already applied locally fails this preflight.
+        baseline_preflight(server, manifest)
+        report["mode"] = "live baseline import"
+        changes = []
+    else:
+        try:
+            git("merge-base", "--is-ancestor", base, head)
+        except subprocess.CalledProcessError as exc:
+            raise RuntimeError("Successful live commit is not an ancestor of this checkout; review before deploying") from exc
+        report["mode"] = "reviewed source changes"
+        changes = planned_changes(base, head)
+    deploy_changes(server, changes, base, report,
+                   state_update=(old_state, desired_state))
+
+
 def main():
     REPORT.mkdir(exist_ok=True)
     report = {"status": "started", "uploaded": [], "already_current": [], "rollback": "not needed"}
     server = None
     try:
-        base = os.environ.get("BEFORE_SHA", "")
-        if not re.fullmatch(r"[0-9a-f]{40}", base) or base == "0" * 40:
-            base = git("rev-parse", "HEAD^").decode().strip()
         manifest = json.loads(MANIFEST.read_text(encoding="utf-8"))
         server = Server()
-        if previous(base, ".site-source-ready") is None:
-            baseline_preflight(server, manifest)
-            report["mode"] = "live baseline import"
-            report["live"] = verify_live()
-        else:
-            delta = git("diff", "--name-status", "--no-renames", "-z", base, "HEAD", "--", "public_html/")
-            parts = delta.decode().split("\0")
-            changes = []
-            for offset in range(0, len(parts) - 1, 2):
-                status, repo_path = parts[offset:offset + 2]
-                if status == "D":
-                    raise RuntimeError("Remote deletion requires a separate reviewed cleanup")
-                changes.append(repo_path.removeprefix("public_html/"))
-            report["mode"] = "reviewed source changes"
-            deploy_changes(server, changes, base, report)
+        run_deployment(server, manifest, report)
         report["status"] = "success"
         print(json.dumps(report, indent=2))
     except Exception as exc:
