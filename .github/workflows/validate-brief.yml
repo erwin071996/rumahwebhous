@@ -5,8 +5,9 @@ on:
     paths:
       - 'public_html/index.html'
       - 'public_html/projects.html'
-      - 'public_html/assets/ui/brief.*'
+      - 'public_html/assets/ui/**'
       - 'tests/brief*.cjs'
+      - 'tests/frontend*.cjs'
       - '.github/workflows/validate-brief.yml'
 
 permissions:
@@ -34,6 +35,8 @@ jobs:
           node --check public_html/assets/ui/brief.js
           node tests/brief.test.cjs
           node tests/brief-markup.test.cjs
+          node --check public_html/assets/ui/frontend.js
+          node tests/frontend.test.cjs
 
       - name: Verify rollback source matches live pages
         shell: bash
