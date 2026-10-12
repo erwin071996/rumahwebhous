@@ -113,9 +113,21 @@ if(!state.delivered.has(entry.url)) dependencyFailure(state,entry.url,"dependenc
 for(const required of REQUIRED_UI) if(!localPaths.has(required)) dependencyFailure(state,new URL(required,base).href,"required dependency absent from DOM");
 return state.failed.size ? "CSS/JS unavailable: "+[...state.failed].join(", ") : "";
 }
-const focused=async(p,l)=>p.waitForFunction(el=>el===document.activeElement,await l.elementHandle(),{timeout:4000});
+const focused=async(p,l)=>{
+const handle=await l.elementHandle();
+try {await p.waitForFunction(el=>el===document.activeElement,handle,{timeout:4000});}
+catch(error) {
+const info=await p.evaluate(expected=>{
+function describe(el){if(!el)return null;const r=el.getBoundingClientRect();return {tag:el.tagName,id:el.id,classes:String(el.className),rect:{x:r.x,y:r.y,width:r.width,height:r.height},visible:!!(r.width&&r.height)};}
+return {expected:describe(expected),active:describe(document.activeElement),header:describe(document.querySelector(".site-header")),viewport:{width:innerWidth,height:innerHeight},mobile:matchMedia("(max-width:1020px)").matches,menuExpanded:document.querySelector(".menu-toggle")?.getAttribute("aria-expanded"),navOpen:document.querySelector("#site-nav")?.hasAttribute("data-open")};
+},handle);
+throw Error("Focus assertion timeout: "+JSON.stringify(info));
+}
+};
 const poll=(p,fn,arg)=>p.waitForFunction(fn,arg,{timeout:4000});
 async function shot(p,name) {
+const labeled=name.match(/(?:index|projects)-(1280|390|320)(?:[.-])/);
+if(labeled) assert.equal(p.viewportSize().width,Number(labeled[1]),"Screenshot label/viewport mismatch");
 await p.evaluate(async()=>{
 if(document.fonts) await document.fonts.ready;
 const visible=Array.from(document.images).filter(img=>{const r=img.getBoundingClientRect();return r.width>0&&r.height>0&&r.bottom>0&&r.right>0&&r.top<innerHeight&&r.left<innerWidth;});
@@ -123,6 +135,7 @@ await Promise.all(visible.map(img=>img.decode()));
 });
 const file=path.join(out,name); await p.screenshot({path:file,fullPage:false}); artifacts.push(file);
 const styles=await p.evaluate(()=>Array.from(document.querySelectorAll("h1,.portfolio-lead,.portfolio-hero-note strong,.portfolio-hero-note p,.home-proof small,.home-proof span,.presentation-summary small,.presentation-summary strong,form[data-brief-form] input,form[data-brief-form] select,form[data-brief-form] textarea")).map(el=>{const s=getComputedStyle(el),r=el.getBoundingClientRect(),layers=[]; for(let n=el,i=0;n&&i<6;n=n.parentElement,i++){const b=getComputedStyle(n);layers.push({tag:n.tagName,id:n.id,background:b.backgroundColor,backgroundImage:b.backgroundImage});} return {tag:el.tagName,id:el.id,text:el.textContent.slice(0,80),color:s.color,background:s.backgroundColor,backgroundImage:s.backgroundImage,fontSize:s.fontSize,borderWidth:s.borderWidth,borderStyle:s.borderStyle,borderColor:s.borderColor,outline:s.outline,outlineWidth:s.outlineWidth,outlineColor:s.outlineColor,outlineOffset:s.outlineOffset,active:el===document.activeElement,focusVisible:el.matches(":focus-visible"),backgroundLayers:layers,rect:{x:r.x,y:r.y,width:r.width,height:r.height}};}));
+styles.unshift({kind:"actual viewport",...p.viewportSize(),candidateSha:process.env.QA_CANDIDATE_SHA||process.env.GITHUB_SHA||"UNKNOWN"});
 const evidence=path.join(out,name+".computed.json"); await fs.writeFile(evidence,JSON.stringify(styles,null,2)); artifacts.push(evidence); }
 async function pages() {
 for(const viewport of [{width:1280,height:720},{width:390,height:844},{width:320,height:800}]) for(const url of ["/","/projects.html"]) {
@@ -132,6 +145,19 @@ await check(key+" screenshot captured (visual review pending)",()=>shot(p,key+".
 if(url==="/"&&viewport.width===1280) await check(key+" initial hero CTAs above fold and hit-test",async()=>{
 const ctas=p.locator(".home-hero .button-row a[href]"); assert.equal(await ctas.count(),2);
 for(let i=0;i<2;i++) assert(await ctas.nth(i).evaluate(el=>{const r=el.getBoundingClientRect();return r.width>0&&r.height>0&&r.x>=0&&r.y>=0&&r.right<=innerWidth&&r.bottom<=innerHeight&&el.contains(document.elementFromPoint(r.x+r.width/2,r.y+r.height/2));}));
+},why);
+if(url==="/projects.html") await check(key+" hero/video CTA hit targets with no legacy overlay",async()=>{
+assert.equal(await p.locator(".floating-wa").isVisible(),false);
+assert.equal(await p.locator(".portfolio-hero-actions .btn-primary").isVisible(),true);
+const targets=p.locator(".portfolio-hero-actions a[href], .real-video, .case-cta");
+assert(await targets.count()>2,"Expected hero and project controls");
+for(let i=0;i<await targets.count();i++) {
+const target=targets.nth(i);await target.scrollIntoViewIfNeeded();
+assert(await target.evaluate(el=>{
+const r=el.getBoundingClientRect();
+return r.width>0&&r.height>0&&r.left>=-1&&r.right<=innerWidth+1&&[.15,.5,.85].every(fraction=>el.contains(document.elementFromPoint(r.left+r.width*fraction,r.top+r.height/2)));
+}),"Occluded CTA: "+await target.textContent());
+}
 },why);
 await check(key+" no horizontal overflow and visible heading",async()=>{ assert(await p.locator("h1").isVisible()); assert(await p.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1)); },why);
 await check(key+" keyboard Escape/focus and restored scrolling",async()=>{
@@ -147,11 +173,13 @@ await p.evaluate(()=>scrollTo(0,0)); await p.mouse.wheel(0,500); await poll(p,()
 },why);
 if(viewport.width===1280) await check(key+" breakpoint 1020/1021 visible focus",async()=>{
 const link=p.locator("#site-nav > a[href]").first(), menu=p.locator(".menu-toggle"), summary=p.locator(".nav-services > summary");
+try {
 await link.focus(); await p.setViewportSize({width:1020,height:844}); await focused(p,menu);
 await p.setViewportSize({width:1021,height:720}); await focused(p,summary);
 await p.setViewportSize(viewport);
 const field=p.locator("form[data-brief-form] textarea[name=note]"); await field.focus();
 await p.setViewportSize({width:390,height:844}); await focused(p,field); await p.setViewportSize(viewport);
+} finally {await p.setViewportSize(viewport);}
 },why);
 await check(key+" brief validation, preview, mocked-copy denial and stale edit",async()=>{
 const f=p.locator("form[data-brief-form]"), type=f.locator("select[name=type]"), compose=f.locator("[data-brief-compose]"), status=f.locator("[data-brief-status]"), output=f.locator("[data-brief-output]"), note=f.locator("textarea[name=note]");
@@ -272,7 +300,8 @@ for(const action of ["Escape","button"]) {
 await trigger.click();await focused(p,close);
 assert.equal(await dialog.getAttribute("aria-modal"),"false");
 assert(await dialog.evaluate(el=>{const r=el.getBoundingClientRect();return el.hasAttribute("open")&&!el.matches(":modal")&&getComputedStyle(el).display==="block"&&r.left>=0&&r.right<=innerWidth&&r.top>=0&&r.bottom<=innerHeight;}));
-await poll(p,()=>/belum dapat dimuat/.test(document.querySelector("#real-video-status").textContent));
+assert((await p.locator("#real-video-status").textContent()).startsWith("Peramban ini belum mendukung pemutar dialog."));
+assert((await p.locator("#real-video-source").getAttribute("href")).endsWith(".mp4"));
 if(action==="Escape") {await shot(p,"projects-390-attribute-fallback.png");await p.keyboard.press("Escape");}
 else await close.click();
 await poll(p,()=>!document.querySelector("#real-video-dialog").hasAttribute("open"));await focused(p,trigger);
