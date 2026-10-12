@@ -19,7 +19,6 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     env:
-      PLAYWRIGHT_BROWSERS_PATH: ${{ runner.temp }}/3dkan-chromium
       QA_BASE_URL: http://127.0.0.1:8765
       QA_ARTIFACT_DIR: artifacts/native-qa
       QA_CANDIDATE_SHA: ${{ github.event.pull_request.head.sha }}
@@ -39,6 +38,8 @@ jobs:
           python3 -m unittest discover -s tests -p "test_native_dependencies.py" -v
       - name: Install pinned Chromium test runtime
         run: |
+          export PLAYWRIGHT_BROWSERS_PATH="$RUNNER_TEMP/3dkan-chromium"
+          printf 'PLAYWRIGHT_BROWSERS_PATH=%s\n' "$PLAYWRIGHT_BROWSERS_PATH" >> "$GITHUB_ENV"
           npm install --prefix "$RUNNER_TEMP/3dkan-native-qa" --no-audit --no-fund playwright@1.64.0
           "$RUNNER_TEMP/3dkan-native-qa/node_modules/.bin/playwright" install --with-deps chromium
           printf 'NODE_PATH=%s\n' "$RUNNER_TEMP/3dkan-native-qa/node_modules" >> "$GITHUB_ENV"
