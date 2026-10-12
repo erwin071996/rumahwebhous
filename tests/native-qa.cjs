@@ -277,6 +277,11 @@ assert(await p.locator(".audience-card.corporate,.industry-grid article").evalua
 assert(await p.locator(".home-case").evaluateAll(es=>es.length===3&&es.every(e=>getComputedStyle(e).breakInside==="avoid")),"Print project cards may split");
 assert(await p.locator(".home-visual img").evaluate(e=>e.getBoundingClientRect().height<=268),"Print hero photograph too tall");
 }
+if(url==="/projects.html") assert(await p.locator(".case-visual img,.real-media img").evaluateAll(es=>es.length===16&&es.every(img=>{
+const r=img.getBoundingClientRect(),after=getComputedStyle(img.parentElement,"::after");
+return img.complete&&img.naturalWidth>0&&r.width>0&&r.height>0&&(after.display==="none"||after.content==="none");
+})),"Print photos are unloaded or a decorative overlay still covers them");
+if(url==="/") assert(await p.locator("#faq .faq-grid > div:first-child,#faq h2").evaluateAll(es=>es.length===2&&es.every(e=>getComputedStyle(e).breakInside==="avoid")),"FAQ heading/intro may split");
 const file=path.join(out,key+".pdf"); await p.pdf({path:file,format:"A4",printBackground:true}); artifacts.push(file);
 const defaultPaper=path.join(out,key+"-no-background.pdf"); await p.pdf({path:defaultPaper,format:"A4",printBackground:false}); artifacts.push(defaultPaper); await p.emulateMedia({media:"screen"});
 },why);

@@ -130,3 +130,13 @@
   .sprint-ui .home-case h3 { font-size: 13pt !important; }
   .sprint-ui .home-case p { font-size: 10pt !important; line-height: 1.5 !important; }
 }
+
+/* Print photographs are content; decorative overlays must not mask them. */
+@media print {
+  .sprint-ui :is(.case-visual,.real-media)::before,
+  .sprint-ui :is(.case-visual,.real-media)::after { content: none !important; display: none !important; }
+  .sprint-ui :is(.case-visual,.real-media) img { opacity: 1 !important; filter: none !important; transform: none !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .sprint-ui #faq .faq-grid > div:first-child,
+  .sprint-ui #faq h2,
+  .sprint-ui .client-checklist { break-inside: avoid; page-break-inside: avoid; }
+}
