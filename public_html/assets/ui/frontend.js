@@ -67,6 +67,42 @@
       else if (canRecover && !breakpoint.matches && (wasMenu || wasInServices) && summary) summary.focus();
     });
   }
+  /* Reveal only the active brief field after native focus, edits or reflow. */
+  let briefRevealPending = false;
+  function scheduleBriefReveal() {
+    if (briefRevealPending) return;
+    briefRevealPending = true;
+    const reveal = function () {
+      briefRevealPending = false;
+      const field = document.activeElement;
+      if (!field || !["INPUT", "SELECT", "TEXTAREA"].includes(field.tagName) || !field.closest("form[data-brief-form]") || field.matches(":disabled")) return;
+      if (typeof document.hasFocus === "function" && !document.hasFocus()) return;
+      const rect = field.getBoundingClientRect();
+      if (!rect.width || !rect.height) return;
+      const header = document.querySelector(".site-header");
+      const headerBottom = header ? Math.max(0, header.getBoundingClientRect().bottom) : 0;
+      const style = window.getComputedStyle(field);
+      const ring = (parseFloat(style.outlineWidth) || 0) + Math.max(0, parseFloat(style.outlineOffset) || 0);
+      const viewport = window.visualViewport;
+      const viewportTop = viewport ? viewport.offsetTop : 0;
+      const viewportBottom = viewportTop + (viewport ? viewport.height : window.innerHeight);
+      const top = Math.max(viewportTop, headerBottom) + 12 + ring;
+      const bottom = viewportBottom - 12 - ring;
+      const delta = rect.top < top || rect.height > bottom - top ? rect.top - top : rect.bottom > bottom ? rect.bottom - bottom : 0;
+      if (Math.abs(delta) > .5) {
+        try { window.scrollBy({ top: delta, left: 0, behavior: "instant" }); }
+        catch (error) { window.scrollBy(0, delta); }
+      }
+    };
+    if (typeof window.requestAnimationFrame === "function") window.requestAnimationFrame(reveal);
+    else setTimeout(reveal, 0);
+  }
+  document.addEventListener("focusin", scheduleBriefReveal);
+  document.addEventListener("input", scheduleBriefReveal);
+  document.addEventListener("change", scheduleBriefReveal);
+  window.addEventListener("resize", scheduleBriefReveal);
+  if (window.visualViewport) window.visualViewport.addEventListener("resize", scheduleBriefReveal);
+
   const filters = Array.from(document.querySelectorAll(".real-filter"));
   const cards = Array.from(document.querySelectorAll(".real-card"));
   const count = document.getElementById("gallery-result-count");

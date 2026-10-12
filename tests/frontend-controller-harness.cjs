@@ -1,6 +1,6 @@
 async function runFrontendControllerTests(sourceCode) {
 class Element {
-  constructor(id, tag) { this.id=id;this.tag=tag||"div";this.attrs=new Map();this.dataset={};this.events={};this.children=[];this.parent=null;this.textContent="";this.disabled=true;this.hidden=false;this.open=false;this.value="";this.selected=false;this._src="";this.error=null;this.pauseCalls=0;this.loadCalls=0;this.playCalls=0;this.playMode="resolve";this.classes=new Set();this.classList={toggle:(name,on)=>{const active=on===undefined?!this.classes.has(name):on;if(active)this.classes.add(name);else this.classes.delete(name);return active;},contains:(name)=>this.classes.has(name)}; }
+  constructor(id, tag) { this.id=id;this.tag=tag||"div";this.tagName=this.tag.toUpperCase();this.attrs=new Map();this.dataset={};this.events={};this.children=[];this.parent=null;this.textContent="";this.disabled=true;this.hidden=false;this.open=false;this.value="";this.selected=false;this._src="";this.error=null;this.pauseCalls=0;this.loadCalls=0;this.playCalls=0;this.playMode="resolve";this.classes=new Set();this.classList={toggle:(name,on)=>{const active=on===undefined?!this.classes.has(name):on;if(active)this.classes.add(name);else this.classes.delete(name);return active;},contains:(name)=>this.classes.has(name)}; }
   setAttribute(k,v){this.attrs.set(k,String(v));if(k==="open"&&this.reflectOpen!==false)this.open=true;if(k==="src")this._src=String(v);}
   getAttribute(k){return this.attrs.has(k)?this.attrs.get(k):null;}
   hasAttribute(k){return this.attrs.has(k);}
@@ -10,7 +10,9 @@ class Element {
   querySelector(q){if(q==="summary")return this.children.find(x=>x.tag==="summary")||null;return null;}
   append(el){el.parent=this;this.children.push(el);return el;}
   contains(el){return this===el||this.children.some(child=>child.contains(el));}
-  closest(q){if(q==="a[href]"&&this.tag==="a"&&this.href)return this;return this.parent?this.parent.closest(q):null;}
+  closest(q){if(q==='form[data-brief-form]'&&this.tag==="form"&&this.hasAttribute("data-brief-form"))return this;if(q==="a[href]"&&this.tag==="a"&&this.href)return this;return this.parent?this.parent.closest(q):null;}
+  matches(q){return q===":disabled"&&this.disabled;}
+  getBoundingClientRect(){return this.rect||{top:0,bottom:0,left:0,right:0,width:0,height:0};}
   focus(options){this.document.activeElement=this;this.lastFocusOptions=options;for(const {fn} of this.document.events.focusin||[])fn({target:this});}
   select(){this.selected=true;}
   set src(value){this._src=value;this.attrs.set("src",value);this.error=null;}
@@ -34,10 +36,12 @@ const openers=["cimb","brmp"].map(key=>{const b=element("open-"+key,"button");b.
 const copy=element("copy-portfolio-link","button"),print=element("print-portfolio","button"),toolStatus=element("client-tool-status"),shareFallback=element("portfolio-share-fallback"),shareUrl=shareFallback.append(element("portfolio-share-url","input"));shareFallback.hidden=true;
 const anchor=nav.append(element("brief-anchor","a"));anchor.href="https://www.3dkanadvertising.store/projects.html#brief-proyek";const brief=element("brief-proyek","section");
 const submenuLink=services.append(element("services-anchor","a")),unrelatedInput=element("outside-input","input");
+const header=element("header","header");header.rect={top:0,bottom:73,left:0,right:390,width:390,height:73};const briefForm=element("brief-form","form");briefForm.setAttribute("data-brief-form","home");const briefField=briefForm.append(element("test-brief-field","textarea"));briefField.disabled=false;
 const body=element("body","body"),rootElement=element("html","html");
-const doc=new Element("document");doc.body=body;doc.documentElement=rootElement;doc.activeElement=body;doc.pageFocused=true;doc.hasFocus=()=>doc.pageFocused;doc.contains=e=>all.includes(e);doc.querySelector=q=>q===".menu-toggle"?menu:q===".nav-services"?services:q==="dialog[open]"?(dialog.hasAttribute("open")?dialog:null):null;doc.querySelectorAll=q=>q===".real-filter"?filters:q===".real-card"?cards:q===".real-video"?openers:[];doc.getElementById=id=>all.find(e=>e.id===id)||null;for(const e of all)e.document=doc;
+const doc=new Element("document");doc.body=body;doc.documentElement=rootElement;doc.activeElement=body;doc.pageFocused=true;doc.hasFocus=()=>doc.pageFocused;doc.contains=e=>all.includes(e);doc.querySelector=q=>q===".site-header"?header:q===".menu-toggle"?menu:q===".nav-services"?services:q==="dialog[open]"?(dialog.hasAttribute("open")?dialog:null):null;doc.querySelectorAll=q=>q===".real-filter"?filters:q===".real-card"?cards:q===".real-video"?openers:[];doc.getElementById=id=>all.find(e=>e.id===id)||null;for(const e of all)e.document=doc;
 const media=new Element("media-query");media.matches=true;
-const window={matchMedia:()=>media,printCalls:0,print(){this.printCalls++;}};
+const window=new Element("window");Object.assign(window,{innerHeight:844,scrollCalls:[],matchMedia:()=>media,printCalls:0,print(){this.printCalls++;},getComputedStyle:el=>({outlineWidth:el.outlineWidth||"3px",outlineOffset:el.outlineOffset||"3px"}),requestAnimationFrame:fn=>{timers.push(fn);return timers.length;},scrollBy(options,amount){const dy=typeof options==="object"?options.top:amount;this.scrollCalls.push({dy,active:doc.activeElement.id});for(const e of all)if(e.rect&&e!==header)e.rect={...e.rect,top:e.rect.top-dy,bottom:e.rect.bottom-dy};}});
+window.visualViewport=new Element("visual-viewport");window.visualViewport.height=844;window.visualViewport.offsetTop=0;
 const navigator={clipboard:{mode:"deny",writes:[],async writeText(text){this.writes.push(text);if(this.mode==="deny")throw new Error("Denied");}}};
 const location={origin:"https://www.3dkanadvertising.store",pathname:"/projects.html",href:"https://www.3dkanadvertising.store/projects.html"};
 const timers=[];const timeout=fn=>{timers.push(fn);return timers.length;};
@@ -100,6 +104,23 @@ const genericEscape=await doc.fire("keydown",{key:"Escape"});expect("generic-dia
 await openers[1].fire("click");await closeButton.fire("click");expect("generic-dialog-close-button",!dialog.hasAttribute("open")&&!video.hasAttribute("src")&&doc.activeElement===openers[1],{open:dialog.hasAttribute("open"),active:doc.activeElement.id});
 await openers[0].fire("click");await doc.fire("keydown",{key:"Escape"});expect("generic-dialog-repeat",!dialog.hasAttribute("open")&&!video.hasAttribute("src")&&doc.activeElement===openers[0],{open:dialog.hasAttribute("open"),active:doc.activeElement.id});
 const closedStatus=status.textContent;await video.fire("playing");expect("closed-dialog-playing-ignored",status.textContent===closedStatus,{before:closedStatus,after:status.textContent});
+await flush();
+const placeField=(top,height=74)=>{briefField.rect={top,bottom:top+height,left:24,right:324,width:300,height};};
+const clearTop=()=>header.rect.bottom+8+6,clearBottom=()=>window.visualViewport.offsetTop+window.visualViewport.height-8-6;
+placeField(72);briefField.focus();await flush();expect("brief-focus-clears-sticky-header",doc.activeElement===briefField&&briefField.rect.top>=clearTop(),{rect:briefField.rect,lastScroll:window.scrollCalls.at(-1)});
+placeField(4720);await window.fire("resize");await flush();expect("brief-resize-reveals-focused-field",doc.activeElement===briefField&&briefField.rect.top>=clearTop()&&briefField.rect.bottom<=clearBottom(),{rect:briefField.rect});
+placeField(72);await doc.fire("input",{target:briefField});await flush();expect("brief-edit-reflow-clears-header",doc.activeElement===briefField&&briefField.rect.top>=clearTop(),{rect:briefField.rect});
+placeField(850);await doc.fire("change",{target:briefField});await flush();expect("brief-change-clears-bottom",briefField.rect.bottom<=clearBottom()&&doc.activeElement===briefField,{rect:briefField.rect});
+placeField(200);let scrollCount=window.scrollCalls.length;briefField.focus();await flush();expect("brief-visible-field-does-not-scroll",window.scrollCalls.length===scrollCount&&doc.activeElement===briefField,{scrolls:window.scrollCalls.length-scrollCount});
+unrelatedInput.rect={top:0,bottom:80,left:0,right:100,width:100,height:80};unrelatedInput.focus();scrollCount=window.scrollCalls.length;await window.fire("resize");await flush();expect("brief-helper-ignores-unrelated-controls",window.scrollCalls.length===scrollCount&&doc.activeElement===unrelatedInput,{scrolls:window.scrollCalls.length-scrollCount});
+placeField(72);briefField.focus();unrelatedInput.focus();scrollCount=window.scrollCalls.length;await flush();expect("brief-pending-reveal-does-not-follow-stale-focus",window.scrollCalls.length===scrollCount&&doc.activeElement===unrelatedInput,{scrolls:window.scrollCalls.length-scrollCount});
+doc.pageFocused=false;placeField(72);briefField.focus();scrollCount=window.scrollCalls.length;await flush();expect("brief-helper-ignores-inactive-page",window.scrollCalls.length===scrollCount,{scrolls:window.scrollCalls.length-scrollCount});doc.pageFocused=true;
+window.visualViewport.height=420;placeField(390);await window.visualViewport.fire("resize");await flush();expect("brief-helper-respects-visible-keyboard-viewport",briefField.rect.bottom<=clearBottom()&&doc.activeElement===briefField,{rect:briefField.rect,visibleHeight:window.visualViewport.height});window.visualViewport.height=844;
+placeField(0,900);briefField.focus();await flush();expect("brief-oversized-preview-aligns-top",briefField.rect.top>=clearTop()&&doc.activeElement===briefField,{rect:briefField.rect});
+header.rect.bottom=120;header.rect.height=120;placeField(73);briefField.focus();await flush();expect("brief-helper-measures-header-height",briefField.rect.top>=clearTop(),{rect:briefField.rect,headerBottom:header.rect.bottom});header.rect.bottom=73;header.rect.height=73;
+placeField(72);scrollCount=window.scrollCalls.length;await doc.fire("input",{target:briefField});await doc.fire("change",{target:briefField});await window.fire("resize");const queued=timers.length;await flush();expect("brief-helper-coalesces-one-frame",queued===1&&window.scrollCalls.length===scrollCount+1,{queued,scrolls:window.scrollCalls.length-scrollCount});
+briefField.disabled=true;placeField(72);briefField.focus();scrollCount=window.scrollCalls.length;await flush();expect("brief-helper-ignores-disabled-control",window.scrollCalls.length===scrollCount,{scrolls:window.scrollCalls.length-scrollCount});briefField.disabled=false;
+briefField.rect={top:72,bottom:72,left:0,right:0,width:0,height:0};briefField.focus();scrollCount=window.scrollCalls.length;await flush();expect("brief-helper-ignores-hidden-control",window.scrollCalls.length===scrollCount,{scrolls:window.scrollCalls.length-scrollCount});
 return {results,passed:results.filter(x=>x.pass).length,failed:results.filter(x=>!x.pass).length,limitations:["Controller stub only; browser default focus, CSS, viewport layout, network media, and print rendering not proved.","Escape emulates the native dialog cancel event after document keydown."]};
 }
 if (typeof module !== 'undefined' && module.exports) module.exports = { runFrontendControllerTests };
