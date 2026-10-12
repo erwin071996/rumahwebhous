@@ -45,14 +45,14 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          baseline_sha=5217e1cf524cff9cf6bd9977ba90551389cef51d
+          baseline_sha=f4966d1a0ff7e45090abd152a45a69daecf099c9
           for page in index.html projects.html; do
             if [ "$page" = index.html ]; then
               public_url=https://www.3dkanadvertising.store/
             else
               public_url=https://www.3dkanadvertising.store/projects.html
             fi
-            git show "$baseline_sha:$page" > "$RUNNER_TEMP/baseline-$page"
+            git show "$baseline_sha:public_html/$page" > "$RUNNER_TEMP/baseline-$page"
             curl --proto '=https' --tlsv1.2 --fail --silent --show-error \
               --max-time 20 --retry 2 "$public_url" \
               -o "$RUNNER_TEMP/live-$page"

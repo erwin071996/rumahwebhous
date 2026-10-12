@@ -39,84 +39,84 @@
       "bytes": 206860,
       "sha256": "92e495018498582e130d3954e27f81ee74d42acdf6d93c71013818793e93d738",
       "mime": "image/webp",
-      "checkoutSource": "assets/portfolio-real/clean/kantor-desa-minsa-baji.webp"
+      "checkoutSource": "public_html/assets/portfolio-real/clean/kantor-desa-minsa-baji.webp"
     },
     {
       "path": "/assets/portfolio-real/clean/proses-huruf-timbul-custom.webp",
       "bytes": 192724,
       "sha256": "ff65fa60c577ee42e5ca957dceb7c75aa19f09209c6b7e3c7a276c9da0883cab",
       "mime": "image/webp",
-      "checkoutSource": "assets/portfolio-real/clean/proses-huruf-timbul-custom.webp"
+      "checkoutSource": "public_html/assets/portfolio-real/clean/proses-huruf-timbul-custom.webp"
     },
     {
       "path": "/assets/portfolio-real/clean/koperasi-merah-putih-mandalle.webp",
       "bytes": 186230,
       "sha256": "9f20fcc0b263d0b8fcaefadf34692920ab79922f0d693689eb06e635bf90b31a",
       "mime": "image/webp",
-      "checkoutSource": "assets/portfolio-real/clean/koperasi-merah-putih-mandalle.webp"
+      "checkoutSource": "public_html/assets/portfolio-real/clean/koperasi-merah-putih-mandalle.webp"
     },
     {
       "path": "/assets/portfolio-real/clean/cimb-niaga-signage-atm.webp",
       "bytes": 612162,
       "sha256": "501e6f982db106e44c739b40dcf9416ae31692651c277a00980b3d0b80edf476",
       "mime": "image/webp",
-      "checkoutSource": "assets/portfolio-real/clean/cimb-niaga-signage-atm.webp"
+      "checkoutSource": "public_html/assets/portfolio-real/clean/cimb-niaga-signage-atm.webp"
     },
     {
       "path": "/assets/portfolio-real/clean/signage-masjid-eksterior.webp",
       "bytes": 395250,
       "sha256": "65c278bdc8d72cca5ca670bf7d78145c0cf47ecd9f830bf46162ac148d2a51cf",
       "mime": "image/webp",
-      "checkoutSource": "assets/portfolio-real/clean/signage-masjid-eksterior.webp"
+      "checkoutSource": "public_html/assets/portfolio-real/clean/signage-masjid-eksterior.webp"
     },
     {
       "path": "/assets/portfolio-real/clean/kantor-pelayanan-desa-lekopancing.webp",
       "bytes": 222044,
       "sha256": "9c202be1987f7a36b92f0a3725ab36ebcab9a487c4e9769216cbd12a2c5db7f3",
       "mime": "image/webp",
-      "checkoutSource": "assets/portfolio-real/clean/kantor-pelayanan-desa-lekopancing.webp"
+      "checkoutSource": "public_html/assets/portfolio-real/clean/kantor-pelayanan-desa-lekopancing.webp"
     },
     {
       "path": "/assets/portfolio-real/clean/proses-instalasi-brmp.webp",
       "bytes": 448732,
       "sha256": "f64d8781d7386d126276738b43e888771cf3c5178d2fc22bd3f172f4e176aa7b",
       "mime": "image/webp",
-      "checkoutSource": "assets/portfolio-real/clean/proses-instalasi-brmp.webp"
+      "checkoutSource": "public_html/assets/portfolio-real/clean/proses-instalasi-brmp.webp"
     },
     {
       "path": "/assets/portfolio-real/clean/koperasi-merah-putih-ampekale.webp",
       "bytes": 154852,
       "sha256": "7ffa53840ce55f4a2aa0a6e639dc0baa50fd60591a122c462c9a8ab05d666e5d",
       "mime": "image/webp",
-      "checkoutSource": "assets/portfolio-real/clean/koperasi-merah-putih-ampekale.webp"
+      "checkoutSource": "public_html/assets/portfolio-real/clean/koperasi-merah-putih-ampekale.webp"
     },
     {
       "path": "/assets/portfolio-real/clean/shop-sign-retail-neonbox.webp",
       "bytes": 641662,
       "sha256": "3995bda9442ea6b58879ce58240c5c7a0653f83b247c3249b3eab41b792eb34a",
       "mime": "image/webp",
-      "checkoutSource": "assets/portfolio-real/clean/shop-sign-retail-neonbox.webp"
+      "checkoutSource": "public_html/assets/portfolio-real/clean/shop-sign-retail-neonbox.webp"
     },
     {
       "path": "/assets/portfolio-real/clean/kementerian-pertanian-brmp.webp",
       "bytes": 448556,
       "sha256": "c8aae945cbf20531214c6dc7f280dcd467a8c75ee2f5b5f88660b89f8abfe162",
       "mime": "image/webp",
-      "checkoutSource": "assets/portfolio-real/clean/kementerian-pertanian-brmp.webp"
+      "checkoutSource": "public_html/assets/portfolio-real/clean/kementerian-pertanian-brmp.webp"
     },
     {
       "path": "/assets/portfolio-real/clean/gadget-solution-neonbox.webp",
       "bytes": 193204,
       "sha256": "27f2415816d57c85ecf881aab4aeb7ed03d8593ab77161e1d9cd4b9d48f1d1d3",
       "mime": "image/webp",
-      "checkoutSource": "assets/portfolio-real/clean/gadget-solution-neonbox.webp"
+      "checkoutSource": "public_html/assets/portfolio-real/clean/gadget-solution-neonbox.webp"
     },
     {
       "path": "/assets/portfolio-real/clean/pt-makassar-metro-network.webp",
       "bytes": 164524,
       "sha256": "d57e1cb3ea73f6d5901c8343b2021fd225c4442bd56b57dfa5ccb7990c31c04d",
       "mime": "image/webp",
-      "checkoutSource": "assets/portfolio-real/clean/pt-makassar-metro-network.webp"
+      "checkoutSource": "public_html/assets/portfolio-real/clean/pt-makassar-metro-network.webp"
     }
   ]
 }
