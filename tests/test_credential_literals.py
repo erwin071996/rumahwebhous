@@ -23,6 +23,13 @@ class LiteralCredentialTests(unittest.TestCase):
             b'$password = getenv("DB_PASSWORD") ?: "Synthetic9!";',
             b'password = env("DB_PASSWORD", "Synthetic9!");',
             b'const password = process.env.DB_PASSWORD || "Synthetic9!";',
+            b'getenv("FTP_PASS") ?: "Synthetic9!";',
+            b'env("SMTP_PWD", "Synthetic9!");',
+            b'const password = process.env.FTP_PASS || "Synthetic9!";',
+            b"$password = $_ENV['DB_PASSWORD'] ?? 'Synthetic9!';",
+            b"$password = $_SERVER['FTP_PASS'] ?: 'Synthetic9!';",
+            b"const password = process.env['DB_PASSWORD'] || 'Synthetic9!';",
+            b"const password = process.env['SMTP_PWD'] ?? 'Synthetic9!';",
             b'password = "DemoSecret123";',
             b'api_key = "sk-' + b'A' * 40 + b'";',
         ]
@@ -34,6 +41,10 @@ class LiteralCredentialTests(unittest.TestCase):
         values = [
             b'$password = getenv("DB_PASSWORD");',
             b'const apiKey = process.env.API_KEY;',
+            b'const password = process.env.FTP_PASS;',
+            b"$password = $_ENV['DB_PASSWORD'];",
+            b"$password = $_SERVER['FTP_PASS'];",
+            b"const password = process.env['DB_PASSWORD'];",
             b'password = os.environ["PASSWORD"]',
             b'{"password": ""}',
             b'apiKey = "YOUR_API_KEY";',
@@ -79,6 +90,21 @@ class LiteralCredentialTests(unittest.TestCase):
             check.check_payload()
             self.assertEqual(check.errors, [])
 
+
+    def test_password_database_files_are_forbidden_at_any_depth(self):
+        synthetic = "Synthetic9!"
+        for name in (".htpasswd", "nested/.htpasswd", ".htdigest", "nested/.htdigest"):
+            with self.subTest(path=name), tempfile.TemporaryDirectory() as folder:
+                repo = Path(folder)
+                file = repo / "public_html" / name
+                file.parent.mkdir(parents=True, exist_ok=True)
+                file.write_text("synthetic-user:" + synthetic, encoding="utf-8")
+                check = CHECK.SiteCheck(repo)
+                check.check_payload()
+                self.assertEqual(len(check.errors), 1)
+                self.assertIn("Credential/runtime file in payload:", check.errors[0])
+                self.assertIn(name, check.errors[0])
+                self.assertNotIn(synthetic, check.errors[0])
 
 if __name__ == "__main__":
     unittest.main()

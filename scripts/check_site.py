@@ -29,7 +29,7 @@ FORBIDDEN_NAMES = {
     ".git", ".github", "node_modules", "__pycache__", ".netrc",
     "wp-config.php", "configuration.php", "error_log", "ftps.json",
     "ftps.pass", "credentials.json", "credentials.php",
-    ".3dkan-deployment-state.json",
+    ".3dkan-deployment-state.json", ".htpasswd", ".htdigest",
 }
 FORBIDDEN_SUFFIXES = (
     ".log", ".sql", ".sql.gz", ".zip", ".tar", ".tar.gz", ".bak",
@@ -73,10 +73,14 @@ CREDENTIAL_PLACEHOLDER = re.compile(
 )
 
 
+_ENV_CREDENTIAL_NAME = rb"[A-Z0-9_]*(?:PASSWORD|PASSWD|PASS|PWD|TOKEN|SECRET|API_?KEY)[A-Z0-9_]*"
 ENV_CREDENTIAL_FALLBACKS = (
-    re.compile(rb"\b(?:getenv|env)\s*\(\s*['\"][A-Z0-9_]*(?:PASSWORD|PASSWD|TOKEN|SECRET|API_?KEY)[A-Z0-9_]*['\"]\s*,\s*" + _CREDENTIAL_VALUE, re.I | re.S),
-    re.compile(rb"\b(?:getenv|env)\s*\(\s*['\"][A-Z0-9_]*(?:PASSWORD|PASSWD|TOKEN|SECRET|API_?KEY)[A-Z0-9_]*['\"]\s*\)\s*(?:\?\s*:|\?\?)\s*" + _CREDENTIAL_VALUE, re.I | re.S),
-    re.compile(rb"\bprocess\.env\.[A-Z0-9_]*(?:PASSWORD|PASSWD|TOKEN|SECRET|API_?KEY)[A-Z0-9_]*\s*(?:\|\||\?\?)\s*" + _CREDENTIAL_VALUE, re.I | re.S),
+    re.compile(rb"\b(?:getenv|env)\s*\(\s*['\"]" + _ENV_CREDENTIAL_NAME + rb"['\"]\s*,\s*" + _CREDENTIAL_VALUE, re.I | re.S),
+    re.compile(rb"\b(?:getenv|env)\s*\(\s*['\"]" + _ENV_CREDENTIAL_NAME + rb"['\"]\s*\)\s*(?:\?\s*:|\?\?)\s*" + _CREDENTIAL_VALUE, re.I | re.S),
+    re.compile(rb"\bprocess\s*\.\s*env\s*\.\s*" + _ENV_CREDENTIAL_NAME + rb"\s*(?:\|\||\?\?)\s*" + _CREDENTIAL_VALUE, re.I | re.S),
+    re.compile(rb"(?<![A-Za-z0-9_])(?:\$_(?:ENV|SERVER)|process\s*\.\s*env)\s*\[\s*['\"]"
+               + _ENV_CREDENTIAL_NAME + rb"['\"]\s*\]\s*(?:\?\?|\?\s*:|\|\|)\s*"
+               + _CREDENTIAL_VALUE, re.I | re.S),
     re.compile(rb"\b[a-z][a-z0-9+.-]*://[^/\s:@]+:(?P<value>[^@\s/]+)@", re.I),
 )
 AUTH_RUNTIME_DEPENDENCY = re.compile(rb"^\s*AuthUserFile\s+\S", re.I | re.M)
