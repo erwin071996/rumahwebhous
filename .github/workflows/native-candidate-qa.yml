@@ -7,6 +7,7 @@ on:
       - "public_html/assets/ui/**"
       - "public_html/assets/branding/**"
       - "tests/native-qa.cjs"
+      - "tests/performance.cjs"
       - "tests/native-dependencies.json"
       - "tests/branding.test.cjs"
       - "scripts/prepare_native_qa.py"
@@ -17,7 +18,7 @@ permissions:
 jobs:
   native-qa:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 40
     env:
       QA_BASE_URL: http://127.0.0.1:8765
       QA_ARTIFACT_DIR: artifacts/native-qa
@@ -27,6 +28,7 @@ jobs:
         with:
           ref: ${{ github.event.pull_request.head.sha }}
           persist-credentials: false
+          fetch-depth: 0
       - name: Verify exact candidate and original branding bytes
         run: |
           test "$(git rev-parse HEAD)" = "$QA_CANDIDATE_SHA"
@@ -56,6 +58,24 @@ jobs:
             sleep 0.25
           done
           node tests/native-qa.cjs
+      - name: Install pinned performance runtime
+        run: |
+          npm install --prefix "$RUNNER_TEMP/3dkan-native-qa" --no-audit --no-fund lighthouse@13.5.0 puppeteer-core@25.13.0
+          mkdir -p artifacts/performance
+          cp "$RUNNER_TEMP/3dkan-native-qa/package-lock.json" artifacts/performance/runtime-package-lock.json
+      - name: Measure first-party baseline and candidate performance
+        timeout-minutes: 30
+        run: |
+          node --check tests/performance.cjs
+          node tests/performance.cjs
+      - name: Save raw performance reports and comparison
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: performance-${{ github.event.pull_request.head.sha }}
+          path: artifacts/performance
+          if-no-files-found: warn
+          retention-days: 7
       - name: Save native reports, screenshots, PDFs and verified public fixture
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
