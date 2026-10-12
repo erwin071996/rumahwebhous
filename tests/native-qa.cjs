@@ -125,6 +125,23 @@ throw Error("Focus assertion timeout: "+JSON.stringify(info));
 }
 };
 const poll=(p,fn,arg)=>p.waitForFunction(fn,arg,{timeout:4000});
+async function visibleFocused(p,locator,label) {
+await focused(p,locator);
+const handle=await locator.elementHandle();
+try {await p.waitForFunction(el=>{
+const r=el.getBoundingClientRect(),s=getComputedStyle(el),header=document.querySelector(".site-header"),bottom=header ? Math.max(0,header.getBoundingClientRect().bottom) : 0;
+const ring=(parseFloat(s.outlineWidth)||0)+Math.max(0,parseFloat(s.outlineOffset)||0);
+const fits=r.height+ring*2<=innerHeight-bottom-16;
+return el===document.activeElement&&r.top-ring>=bottom+8&&(!fits||r.bottom+ring<=innerHeight-8);
+},handle,{timeout:4000});}
+catch(error) {
+const detail=await p.evaluate(el=>{
+const r=el.getBoundingClientRect(),h=document.querySelector(".site-header")?.getBoundingClientRect(),s=getComputedStyle(el);
+return {id:el.id,tag:el.tagName,viewport:{width:innerWidth,height:innerHeight},field:{top:r.top,bottom:r.bottom,height:r.height},headerBottom:h?.bottom||0,outlineWidth:s.outlineWidth,outlineOffset:s.outlineOffset};
+},handle);
+throw Error("Focused control is occluded ("+label+"): "+JSON.stringify(detail));
+}
+}
 async function shot(p,name) {
 const labeled=name.match(/(?:index|projects)-(1280|390|320)(?:[.-])/);
 if(labeled) assert.equal(p.viewportSize().width,Number(labeled[1]),"Screenshot label/viewport mismatch");
@@ -178,24 +195,26 @@ await link.focus(); await p.setViewportSize({width:1020,height:844}); await focu
 await p.setViewportSize({width:1021,height:720}); await focused(p,summary);
 await p.setViewportSize(viewport);
 const field=p.locator("form[data-brief-form] textarea[name=note]"); await field.focus();
-await p.setViewportSize({width:390,height:844}); await focused(p,field); await p.setViewportSize(viewport);
+await p.setViewportSize({width:390,height:844}); await visibleFocused(p,field,"focused field after resize"); await p.setViewportSize(viewport);
 } finally {await p.setViewportSize(viewport);}
 },why);
 await check(key+" brief validation, preview, mocked-copy denial and stale edit",async()=>{
 const f=p.locator("form[data-brief-form]"), type=f.locator("select[name=type]"), compose=f.locator("[data-brief-compose]"), status=f.locator("[data-brief-status]"), output=f.locator("[data-brief-output]"), note=f.locator("textarea[name=note]");
 assert.equal(await f.locator("[data-brief-fields]").evaluate(e=>e.disabled),false);
 assert(await f.locator("input,select,textarea").evaluateAll(es=>es.every(e=>{const r=e.getBoundingClientRect();return r.left>=-1&&r.right<=innerWidth+1;})));
-await type.selectOption(""); await compose.click(); await focused(p,type); assert.equal(await output.isVisible(),false);
+await f.locator("input[name=points]").focus(); await p.keyboard.press("Tab");
+await visibleFocused(p,f.locator(await f.getAttribute("data-brief-form")==="home" ? "textarea[name=note]" : "input[name=location]"),"native Tab field");
+await type.selectOption(""); await compose.click(); await visibleFocused(p,type,"validation error"); assert.equal(await output.isVisible(),false);
 await type.selectOption("Neon box"); await note.fill(nonce); await compose.click();
 assert(await output.isVisible()); assert((await f.locator("[data-brief-preview]").inputValue()).includes(nonce));
 assert(await f.locator("[data-brief-preview]").evaluate(el=>{const r=el.getBoundingClientRect();return r.width>0&&r.left>=-1&&r.right<=innerWidth+1;}));
 assert(await p.evaluate(()=>!(window.dataLayer||[]).some(entry=>entry&&entry[0]==="event"&&entry[1]==="generate_lead")),"Premature lead queued in dataLayer");
 assert(!/sudah dikirim|berhasil dikirim|generate_lead/i.test(await status.textContent()));
 assert((await f.locator("[data-brief-whatsapp]").getAttribute("href")).startsWith("https://wa.me/6285340382029?text=")); /* Never click this link. */
-await f.locator("[data-brief-copy]").click(); await focused(p,f.locator("[data-brief-preview]"));
+await f.locator("[data-brief-copy]").click(); await visibleFocused(p,f.locator("[data-brief-preview]"),"manual-copy preview");
 assert(!/tersalin/i.test(await status.textContent())); assert(/menu perangkat|Ctrl\+C/.test(await status.textContent()));
 await note.fill(nonce+"_edited"); assert.equal(await output.isVisible(),false); assert.equal(await f.locator("[data-brief-whatsapp]").getAttribute("href"),null);
-await note.focus(); await focused(p,note); assert(await note.evaluate(el=>{const s=getComputedStyle(el);return el.matches(":focus-visible")&&s.outlineStyle!=="none"&&parseFloat(s.outlineWidth)>=2;})); await shot(p,key+"-brief.png");
+await note.focus(); await visibleFocused(p,note,"edited note"); assert(await note.evaluate(el=>{const s=getComputedStyle(el);return el.matches(":focus-visible")&&s.outlineStyle!=="none"&&parseFloat(s.outlineWidth)>=2;})); await shot(p,key+"-brief.png");
 },why);
 if(url==="/projects.html") {
 await check(key+" filter counts/ARIA and hidden keyboard exclusion",async()=>{
@@ -211,7 +230,7 @@ await p.locator(".real-filter[data-filter=all]").click(); await p.locator("#proj
 },why);
 await check(key+" portfolio mocked-copy denial and toolbar hit target",async()=>{
 await p.locator("#copy-portfolio-link").click();
-const input=p.locator("#portfolio-share-url"); await focused(p,input); assert(await input.isVisible());
+const input=p.locator("#portfolio-share-url"); await visibleFocused(p,input,"manual portfolio-copy"); assert(await input.isVisible());
 assert((await input.inputValue()).endsWith("/projects.html#studi-kasus")); assert(!/tersalin/i.test(await p.locator("#client-tool-status").textContent()));
 const a=p.locator('.client-tools-actions a[href="#brief-proyek"]'); await a.scrollIntoViewIfNeeded();
 assert(await a.evaluate(el=>{ const b=el.getBoundingClientRect(); return el.contains(document.elementFromPoint(b.x+b.width/2,b.y+b.height/2)); }));
@@ -251,7 +270,15 @@ await p.locator(".site-footer .footer-brand").scrollIntoViewIfNeeded();await sho
 },why);
 if(viewport.width===1280) await check(key+" print PDF captured (visual review pending)",async()=>{
 if(url==="/projects.html") await p.locator(".real-filter[data-filter=retail]").click(); await p.emulateMedia({media:"print"});
-if(url==="/projects.html") assert(await p.locator(".real-card").evaluateAll(es=>es.length===10&&es.every(e=>getComputedStyle(e).display!=="none"))); const file=path.join(out,key+".pdf"); await p.pdf({path:file,format:"A4",printBackground:true}); artifacts.push(file); await p.emulateMedia({media:"screen"});
+if(url==="/projects.html") assert(await p.locator(".real-card").evaluateAll(es=>es.length===10&&es.every(e=>getComputedStyle(e).display!=="none")));
+if(url==="/") {
+assert(await p.locator(".audience-card.corporate p,.audience-card.corporate .eyebrow,.industry-grid span").evaluateAll(es=>es.length>0&&es.every(e=>getComputedStyle(e).color==="rgb(17, 17, 17)")),"Print text is not readable ink");
+assert(await p.locator(".audience-card.corporate,.industry-grid article").evaluateAll(es=>es.length>0&&es.every(e=>{const s=getComputedStyle(e);return s.backgroundColor==="rgb(255, 255, 255)"&&parseFloat(s.borderTopWidth)>=1;})),"Print cards need light background and visible boundary");
+assert(await p.locator(".home-case").evaluateAll(es=>es.length===3&&es.every(e=>getComputedStyle(e).breakInside==="avoid")),"Print project cards may split");
+assert(await p.locator(".home-visual img").evaluate(e=>e.getBoundingClientRect().height<=268),"Print hero photograph too tall");
+}
+const file=path.join(out,key+".pdf"); await p.pdf({path:file,format:"A4",printBackground:true}); artifacts.push(file);
+const defaultPaper=path.join(out,key+"-no-background.pdf"); await p.pdf({path:defaultPaper,format:"A4",printBackground:false}); artifacts.push(defaultPaper); await p.emulateMedia({media:"screen"});
 },why);
 dependencyStates.get(c).closing=true; await c.close();
 }

@@ -6,6 +6,7 @@
   const nav = document.getElementById("site-nav");
   const services = document.querySelector(".nav-services");
   const summary = services && services.querySelector("summary");
+  let rememberedNavigationFocus = null;
   function closeNavigation(focusMenu) {
     if (services) services.open = false;
     if (nav) nav.removeAttribute("data-open");
@@ -13,6 +14,14 @@
     if (focusMenu && menu) menu.focus();
   }
   if (menu && nav) {
+    document.addEventListener("focusin", function (event) {
+      const target = event.target;
+      if (target === document.body || target === document.documentElement) return;
+      rememberedNavigationFocus = nav.contains(target) || menu.contains(target) ? target : null;
+    });
+    document.addEventListener("pointerdown", function (event) {
+      if (!nav.contains(event.target) && !menu.contains(event.target)) rememberedNavigationFocus = null;
+    }, true);
     document.addEventListener("keydown", function (event) {
       if (event.key !== "Escape" || document.querySelector("dialog[open]")) return;
       const menuOpen = menu.getAttribute("aria-expanded") === "true" || nav.hasAttribute("data-open");
@@ -27,6 +36,7 @@
     nav.addEventListener("click", function (event) {
       const anchor = event.target.closest("a[href]");
       if (!anchor) return;
+      rememberedNavigationFocus = null;
       const targetUrl = new URL(anchor.href, location.href);
       closeNavigation(false);
       if (targetUrl.origin === location.origin && targetUrl.pathname === location.pathname && targetUrl.hash) {
@@ -38,17 +48,23 @@
       }
     });
     document.addEventListener("click", function (event) {
-      if (!nav.contains(event.target) && !menu.contains(event.target)) closeNavigation(false);
+      if (!nav.contains(event.target) && !menu.contains(event.target)) {
+        rememberedNavigationFocus = null;
+        closeNavigation(false);
+      }
     });
     const breakpoint = window.matchMedia("(max-width: 1020px)");
     if (typeof breakpoint.addEventListener === "function") breakpoint.addEventListener("change", function () {
-      const active = document.activeElement;
+      const current = document.activeElement;
+      const canRecover = typeof document.hasFocus !== "function" || document.hasFocus();
+      const active = canRecover && (current === document.body || current === document.documentElement) && rememberedNavigationFocus ? rememberedNavigationFocus : current;
+      rememberedNavigationFocus = null;
       const wasInNav = nav.contains(active);
       const wasInServices = services && services.contains(active);
       const wasMenu = menu.contains(active);
       closeNavigation(false);
-      if (breakpoint.matches && (wasInNav || wasMenu)) menu.focus();
-      else if (!breakpoint.matches && (wasMenu || wasInServices) && summary) summary.focus();
+      if (canRecover && breakpoint.matches && (wasInNav || wasMenu)) menu.focus();
+      else if (canRecover && !breakpoint.matches && (wasMenu || wasInServices) && summary) summary.focus();
     });
   }
   const filters = Array.from(document.querySelectorAll(".real-filter"));

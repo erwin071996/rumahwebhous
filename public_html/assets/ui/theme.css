@@ -103,3 +103,30 @@
 .sprint-ui form[data-brief-form] :is(input,select,textarea):focus,
 .sprint-ui .share-fallback input:focus { border-color: var(--ink); box-shadow: none; }
 .sprint-ui .real-filter:not(.active):hover { color: var(--ink); background: var(--soft); border-color: var(--brand-primary); }
+
+/* Paper layout keeps original photographs and business copy readable. */
+@media print {
+  @page { size: A4; margin: 14mm; }
+  .sprint-ui { font-size: 10pt; }
+  .sprint-ui main,
+  .sprint-ui main :is(p,small,span,a,b,strong,em,h1,h2,h3,h4,li) { color: #111111 !important; text-shadow: none !important; }
+  .sprint-ui :is(.audience-card,.industry-grid article,.vendor-cap-item,.home-process-grid article,.home-service,.home-case,.real-proof article,.case-note,.case-sector,.real-tag,.hero-trust span,.home-process-grid b,.workflow-step b) { color: #111111 !important; background: #ffffff !important; box-shadow: none !important; border-color: #aaaaaa !important; }
+  .sprint-ui :is(.btn,.portfolio-link,.case-cta,.client-tool-btn) { color: #111111 !important; background: #ffffff !important; border: 1px solid #aaaaaa !important; }
+  .sprint-ui :is(.audience-card,.industry-grid article,.vendor-cap-item) { border: 1px solid #aaaaaa !important; }
+  .sprint-ui :is(.audience-card,.industry-grid article,.vendor-cap-item,.home-case,.home-process-grid article,.workflow-step,.real-process article,.case-fact,.button-row,.case-actions,.vendor-cap-cta) { break-inside: avoid; page-break-inside: avoid; }
+  .sprint-ui :is(h1,h2,h3,.eyebrow,.case-kicker) { break-after: avoid; page-break-after: avoid; }
+  .sprint-ui :is(p,li) { orphans: 3; widows: 3; }
+  .sprint-ui :is(.home-hero,.home-cases,.audience-section,.home-services,.home-process,.home-industries,.home-assurance) { padding-block: 1rem !important; }
+  .sprint-ui .home-hero-grid { display: grid !important; grid-template-columns: minmax(0,3fr) minmax(0,2fr) !important; gap: 1rem !important; align-items: start !important; }
+  .sprint-ui .home-hero h1 { font-size: 27pt !important; line-height: 1.12 !important; max-width: none !important; margin: .3rem 0 .8rem !important; }
+  .sprint-ui .home-hero .hero-intro { font-size: 10pt !important; line-height: 1.5 !important; }
+  .sprint-ui .home-hero .button-row { display: none !important; }
+  .sprint-ui .home-visual { break-inside: avoid; page-break-inside: avoid; }
+  .sprint-ui .home-visual img { width: 100% !important; height: auto !important; max-height: 200pt !important; aspect-ratio: auto !important; object-fit: contain !important; }
+  .sprint-ui .home-visual figcaption { font-size: 9pt !important; line-height: 1.4 !important; }
+  .sprint-ui .home-case-grid,.sprint-ui .industry-grid { display: grid !important; grid-template-columns: repeat(2,minmax(0,1fr)) !important; gap: .75rem !important; }
+  .sprint-ui .home-case img { width: 100% !important; height: 160pt !important; aspect-ratio: auto !important; object-fit: contain !important; }
+  .sprint-ui .home-case-copy,.sprint-ui .industry-grid article { padding: .75rem !important; }
+  .sprint-ui .home-case h3 { font-size: 13pt !important; }
+  .sprint-ui .home-case p { font-size: 10pt !important; line-height: 1.5 !important; }
+}

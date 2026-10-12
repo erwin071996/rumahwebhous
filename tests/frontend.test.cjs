@@ -10,9 +10,9 @@ async function main() {
   const js = fs.readFileSync(path.join(root, "assets/ui/frontend.js"), "utf8");
   const css = fs.readFileSync(path.join(root, "assets/ui/frontend.css"), "utf8");
   const harness = fs.readFileSync(path.join(__dirname, "frontend-controller-harness.cjs"), "utf8");
-  assert.equal(hash(js), "e2a55d98273daabe61b3636e2bf8ee50bc0ca6bad86e6da075c7ac3cce4ed971", "Reviewed controller bytes changed");
+  assert.equal(hash(js), "e7ee2c7edb830a658623a60004f950f3cb3eacd92d0a40b90794192fdde497a9", "Reviewed controller bytes changed");
   assert.equal(hash(css), "f124f0f247e7f0300e7dd98ff333c5048772c59d6171046a725f95511cf2e7f8", "Reviewed CSS bytes changed");
-  assert.equal(hash(harness), "85b9b4a0de644a4b2b7440e749167b23922e06c80ef6c0bb60f1ca480c1b4b92", "Reviewed harness bytes changed");
+  assert.equal(hash(harness), "4e4f8457dde4e218098735238671d8c44d46efc603974de82bd330c98019af9a", "Reviewed harness bytes changed");
   for (const name of ["index.html", "projects.html"]) {
     const html = fs.readFileSync(path.join(root, name), "utf8");
     const ids = Array.from(html.matchAll(/\bid="([^"]+)"/g), m => m[1]);
@@ -26,6 +26,6 @@ async function main() {
   const result = await runFrontendControllerTests(js);
   console.log(JSON.stringify(result, null, 2));
   assert.equal(result.failed, 0, "Controller stub failed");
-  assert.equal(result.passed, 39, "Expected reviewed regression suite");
+  assert.equal(result.passed, 50, "Expected reviewed regression suite");
 }
 main().catch(error => { console.error(error); process.exitCode = 1; });
