@@ -1,0 +1,522 @@
+{
+  "domain": "https://www.3dkanadvertising.store",
+  "asset": "/assets/refresh-20261006",
+  "logo": "/assets/refresh-20261006/brand.svg",
+  "phone": "6285340382029",
+  "services": {
+    "huruf-timbul": {
+      "name": "Huruf Timbul",
+      "symbol": "Aa",
+      "intro": "Bentuk tiga dimensi untuk identitas usaha yang tegas, rapi, dan mudah dikenali.",
+      "body": "Pilih tampilan huruf timbul berdasarkan bidang pemasangan dan karakter merek. Akrilik cocok untuk warna dan pencahayaan dari depan; stainless untuk karakter metal; ACP, galvanis, atau kombinasi bahan dapat disesuaikan dengan desain.",
+      "options": [
+        "Akrilik dan akrilik spon",
+        "Stainless, ACP, dan galvanis",
+        "Frontlight atau backlight LED",
+        "Logo dan tulisan custom"
+      ],
+      "guide": "Siapkan teks atau logo, tinggi huruf, panjang bidang, serta foto lokasi. Untuk huruf menyala, sertakan informasi sumber listrik dan arah pandang utama.",
+      "image": "produk-dbfee5defde1"
+    },
+    "neon-flex": {
+      "name": "Neon Flex",
+      "symbol": "~",
+      "intro": "Garis cahaya yang membentuk tulisan, logo, atau dekorasi ruang.",
+      "body": "Neon flex mengikuti jalur desain untuk membentuk tulisan atau logo. Pilihan warna cahaya, bentuk tulisan, dan alas pemasangan dibahas agar komposisinya sesuai ruang, baik untuk kafe, toko, maupun dekorasi interior.",
+      "options": [
+        "Tulisan dan logo custom",
+        "Pilihan warna cahaya",
+        "Alas akrilik sesuai bentuk",
+        "Dekorasi interior dan area usaha"
+      ],
+      "guide": "Kirim contoh tulisan, warna cahaya yang diinginkan, ukuran keseluruhan, dan foto dinding. Penggunaan luar ruang perlu dikonfirmasi agar komponen dan pemasangannya sesuai.",
+      "image": null
+    },
+    "papan-nama": {
+      "name": "Papan Nama",
+      "symbol": "↗",
+      "intro": "Penanda toko, kantor, dan tempat usaha yang jelas dari arah datang pengunjung.",
+      "body": "Papan nama dirancang dengan mempertimbangkan jarak baca, ukuran bidang, warna, dan posisi pemasangan. Identitas toko bisa diwujudkan dengan panel, huruf timbul, pencahayaan, atau kombinasi sesuai kebutuhan.",
+      "options": [
+        "Papan nama toko dan kantor",
+        "Panel dan kombinasi huruf timbul",
+        "Penunjuk arah dan nama ruangan",
+        "Pilihan konstruksi pemasangan"
+      ],
+      "guide": "Sertakan foto fasad, ukuran bidang, ketinggian pemasangan, dan lokasi. Struktur, akses kerja, dan kebutuhan penerangan akan memengaruhi penawaran.",
+      "image": "produk-7d073cc48132"
+    },
+    "stiker-cutting": {
+      "name": "Stiker Cutting",
+      "symbol": "✂",
+      "intro": "Tulisan dan grafis potong untuk kaca, dinding, atau identitas usaha.",
+      "body": "Stiker cutting digunakan untuk tulisan, logo, dan grafis dengan bentuk potong yang mengikuti desain. Detail desain, jumlah warna, kondisi permukaan, serta kebutuhan indoor atau outdoor menentukan pemilihan material.",
+      "options": [
+        "Logo dan tulisan pada kaca",
+        "Identitas toko dan kantor",
+        "Grafis dekoratif",
+        "Ukuran dan jumlah custom"
+      ],
+      "guide": "Kirim logo atau teks, ukuran, jumlah, pilihan warna, dan jenis permukaan. Sertakan foto area agar ukuran serta posisi dapat diperiksa sebelum produksi.",
+      "image": null
+    },
+    "neon-box": {
+      "name": "Neon Box",
+      "symbol": "▣",
+      "intro": "Identitas usaha yang tetap terlihat dengan pencahayaan dari dalam.",
+      "body": "Neon box menggabungkan bidang visual dengan pencahayaan LED. Bentuk kotak, bulat, material akrilik, atau backlite disesuaikan dengan desain dan lokasi. Konstruksi serta akses perawatan dibahas sebelum produksi.",
+      "options": [
+        "Neon box akrilik",
+        "Neon box backlite",
+        "Bentuk kotak, bulat, atau custom",
+        "Pencahayaan LED"
+      ],
+      "guide": "Siapkan ukuran, desain atau logo, foto titik pemasangan, serta pilihan satu atau dua sisi. Posisi indoor atau outdoor dan sumber listrik perlu dikonfirmasi.",
+      "image": "produk-39db8e80530c"
+    },
+    "reklame": {
+      "name": "Reklame",
+      "symbol": "▤",
+      "intro": "Media informasi dan promosi untuk titik usaha dan ruang luar.",
+      "body": "Kebutuhan reklame dapat berbeda menurut ukuran, bahan visual, dan sistem konstruksinya. Tim kami membantu membahas bidang tampilan, rangka, akses pemasangan, serta rencana perawatan sesuai lokasi proyek.",
+      "options": [
+        "Papan reklame",
+        "Pylon dan penanda berdiri",
+        "Panel promosi usaha",
+        "Konstruksi sesuai kebutuhan"
+      ],
+      "guide": "Kirim lokasi, ukuran, desain, foto lapangan, serta informasi akses kerja. Kebutuhan perizinan dan tanggung jawab masing-masing pihak perlu dipastikan sebelum pemasangan.",
+      "image": "produk-7d073cc48132"
+    },
+    "nametag": {
+      "name": "Nametag",
+      "symbol": "ID",
+      "intro": "Identitas personal dan penanda kecil dengan desain yang seragam.",
+      "body": "Nametag akrilik dapat disesuaikan untuk kebutuhan staf, organisasi, atau acara. Format nama, logo, ukuran, warna, serta jenis pengait dikonfirmasi agar hasilnya sesuai kebutuhan pemakaian.",
+      "options": [
+        "Nametag akrilik custom",
+        "Nama dan jabatan",
+        "Logo organisasi atau usaha",
+        "Pesanan satuan maupun beberapa nama"
+      ],
+      "guide": "Siapkan daftar nama yang sudah diperiksa, logo, ukuran, jumlah, dan pilihan pengait. Ejaan serta tata letak disetujui sebelum proses produksi.",
+      "image": "produk-ec974bb6d3b5"
+    }
+  },
+  "cities": {
+    "makassar": "Makassar",
+    "maros": "Maros",
+    "gowa": "Gowa",
+    "pangkajene-dan-kepulauan": "Pangkajene dan Kepulauan",
+    "takalar": "Takalar",
+    "jeneponto": "Jeneponto",
+    "bantaeng": "Bantaeng",
+    "bulukumba": "Bulukumba",
+    "sinjai": "Sinjai",
+    "bone": "Bone",
+    "wajo": "Wajo",
+    "soppeng": "Soppeng",
+    "parepare": "Parepare",
+    "barru": "Barru",
+    "pinrang": "Pinrang",
+    "sidenreng-rappang": "Sidenreng Rappang",
+    "enrekang": "Enrekang",
+    "luwu": "Luwu",
+    "palopo": "Palopo",
+    "luwu-utara": "Luwu Utara",
+    "luwu-timur": "Luwu Timur",
+    "tana-toraja": "Tana Toraja",
+    "toraja-utara": "Toraja Utara",
+    "kepulauan-selayar": "Kepulauan Selayar"
+  },
+  "legacy_services": [
+    "huruf-timbul",
+    "neon-box",
+    "reklame",
+    "nametag"
+  ],
+  "photos": [
+    {
+      "id": "produk-7d073cc48132",
+      "category": "Huruf Timbul",
+      "slug": "huruf-timbul",
+      "subcategory": "ACP",
+      "title": "Huruf timbul ACP",
+      "kind": "Contoh produk",
+      "src": "/assets/refresh-20261006/produk-7d073cc48132-640.webp",
+      "large": "/assets/refresh-20261006/produk-7d073cc48132-1200.webp",
+      "original": "/foto-produk/Huruf-Timbul/Huruf-Timbul-Acp/acp1.jpg",
+      "aliases": [
+        "Huruf-Timbul/Huruf-Timbul-Acp/acp1.jpg"
+      ],
+      "width": 863,
+      "height": 556
+    },
+    {
+      "id": "produk-1a6e05a774a7",
+      "category": "Huruf Timbul",
+      "slug": "huruf-timbul",
+      "subcategory": "ACP",
+      "title": "Huruf timbul ACP",
+      "kind": "Referensi visual",
+      "src": "/assets/refresh-20261006/produk-1a6e05a774a7-640.webp",
+      "large": "/assets/refresh-20261006/produk-1a6e05a774a7-1200.webp",
+      "original": "/foto-produk/Huruf-Timbul/Huruf-Timbul-Acp/dreamina-2025-12-26-1092-buat%20produk%20seperti%20digambar%201%20ubah%20tuli....jpeg",
+      "aliases": [
+        "Huruf-Timbul/Huruf-Timbul-Acp/dreamina-2025-12-26-1092-buat produk seperti digambar 1 ubah tuli....jpeg"
+      ],
+      "width": 2240,
+      "height": 1856
+    },
+    {
+      "id": "produk-dbfee5defde1",
+      "category": "Huruf Timbul",
+      "slug": "huruf-timbul",
+      "subcategory": "Akrilik",
+      "title": "Huruf timbul akrilik",
+      "kind": "Contoh produk",
+      "src": "/assets/refresh-20261006/produk-dbfee5defde1-640.webp",
+      "large": "/assets/refresh-20261006/produk-dbfee5defde1-1200.webp",
+      "original": "/foto-produk/Huruf-Timbul/Huruf-Timbul-Akrilik/akrilik1.jpg",
+      "aliases": [
+        "Huruf-Timbul/Huruf-Timbul-Akrilik/akrilik1.jpg"
+      ],
+      "width": 2048,
+      "height": 2048
+    },
+    {
+      "id": "produk-90e99a5e802a",
+      "category": "Huruf Timbul",
+      "slug": "huruf-timbul",
+      "subcategory": "Akrilik",
+      "title": "Huruf timbul akrilik",
+      "kind": "Contoh produk",
+      "src": "/assets/refresh-20261006/produk-90e99a5e802a-640.webp",
+      "large": "/assets/refresh-20261006/produk-90e99a5e802a-1200.webp",
+      "original": "/foto-produk/Huruf-Timbul/Huruf-Timbul-Akrilik/Screenshot%202025-12-27%20002130.png",
+      "aliases": [
+        "Huruf-Timbul/Huruf-Timbul-Akrilik/Screenshot 2025-12-27 002130.png"
+      ],
+      "width": 868,
+      "height": 775
+    },
+    {
+      "id": "produk-6c31535f515f",
+      "category": "Huruf Timbul",
+      "slug": "huruf-timbul",
+      "subcategory": "Akrilik",
+      "title": "Huruf timbul akrilik",
+      "kind": "Contoh produk",
+      "src": "/assets/refresh-20261006/produk-6c31535f515f-640.webp",
+      "large": "/assets/refresh-20261006/produk-6c31535f515f-1200.webp",
+      "original": "/foto-produk/Huruf-Timbul/Huruf-Timbul-Akrilik/Screenshot%202025-12-27%20003933.png",
+      "aliases": [
+        "Huruf-Timbul/Huruf-Timbul-Akrilik/Screenshot 2025-12-27 003933.png"
+      ],
+      "width": 861,
+      "height": 850
+    },
+    {
+      "id": "produk-084c4b11cfa7",
+      "category": "Huruf Timbul",
+      "slug": "huruf-timbul",
+      "subcategory": "Akrilik Spon",
+      "title": "Huruf timbul akrilik spon",
+      "kind": "Contoh produk",
+      "src": "/assets/refresh-20261006/produk-084c4b11cfa7-640.webp",
+      "large": "/assets/refresh-20261006/produk-084c4b11cfa7-1200.webp",
+      "original": "/foto-produk/Huruf-Timbul/Huruf-Timbul-Akrilik-Spon/Screenshot%202025-12-27%20004835.png",
+      "aliases": [
+        "Huruf-Timbul/Huruf-Timbul-Akrilik-Spon/Screenshot 2025-12-27 004835.png"
+      ],
+      "width": 863,
+      "height": 850
+    },
+    {
+      "id": "produk-8977282575e4",
+      "category": "Huruf Timbul",
+      "slug": "huruf-timbul",
+      "subcategory": "MDF",
+      "title": "Huruf timbul MDF",
+      "kind": "Referensi visual",
+      "src": "/assets/refresh-20261006/produk-8977282575e4-640.webp",
+      "large": "/assets/refresh-20261006/produk-8977282575e4-1200.webp",
+      "original": "/foto-produk/Huruf-Timbul/HURUF-TIMBUL-MDF/dreamina-2025-12-26-9008-buat%20dengan%20latar%20yang%20sama%20dengan%20huruf....jpeg",
+      "aliases": [
+        "Huruf-Timbul/HURUF-TIMBUL-MDF/dreamina-2025-12-26-9008-buat dengan latar yang sama dengan huruf....jpeg"
+      ],
+      "width": 2304,
+      "height": 1728
+    },
+    {
+      "id": "produk-08410a1fbf70",
+      "category": "Huruf Timbul",
+      "slug": "huruf-timbul",
+      "subcategory": "Stainless",
+      "title": "Huruf timbul stainless",
+      "kind": "Contoh produk",
+      "src": "/assets/refresh-20261006/produk-08410a1fbf70-640.webp",
+      "large": "/assets/refresh-20261006/produk-08410a1fbf70-1200.webp",
+      "original": "/foto-produk/Huruf-Timbul/Huruf-Timbul-Stainless/stainless1.jpg",
+      "aliases": [
+        "Huruf-Timbul/Huruf-Timbul-Stainless/stainless1.jpg"
+      ],
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "id": "produk-a5cb68b83a79",
+      "category": "Huruf Timbul",
+      "slug": "huruf-timbul",
+      "subcategory": "Stainless",
+      "title": "Huruf timbul stainless",
+      "kind": "Referensi visual",
+      "src": "/assets/refresh-20261006/produk-a5cb68b83a79-640.webp",
+      "large": "/assets/refresh-20261006/produk-a5cb68b83a79-1200.webp",
+      "original": "/foto-produk/Huruf-Timbul/Huruf-Timbul-Stainless/task_01kddhtzqve32vt6k8w1p8gbyb_1766760242_img_1.webp",
+      "aliases": [
+        "Huruf-Timbul/Huruf-Timbul-Stainless/task_01kddhtzqve32vt6k8w1p8gbyb_1766760242_img_1.webp"
+      ],
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "id": "produk-86fe92103c1c",
+      "category": "Huruf Timbul",
+      "slug": "huruf-timbul",
+      "subcategory": "Galvanis",
+      "title": "Huruf timbul galvanis",
+      "kind": "Referensi visual",
+      "src": "/assets/refresh-20261006/produk-86fe92103c1c-640.webp",
+      "large": "/assets/refresh-20261006/produk-86fe92103c1c-1200.webp",
+      "original": "/foto-produk/Huruf-Timbul/Hurur-Timbul-Galfanis/dreamina-2025-12-26-8999-Reference%20Image%201_s%203D%20letter%20style%20and%20....jpeg",
+      "aliases": [
+        "Huruf-Timbul/Hurur-Timbul-Galfanis/dreamina-2025-12-26-8999-Reference Image 1_s 3D letter style and ....jpeg"
+      ],
+      "width": 2048,
+      "height": 2048
+    },
+    {
+      "id": "produk-66a773b34f42",
+      "category": "Huruf Timbul",
+      "slug": "huruf-timbul",
+      "subcategory": "Galvanis",
+      "title": "Huruf timbul galvanis",
+      "kind": "Contoh produk",
+      "src": "/assets/refresh-20261006/produk-66a773b34f42-640.webp",
+      "large": "/assets/refresh-20261006/produk-66a773b34f42-1200.webp",
+      "original": "/foto-produk/Huruf-Timbul/Hurur-Timbul-Galfanis/Screenshot%202025-12-26%20234254.png",
+      "aliases": [
+        "Huruf-Timbul/Hurur-Timbul-Galfanis/Screenshot 2025-12-26 234254.png"
+      ],
+      "width": 865,
+      "height": 852
+    },
+    {
+      "id": "produk-4db932865d72",
+      "category": "Huruf Timbul",
+      "slug": "huruf-timbul",
+      "subcategory": "Galvanis",
+      "title": "Huruf timbul galvanis",
+      "kind": "Contoh produk",
+      "src": "/assets/refresh-20261006/produk-4db932865d72-640.webp",
+      "large": "/assets/refresh-20261006/produk-4db932865d72-1200.webp",
+      "original": "/foto-produk/Huruf-Timbul/Hurur-Timbul-Galfanis/Screenshot%202025-12-26%20235032.png",
+      "aliases": [
+        "Huruf-Timbul/Hurur-Timbul-Galfanis/Screenshot 2025-12-26 235032.png"
+      ],
+      "width": 870,
+      "height": 605
+    },
+    {
+      "id": "produk-d63b0cafb49b",
+      "category": "Nametag",
+      "slug": "nametag",
+      "subcategory": "Akrilik",
+      "title": "Nametag akrilik custom",
+      "kind": "Referensi visual",
+      "src": "/assets/refresh-20261006/produk-d63b0cafb49b-640.webp",
+      "large": "/assets/refresh-20261006/produk-d63b0cafb49b-1200.webp",
+      "original": "/foto-produk/Nametage%20akrilik/foto%20produk/Gemini_Generated_Image_21wu0921wu0921wu.png",
+      "aliases": [
+        "Nametage akrilik/foto produk/Gemini_Generated_Image_21wu0921wu0921wu.png"
+      ],
+      "width": 832,
+      "height": 1248
+    },
+    {
+      "id": "produk-450b1466c223",
+      "category": "Nametag",
+      "slug": "nametag",
+      "subcategory": "Akrilik",
+      "title": "Nametag akrilik custom",
+      "kind": "Referensi visual",
+      "src": "/assets/refresh-20261006/produk-450b1466c223-640.webp",
+      "large": "/assets/refresh-20261006/produk-450b1466c223-1200.webp",
+      "original": "/foto-produk/Nametage%20akrilik/foto%20produk/Gemini_Generated_Image_7k9r877k9r877k9r.png",
+      "aliases": [
+        "Nametage akrilik/foto produk/Gemini_Generated_Image_7k9r877k9r877k9r.png"
+      ],
+      "width": 832,
+      "height": 1248
+    },
+    {
+      "id": "produk-5b62b735d14e",
+      "category": "Nametag",
+      "slug": "nametag",
+      "subcategory": "Akrilik",
+      "title": "Nametag akrilik custom",
+      "kind": "Referensi visual",
+      "src": "/assets/refresh-20261006/produk-5b62b735d14e-640.webp",
+      "large": "/assets/refresh-20261006/produk-5b62b735d14e-1200.webp",
+      "original": "/foto-produk/Nametage%20akrilik/foto%20produk/Gemini_Generated_Image_mvszzimvszzimvsz.png",
+      "aliases": [
+        "Nametage akrilik/foto produk/Gemini_Generated_Image_mvszzimvszzimvsz.png"
+      ],
+      "width": 832,
+      "height": 1248
+    },
+    {
+      "id": "produk-7becbb57aa6f",
+      "category": "Nametag",
+      "slug": "nametag",
+      "subcategory": "Akrilik",
+      "title": "Nametag akrilik custom",
+      "kind": "Referensi visual",
+      "src": "/assets/refresh-20261006/produk-7becbb57aa6f-640.webp",
+      "large": "/assets/refresh-20261006/produk-7becbb57aa6f-1200.webp",
+      "original": "/foto-produk/Nametage%20akrilik/foto%20produk/Gemini_Generated_Image_nynl71nynl71nynl.png",
+      "aliases": [
+        "Nametage akrilik/foto produk/Gemini_Generated_Image_nynl71nynl71nynl.png"
+      ],
+      "width": 832,
+      "height": 1248
+    },
+    {
+      "id": "produk-ed54dc43a873",
+      "category": "Nametag",
+      "slug": "nametag",
+      "subcategory": "Akrilik",
+      "title": "Nametag akrilik custom",
+      "kind": "Referensi visual",
+      "src": "/assets/refresh-20261006/produk-ed54dc43a873-640.webp",
+      "large": "/assets/refresh-20261006/produk-ed54dc43a873-1200.webp",
+      "original": "/foto-produk/Nametage%20akrilik/foto%20produk/Gemini_Generated_Image_vurw1zvurw1zvurw.png",
+      "aliases": [
+        "Nametage akrilik/foto produk/Gemini_Generated_Image_vurw1zvurw1zvurw.png"
+      ],
+      "width": 832,
+      "height": 1248
+    },
+    {
+      "id": "produk-ec974bb6d3b5",
+      "category": "Nametag",
+      "slug": "nametag",
+      "subcategory": "Akrilik",
+      "title": "Nametag akrilik custom",
+      "kind": "Contoh produk",
+      "src": "/assets/refresh-20261006/produk-ec974bb6d3b5-640.webp",
+      "large": "/assets/refresh-20261006/produk-ec974bb6d3b5-1200.webp",
+      "original": "/foto-produk/Nametage%20akrilik/foto%20produk/nametag1.jpg",
+      "aliases": [
+        "Nametage akrilik/foto produk/nametag1.jpg",
+        "Nametage akrilik/nametag1.jpg"
+      ],
+      "width": 832,
+      "height": 1248
+    },
+    {
+      "id": "produk-fcf95321686c",
+      "category": "Neon Box",
+      "slug": "neon-box",
+      "subcategory": "Bulat",
+      "title": "Neon box bulat",
+      "kind": "Contoh produk",
+      "src": "/assets/refresh-20261006/produk-fcf95321686c-640.webp",
+      "large": "/assets/refresh-20261006/produk-fcf95321686c-1200.webp",
+      "original": "/foto-produk/Neon-Box/Neon-Box-Akrilik/Bulat/neon-bulat1.jpg",
+      "aliases": [
+        "Neon-Box/Neon-Box-Akrilik/Bulat/neon-bulat1.jpg"
+      ],
+      "width": 819,
+      "height": 795
+    },
+    {
+      "id": "produk-39db8e80530c",
+      "category": "Neon Box",
+      "slug": "neon-box",
+      "subcategory": "Akrilik",
+      "title": "Neon box akrilik",
+      "kind": "Contoh produk",
+      "src": "/assets/refresh-20261006/produk-39db8e80530c-640.webp",
+      "large": "/assets/refresh-20261006/produk-39db8e80530c-1200.webp",
+      "original": "/foto-produk/Neon-Box/Neon-Box-Akrilik/Kotak/neon-kotak1.jpg",
+      "aliases": [
+        "Neon-Box/Neon-Box-Akrilik/Kotak/neon-kotak1.jpg",
+        "Neon-Box/Neon-Box-Akrilik/neon-akrilik1.jpg",
+        "Neon-Box/Neon-Box-Backlite/neon-akrilik1.jpg"
+      ],
+      "width": 824,
+      "height": 654
+    }
+  ],
+  "organization": {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "@id": "https://www.3dkanadvertising.store/#organization",
+    "name": "3DKan Advertising",
+    "url": "https://www.3dkanadvertising.store/",
+    "logo": "https://www.3dkanadvertising.store/assets/refresh-20261006/brand.svg",
+    "telephone": "+6285340382029",
+    "email": "info@3dkanadvertising.store",
+    "sameAs": [
+      "https://www.instagram.com/3dkan.advertising",
+      "https://www.tiktok.com/@3dkan.advertising"
+    ],
+    "areaServed": [
+      {
+        "@type": "AdministrativeArea",
+        "name": "Sulawesi Selatan"
+      },
+      {
+        "@type": "AdministrativeArea",
+        "name": "Sulawesi Tenggara"
+      }
+    ],
+    "location": [
+      {
+        "@type": "Place",
+        "name": "3DKan Advertising — Toko 1",
+        "url": "https://www.3dkanadvertising.store/toko/toko-1",
+        "hasMap": "https://maps.app.goo.gl/AocDFawAFkoxcevT7",
+        "geo": {
+          "@type": "GeoCoordinates",
+          "latitude": -5.0059206,
+          "longitude": 119.6368083
+        }
+      },
+      {
+        "@type": "Place",
+        "name": "3DKan Advertising — Toko 2",
+        "url": "https://www.3dkanadvertising.store/toko/toko-2",
+        "hasMap": "https://maps.app.goo.gl/8A53Pbae6Efct6ii8",
+        "geo": {
+          "@type": "GeoCoordinates",
+          "latitude": -5.1274626,
+          "longitude": 119.4889734
+        }
+      },
+      {
+        "@type": "Place",
+        "name": "3DKan Advertising — Toko 3",
+        "url": "https://www.3dkanadvertising.store/toko/toko-3",
+        "hasMap": "https://maps.app.goo.gl/3oAbcbYnssAfVXAUA",
+        "geo": {
+          "@type": "GeoCoordinates",
+          "latitude": -4.842784,
+          "longitude": 119.5303478
+        }
+      }
+    ]
+  }
+}

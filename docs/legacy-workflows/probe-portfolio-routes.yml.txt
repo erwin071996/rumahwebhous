@@ -1,0 +1,77 @@
+name: Probe Live Portfolio Routes
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - '.github/workflows/probe-portfolio-routes.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: live-portfolio-probe
+  cancel-in-progress: true
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Probe likely routes quickly
+        run: |
+          rm -rf route_probe
+          mkdir -p route_probe/pages
+          python - <<'PY'
+          import subprocess, pathlib, re, json, hashlib
+          base="https://www.3dkanadvertising.store"
+          paths=[
+            "/","/portfolio","/portfolio/","/portofolio","/portofolio/",
+            "/portfolio-klien","/portfolio-klien/","/portofolio-klien","/portofolio-klien/",
+            "/clientzone","/clientzone/","/client-zone","/client-zone/",
+            "/projects","/projects/","/project","/project/",
+            "/video","/video/","/videos","/videos/","/video-portfolio","/video-portfolio/",
+            "/portfolio-pekerjaan","/portfolio-pekerjaan/","/portfolio-nyata","/portfolio-nyata/",
+            "/showcase","/showcase/","/work","/work/"
+          ]
+          needles=["PORTOFOLIO PEKERJAAN NYATA","Rak Aluminium","Siap untuk klien","upload berhasil","upload gagal","berhasil","gagal","portofolio"]
+          out=[]
+          for p in paths:
+              url=base+p
+              cp=subprocess.run(["curl","-k","-L","-sS","--max-time","8","-A","Mozilla/5.0","-w","\n__HTTP__%{http_code}__TYPE__%{content_type}__URL__%{url_effective}","--",url],capture_output=True,text=True)
+              text=cp.stdout
+              marker=text.rfind("\n__HTTP__")
+              body=text[:marker] if marker>=0 else text
+              meta=text[marker+1:] if marker>=0 else ""
+              hits=[n for n in needles if n.lower() in body.lower()]
+              rec={"path":p,"url":url,"meta":meta,"bytes":len(body.encode()),"hits":hits,"returncode":cp.returncode}
+              if hits or ("text/html" in meta.lower() and len(body)>200):
+                  key=re.sub(r"[^a-zA-Z0-9]+","_",p.strip("/") or "home")
+                  dest=f"route_probe/pages/{key}.html"
+                  pathlib.Path(dest).write_text(body,encoding="utf-8")
+                  rec["saved_as"]=dest
+              out.append(rec)
+          pathlib.Path("route_probe/report.json").write_text(json.dumps(out,ensure_ascii=False,indent=2),encoding="utf-8")
+          lines=[]
+          for r in out:
+              if r["hits"]:
+                  lines += [f"MATCH {r['path']}",f"  {r['meta']}",f"  hits: {', '.join(r['hits'])}",f"  file: {r.get('saved_as','')}",""]
+          if not lines:
+              lines=["No phrase match. HTML responses were saved for inspection."]
+          pathlib.Path("route_probe/REPORT.txt").write_text("\n".join(lines)+"\n",encoding="utf-8")
+          print(pathlib.Path("route_probe/REPORT.txt").read_text())
+          PY
+
+      - name: Push probe branch
+        run: |
+          git config user.name "Portfolio Route Probe"
+          git config user.email "actions@github.com"
+          git checkout -B portfolio-route-probe
+          git add -f route_probe
+          git commit -m "Probe live portfolio routes" || true
+          git push -f origin HEAD:portfolio-route-probe

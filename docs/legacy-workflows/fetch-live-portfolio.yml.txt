@@ -1,0 +1,57 @@
+name: Fetch Live Portfolio HTML
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - '.github/workflows/fetch-live-portfolio.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: live-portfolio-fetch
+  cancel-in-progress: true
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Fetch live portfolio page
+        run: |
+          rm -rf live_portfolio
+          mkdir -p live_portfolio
+          curl -k -L --fail --max-time 30             -A "Mozilla/5.0"             -D live_portfolio/headers.txt             -o live_portfolio/page.html             "https://www.3dkanadvertising.store/portfolio"
+
+          python - <<'PY'
+          from pathlib import Path
+          import re
+          p=Path("live_portfolio/page.html")
+          t=p.read_text("utf-8","ignore")
+          pats=["PORTOFOLIO PEKERJAAN NYATA","Rak Aluminium","Siap untuk klien","upload berhasil","upload gagal","berhasil","gagal"]
+          out=[]
+          for pat in pats:
+              m=re.search(re.escape(pat),t,re.I)
+              if m:
+                  out.append((pat,m.start()))
+          Path("live_portfolio/report.txt").write_text(
+              "bytes=%d\n%s\n"%(len(t.encode()),"\n".join(f"{a}: {b}" for a,b in out)),
+              encoding="utf-8"
+          )
+          print(Path("live_portfolio/report.txt").read_text())
+          PY
+
+      - name: Push fetched page branch
+        run: |
+          git config user.name "Live Portfolio Fetcher"
+          git config user.email "actions@github.com"
+          git checkout -B live-portfolio-snapshot
+          git add -f live_portfolio
+          git commit -m "Snapshot live portfolio page" || true
+          git push -f origin HEAD:live-portfolio-snapshot

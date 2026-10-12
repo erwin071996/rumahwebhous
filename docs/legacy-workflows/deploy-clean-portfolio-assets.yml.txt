@@ -1,0 +1,78 @@
+name: Deploy Clean Portfolio Assets
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'assets/portfolio-real/clean/**'
+      - '.github/workflows/deploy-clean-portfolio-assets.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: rumahweb-clean-portfolio-assets
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Validate clean assets
+        run: |
+          test -d assets/portfolio-real/clean
+          COUNT=$(find assets/portfolio-real/clean -maxdepth 1 -type f -name '*.webp' | wc -l)
+          echo "Clean WEBP assets: $COUNT"
+          test "$COUNT" -ge 10
+
+      - name: Install lftp
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y lftp
+
+      - name: Upload clean portfolio assets
+        env:
+          FTP_SERVER: ${{ secrets.FTP_SERVER }}
+          FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
+          FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
+        run: |
+          lftp -u "${FTP_USERNAME},${FTP_PASSWORD}" "ftp://${FTP_SERVER}:21" -e "
+            set ftp:ssl-force true;
+            set ftp:ssl-protect-data true;
+            set ssl:verify-certificate no;
+            set net:max-retries 3;
+            set net:timeout 30;
+            mkdir -p public_html/assets/portfolio-real/clean;
+            mirror -R --verbose --parallel=4 --include-glob '*.webp' assets/portfolio-real/clean/ public_html/assets/portfolio-real/clean/;
+            bye
+          "
+
+      - name: Verify critical assets over FTPS
+        env:
+          FTP_SERVER: ${{ secrets.FTP_SERVER }}
+          FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
+          FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
+        run: |
+          rm -rf /tmp/verify-clean
+          mkdir -p /tmp/verify-clean
+
+          for FILE in             cimb-niaga-signage-atm.webp             kementerian-pertanian-brmp.webp             gadget-solution-neonbox.webp             shop-sign-retail-neonbox.webp             koperasi-merah-putih-mandalle.webp
+          do
+            timeout 30s lftp -u "${FTP_USERNAME},${FTP_PASSWORD}" "ftp://${FTP_SERVER}:21" -e "
+              set ftp:ssl-force true;
+              set ftp:ssl-protect-data true;
+              set ssl:verify-certificate no;
+              set net:max-retries 2;
+              set net:timeout 15;
+              get public_html/assets/portfolio-real/clean/$FILE -o /tmp/verify-clean/$FILE;
+              bye
+            "
+            test -s "/tmp/verify-clean/$FILE"
+          done
+
+          echo "Critical clean portfolio assets verified on Rumahweb."
