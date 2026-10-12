@@ -1,0 +1,53 @@
+# 3DKan website refresh. Original saved in the verified off-server backup.
+Options -Indexes
+DirectoryIndex index.html index.php
+ErrorDocument 404 /404.html
+
+RewriteEngine On
+# Keep the site's established www canonical hostname; enforce HTTPS on both hosts.
+RewriteCond %{HTTPS} !=on [OR]
+RewriteCond %{HTTP_HOST} !^www\.3dkanadvertising\.store$ [NC]
+RewriteRule ^ https://www.3dkanadvertising.store%{REQUEST_URI} [R=301,L,NE]
+
+# Configuration fragments and diagnostic scripts are not public pages.
+RewriteRule ^includes(?:/|$) - [F,L,NC]
+RewriteRule ^test-seo\.php$ - [F,L,NC]
+
+# Legacy landing pages consolidate into the corresponding regional guide.
+RewriteRule ^layanan-maros/(?:index\.html)?$ /kota/maros [R=301,L]
+RewriteRule ^layanan-maros/(huruf-timbul|neon-box|reklame|papan-nama)\.html$ /kota/maros#layanan-$1 [R=301,L,NE]
+
+# Canonical sitemap and content routes.
+RewriteRule ^sitemap\.xml$ sitemap.php [L]
+RewriteRule ^sitemap-(utama|layanan|wilayah|produk|panduan|tutorial|topik|alat|toko|informasi)\.xml$ sitemap.php?bagian=$1 [L]
+RewriteRule ^(?:kota|produk|panduan|topik|alat|toko|bantuan)/[a-zA-Z0-9-]+/?$ content.php [L]
+RewriteRule ^layanan/([a-zA-Z0-9-]+)/([a-zA-Z0-9-]+)/?$ seo.php?produk=$1&kota=$2 [L,QSA,NC]
+RewriteRule ^layanan/([a-zA-Z0-9-]+)/?$ seo.php?produk=$1 [L,QSA,NC]
+RewriteRule ^kota/([a-zA-Z0-9-]+)/?$ seo.php?kota=$1 [L,QSA,NC]
+
+# Preserve legacy extensionless PHP entry points.
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}\.php -f
+RewriteRule ^([^/]+)/?$ $1.php [L]
+
+<FilesMatch "(^\.|^error_log$|\.(?:log|sql|bak|ini|env)$)">
+  Require all denied
+</FilesMatch>
+<IfModule mod_headers.c>
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  <FilesMatch "\.(?:html|php)$">
+    Header set Cache-Control "no-cache"
+  </FilesMatch>
+</IfModule>
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/plain text/css application/javascript application/json application/xml image/svg+xml
+</IfModule>
+
+# Keep unrelated starter-template pages accessible, but exclude them from search.
+<IfModule mod_setenvif.c>
+  SetEnvIf Request_URI "^/(blog-single-page-layout|jobs-1-item|modules-1-item|real-estate-single-page-layout|tes|subpage)(/|$)" KAN_DEMO=1
+  <IfModule mod_headers.c>
+    Header set X-Robots-Tag "noindex, follow" env=KAN_DEMO
+  </IfModule>
+</IfModule>

@@ -37,8 +37,9 @@ class WorkflowInventoryTests(unittest.TestCase):
         for name, sha in expected.items():
             with self.subTest(name=name):
                 self.assertEqual(blob_sha((ROOT / ".github" / "workflows" / name).read_bytes()), sha)
-    def test_capture_kept_pending_owner_capture_completion(self):
-        self.assertTrue((ROOT / ".github" / "workflows" / "capture-live-baseline.yml").is_file())
+    def test_completed_capture_is_inert(self):
+        self.assertFalse((ROOT / ".github" / "workflows" / "capture-live-baseline.yml").exists())
+        self.assertTrue((ROOT / ".site-source-ready").is_file())
 
 if __name__ == "__main__":
     unittest.main()

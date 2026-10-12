@@ -35,7 +35,7 @@ class LiteralCredentialTests(unittest.TestCase):
         ]
         for index, value in enumerate(values):
             with self.subTest(case=index):
-                self.assertTrue(CHECK.contains_credential(value))
+                self.assertTrue(CHECK.credential_categories(value))
 
     def test_env_reads_and_exact_placeholders_are_accepted(self):
         values = [
@@ -57,7 +57,7 @@ class LiteralCredentialTests(unittest.TestCase):
         ]
         for index, value in enumerate(values):
             with self.subTest(case=index):
-                self.assertFalse(CHECK.contains_credential(value))
+                self.assertFalse(CHECK.credential_categories(value))
 
     def test_public_text_and_runtime_dependencies_fail_with_redacted_errors(self):
         synthetic = b"Synthetic9!"
@@ -79,8 +79,8 @@ class LiteralCredentialTests(unittest.TestCase):
             self.assertTrue(all("(value redacted)" in error for error in check.errors))
 
     def test_invalid_text_encoding_fails_closed_and_binary_scope_is_preserved(self):
-        self.assertTrue(CHECK.contains_credential(b"\xffinvalid text"))
-        self.assertTrue(CHECK.contains_credential(b"\x00invalid text"))
+        self.assertTrue(CHECK.credential_categories(b"\xffinvalid text"))
+        self.assertTrue(CHECK.credential_categories(b"\x00invalid text"))
         with tempfile.TemporaryDirectory() as folder:
             repo = Path(folder)
             site = repo / "public_html"

@@ -1,0 +1,10 @@
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /cgi-bin/
+Disallow: /includes/
+Disallow: /test-seo.php
+Disallow: /error_log
+
+# Keep CSS, JavaScript, and product images crawlable.
+Sitemap: https://www.3dkanadvertising.store/sitemap.xml
