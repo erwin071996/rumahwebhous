@@ -17,7 +17,7 @@ permissions:
   contents: read
 jobs:
   native-qa:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     timeout-minutes: 40
     env:
       QA_BASE_URL: http://127.0.0.1:8765
@@ -29,6 +29,12 @@ jobs:
           ref: ${{ github.event.pull_request.head.sha }}
           persist-credentials: false
           fetch-depth: 0
+      - name: Use the pinned supported Node runtime
+        uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38
+        with:
+          node-version: '22.23.3'
+          check-latest: false
+          package-manager-cache: false
       - name: Verify exact candidate and original branding bytes
         run: |
           test "$(git rev-parse HEAD)" = "$QA_CANDIDATE_SHA"
