@@ -149,6 +149,8 @@ await p.evaluate(async()=>{
 if(document.fonts) await document.fonts.ready;
 const visible=Array.from(document.images).filter(img=>{const r=img.getBoundingClientRect();return r.width>0&&r.height>0&&r.bottom>0&&r.right>0&&r.top<innerHeight&&r.left<innerWidth;});
 await Promise.all(visible.map(img=>img.decode()));
+/* Allow decoded original images to reach the compositor before artifact capture. */
+await new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)));
 });
 const file=path.join(out,name); await p.screenshot({path:file,fullPage:false}); artifacts.push(file);
 const styles=await p.evaluate(()=>Array.from(document.querySelectorAll("h1,.portfolio-lead,.portfolio-hero-note strong,.portfolio-hero-note p,.home-proof small,.home-proof span,.presentation-summary small,.presentation-summary strong,form[data-brief-form] input,form[data-brief-form] select,form[data-brief-form] textarea")).map(el=>{const s=getComputedStyle(el),r=el.getBoundingClientRect(),layers=[]; for(let n=el,i=0;n&&i<6;n=n.parentElement,i++){const b=getComputedStyle(n);layers.push({tag:n.tagName,id:n.id,background:b.backgroundColor,backgroundImage:b.backgroundImage});} return {tag:el.tagName,id:el.id,text:el.textContent.slice(0,80),color:s.color,background:s.backgroundColor,backgroundImage:s.backgroundImage,fontSize:s.fontSize,borderWidth:s.borderWidth,borderStyle:s.borderStyle,borderColor:s.borderColor,outline:s.outline,outlineWidth:s.outlineWidth,outlineColor:s.outlineColor,outlineOffset:s.outlineOffset,active:el===document.activeElement,focusVisible:el.matches(":focus-visible"),backgroundLayers:layers,rect:{x:r.x,y:r.y,width:r.width,height:r.height}};}));
@@ -282,6 +284,7 @@ const r=img.getBoundingClientRect(),after=getComputedStyle(img.parentElement,"::
 return img.complete&&img.naturalWidth>0&&r.width>0&&r.height>0&&(after.display==="none"||after.content==="none");
 })),"Print photos are unloaded or a decorative overlay still covers them");
 if(url==="/") assert(await p.locator("#faq .faq-grid > div:first-child,#faq h2").evaluateAll(es=>es.length===2&&es.every(e=>getComputedStyle(e).breakInside==="avoid")),"FAQ heading/intro may split");
+if(url==="/") assert(await p.locator(".location-grid,.location-card").evaluateAll(es=>es.length===4&&es.every(e=>getComputedStyle(e).breakInside==="avoid")),"Printed store-location cards may split");
 const file=path.join(out,key+".pdf"); await p.pdf({path:file,format:"A4",printBackground:true}); artifacts.push(file);
 const defaultPaper=path.join(out,key+"-no-background.pdf"); await p.pdf({path:defaultPaper,format:"A4",printBackground:false}); artifacts.push(defaultPaper); await p.emulateMedia({media:"screen"});
 },why);

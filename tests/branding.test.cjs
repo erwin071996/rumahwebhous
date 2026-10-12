@@ -19,7 +19,7 @@ for(let i=2;i<logo.length;) {
 }
 assert.deepEqual(frame,{bits:8,height:654,width:2048});
 const theme=fs.readFileSync("public_html/assets/ui/theme.css");
-assert.equal(digest(theme),"db545fe8f81f4f1394a1977f4cd2d7a8956601b0959e6187921089c84e5ac234");
+assert.equal(digest(theme),"33077a45d4c7f7d4ab6a5bd69340bd77b1a0cc91bde2fa1c29e6d2b3b8d6044d");
 for(const name of ["index.html","projects.html"]) {
  const html=fs.readFileSync("public_html/"+name,"utf8"),head=html.split("</head>")[0];
  assert.equal((html.match(/<img[^>]+src="\/assets\/branding\/logo-3dkan-original\.jpg"[^>]*>/g)||[]).length,2);

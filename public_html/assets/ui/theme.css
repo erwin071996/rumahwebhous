@@ -140,3 +140,7 @@
   .sprint-ui #faq h2,
   .sprint-ui .client-checklist { break-inside: avoid; page-break-inside: avoid; }
 }
+
+@media print {
+  .sprint-ui :is(.location-grid,.location-card,.location-card h3) { break-inside: avoid; page-break-inside: avoid; }
+}
