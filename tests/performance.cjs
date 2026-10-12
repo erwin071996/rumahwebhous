@@ -181,7 +181,7 @@ async function checkpoint(status) {
    const site=sites[variant],blocked=[],pageErrors=[];let browser,measurementTimedOut=false;
    const label=variant+"-"+device+"-"+(url==="/"?"index":"projects")+"-"+repeat;
    try {
-    browser=await puppeteer.launch({executablePath:binary,headless:true,defaultViewport:null,ignoreDefaultArgs:["--enable-automation"],browser:"chrome",protocol:"cdp",allowlist:[site.origin+"/*","about:blank"],timeout:30000});
+    browser=await puppeteer.launch({executablePath:binary,headless:true,defaultViewport:null,ignoreDefaultArgs:["--enable-automation"],browser:"chrome",protocol:"cdp",allowlist:[site.origin+"/*"],timeout:30000});
     const browserVersion=await browser.version();assert(/(?:Chrome|Chromium)\/156\./.test(browserVersion),"Expected existing Chromium156: "+browserVersion);
     const page=await browser.newPage();await page.setBypassServiceWorker(true);await page.setRequestInterception(true);
     page.on("request",request=>{
