@@ -18,10 +18,10 @@ class DeniedAccessTests(unittest.TestCase):
     def test_retr_access_denied_is_not_absence(self):
         server = self.server()
         server.request = Mock(side_effect=deploy.CurlError(9, "Access denied"))
-        server.list = Mock()
+        server.list = Mock(return_value=[("index.html", {"type": "file"})])
         with self.assertRaises(deploy.CurlError):
             server.read("index.html")
-        server.list.assert_not_called()
+        server.list.assert_called_once_with("")
 
     def test_denied_directory_listing_is_not_empty(self):
         server = self.server()

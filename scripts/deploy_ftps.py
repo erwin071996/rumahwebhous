@@ -150,7 +150,7 @@ class Server:
         try:
             return self.request(safe(path))
         except CurlError as error:
-            if error.code != 78:
+            if error.code not in {9, 78}:
                 raise
             if not self.confirmed_absent(path):
                 raise
@@ -166,7 +166,7 @@ class Server:
         except CurlError as error:
             # Only a confirmed missing ancestor permits creating a new path.
             # Denied listings and an inaccessible existing directory propagate.
-            if error.code == 78 and parent and self.confirmed_absent(parent):
+            if error.code in {9, 78} and parent and self.confirmed_absent(parent):
                 return True
             raise
         return not any(name == PurePosixPath(path).name for name, _ in entries)
