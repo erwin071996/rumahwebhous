@@ -1,0 +1,66 @@
+name: Validate brief candidate
+
+on:
+  pull_request:
+    paths:
+      - 'public_html/index.html'
+      - 'public_html/projects.html'
+      - 'public_html/assets/ui/**'
+      - 'tests/brief*.cjs'
+      - 'tests/frontend*.cjs'
+      - 'tests/branding.test.cjs'
+      - 'public_html/assets/branding/**'
+      - '.github/workflows/validate-brief.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: brief-review-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - name: Checkout candidate
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Validate browser brief logic
+        run: |
+          node --version
+          node -e "if(Number(process.versions.node.split('.')[0]) < 22) throw new Error('Node 22 or later is required')"
+          node --check public_html/assets/ui/brief.js
+          node tests/brief.test.cjs
+          node tests/brief-markup.test.cjs
+          node --check public_html/assets/ui/frontend.js
+          node tests/frontend.test.cjs
+          node --check tests/webp-derivative-guard.cjs
+          node tests/webp-derivative-guard.test.cjs
+          node tests/branding.test.cjs
+
+      - name: Verify rollback source matches live pages
+        shell: bash
+        run: |
+          set -euo pipefail
+          baseline_sha=f4966d1a0ff7e45090abd152a45a69daecf099c9
+          for page in index.html projects.html; do
+            if [ "$page" = index.html ]; then
+              public_url=https://www.3dkanadvertising.store/
+            else
+              public_url=https://www.3dkanadvertising.store/projects.html
+            fi
+            git show "$baseline_sha:public_html/$page" > "$RUNNER_TEMP/baseline-$page"
+            curl --proto '=https' --tlsv1.2 --fail --silent --show-error \
+              --max-time 20 --retry 2 "$public_url" \
+              -o "$RUNNER_TEMP/live-$page"
+            sha256sum "$RUNNER_TEMP/baseline-$page" "$RUNNER_TEMP/live-$page"
+            if ! cmp -s "$RUNNER_TEMP/baseline-$page" "$RUNNER_TEMP/live-$page"; then
+              echo "::error::$page differs from the audited rollback source. Re-audit the current live source before deployment."
+              exit 1
+            fi
+          done

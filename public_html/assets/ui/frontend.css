@@ -1,0 +1,170 @@
+/* Scoped improvements for reviewed homepage and portfolio candidates.
+   Branding remains inherited from the verified baseline pending official logo transfer. */
+html { scroll-padding-top: 7rem; }
+.sprint-ui { --ui-gap: clamp(1rem, 2.5vw, 2rem); }
+.sprint-ui :is(h1,h2,h3,p,li,a,button,label,strong) { overflow-wrap: break-word; }
+.sprint-ui .container { width: min(var(--max,1220px), calc(100% - 3rem)); }
+.sprint-ui main > section { scroll-margin-top: 6rem; }
+.sprint-ui :is(.home-field,.brief-field) { min-width: 0; }
+.sprint-ui :is(.home-field,.brief-field) label { font-size: .875rem; line-height: 1.5; }
+.sprint-ui :is(.home-field,.brief-field) input,
+.sprint-ui :is(.home-field,.brief-field) select,
+.sprint-ui :is(.home-field,.brief-field) textarea { font-size: 1rem; min-height: 3rem; }
+.sprint-ui :is(.home-field,.brief-field) :is(input,select,textarea):focus-visible {
+  outline: 3px solid currentColor; outline-offset: 3px; box-shadow: none;
+}
+.sprint-ui :is(.home-field,.brief-field) [aria-invalid="true"] {
+  border-width: 2px; border-style: solid;
+}
+.sprint-ui :is(.home-brief-note,.brief-privacy) { color: var(--muted); font-size: .875rem; line-height: 1.7; }
+.sprint-ui :is(.home-brief-status,.brief-status) { color: var(--ink); font-size: .9375rem; line-height: 1.65; }
+.sprint-ui fieldset[data-brief-fields] { margin: 0; padding: 0; border: 0; min-width: 0; }
+.sprint-ui button:disabled { cursor: not-allowed; opacity: .6; }
+.sprint-ui .brief-output { margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--line); }
+.sprint-ui .brief-output label { display: block; font-weight: 650; margin-bottom: .6rem; }
+.sprint-ui .brief-output textarea { width: 100%; min-height: 18rem; font: inherit; line-height: 1.7; resize: vertical; }
+.sprint-ui .brief-output .button-row { margin-top: 1rem; }
+.sprint-ui .brief-hint { color: var(--muted); font-size: .875rem; line-height: 1.6; margin-top: .6rem; }
+.sprint-ui .brief-nojs { font-size: .9375rem; margin-top: 1rem; }
+.sprint-ui .brief-nojs a { text-decoration: underline; text-underline-offset: .2em; }
+.sprint-ui .home-hero { padding: clamp(2.5rem,4.5vw,4rem) 0; }
+.sprint-ui .home-hero-grid { gap: clamp(2rem,4vw,3.5rem); grid-template-columns: minmax(0,1.1fr) minmax(0,.9fr); align-items: center; }
+.sprint-ui .home-hero h1 { font-size: clamp(2.4rem,4.6vw,4.15rem); line-height: 1.08; letter-spacing: -.045em; margin: .5rem 0 1.25rem; }
+.sprint-ui .home-hero .hero-intro { font-size: 1.0625rem; line-height: 1.7; max-width: 38rem; }
+.sprint-ui .home-hero .button-row { margin: 1.5rem 0 1rem; }
+.sprint-ui .home-visual { margin: 0; }
+.sprint-ui .home-visual img { aspect-ratio: 1 / 1.08; object-position: center 44%; border-radius: 1rem; }
+.sprint-ui .home-visual figcaption { margin-top: .8rem; font-size: .875rem; line-height: 1.55; color: var(--muted); }
+.sprint-ui .hero-trust { gap: .5rem; margin-top: 1rem; }
+.sprint-ui .hero-trust span { font-size: .8125rem; }
+.sprint-ui :is(.home-proof small,.home-case-copy small,.home-service span,
+  .industry-grid small,.assurance-grid small,.case-fact small,.case-kicker) { font-size: .75rem; line-height: 1.5; }
+.sprint-ui :is(.home-proof span,.home-service p,.home-case-copy p,
+  .home-process-grid p,.assurance-grid p,.real-copy p) { font-size: .9375rem; line-height: 1.7; }
+.sprint-ui .home-proof article { padding: 1.25rem; }
+.sprint-ui :is(.audience-section,.home-services,.home-cases,.home-process,.home-brief,.home-assurance) { padding-block: clamp(3.5rem,6vw,5rem); }
+.sprint-ui .section-heading { margin-bottom: 1.5rem; }
+.sprint-ui .home-case-grid { gap: var(--ui-gap); margin-top: 1.5rem; }
+.sprint-ui .home-case-copy { padding: 1.5rem; }
+.sprint-ui .home-case-copy a { font-size: .9375rem; min-height: 2.75rem; align-items: center; }
+.sprint-ui .home-case img { aspect-ratio: 4 / 3; object-position: center 40%; }
+.sprint-ui .home-services-grid { gap: 1rem; }
+.sprint-ui .home-service { display: flex; flex-direction: column; min-width: 0; padding: 1.5rem; }
+.sprint-ui .home-service h3 { font-size: 1.25rem; line-height: 1.25; }
+.sprint-ui .home-service .service-discover { margin-top: auto; padding-top: 1rem; font-size: .875rem; }
+.sprint-ui .audience-card h3 { font-size: clamp(1.5rem,2.5vw,2.2rem); line-height: 1.2; margin: 0 0 1rem; }
+.sprint-ui .audience-card.corporate h3 { color: inherit; }
+.sprint-ui .audience-list li { font-size: .9375rem; }
+.sprint-ui .home-process-grid { grid-template-columns: repeat(5,minmax(0,1fr)); }
+.sprint-ui .closing-strip { position: static; }
+.sprint-ui .closing-copy strong { font-size: 1rem; }
+.sprint-ui .closing-copy span { font-size: .875rem; }
+.sprint-ui .closing-actions a { min-height: 2.75rem; font-size: .875rem; }
+.sprint-ui .portfolio-hero { padding-block: clamp(2.75rem,5vw,4.5rem); }
+.sprint-ui .portfolio-hero h1 { font-size: clamp(2.1rem,4.2vw,3.75rem); line-height: 1.12; max-width: 18ch; }
+.sprint-ui .portfolio-hero-grid { grid-template-columns: minmax(0,1.3fr) minmax(0,.7fr); gap: 2.5rem; }
+.sprint-ui .case-heading { align-items: start; }
+.sprint-ui .case-heading h2 { max-width: 24ch; }
+.sprint-ui .case-study { scroll-margin-top: 7rem; }
+.sprint-ui .case-facts { gap: 1px; }
+.sprint-ui .case-fact strong { font-size: .9375rem; line-height: 1.55; }
+.sprint-ui :is(.case-cta,.case-video,.real-video,.real-filter,.client-tool-btn) { min-height: 2.75rem; font-size: .9375rem; }
+.sprint-ui .real-toolbar { gap: .625rem; }
+.sprint-ui .real-filter { padding: .75rem 1rem; }
+.sprint-ui .real-grid { grid-template-columns: repeat(3,minmax(0,1fr)); }
+.sprint-ui .real-card,.sprint-ui .real-card.featured { grid-column: auto; }
+.sprint-ui .real-card.featured .real-media { aspect-ratio: 4 / 5; }
+.sprint-ui .real-card :is(h2,h3) { font-size: 1.25rem; line-height: 1.3; }
+.sprint-ui .real-media { aspect-ratio: 4 / 5; }
+.sprint-ui .real-media img { width: 100%; height: 100%; object-fit: contain; }
+.sprint-ui .real-meta { font-size: .875rem; line-height: 1.6; }
+.sprint-ui .real-tag { font-size: .75rem; }
+.sprint-ui .real-badge { display: none; }
+.sprint-ui .gallery-result-count { font-size: .9375rem; color: var(--muted); margin: .75rem 0 1.5rem; min-height: 1.5rem; }
+.sprint-ui .real-process { grid-template-columns: repeat(3,minmax(0,1fr)); }
+.sprint-ui .real-process small { font-size: .875rem; }
+.sprint-ui #real-video-dialog { width: min(56rem,calc(100vw - 2rem)); max-height: calc(100dvh - 2rem); overflow: auto; }
+.sprint-ui .real-dialog-bar { gap: 1rem; align-items: center; }
+.sprint-ui #real-video-close { min-height: 2.75rem; padding: .65rem 1rem; flex-shrink: 0; }
+.sprint-ui .video-note { padding: 1rem 1.5rem; color: var(--ink); font-size: .9375rem; }
+.sprint-ui .video-note a { text-decoration: underline; text-underline-offset: .2em; display: inline-flex; min-height: 2.75rem; align-items: center; }
+.sprint-ui [aria-current="page"] { text-decoration: underline; text-underline-offset: .4em; text-decoration-thickness: 2px; }
+@media (max-width:1020px) {
+  .sprint-ui #site-nav { max-height: calc(100dvh - 7rem); overscroll-behavior: contain; }
+  .sprint-ui .mega-panel a { font-size: .9375rem; }
+  .sprint-ui .home-process-grid { grid-template-columns: repeat(3,minmax(0,1fr)); }
+  .sprint-ui .real-grid { grid-template-columns: repeat(2,minmax(0,1fr)); }
+}
+@media (max-width:900px) {
+  .sprint-ui .home-hero-grid,.sprint-ui .portfolio-hero-grid { grid-template-columns: minmax(0,1fr); }
+  .sprint-ui .home-hero h1 { max-width: 16ch; }
+  .sprint-ui .home-visual { max-width: 42rem; }
+}
+@media (max-width:620px) {
+  .sprint-ui .container { width: calc(100% - 2rem); }
+  .sprint-ui .home-hero h1 { font-size: clamp(2.1rem,9vw,3rem); max-width: none; }
+  .sprint-ui .home-hero .hero-intro { font-size: 1rem; }
+  .sprint-ui .home-visual img { aspect-ratio: 4 / 3; }
+  .sprint-ui .home-proof .container { grid-template-columns: minmax(0,1fr); }
+  .sprint-ui .home-proof article { padding: 1rem; }
+  .sprint-ui :is(.home-case-grid,.home-services-grid,.home-process-grid,.real-grid,.real-process) { grid-template-columns: minmax(0,1fr); }
+  .sprint-ui .section-heading h2 { font-size: clamp(1.65rem,7vw,2.1rem); }
+  .sprint-ui .home-process-grid article { display: grid; grid-template-columns: 2.5rem 1fr; column-gap: 1rem; }
+  .sprint-ui .home-process-grid b { grid-row: span 2; margin: 0; }
+  .sprint-ui .home-process-grid h3 { align-self: center; }
+  .sprint-ui .home-brief-fields,.sprint-ui .brief-fields { grid-template-columns: minmax(0,1fr); }
+  .sprint-ui .brief-output .button-row { display: grid; }
+  .sprint-ui .brief-output .btn { width: 100%; }
+  .sprint-ui .client-tools-actions { flex-wrap: wrap; }
+  .sprint-ui .case-facts { grid-template-columns: minmax(0,1fr); }
+  .sprint-ui .case-actions { display: grid; }
+  .sprint-ui .real-filter { flex: 1 1 auto; }
+  .sprint-ui .closing-actions { grid-template-columns: minmax(0,1fr); }
+  .sprint-ui .footer-grid { grid-template-columns: minmax(0,1fr); }
+  .sprint-ui .footer-grid > div:first-child { grid-column: auto; }
+}
+@media (prefers-reduced-motion:reduce) {
+  .sprint-ui *, .sprint-ui *::before, .sprint-ui *::after { scroll-behavior: auto !important; transition: none !important; }
+}
+@media print {
+  .sprint-ui .real-card.real-hidden,.sprint-ui .real-card[hidden] { display: block !important; }
+  .sprint-ui :is(.real-toolbar,.gallery-result-count,.closing-strip,.brief-section,.home-brief,.client-tools,.real-video,#real-video-dialog) { display: none !important; }
+  .sprint-ui :is(.case-study,.real-card,.real-process article) { break-inside: avoid; }
+  .sprint-ui .real-grid { grid-template-columns: repeat(2,minmax(0,1fr)); }
+}
+
+/* P1: light hero must not inherit white text from .page-intro. */
+.sprint-ui .portfolio-hero { color: var(--ink); }
+.sprint-ui .portfolio-hero h1,.sprint-ui .portfolio-hero .eyebrow { color: var(--ink); }
+.sprint-ui .portfolio-hero .portfolio-lead { color: var(--muted); }
+.sprint-ui .portfolio-hero-grid { align-items: center; }
+.sprint-ui .portfolio-hero-note { min-width: 0; }
+.sprint-ui .presentation-summary { min-width: 0; }
+.sprint-ui .presentation-summary strong { font-size: .9375rem; overflow-wrap: anywhere; }
+.sprint-ui .presentation-summary small { font-size: .75rem; color: var(--muted); }
+.sprint-ui .client-tools-wrap { position: static; }
+.sprint-ui :is(.case-fact small,.real-meta,.client-tools-label span,.client-tool-status) { color: var(--muted); font-size: .8125rem; }
+.sprint-ui .client-tools-label strong { font-size: .9375rem; }
+.sprint-ui .case-visual img { position: absolute; inset: 0; object-fit: contain; }
+.sprint-ui .real-process img { object-fit: contain; }
+.sprint-ui .video-note { background: var(--paper,#fff); }
+
+.sprint-ui .share-fallback { padding-block: 1rem; }
+.sprint-ui .share-fallback[hidden] { display: none !important; }
+.sprint-ui .share-fallback label { display: block; font-size: .9375rem; margin-bottom: .5rem; }
+.sprint-ui .share-fallback input { width: 100%; font-size: 1rem; }
+
+/* Review fixes: shared .page-intro text inheritance and normal-size proof copy. */
+.sprint-ui .portfolio-hero-note p { color: var(--muted); }
+.sprint-ui .home-proof span { color: var(--muted); }
+
+/* Attribute-based video fallback remains reachable without native dialog support. */
+.sprint-ui #real-video-dialog:not([open]) { display: none; }
+.sprint-ui #real-video-dialog[open] { display: block; }
+.sprint-ui #real-video-dialog[data-video-fallback="true"][open] { position: fixed; inset: 1rem 1rem auto; margin: 0 auto; z-index: 70; }
+
+/* Contextual contact links keep these two pages clear of the legacy overlay. */
+.sprint-ui .floating-wa { display: none !important; }
+
+/* Responsive derivatives retain original documentation and print fallback. */
+.sprint-ui picture.responsive-documentation { display: block; }

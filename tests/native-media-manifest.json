@@ -1,0 +1,47 @@
+{
+  "schemaVersion": 1,
+  "origin": "https://www.3dkanadvertising.store",
+  "provenance": "Immutable verified full live source baseline at f4966d1a0ff7e45090abd152a45a69daecf099c9; official GitHub base64 reads verified against Git blob, length and ftyp container.",
+  "files": [
+    {
+      "path": "/assets/portfolio-real/videos/cimb-niaga-signage-atm.mp4",
+      "bytes": 558292,
+      "sha256": "b2b3bebd599f6d572720f5a62bd403fc2fee42a38b6a1cc6b20d8f5f44461644",
+      "mime": "video/mp4",
+      "checkoutSource": "public_html/assets/portfolio-real/videos/cimb-niaga-signage-atm.mp4",
+      "gitBlob": "2d434834903a9eba63d21962a0a2e06a41a21278"
+    },
+    {
+      "path": "/assets/portfolio-real/videos/gadget-solution-neonbox.mp4",
+      "bytes": 238349,
+      "sha256": "3eb0d1f5c03293bc9971fc4dc598cdb22679b2ed663aff4b7512e1b4e1c643e8",
+      "mime": "video/mp4",
+      "checkoutSource": "public_html/assets/portfolio-real/videos/gadget-solution-neonbox.mp4",
+      "gitBlob": "439f81c932d6643aaf78a5ba1d8e254cee37ec64"
+    },
+    {
+      "path": "/assets/portfolio-real/videos/kementerian-pertanian-brmp.mp4",
+      "bytes": 508482,
+      "sha256": "0074ba22eab7f56b3cab7b8c2077abbb1b70fd772224b06befaae8eb8f4427e8",
+      "mime": "video/mp4",
+      "checkoutSource": "public_html/assets/portfolio-real/videos/kementerian-pertanian-brmp.mp4",
+      "gitBlob": "8a1765f50e61c1bb7888a67777c5a7c6fa61d9af"
+    },
+    {
+      "path": "/assets/portfolio-real/videos/pt-makassar-metro-network.mp4",
+      "bytes": 230157,
+      "sha256": "6dd593f39b2eb87e723fb97f6c6991a7a514dcece31a307a89213d194ebf57a2",
+      "mime": "video/mp4",
+      "checkoutSource": "public_html/assets/portfolio-real/videos/pt-makassar-metro-network.mp4",
+      "gitBlob": "3527580e7691b37a62833bd18837d8efdabb60f4"
+    },
+    {
+      "path": "/assets/portfolio-real/videos/shop-sign-retail-neonbox.mp4",
+      "bytes": 580667,
+      "sha256": "0e4aeff16075db3e02b21b395468fb655fd05cf5602ae2a8528d490201aa8130",
+      "mime": "video/mp4",
+      "checkoutSource": "public_html/assets/portfolio-real/videos/shop-sign-retail-neonbox.mp4",
+      "gitBlob": "fc7b732c27afe843524e55dd16516864ea58dd4d"
+    }
+  ]
+}

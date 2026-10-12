@@ -1,0 +1,94 @@
+name: Native candidate browser QA
+on:
+  pull_request:
+    paths:
+      - "public_html/index.html"
+      - "public_html/projects.html"
+      - "public_html/assets/ui/**"
+      - "public_html/assets/branding/**"
+      - "tests/native-qa.cjs"
+      - "tests/performance.cjs"
+      - "tests/native-dependencies.json"
+      - "tests/branding.test.cjs"
+      - "scripts/prepare_native_qa.py"
+      - "tests/test_native_dependencies.py"
+      - ".github/workflows/native-candidate-qa.yml"
+permissions:
+  contents: read
+jobs:
+  native-qa:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 40
+    env:
+      QA_BASE_URL: http://127.0.0.1:8765
+      QA_ARTIFACT_DIR: artifacts/native-qa
+      QA_CANDIDATE_SHA: ${{ github.event.pull_request.head.sha }}
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          persist-credentials: false
+          fetch-depth: 0
+      - name: Use the pinned supported Node runtime
+        uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38
+        with:
+          node-version: '22.23.3'
+          check-latest: false
+          package-manager-cache: false
+      - name: Verify exact candidate and original branding bytes
+        run: |
+          test "$(git rev-parse HEAD)" = "$QA_CANDIDATE_SHA"
+          node --version
+          python3 --version
+          node --check tests/webp-derivative-guard.cjs
+          node tests/webp-derivative-guard.test.cjs
+          node tests/branding.test.cjs
+          node --check tests/native-qa.cjs
+          python3 -m py_compile scripts/prepare_native_qa.py
+          python3 -m unittest discover -s tests -p "test_native_dependencies.py" -v
+      - name: Install pinned Chromium test runtime
+        run: |
+          export PLAYWRIGHT_BROWSERS_PATH="$RUNNER_TEMP/3dkan-chromium"
+          printf 'PLAYWRIGHT_BROWSERS_PATH=%s\n' "$PLAYWRIGHT_BROWSERS_PATH" >> "$GITHUB_ENV"
+          npm install --prefix "$RUNNER_TEMP/3dkan-native-qa" --no-audit --no-fund playwright@1.64.0
+          "$RUNNER_TEMP/3dkan-native-qa/node_modules/.bin/playwright" install --with-deps chromium
+          printf 'NODE_PATH=%s\n' "$RUNNER_TEMP/3dkan-native-qa/node_modules" >> "$GITHUB_ENV"
+      - name: Prepare public read-only dependencies with TLS and integrity checks
+        run: python3 scripts/prepare_native_qa.py
+      - name: Run native QA against isolated loopback server
+        shell: bash
+        run: |
+          python3 -m http.server 8765 --bind 127.0.0.1 --directory artifacts/native-qa/fixture > "$RUNNER_TEMP/3dkan-native-server.log" 2>&1 &
+          qa_server_pid=$!
+          trap 'kill "$qa_server_pid" 2>/dev/null || true' EXIT
+          for attempt in {1..20}; do
+            if curl --fail --silent --show-error --max-time 1 "$QA_BASE_URL/" >/dev/null; then break; fi
+            sleep 0.25
+          done
+          node tests/native-qa.cjs
+      - name: Install pinned performance runtime
+        run: |
+          npm install --prefix "$RUNNER_TEMP/3dkan-native-qa" --no-audit --no-fund lighthouse@13.5.0 puppeteer-core@25.13.0
+          mkdir -p artifacts/performance
+          cp "$RUNNER_TEMP/3dkan-native-qa/package-lock.json" artifacts/performance/runtime-package-lock.json
+      - name: Measure first-party baseline and candidate performance
+        timeout-minutes: 30
+        run: |
+          node --check tests/performance.cjs
+          node tests/performance.cjs
+      - name: Save raw performance reports and comparison
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: performance-${{ github.event.pull_request.head.sha }}
+          path: artifacts/performance
+          if-no-files-found: warn
+          retention-days: 7
+      - name: Save native reports, screenshots, PDFs and verified public fixture
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: native-qa-${{ github.event.pull_request.head.sha }}
+          path: artifacts/native-qa
+          if-no-files-found: warn
+          retention-days: 7

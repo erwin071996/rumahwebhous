@@ -1,0 +1,21 @@
+/* Browser-only brief UI. Scoped to the two enhanced forms. */
+form[data-brief-form] fieldset[data-brief-fields] { margin: 0; padding: 0; border: 0; min-width: 0; }
+form[data-brief-form] :is(.home-field,.brief-field) { min-width: 0; }
+form[data-brief-form] :is(.home-field,.brief-field) label { font-size: .875rem; line-height: 1.5; }
+form[data-brief-form] :is(input,select,textarea) { font-size: 1rem; line-height: 1.5; min-height: 3rem; }
+form[data-brief-form] :is(input,select,textarea,button,a):focus-visible { outline: 3px solid var(--ink,#14202e); outline-offset: 3px; box-shadow: none; }
+form[data-brief-form] [aria-invalid="true"] { border: 2px solid var(--ink,#14202e); }
+form[data-brief-form] button:disabled { cursor: not-allowed; opacity: .65; }
+form[data-brief-form] :is(.home-brief-note,.brief-privacy,.brief-hint,.brief-nojs) { font-size: .875rem; line-height: 1.7; color: var(--muted,#526875); }
+form[data-brief-form] :is(.home-brief-status,.brief-status) { color: var(--ink,#14202e); font-size: .9375rem; line-height: 1.65; }
+form[data-brief-form] .brief-hint { display: block; margin-top: .5rem; }
+form[data-brief-form] .brief-output { border-top: 1px solid var(--line,#d4dfd9); margin-top: 1.5rem; padding-top: 1.5rem; }
+form[data-brief-form] .brief-output[hidden] { display: none !important; }
+form[data-brief-form] .brief-output label { display: block; font-weight: 650; margin-bottom: .6rem; }
+form[data-brief-form] [data-brief-preview] { width: 100%; min-height: 18rem; font: inherit; line-height: 1.7; resize: vertical; }
+form[data-brief-form] .brief-output .button-row { display: flex; flex-wrap: wrap; gap: .75rem; margin-top: 1rem; }
+form[data-brief-form] .brief-nojs a { text-decoration: underline; text-underline-offset: .2em; }
+@media (max-width:620px) {
+  form[data-brief-form] .brief-output .button-row { display: grid; }
+  form[data-brief-form] .brief-output .btn { width: 100%; }
+}

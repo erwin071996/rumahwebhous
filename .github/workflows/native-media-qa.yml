@@ -1,0 +1,67 @@
+name: Verified MP4 fixture playback QA
+on:
+  pull_request:
+    paths:
+      - "public_html/index.html"
+      - "public_html/projects.html"
+      - "public_html/assets/ui/**"
+      - "public_html/assets/portfolio-real/videos/*.mp4"
+      - "tests/native-media-qa.cjs"
+      - "tests/native-media-manifest.json"
+      - "scripts/prepare_native_media.py"
+      - ".github/workflows/native-media-qa.yml"
+permissions:
+  contents: read
+jobs:
+  real-media:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    env:
+      QA_BASE_URL: http://127.0.0.1:8766
+      QA_ARTIFACT_DIR: artifacts/native-qa
+      QA_FIXTURE_DIR: artifacts/native-qa/fixture
+      QA_CANDIDATE_SHA: ${{ github.event.pull_request.head.sha }}
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          persist-credentials: false
+      - name: Verify candidate and media harness syntax
+        run: |
+          test "$(git rev-parse HEAD)" = "$QA_CANDIDATE_SHA"
+          node --check tests/native-media-qa.cjs
+          node tests/branding.test.cjs
+          python3 -m py_compile scripts/prepare_native_media.py
+      - name: Install pinned Chromium media runtime
+        run: |
+          export PLAYWRIGHT_BROWSERS_PATH="$RUNNER_TEMP/3dkan-chromium"
+          printf 'PLAYWRIGHT_BROWSERS_PATH=%s\n' "$PLAYWRIGHT_BROWSERS_PATH" >> "$GITHUB_ENV"
+          npm install --prefix "$RUNNER_TEMP/3dkan-media-qa" --no-audit --no-fund playwright@1.64.0
+          "$RUNNER_TEMP/3dkan-media-qa/node_modules/.bin/playwright" install --with-deps chromium
+          printf 'NODE_PATH=%s\n' "$RUNNER_TEMP/3dkan-media-qa/node_modules" >> "$GITHUB_ENV"
+      - name: Prepare only verified public dependencies and immutable media
+        run: |
+          python3 scripts/prepare_native_qa.py
+          python3 scripts/prepare_native_media.py
+      - name: Exercise real unmuted fixture playback and source unload
+        timeout-minutes: 7
+        shell: bash
+        run: |
+          python3 -m http.server 8766 --bind 127.0.0.1 --directory artifacts/native-qa/fixture > "$RUNNER_TEMP/3dkan-media-server.log" 2>&1 &
+          media_server_pid=$!
+          trap 'kill "$media_server_pid" 2>/dev/null || true' EXIT
+          for attempt in {1..20}; do
+            if curl --fail --silent --show-error --max-time 1 "$QA_BASE_URL/" >/dev/null; then break; fi
+            sleep 0.25
+          done
+          node tests/native-media-qa.cjs
+      - name: Save actual media evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: media-qa-${{ github.event.pull_request.head.sha }}
+          path: |
+            artifacts/native-qa/media
+            artifacts/native-qa/verified-media-manifest.json
+          if-no-files-found: warn
+          retention-days: 7
