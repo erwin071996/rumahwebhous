@@ -1,0 +1,25 @@
+name: Validate deployment safety candidate
+on:
+  pull_request:
+    paths:
+      - 'scripts/deploy_ftps.py'
+      - 'scripts/check_site.py'
+      - 'tests/test_deploy*.py'
+      - 'tests/test_source_credentials.py'
+      - 'tests/test_credential_literals.py'
+      - '.github/workflows/validate-deployment-code.yml'
+permissions:
+  contents: read
+jobs:
+  unit-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          persist-credentials: false
+      - name: Compile and test code without production access
+        run: |
+          python --version
+          python -m py_compile scripts/deploy_ftps.py scripts/check_site.py
+          python -m unittest discover -s tests -v

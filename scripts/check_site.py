@@ -31,7 +31,7 @@ FORBIDDEN_NAMES = {
     ".git", ".github", "node_modules", "__pycache__", ".netrc",
     "wp-config.php", "configuration.php", "error_log", "ftps.json",
     "ftps.pass", "credentials.json", "credentials.php",
-    ".3dkan-deployment-state.json",
+    ".3dkan-deployment-state.json", ".htpasswd", ".htdigest",
 }
 FORBIDDEN_SUFFIXES = (
     ".log", ".sql", ".sql.gz", ".zip", ".tar", ".tar.gz", ".bak",
@@ -67,6 +67,17 @@ XML_LITERAL = re.compile(
     r"<(?P<key>" + IDENTIFIER + r")\b[^>]*>(?P<value>[^<]+)</(?P=key)\s*>"
 )
 URL_LITERAL = re.compile(r"\b[A-Za-z][A-Za-z0-9+.-]*://[^\s\"'<>`]+")
+
+_ENV_CREDENTIAL_NAME = r"[A-Z0-9_]*(?:PASSWORD|PASSWD|PASS|PWD|TOKEN|SECRET|API_?KEY)[A-Z0-9_]*"
+ENV_CREDENTIAL_FALLBACKS = (
+    re.compile(r"\b(?:getenv|env)\s*\(\s*['\"]" + _ENV_CREDENTIAL_NAME + r"['\"]\s*,\s*" + QUOTED_VALUE, re.I | re.S),
+    re.compile(r"\b(?:getenv|env)\s*\(\s*['\"]" + _ENV_CREDENTIAL_NAME + r"['\"]\s*\)\s*(?:\?\s*:|\?\?)\s*" + QUOTED_VALUE, re.I | re.S),
+    re.compile(r"\bprocess\s*\.\s*env\s*\.\s*" + _ENV_CREDENTIAL_NAME + r"\s*(?:\|\||\?\?)\s*" + QUOTED_VALUE, re.I | re.S),
+    re.compile(r"(?<![A-Za-z0-9_])(?:\$_(?:ENV|SERVER)|process\s*\.\s*env)\s*\[\s*['\"]"
+               + _ENV_CREDENTIAL_NAME + r"['\"]\s*\]\s*(?:\?\?|\?\s*:|\|\|)\s*"
+               + QUOTED_VALUE, re.I | re.S),
+)
+AUTH_RUNTIME_DEPENDENCY = re.compile(rb"^\s*AuthUserFile\s+\S", re.I | re.M)
 # These two existing Sitejet constants are intentionally sent to Google Maps
 # Embed/JavaScript by the browser. Review preserves exact live source, not an
 # exemption for arbitrary API keys: field, fingerprint and source path must all
@@ -161,7 +172,15 @@ def credential_categories(data, *, relative=None):
     categories = set()
     if SECRET_PATTERN.search(data):
         categories.add("provider-key-or-private-key")
-    text = data.decode("utf-8-sig", errors="replace")
+    if b"\0" in data:
+        categories.add("nul-in-text")
+    if AUTH_RUNTIME_DEPENDENCY.search(data):
+        categories.add("auth-runtime-dependency")
+    try:
+        text = data.decode("utf-8-sig")
+    except UnicodeError:
+        categories.add("invalid-text-encoding")
+        return sorted(categories)
     for pattern in (LITERAL_ASSIGNMENT, DEFINED_LITERAL, CONFIG_ASSIGNMENT, XML_LITERAL):
         for match in pattern.finditer(text):
             name = match.groupdict().get("key") or match.groupdict().get("bare")
@@ -169,6 +188,11 @@ def credential_categories(data, *, relative=None):
             if (category and not placeholder_or_dynamic(match.group("value"))
                     and not reviewed_browser_key(name, match.group("value"), relative)):
                 categories.add(category)
+    for pattern in ENV_CREDENTIAL_FALLBACKS:
+        for match in pattern.finditer(text):
+            value = match.group("value").strip()
+            if value and not placeholder_or_dynamic(value):
+                categories.add("literal-environment-fallback")
     for match in URL_LITERAL.finditer(html.unescape(text.replace(r"\/", "/"))):
         try:
             url = urlsplit(match.group().rstrip(").,;"))
