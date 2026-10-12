@@ -3,11 +3,13 @@
 
 import argparse
 from collections import Counter
+import hashlib
+import html
 import json
 from pathlib import Path, PurePosixPath
 import re
 import sys
-from urllib.parse import unquote, urlsplit
+from urllib.parse import parse_qsl, unquote, urlsplit
 import xml.etree.ElementTree as ET
 
 
@@ -44,6 +46,141 @@ SECRET_PATTERN = re.compile(
     rb"sk-(?:proj-)?[A-Za-z0-9_-]{30,}|AKIA[A-Z0-9]{16}"
     rb")(?![A-Za-z0-9_-]))"
 )
+TEXT_SUFFIXES = {".php", ".json", ".js", ".html", ".txt", ".xml", ".css", ".svg",
+                 ".ini", ".conf", ".config", ".yaml", ".yml"}
+IDENTIFIER = r"[A-Za-z_][A-Za-z0-9_-]*"
+QUOTED_VALUE = r"(?P<quote>['\"`])(?P<value>(?:\\.|(?!(?P=quote))[\s\S])*?)(?P=quote)"
+LITERAL_ASSIGNMENT = re.compile(
+    r"(?<![A-Za-z0-9_])(?:\$?(?P<bare>" + IDENTIFIER + r")|"
+    r"(?P<name_quote>['\"])(?P<key>" + IDENTIFIER + r")(?P=name_quote))\s*\]?\s*(?:=>|:(?!=)|=(?!=))\s*"
+    + QUOTED_VALUE
+)
+DEFINED_LITERAL = re.compile(
+    r"\bdefine\s*\(\s*(?P<name_quote>['\"])(?P<key>" + IDENTIFIER + r")(?P=name_quote)\s*,\s*"
+    + QUOTED_VALUE, re.IGNORECASE
+)
+CONFIG_ASSIGNMENT = re.compile(
+    r"^[ \t]*(?:(?:export|SetEnv)[ \t]+)?(?P<key>" + IDENTIFIER + r")"
+    r"[ \t]*(?:=[ \t]*|[ \t]+)(?P<value>[^\r\n#;]+)", re.MULTILINE
+)
+XML_LITERAL = re.compile(
+    r"<(?P<key>" + IDENTIFIER + r")\b[^>]*>(?P<value>[^<]+)</(?P=key)\s*>"
+)
+URL_LITERAL = re.compile(r"\b[A-Za-z][A-Za-z0-9+.-]*://[^\s\"'<>`]+")
+# These two existing Sitejet constants are intentionally sent to Google Maps
+# Embed/JavaScript by the browser. Review preserves exact live source, not an
+# exemption for arbitrary API keys: field, fingerprint and source path must all
+# match. This does not claim that Google Cloud referrer restrictions were read.
+# https://developers.google.com/maps/api-security-best-practices
+REVIEWED_BROWSER_KEYS = {
+    "googleMapsEmbedApiKey": {
+        "sha256": "916414a7fc9374e3dd3d7ce9a738ea847c441ec714c1a287b232e6012a3ea103",
+        "paths": frozenset({
+            "blog-single-page-layout/blog-post-1/index.html",
+            "blog-single-page-layout/blog-post-2/index.html",
+            "blog-single-page-layout/blog-post-3/index.html",
+            "blog-single-page-layout/blog-post-4/index.html",
+            "blog-single-page-layout/blog-post-5/index.html",
+            "blog-single-page-layout/blog-post-6/index.html",
+            "jobs-1-item/1-accountant-tech/index.html",
+            "jobs-1-item/2-developer-sales/index.html",
+            "jobs-1-item/3-analyst-sales/index.html",
+            "jobs-1-item/4-accountant-human-resources/index.html",
+            "jobs-1-item/5-engineer-sales/index.html",
+            "jobs-1-item/6-analyst-sales/index.html",
+            "legal-notice/index.html",
+            "modules-1-item/coding/index.html",
+            "modules-1-item/data-science/index.html",
+            "modules-1-item/digital-marketing/index.html",
+            "modules-1-item/finances/index.html",
+            "modules-1-item/photography/index.html",
+            "modules-1-item/public-speaking/index.html",
+            "privacy/index.html",
+            "real-estate-single-page-layout/2-bedroom-apartment-in-chicago/index.html",
+            "real-estate-single-page-layout/apartment-in-denver/index.html",
+            "real-estate-single-page-layout/beautiful-house-in-anaheim/index.html",
+            "real-estate-single-page-layout/executive-office-in-anaheim/index.html",
+            "real-estate-single-page-layout/luxury-house-in-newton/index.html",
+            "real-estate-single-page-layout/modern-house-in-denver/index.html",
+            "real-estate-single-page-layout/office-space-in-chicago/index.html",
+            "real-estate-single-page-layout/serviced-office-in-denver/index.html",
+            "real-estate-single-page-layout/studio-loft-in-chicago/index.html",
+            "subpage/index.html",
+        }),
+    },
+    "GOOGLE_MAPS_TOKEN": {
+        "sha256": "592f1cac55a5c1d705635904475e5266c72a6159223d56df84ae8e724718c433",
+        "paths": frozenset({"webcard/static/app.bundle.1765894263.js"}),
+    },
+}
+
+
+def credential_category(name):
+    normalized = re.sub(r"([A-Z]+)([A-Z][a-z])", r"\1_\2", name)
+    normalized = re.sub(r"([a-z0-9])([A-Z])", r"\1_\2", normalized).lower().replace("-", "_")
+    compact_service = r"(?:ftp|ftps|smtp|db|database|mysql|postgres|pgsql)"
+    if (re.search(r"(?:^|_)(?:password|passwd|pwd|pass)(?:_hash)?$", normalized)
+            or re.fullmatch(compact_service + r"(?:password|passwd|pwd|pass)", normalized)):
+        return "literal-password"
+    if (normalized in {"authorization", "authentication", "apikey"}
+            or re.search(r"(?:^|_)(?:secret|token)$|(?:^|_)(?:api_key|access_key|private_key|secret_key|auth_key)$", normalized)):
+        return "literal-secret-or-token"
+    if (re.search(r"^" + compact_service + r"_.*(?:user|username|login)$", normalized)
+            or re.fullmatch(compact_service + r"(?:user|username|login)", normalized)):
+        return "literal-service-credential"
+    return None
+
+
+def placeholder_or_dynamic(value):
+    value = value.strip().strip("'\"`").strip()
+    if not value or value.lower() in {"null", "none", "undefined", "false", "true", "bearer", "basic"}:
+        return True
+    normalized = re.sub(r"[\s-]+", "_", value).lower()
+    if normalized in {"changeme", "change_me", "replace_me", "redacted", "placeholder",
+                      "todo", "tbd", "example", "sample", "dummy"}:
+        return True
+    if re.fullmatch(r"(?:your|insert|replace|example|sample)_[a-z0-9_]+", normalized):
+        return True
+    if re.fullmatch(r"[xX*\u2022\u25cf_]{3,}", value):
+        return True
+    if re.fullmatch(r"(?:<[^<>]+>|\$\{[^{}]+\}|\{\{[^{}]+\}\}|\{\$[^{}]+\}|%[A-Z0-9_]+%)", value):
+        return True
+    # Dynamic lookups are not literals, including config-text examples of them.
+    return bool(re.fullmatch(r"\$[A-Za-z_][A-Za-z0-9_]*(?:\[.*\])?", value)
+                or re.match(r"(?:getenv|env|os\.getenv)\s*\(|process\.env\.|os\.environ\[", value))
+
+
+def reviewed_browser_key(name, value, relative):
+    review = REVIEWED_BROWSER_KEYS.get(name)
+    return bool(review and relative in review["paths"]
+                and hashlib.sha256(value.encode()).hexdigest() == review["sha256"])
+
+
+def credential_categories(data, *, relative=None):
+    """Return categories only; matching values never enter diagnostic output."""
+    categories = set()
+    if SECRET_PATTERN.search(data):
+        categories.add("provider-key-or-private-key")
+    text = data.decode("utf-8-sig", errors="replace")
+    for pattern in (LITERAL_ASSIGNMENT, DEFINED_LITERAL, CONFIG_ASSIGNMENT, XML_LITERAL):
+        for match in pattern.finditer(text):
+            name = match.groupdict().get("key") or match.groupdict().get("bare")
+            category = credential_category(name)
+            if (category and not placeholder_or_dynamic(match.group("value"))
+                    and not reviewed_browser_key(name, match.group("value"), relative)):
+                categories.add(category)
+    for match in URL_LITERAL.finditer(html.unescape(text.replace(r"\/", "/"))):
+        try:
+            url = urlsplit(match.group().rstrip(").,;"))
+            if url.password is not None and not placeholder_or_dynamic(unquote(url.password)):
+                categories.add("credential-bearing-url")
+            for name, value in parse_qsl(url.query):
+                if credential_category(name) and not placeholder_or_dynamic(value):
+                    categories.add("credential-bearing-url")
+        except ValueError:
+            # Malformed public URLs are checked by the relevant source checks.
+            continue
+    return sorted(categories)
 
 
 class SiteCheck:
@@ -115,9 +252,9 @@ class SiteCheck:
             self.require(not forbidden, f"Credential/runtime file in payload: {relative}")
             self.require(not file.is_symlink(), f"Symlink in payload: {relative}")
             if (file.is_file() and not file.is_symlink()
-                    and file.suffix.lower() in {".php", ".json", ".js", ".html", ".txt", ".xml"}):
-                self.require(not SECRET_PATTERN.search(file.read_bytes()),
-                             f"Possible credential in payload: {relative} (value redacted)")
+                    and (file.suffix.lower() in TEXT_SUFFIXES or file.name.lower() == ".htaccess")):
+                for category in credential_categories(file.read_bytes(), relative=relative):
+                    self.errors.append(f"Possible credential in payload: {relative} [{category}] (value redacted)")
 
     def check_images(self, groups):
         expected_svgs = set()
