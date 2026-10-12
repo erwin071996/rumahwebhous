@@ -203,6 +203,24 @@ assert.equal(await p.locator("#real-video-player").getAttribute("src"),await p.l
 await p.keyboard.press("Escape");
 },why);
 }
+await check(key+" all original images decode and brand geometry/white backing",async()=>{
+const images=p.locator("img");
+for(let i=0;i<await images.count();i++) {
+const img=images.nth(i); await img.scrollIntoViewIfNeeded(); await img.evaluate(el=>el.decode());
+assert(await img.evaluate(el=>el.complete&&el.naturalWidth>0&&el.naturalHeight>0),"Image failed: "+await img.getAttribute("src"));
+}
+for(const selector of [".site-header .brand",".site-footer .footer-brand"]) {
+const brand=p.locator(selector),img=brand.locator("img");
+await img.scrollIntoViewIfNeeded();
+assert(await img.evaluate(el=>{
+const r=el.getBoundingClientRect(),s=getComputedStyle(el),b=getComputedStyle(el.parentElement);
+return new URL(el.currentSrc).pathname==="/assets/branding/logo-3dkan-original.jpg"&&el.naturalWidth===2048&&el.naturalHeight===654&&Math.abs(r.width/r.height-2048/654)<.01&&s.objectFit==="contain"&&s.filter==="none"&&s.opacity==="1"&&s.mixBlendMode==="normal"&&b.backgroundColor==="rgb(255, 255, 255)"&&r.left>=-1&&r.right<=innerWidth+1;
+}),"Original logo geometry/backing failed: "+selector);
+}
+const menu=p.locator(".menu-toggle"),headerLogo=p.locator(".site-header .brand img");
+if(await menu.isVisible()) assert(await headerLogo.evaluate((el,m)=>el.getBoundingClientRect().right<=m.getBoundingClientRect().left-4,await menu.elementHandle()),"Logo overlaps mobile Menu");
+await p.locator(".site-footer .footer-brand").scrollIntoViewIfNeeded();await shot(p,key+"-footer.png");
+},why);
 if(viewport.width===1280) await check(key+" print PDF captured (visual review pending)",async()=>{
 if(url==="/projects.html") await p.locator(".real-filter[data-filter=retail]").click(); await p.emulateMedia({media:"print"});
 if(url==="/projects.html") assert(await p.locator(".real-card").evaluateAll(es=>es.length===10&&es.every(e=>getComputedStyle(e).display!=="none"))); const file=path.join(out,key+".pdf"); await p.pdf({path:file,format:"A4",printBackground:true}); artifacts.push(file); await p.emulateMedia({media:"screen"});
@@ -220,8 +238,15 @@ assert(await f.locator("input[name],select[name],textarea[name]").evaluateAll(es
 assert.equal(await f.locator("[data-brief-compose]").isDisabled(),true);
 assert.equal(await f.locator("[data-brief-preview]").getAttribute("name"),null);
 assert(await f.locator('.brief-nojs a[href^="https://wa.me/"]').isVisible()); assert(await f.locator('.brief-nojs a[href^="tel:"]').isVisible());
+const nativeDocumentRequests=[];
+const watch=req=>{if(req.isNavigationRequest()&&new URL(req.url()).origin===base.origin) nativeDocumentRequests.push(req.url());};
+p.on("request",watch); const initialUrl=p.url();
+assert(await f.evaluate(form=>Array.from(form.querySelectorAll("button,input")).every(e=>(e.type!=="submit"&&e.type!=="image")||e.matches(":disabled"))),"Enabled native submit control present");
+await f.locator("[data-brief-compose]").evaluate(el=>el.focus()); await p.keyboard.press("Enter"); await p.keyboard.press("Space"); await p.waitForTimeout(100);
+assert.equal(nativeDocumentRequests.length,0,"Disabled form keyboard flow initiated GET");assert.equal(p.url(),initialUrl);
+p.removeListener("request",watch);
 const before=leaks.length;
-/* Forced native submission can cause an empty local GET; no synthetic values may enter any request. */
+/* Additional adversarial forced submission is separate from the zero-GET user keyboard flow; disabled values must not leak. */
 await f.evaluate((form,value)=>{ for(const e of form.elements) if(e.name&&e.tagName!=="SELECT") e.value=value; setTimeout(()=>form.requestSubmit(),0); },nonce);
 await p.waitForTimeout(250); assert.equal(leaks.length,before,"Brief values attempted in request");
 } finally { dependencyStates.get(c).closing=true; await c.close(); }
@@ -271,7 +296,7 @@ await check("no attempted brief/external form/WA leakage",async()=>assert.equal(
 await check("no uncaught page runtime errors",async()=>assert.equal(errors.length,0,JSON.stringify(errors)));
 const reportData={runtime:{playwright:require("playwright/package.json").version,chromium:browser ? browser.version() : "not launched"},candidateSha:process.env.QA_CANDIDATE_SHA||process.env.GITHUB_SHA||"UNKNOWN",browser:"Chromium native cloud",baseOrigin:base.origin,results,artifacts,unavailable:[...unavailable],blocked,leaks,errors,visualReview:"PENDING"};
 await fs.writeFile(path.join(out,"results.json"),JSON.stringify(reportData,null,2));
-console.log(JSON.stringify({passed:results.filter(r=>r.status==="PASS").length,failed:results.filter(r=>r.status==="FAIL").length,notRun:results.filter(r=>r.status==="NOT RUN").length,artifactDir:out},null,2));
+console.log(JSON.stringify({candidateSha:reportData.candidateSha,runtime:reportData.runtime,passed:results.filter(r=>r.status==="PASS").length,failed:results.filter(r=>r.status==="FAIL").length,notRun:results.filter(r=>r.status==="NOT RUN").length,diagnostics:results.filter(r=>r.status!=="PASS"),unavailable:[...unavailable],leaks,errors,artifactDir:out},null,2));
 if(results.some(r=>r.status==="FAIL"||r.status==="NOT RUN"&&r.name!=="production media playback")) process.exitCode=1;
 }
 })();
