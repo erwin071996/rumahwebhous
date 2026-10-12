@@ -1,0 +1,30 @@
+name: Verify FTPS TLS Compatibility
+on:
+  push:
+    branches: ['codex/ftps-probe-20261012']
+    paths: ['.github/workflows/probe-ftps.yml']
+permissions:
+  contents: read
+jobs:
+  probe:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Read-only FTPS target and TLS 1.2 probe
+        env:
+          FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
+          FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
+        run: |
+          python - <<'PY'
+          import os, subprocess, hashlib
+          def q(s): return '"'+s.replace('\\','\\\\').replace('"','\\"')+'"'
+          user=os.environ['FTP_USERNAME']; password=os.environ['FTP_PASSWORD']
+          config=['silent','show-error','ssl-reqd','ipv4','tlsv1.2','tls-max = "1.2"','ftp-method = "singlecwd"','connect-timeout = 12','max-time = 45','user = '+q(user+':'+password),'url = "ftp://kilimanjaro.iixcp.rumahweb.net:21/public_html/index.html"']
+          r=subprocess.run(['curl','-q','--config','-'],input=('\n'.join(config)+'\n').encode(),capture_output=True,timeout=60)
+          if r.returncode:
+              error=r.stderr.decode('utf-8','replace').replace(user,'[REDACTED]').replace(password,'[REDACTED]')
+              print('FTPS_PROBE_FAILED',r.returncode,error[:400]); raise SystemExit(1)
+          sha=hashlib.sha256(r.stdout).hexdigest()
+          assert sha=='510984abb196d40c09e96224e6a4166b7698b326ced09a481f143e4dff40a821', 'Unexpected live source; no import permitted'
+          print('FTPS_PROBE_OK',len(r.stdout),sha)
+          PY
