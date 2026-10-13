@@ -1,0 +1,63 @@
+name: Validate CMS Owner package
+on:
+  push:
+    branches: ['codex/cms-owner-activation-20261013']
+permissions:
+  contents: read
+jobs:
+  cms-owner:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - name: Checkout exact source without persisted credentials
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Verify unchanged public payload and existing foundation
+        shell: bash
+        run: |
+          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+          git diff --exit-code 1463609379967383ff7d7f2e56e144b3a2ba8209 HEAD -- public_html
+          python3 - <<'PY'
+          import hashlib
+          from pathlib import Path
+          expected = {
+            "cms/neon_box_pilot.php": "15dbaf6bfe53ff5ea521d97e288788fb07f4c1e4a9f32e1ef1667d9bacad6ab2",
+            "tests/fixtures/cms-posting-prototype.html": "def41c95a1b217f5960d8570b509cac53c6bd09e555871a0136c9dfec37e304e",
+          }
+          for name, digest in expected.items():
+              file = Path(name)
+              assert file.is_file() and not file.is_symlink()
+              assert hashlib.sha256(file.read_bytes()).hexdigest() == digest
+          print("Existing foundation preserved; public payload unchanged.")
+          PY
+      - name: Lint PHP 8.3 package
+        run: |
+          php -r 'if (PHP_VERSION_ID < 80300 || PHP_VERSION_ID >= 80400) { exit(1); } echo "PHP " . PHP_VERSION . "\n";'
+          php -l cms/owner-gateway.php
+          php -l cms/owner-entry.php
+          php -l cms/owner-index.php
+          php -l cms/owner-endpoint.php
+          php -l cms/neon_box_draft_adapter.php
+          php -l tests/cms-owner-gateway.php
+          php -l tests/fixtures/cms-owner-http.php
+          node --check tests/cms-owner-http.cjs
+      - name: Focused draft and review boundaries
+        shell: bash
+        run: |
+          mkdir -p artifacts/cms-owner
+          php -d display_errors=0 -d log_errors=0 tests/cms-owner-gateway.php | tee artifacts/cms-owner/php-results.json
+      - name: Real local PHP session and CSRF round trips
+        shell: bash
+        run: |
+          node tests/cms-owner-http.cjs | tee artifacts/cms-owner/http-results.json
+      - name: Keep redacted test results
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: cms-owner-${{ github.sha }}
+          path: artifacts/cms-owner/*.json
+          if-no-files-found: error
+          retention-days: 3

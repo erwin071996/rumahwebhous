@@ -29,8 +29,9 @@ final class DraftAdapter
         private readonly array $photoMap,
         private readonly string $currentRelease
     ) {
-        self::keys($photoMap, ['a', 'b', 'c']);
-        if (count(array_unique(array_values($photoMap), SORT_REGULAR)) !== 3
+        if (count($photoMap) < 1 || count($photoMap) > 3
+            || array_diff(array_keys($photoMap), ['a', 'b', 'c']) !== []) throw new Invalid();
+        if (count(array_unique(array_values($photoMap), SORT_REGULAR)) !== count($photoMap)
             || preg_match('/\A[a-f0-9]{40}\z/', $currentRelease) !== 1) {
             throw new Invalid();
         }
