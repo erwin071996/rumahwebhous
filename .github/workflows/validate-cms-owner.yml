@@ -53,6 +53,43 @@ jobs:
         shell: bash
         run: |
           node tests/cms-owner-http.cjs | tee artifacts/cms-owner/http-results.json
+      - name: Actual loader boundary checks
+        shell: bash
+        run: |
+          php -l tests/cms-owner-entry.php
+          php -d display_errors=0 -d log_errors=0 tests/cms-owner-entry.php | tee artifacts/cms-owner/entry-results.json
+      - name: Focused UI model and transport checks
+        shell: bash
+        run: |
+          node --check cms/owner-ui.js
+          node --check tests/cms-owner-ui.cjs
+          node --check tests/cms-owner-native.cjs
+          node tests/cms-owner-ui.cjs | tee artifacts/cms-owner/ui-results.json
+      - name: Build isolated code package only
+        run: python3 scripts/build_cms_owner_package.py --output "$RUNNER_TEMP/cms-owner-package"
+      - name: Install existing pinned browser test runtime
+        shell: bash
+        run: |
+          npm install --prefix "$RUNNER_TEMP/3dkan-cms-owner" --no-audit --no-fund playwright@1.64.0
+          "$RUNNER_TEMP/3dkan-cms-owner/node_modules/.bin/playwright" install --with-deps chromium
+          printf 'NODE_PATH=%s\n' "$RUNNER_TEMP/3dkan-cms-owner/node_modules" >> "$GITHUB_ENV"
+      - name: Native UI with synthetic isolated API only
+        run: node tests/cms-owner-native.cjs
+      - name: Save code package without private runtime
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: cms-owner-code-${{ github.sha }}
+          path: ${{ runner.temp }}/cms-owner-package
+          if-no-files-found: error
+          retention-days: 3
+      - name: Keep synthetic UI evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: cms-owner-ui-${{ github.sha }}
+          path: artifacts/cms-owner-native
+          if-no-files-found: warn
+          retention-days: 3
       - name: Keep redacted test results
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02

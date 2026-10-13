@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow,noarchive">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self'; connect-src 'self'; form-action 'none'; base-uri 'none'; frame-ancestors 'none'; object-src 'none'">
+<title>CMS Owner · 3DKan</title>
+<link rel="stylesheet" href="/assets/ui/brand-tokens.css">
+<link rel="stylesheet" href="./owner-ui.css">
+<script src="./owner-ui.js" defer></script>
+</head>
+<body>
+<header><a href="/">3DKan</a><span class="badge">CMS Owner</span><h1>Draf layanan Neon Box</h1><p>Siapkan perubahan, simpan draf privat, lalu tinjau revisi sebelum mengajukan publikasi.</p><p id="owner-connection" class="notice" role="status">Belum terhubung ke sesi Owner.</p></header>
+<main id="main">
+<form data-cms-owner autocomplete="off">
+<div class="grid">
+<div>
+<section class="panel"><h2>Konten layanan</h2><p class="muted">Tahap ini mengubah nama, ringkasan, dan sampul Neon Box. Bidang layanan lainnya tetap berasal dari sumber publik yang disetujui.</p>
+<fieldset id="owner-fields" disabled>
+<label for="owner-title">Nama layanan <span class="muted">maksimal 120 byte</span></label>
+<input id="owner-title" type="text" maxlength="120" required>
+<label for="owner-summary">Ringkasan <span class="muted">maksimal 500 byte</span></label>
+<textarea id="owner-summary" maxlength="500" required></textarea>
+<label for="owner-fact">Fakta yang perlu ditinjau <span class="muted">maksimal 2.000 byte</span></label>
+<textarea id="owner-fact" maxlength="2000" aria-describedby="owner-fact-help"></textarea>
+<p id="owner-fact-help" class="muted">Kosongkan fakta yang belum diketahui. Fakta dan rujukan disimpan sebagai catatan privat; tidak ikut ekspor halaman.</p>
+<label for="owner-source">Rujukan fakta <span class="muted">maksimal 500 byte</span></label>
+<textarea id="owner-source" maxlength="500"></textarea>
+<label><input id="owner-verified" type="checkbox"> Fakta yang dicantumkan sudah diverifikasi</label>
+<h2 class="media-heading">Media yang disetujui</h2><p class="muted">Pilih dari inventaris yang tersedia. Tidak ada unggahan baru. Tinjau hak penggunaan dan pilih sampul sebelum persetujuan.</p>
+<ul id="owner-media" class="media"></ul>
+</fieldset>
+</section>
+</div>
+<div>
+<section class="panel"><h2>Simpan dan buka draf</h2><p>Revisi server: <strong id="owner-revision">—</strong></p><p id="owner-draft-state">Belum dimuat.</p>
+<div class="actions"><button id="owner-baseline" type="button" disabled>Mulai dari konten publik saat ini</button><button id="owner-save" type="button" class="primary" disabled>Simpan draf privat</button><button id="owner-load" type="button">Muat ulang draf</button><button id="owner-discard" type="button" hidden>Buang edit lokal dan muat ulang</button></div>
+<p class="muted">Muat ulang mengganti edit lokal dengan revisi server. Isian yang belum disimpan dapat hilang saat menutup halaman.</p></section>
+<section class="panel"><h2>Review revisi tersimpan</h2><p id="owner-review-state">Review diperlukan untuk revisi tersimpan terbaru.</p><div class="actions"><button id="owner-preview" type="button" aria-controls="owner-output" aria-expanded="false" disabled>Buka pratinjau</button><button id="owner-approve" type="button" disabled>Setujui revisi ini</button></div><p class="muted">Perubahan setelah review membatalkan persetujuan.</p></section>
+<section class="panel"><h2>Ajukan publikasi</h2><p id="owner-publication-state">Belum ada permintaan yang dikonfirmasi pada sesi halaman ini.</p><button id="owner-request" type="button" class="primary" disabled>Ajukan ke publisher</button><p class="muted">Pengajuan menunggu peninjauan. Rilis tetap melalui publisher yang sama. Draf atau persetujuan belum berarti halaman publik berubah.</p><a href="/layanan/neon-box" target="_blank" rel="noopener noreferrer">Lihat halaman layanan publik ↗</a></section>
+</div>
+</div>
+<section id="owner-output" class="panel preview" hidden><h2 id="owner-preview-heading" tabindex="-1">Pratinjau revisi tersimpan</h2><h3 id="owner-preview-title"></h3><p id="owner-preview-summary"></p><dl><dt>Catatan fakta privat</dt><dd id="owner-preview-fact"></dd><dt>Rujukan privat, ditampilkan sebagai teks</dt><dd id="owner-preview-source"></dd><dt>Media dan sampul</dt><dd id="owner-preview-media"></dd></dl></section>
+<p id="owner-status" class="status" role="status" aria-live="polite" aria-atomic="true">Memeriksa gateway Owner. Semua isian tetap nonaktif sampai sesi tersedia.</p>
+<noscript><p class="notice">JavaScript diperlukan. Semua isian dan operasi simpan, review, serta publikasi tetap nonaktif.</p></noscript>
+</form>
+</main>
+<footer>CMS Owner · draf privat dan status rilis yang terpisah.</footer>
+</body>
+</html>
