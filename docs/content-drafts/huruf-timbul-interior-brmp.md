@@ -157,7 +157,7 @@ Revisi setelah GO Marketing hanya mengubah draf CTA/petunjuk dan catatan serah t
 
 Paket siap disusun Backend sebagai satu pengayaan studi kasus BRMP yang sudah ada, menggunakan dokumentasi asli dan CTA ke brief. Pengayaan layanan yang membutuhkan empat tujuan tautan editorial tambahan pada bagian 3 tidak menjadi prasyarat paket minimum ini. Foto bukti tetap ditampilkan pada portofolio; tidak perlu memperluas schema foto atau allowlist renderer untuk menerbitkan kartu BRMP dan metadata berikut.
 
-**Lokasi dan pemilik perubahan:** Konten & SEO menyerahkan copy hanya melalui file draf ini. Backend mengintegrasikan `public_html/projects.html` pada `article#brmp` dan dua field metadata dalam `public_html/includes/refresh-data.json` pada `services.huruf-timbul`. Frontend mempertahankan shell/komponen SharedBrand dan mengoordinasikan identitas build. [Koordinasi path pada PR21](https://github.com/erwin071996/rumahwebhous/pull/21#issuecomment-6152289108) mencatat pemisahan ini. Kartu Gadget Solution milik PR19, formulir, controller, konfigurasi brand, dan pemantau tidak menjadi target paket ini.
+**Lokasi dan pemilik perubahan:** Konten & SEO menyerahkan copy hanya melalui file draf ini. Backend mengintegrasikan `public_html/projects.html` pada `article#brmp`, serta dua field metadata dan satu bagian paragraf dalam `public_html/includes/refresh-data.json` pada `services.huruf-timbul`. Frontend mempertahankan shell/komponen SharedBrand dan mengoordinasikan identitas build. [Koordinasi path pada PR21](https://github.com/erwin071996/rumahwebhous/pull/21#issuecomment-6152289108) mencatat pemisahan ini. Kartu Gadget Solution milik PR19, formulir, controller, konfigurasi brand, dan pemantau tidak menjadi target paket ini.
 
 ### Isi dan CTA kartu BRMP siap integrasi
 
@@ -177,14 +177,26 @@ Tambahkan tautan berikut di dalam `div.case-actions` kartu yang sama, dengan CTA
 
 Gunakan foto utama, caption, dan alt persis seperti bagian 5. Foto utama sudah ada pada kartu SharedBrand; alternatif tidak ikut ditampilkan. Metadata global portofolio tetap mewakili keseluruhan portofolio. Jangan menggantinya dengan metadata satu proyek atau menambahkan testimoni/rating/schema klaim baru.
 
-### Metadata layanan yang sudah didukung
+### Metadata dan isi singkat layanan yang sudah didukung
 
-Gabungkan dua field berikut ke record `services.huruf-timbul`; jangan mengganti record atau menghapus body/options/guide/image existing. Title dan description sama dengan hasil review Marketing pada bagian 2. Field string ini sudah didukung renderer SharedBrand `seo.php:20–25`; tidak memerlukan tautan editorial atau schema baru.
+Gabungkan dua field metadata berikut dan tambahkan satu bagian isi ke record `services.huruf-timbul`; jangan mengganti record atau menghapus body/options/guide/image maupun bagian editorial lain yang telah diterima. Title dan description sama dengan hasil review Marketing pada bagian 2. Metadata string dan bagian heading/paragraf dengan `links: []` sudah didukung renderer SharedBrand `seo.php:20–45`. Bagian singkat ini membuat isi layanan sesuai dengan meta dan tujuan tautan **Panduan brief huruf timbul**, tanpa URL editorial atau schema baru.
 
 ```json
 {
   "seo_title": "Jasa Huruf Timbul: Pilihan & Brief Pesanan | 3DKan",
-  "seo_description": "Pahami pilihan huruf timbul, lihat dokumentasi interior BRMP, dan siapkan teks, logo, ukuran bidang serta foto lokasi sebelum meminta penawaran."
+  "seo_description": "Pahami pilihan huruf timbul, lihat dokumentasi interior BRMP, dan siapkan teks, logo, ukuran bidang serta foto lokasi sebelum meminta penawaran.",
+  "detail_sections": [
+    {
+      "id": "brief-interior-brmp",
+      "heading": "Dari dokumentasi interior ke brief pesanan",
+      "paragraphs": [
+        "Portofolio 3DKan mencantumkan 18 Juli 2026 pada entri identitas interior Kementerian Pertanian — BRMP. Foto memperlihatkan logo dan susunan tulisan pada backdrop ruang, dalam kondisi terpasang. Gunakan contoh ini untuk menjelaskan bagian komposisi yang menjadi acuan Anda; bahan, ukuran, dan rincian pemasangan pesanan tetap perlu dikonfirmasi tersendiri.",
+        "Siapkan teks dan logo, foto bidang, lebar × tinggi bidang beserta satuan dan status ukur atau perkiraan, lokasi, jumlah titik, serta pilihan pencahayaan yang ingin dibahas. Buka galeri portofolio yang ditautkan di halaman ini untuk melihat dokumentasi BRMP dan menggunakan CTA Siapkan brief huruf timbul interior.",
+        "Pilih Huruf timbul pada brief. Di Ringkasan kebutuhan, tulis ‘Referensi visual: BRMP’, teks/logo, ukuran bidang beserta satuan dan statusnya, lokasi, serta foto yang tersedia. Periksa pesan; file dan foto dilampirkan sendiri saat chat. Pesan dikirim setelah Anda menekan Kirim di WhatsApp."
+      ],
+      "links": []
+    }
+  ]
 }
 ```
 
@@ -196,4 +208,4 @@ Pemeriksaan sumber SharedBrand memastikan anchor `brmp` dan `brief-proyek` masin
 
 `scripts/build_shared_brand.py:548–553` menerima source yang identik dengan input terpin atau output manifest yang sudah dikenal. `docs/shared-brand-build.json` juga menyimpan hash output, main, dan pre-main `projects.html`. Backend dan Frontend perlu membawa perubahan konten yang diterima bersama identitas build yang konsisten, menggunakan alur integrasi yang disetujui; jangan melonggarkan guard atau membangun ulang dari baseline lama yang menghapus copy baru. Pekerja Konten tidak mengubah generator, input pin, manifest, shell, atau controller.
 
-Serah terima cukup satu kandidat integrasi setelah rilis SharedBrand: catat SHA kandidat, pastikan kartu BRMP dan dua field metadata tampil, uji CTA menuju brief serta satu pratinjau sintetis Huruf timbul/Referensi visual: BRMP tanpa mengirim pesan. Backend memverifikasi hasil live setelah penerbitannya sendiri. Pengujian sumber yang tidak berubah tidak perlu diulang oleh Konten; paket minimum ini masih draf dan belum diuji runtime/live.
+Serah terima cukup satu kandidat integrasi setelah rilis SharedBrand: catat SHA kandidat, pastikan kartu BRMP, dua field metadata, dan bagian brief interior layanan tampil, uji CTA menuju brief serta satu pratinjau sintetis Huruf timbul/Referensi visual: BRMP tanpa mengirim pesan. Backend memverifikasi hasil live setelah penerbitannya sendiri. Pengujian sumber yang tidak berubah tidak perlu diulang oleh Konten; paket minimum ini masih draf dan belum diuji runtime/live.
