@@ -51,3 +51,10 @@ RewriteRule ^([^/]+)/?$ $1.php [L]
     Header set X-Robots-Tag "noindex, follow" env=KAN_DEMO
   </IfModule>
 </IfModule>
+
+# BEGIN 3DKan scoped static cache
+<IfModule mod_headers.c>
+  Header onsuccess unset Cache-Control "expr=%{REQUEST_STATUS} =~ m#^(200|206|304)$# && %{REQUEST_URI} =~ m#^/assets/(ui/(brief|frontend)\.(js|css)|ui/theme\.css|branding/logo-3dkan-(original\.jpg|688\.webp)|portfolio-real/responsive/cimb-niaga-signage-atm-(480|768)\.webp)$#"
+  Header always set Cache-Control "public, max-age=300, must-revalidate" "expr=%{REQUEST_STATUS} =~ m#^(200|206|304)$# && %{REQUEST_URI} =~ m#^/assets/(ui/(brief|frontend)\.(js|css)|ui/theme\.css|branding/logo-3dkan-(original\.jpg|688\.webp)|portfolio-real/responsive/cimb-niaga-signage-atm-(480|768)\.webp)$#"
+</IfModule>
+# END 3DKan scoped static cache

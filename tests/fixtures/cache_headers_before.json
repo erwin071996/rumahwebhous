@@ -1,0 +1,362 @@
+{
+  "schema_version": 1,
+  "origin": "https://www.3dkanadvertising.store",
+  "mode": "observe",
+  "observed_at": "2026-10-13T14:48:59.764937+00:00",
+  "observations": [
+    {
+      "path": "/assets/ui/brief.js",
+      "status": 200,
+      "cache_control": [],
+      "content_type": [
+        "text/javascript"
+      ],
+      "etag": [],
+      "last_modified": [
+        "Mon, 12 Oct 2026 18:04:39 GMT"
+      ],
+      "age": [],
+      "date": [
+        "Tue, 13 Oct 2026 14:48:42 GMT"
+      ],
+      "vary": [
+        "Accept-Encoding"
+      ],
+      "set_cookie": false,
+      "server": "Apache"
+    },
+    {
+      "path": "/assets/ui/brief.css",
+      "status": 200,
+      "cache_control": [],
+      "content_type": [
+        "text/css"
+      ],
+      "etag": [],
+      "last_modified": [
+        "Mon, 12 Oct 2026 18:02:28 GMT"
+      ],
+      "age": [],
+      "date": [
+        "Tue, 13 Oct 2026 14:48:42 GMT"
+      ],
+      "vary": [
+        "Accept-Encoding"
+      ],
+      "set_cookie": false,
+      "server": "Apache"
+    },
+    {
+      "path": "/assets/ui/frontend.js",
+      "status": 200,
+      "cache_control": [],
+      "content_type": [
+        "text/javascript"
+      ],
+      "etag": [],
+      "last_modified": [
+        "Mon, 12 Oct 2026 18:07:00 GMT"
+      ],
+      "age": [],
+      "date": [
+        "Tue, 13 Oct 2026 14:48:43 GMT"
+      ],
+      "vary": [
+        "Accept-Encoding"
+      ],
+      "set_cookie": false,
+      "server": "Apache"
+    },
+    {
+      "path": "/assets/ui/frontend.css",
+      "status": 200,
+      "cache_control": [],
+      "content_type": [
+        "text/css"
+      ],
+      "etag": [],
+      "last_modified": [
+        "Mon, 12 Oct 2026 18:06:50 GMT"
+      ],
+      "age": [],
+      "date": [
+        "Tue, 13 Oct 2026 14:48:44 GMT"
+      ],
+      "vary": [
+        "Accept-Encoding"
+      ],
+      "set_cookie": false,
+      "server": "Apache"
+    },
+    {
+      "path": "/assets/ui/theme.css",
+      "status": 200,
+      "cache_control": [],
+      "content_type": [
+        "text/css"
+      ],
+      "etag": [],
+      "last_modified": [
+        "Mon, 12 Oct 2026 18:08:09 GMT"
+      ],
+      "age": [],
+      "date": [
+        "Tue, 13 Oct 2026 14:48:45 GMT"
+      ],
+      "vary": [
+        "Accept-Encoding"
+      ],
+      "set_cookie": false,
+      "server": "Apache"
+    },
+    {
+      "path": "/assets/branding/logo-3dkan-original.jpg",
+      "status": 200,
+      "cache_control": [],
+      "content_type": [
+        "image/jpeg"
+      ],
+      "etag": [],
+      "last_modified": [
+        "Mon, 12 Oct 2026 18:01:56 GMT"
+      ],
+      "age": [],
+      "date": [
+        "Tue, 13 Oct 2026 14:48:46 GMT"
+      ],
+      "vary": [],
+      "set_cookie": false,
+      "server": "Apache"
+    },
+    {
+      "path": "/assets/branding/logo-3dkan-688.webp",
+      "status": 200,
+      "cache_control": [],
+      "content_type": [
+        "image/webp"
+      ],
+      "etag": [],
+      "last_modified": [
+        "Mon, 12 Oct 2026 18:01:47 GMT"
+      ],
+      "age": [],
+      "date": [
+        "Tue, 13 Oct 2026 14:48:47 GMT"
+      ],
+      "vary": [
+        "Accept-Encoding"
+      ],
+      "set_cookie": false,
+      "server": "Apache"
+    },
+    {
+      "path": "/assets/portfolio-real/responsive/cimb-niaga-signage-atm-480.webp",
+      "status": 200,
+      "cache_control": [],
+      "content_type": [
+        "image/webp"
+      ],
+      "etag": [],
+      "last_modified": [
+        "Mon, 12 Oct 2026 18:02:08 GMT"
+      ],
+      "age": [],
+      "date": [
+        "Tue, 13 Oct 2026 14:48:47 GMT"
+      ],
+      "vary": [
+        "Accept-Encoding"
+      ],
+      "set_cookie": false,
+      "server": "Apache"
+    },
+    {
+      "path": "/assets/portfolio-real/responsive/cimb-niaga-signage-atm-768.webp",
+      "status": 200,
+      "cache_control": [],
+      "content_type": [
+        "image/webp"
+      ],
+      "etag": [],
+      "last_modified": [
+        "Mon, 12 Oct 2026 18:02:18 GMT"
+      ],
+      "age": [],
+      "date": [
+        "Tue, 13 Oct 2026 14:48:49 GMT"
+      ],
+      "vary": [
+        "Accept-Encoding"
+      ],
+      "set_cookie": false,
+      "server": "Apache"
+    },
+    {
+      "path": "/",
+      "status": 200,
+      "cache_control": [
+        "no-cache"
+      ],
+      "content_type": [
+        "text/html"
+      ],
+      "etag": [],
+      "last_modified": [
+        "Mon, 12 Oct 2026 18:10:21 GMT"
+      ],
+      "age": [],
+      "date": [
+        "Tue, 13 Oct 2026 14:48:50 GMT"
+      ],
+      "vary": [
+        "Accept-Encoding"
+      ],
+      "set_cookie": false,
+      "server": "Apache"
+    },
+    {
+      "path": "/projects.html",
+      "status": 200,
+      "cache_control": [
+        "no-cache"
+      ],
+      "content_type": [
+        "text/html"
+      ],
+      "etag": [],
+      "last_modified": [
+        "Tue, 13 Oct 2026 04:20:02 GMT"
+      ],
+      "age": [],
+      "date": [
+        "Tue, 13 Oct 2026 14:48:51 GMT"
+      ],
+      "vary": [
+        "Accept-Encoding"
+      ],
+      "set_cookie": false,
+      "server": "Apache"
+    },
+    {
+      "path": "/layanan/neon-box",
+      "status": 200,
+      "cache_control": [
+        "no-cache"
+      ],
+      "content_type": [
+        "text/html; charset=UTF-8"
+      ],
+      "etag": [],
+      "last_modified": [],
+      "age": [],
+      "date": [
+        "Tue, 13 Oct 2026 14:48:52 GMT"
+      ],
+      "vary": [
+        "Accept-Encoding"
+      ],
+      "set_cookie": false,
+      "server": "Apache"
+    },
+    {
+      "path": "/assets/portfolio-real/clean/cimb-niaga-signage-atm.webp",
+      "status": 200,
+      "cache_control": [],
+      "content_type": [
+        "image/webp"
+      ],
+      "etag": [],
+      "last_modified": [
+        "Wed, 07 Oct 2026 10:17:05 GMT"
+      ],
+      "age": [],
+      "date": [
+        "Tue, 13 Oct 2026 14:48:53 GMT"
+      ],
+      "vary": [
+        "Accept-Encoding"
+      ],
+      "set_cookie": false,
+      "server": "Apache"
+    },
+    {
+      "path": "/assets/ui/cache-header-missing.js",
+      "status": 404,
+      "cache_control": [
+        "no-cache"
+      ],
+      "content_type": [
+        "text/html"
+      ],
+      "etag": [],
+      "last_modified": [
+        "Mon, 05 Oct 2026 19:13:09 GMT"
+      ],
+      "age": [],
+      "date": [
+        "Tue, 13 Oct 2026 14:48:54 GMT"
+      ],
+      "vary": [
+        "Accept-Encoding"
+      ],
+      "set_cookie": false,
+      "server": "Apache"
+    }
+  ],
+  "conditional": [
+    {
+      "path": "/assets/ui/frontend.js",
+      "status": 304,
+      "cache_control": [],
+      "content_type": [],
+      "etag": [],
+      "last_modified": [
+        "Mon, 12 Oct 2026 18:07:00 GMT"
+      ],
+      "age": [],
+      "date": [
+        "Tue, 13 Oct 2026 14:48:55 GMT"
+      ],
+      "vary": [
+        "Accept-Encoding"
+      ],
+      "set_cookie": false,
+      "server": "Apache"
+    },
+    {
+      "path": "/assets/branding/logo-3dkan-688.webp",
+      "status": 304,
+      "cache_control": [],
+      "content_type": [],
+      "etag": [],
+      "last_modified": [
+        "Mon, 12 Oct 2026 18:01:47 GMT"
+      ],
+      "age": [],
+      "date": [
+        "Tue, 13 Oct 2026 14:48:55 GMT"
+      ],
+      "vary": [
+        "Accept-Encoding"
+      ],
+      "set_cookie": false,
+      "server": "Apache"
+    }
+  ],
+  "missing_cache_control": [
+    "/assets/ui/brief.js",
+    "/assets/ui/brief.css",
+    "/assets/ui/frontend.js",
+    "/assets/ui/frontend.css",
+    "/assets/ui/theme.css",
+    "/assets/branding/logo-3dkan-original.jpg",
+    "/assets/branding/logo-3dkan-688.webp",
+    "/assets/portfolio-real/responsive/cimb-niaga-signage-atm-480.webp",
+    "/assets/portfolio-real/responsive/cimb-niaga-signage-atm-768.webp"
+  ],
+  "issues": [],
+  "limitations": [
+    "HEAD does not prove body delivery or live 206.",
+    "No validator means conditional HEAD was not run."
+  ]
+}
