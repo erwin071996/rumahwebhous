@@ -78,14 +78,42 @@ def accessible_main(text):
 
 
 APPROVED_CONTENT_PATH = "tests/fixtures/projects-approved-content.json"
-APPROVED_CONTENT_SHA = "50a11c45a1c741278148c4668099ca295efd3d6e9ba8ab9b24f84dd26f7bc506"
+APPROVED_CONTENT_SHA = "dcef03b2601f61bb80a9b3de2a3480fba1cae2e2da74780737ce5bbd1b388110"
+
+def approved_service_data(raw, approval):
+ spec = approval.get("service_data")
+ if not isinstance(spec,dict) or spec.get("path") != "public_html/includes/refresh-data.json" or spec.get("service") != "huruf-timbul" or len(spec.get("operations",[])) != 1:
+  raise ValueError("Unexpected approved service data contract")
+ identity = spec["candidate"]
+ git_blob = hashlib.sha1(b"blob "+str(len(raw)).encode("ascii")+b"\0"+raw).hexdigest()
+ if len(raw) != identity["bytes"] or hashlib.sha256(raw).hexdigest() != identity["sha256"] or git_blob != identity["git_blob"]:
+  raise ValueError("Approved service data identity mismatch")
+ rendered = raw.decode("utf-8",errors="strict")
+ operation = spec["operations"][0]
+ if rendered.count(operation["new"]) != 1:
+  raise ValueError("Approved service data cardinality")
+ restored = rendered.replace(operation["new"],operation["old"],1).encode("utf-8")
+ before = spec["baseline"]
+ old_blob = hashlib.sha1(b"blob "+str(len(restored)).encode("ascii")+b"\0"+restored).hexdigest()
+ if len(restored) != before["bytes"] or hashlib.sha256(restored).hexdigest() != before["sha256"] or old_blob != before["git_blob"]:
+  raise ValueError("Approved service data restoration mismatch")
+ original, current = json.loads(restored), json.loads(raw)
+ expected = copy.deepcopy(original)
+ record = expected["services"]["huruf-timbul"]
+ editorial = spec["editorial"]
+ if set(editorial) != {"seo_title","seo_description","detail_sections"} or any(key in record for key in editorial) or len(record) != 7:
+  raise ValueError("Approved service fields changed")
+ record.update(editorial)
+ if current != expected or len(current["services"]) != 7:
+  raise ValueError("Approved service/global semantic preservation failed")
+ return restored
 
 def content_approval(repo):
  path = repo / APPROVED_CONTENT_PATH
  if not path.resolve().is_relative_to(repo.resolve()) or not path.is_file() or path.is_symlink() or digest(path) != APPROVED_CONTENT_SHA:
   raise ValueError("Approved Projects content identity mismatch")
  approval = json.loads(path.read_text(encoding="ascii"))
- if approval.get("schema_version") != 1 or approval.get("path") != "public_html/projects.html" or approval.get("baseline_commit") != BASE_SHA or len(approval.get("operations", [])) != 2:
+ if approval.get("schema_version") != 1 or approval.get("path") != "public_html/projects.html" or approval.get("baseline_commit") != BASE_SHA or len(approval.get("operations", [])) != 3:
   raise ValueError("Unexpected approved Projects content contract")
  inputs = json.loads(source(repo, "config/shared-brand-inputs.json"))
  rows = [entry for entry in inputs["files"] if entry["path"] == approval["path"]]
@@ -99,6 +127,10 @@ def content_approval(repo):
   raise ValueError("Projects managed output does not match approved content")
  if len(modules) != 1 or any(modules[0][key] != identity[key] for key in ("main_sha256", "pre_main_sha256")):
   raise ValueError("Projects main/module identity does not match approved content")
+ data_path = repo / "public_html/includes/refresh-data.json"
+ if not data_path.is_file() or data_path.is_symlink() or not data_path.resolve().is_relative_to(repo.resolve()):
+  raise ValueError("Unsafe approved service data path")
+ approved_service_data(data_path.read_bytes(), approval)
  return approval
 
 def expected_main(name, text, approval):
@@ -173,7 +205,11 @@ def run(baseline, candidate, approval):
    gate.equal(pre_main_gap(old),pre_main_gap(new),"pre-main non-shell modules preserve exact bytes/IDs/attributes",name)
    gate.require(len(BRAND_LINK.findall(new)) == 2 and len(FRONTEND_SCRIPT.findall(new)) == 1, "single generated tokens, design CSS and R6 controller", name)
  for name in FROZEN:
-  gate.equal(digest(baseline / name), digest(candidate / name), "frozen public module/data/master bytes", name)
+  if name == "includes/refresh-data.json":
+   restored = approved_service_data((candidate / name).read_bytes(), approval)
+   gate.equal(restored,(baseline / name).read_bytes(),"only three exact approved Huruf editorial fields; seven original fields, six services and global data preserved",name)
+  else:
+   gate.equal(digest(baseline / name), digest(candidate / name), "frozen public module/data/master bytes", name)
  exceptions={"assets/marketing-20261006/site.js","assets/refresh-20261006/site-v2.js","assets/refresh-20261006/site.js"}
  for old in sorted((baseline/"assets").rglob("*")):
   if old.is_file():

@@ -62,14 +62,14 @@ def prepare(source, target):
     return copied
 
 
-APPROVED_CONTENT_SHA = "50a11c45a1c741278148c4668099ca295efd3d6e9ba8ab9b24f84dd26f7bc506"
+APPROVED_CONTENT_SHA = "dcef03b2601f61bb80a9b3de2a3480fba1cae2e2da74780737ce5bbd1b388110"
 
 def apply_approved_projects(target):
     approval_path=Path(__file__).resolve().parent.parent/"tests/fixtures/projects-approved-content.json"
     if not approval_path.is_file() or approval_path.is_symlink() or hashlib.sha256(approval_path.read_bytes()).hexdigest()!=APPROVED_CONTENT_SHA:
         raise ValueError("Approved preview content identity mismatch")
     approval=json.loads(approval_path.read_text(encoding="ascii"))
-    if approval.get("schema_version")!=1 or approval.get("path")!="public_html/projects.html" or len(approval.get("operations",[]))!=2:
+    if approval.get("schema_version")!=1 or approval.get("path")!="public_html/projects.html" or len(approval.get("operations",[]))!=3:
         raise ValueError("Unexpected approved preview scope")
     file=target/"projects.html"
     raw=file.read_bytes()
@@ -85,6 +85,25 @@ def apply_approved_projects(target):
     if len(result)!=identity["after_bytes"] or hashlib.sha256(result).hexdigest()!=identity["after_sha256"]:
         raise ValueError("Approved baseline preview result mismatch")
     file.write_bytes(result)
+    spec=approval.get("service_data")
+    if not isinstance(spec,dict) or spec.get("path")!="public_html/includes/refresh-data.json" or spec.get("service")!="huruf-timbul" or len(spec.get("operations",[]))!=1:
+        raise ValueError("Unexpected approved baseline service scope")
+    data_file=target/"includes/refresh-data.json"
+    if not data_file.is_file() or data_file.is_symlink() or not data_file.resolve().is_relative_to(target.resolve()):
+        raise ValueError("Unsafe copied baseline service data")
+    raw=data_file.read_bytes()
+    before=spec["baseline"]
+    if len(raw)!=before["bytes"] or hashlib.sha256(raw).hexdigest()!=before["sha256"]:
+        raise ValueError("Immutable baseline service preview mismatch")
+    rendered=raw.decode("utf-8")
+    operation=spec["operations"][0]
+    if rendered.count(operation["old"])!=1:
+        raise ValueError("Approved baseline service operation cardinality")
+    result=rendered.replace(operation["old"],operation["new"],1).encode("utf-8")
+    after=spec["candidate"]
+    if len(result)!=after["bytes"] or hashlib.sha256(result).hexdigest()!=after["sha256"]:
+        raise ValueError("Approved baseline service preview result mismatch")
+    data_file.write_bytes(result)
 
 def main():
     parser=argparse.ArgumentParser()

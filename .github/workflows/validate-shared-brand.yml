@@ -12,6 +12,9 @@ on:
       - 'scripts/prepare_shared_brand_preview.py'
       - 'tests/shared-brand-native.cjs'
       - 'tests/fixtures/projects-approved-content.json'
+      - 'tests/brmp_content_test.py'
+      - 'tests/brmp-content-native.cjs'
+      - 'tests/seo_content_test.py'
       - '.github/workflows/validate-shared-brand.yml'
 permissions:
   contents: read
@@ -45,7 +48,7 @@ jobs:
           python3 - <<'PY'
           import hashlib
           from pathlib import Path
-          expected = {"public_html/assets/ui/design-system.css":"66a28499c514cb36c4e43ef1bad89782f963a5bf93146fa81f7370f7e85fef74","templates/presentation/shared-header.html":"7a1a98936698f57cfec2cee7e54f0e64c7176dba16c7acfb916125e9b51bc652","templates/presentation/shared-footer.html":"1dcb943ed1bf607aab248361ebf075d498f083fc01a8a4984687ebf72f12e64a","templates/presentation/shared-cta.html":"d1597bb8b7f315eff0fa600d30b2f6a5dccdcfa4340e544841d5554b71f3761e","public_html/assets/marketing-20261006/site.js":"baf0918036519d5d847d41ee812c5f7823823a41158973d999e9ce317cfa0c5d","public_html/assets/refresh-20261006/site-v2.js":"16cf9ec47fb3d251b3439eaf717f9c9e67abe58a5eb21f8d0027bc82f27b27b4","public_html/assets/refresh-20261006/site.js":"75c087398bf581cba22e65d75a86c76e612459e9be394a613d408f5f73c910b1","config/site-brand.json":"eba75c23cd438cdea7d0bfad80943240822c575f91c4d6180036f293a6c56727","config/shared-brand-inputs.json":"037b4263d7727fdb410503a665c3a7bfc51b172af3e87f18e1a1bdead5e66e1f","scripts/build_shared_brand.py":"5d89a775e0beadf5ca644a35b1cff16ed211bcaffc6246af05346c31967627f9","scripts/check_shared_brand.py":"a6115376d6db8d5ad30c94203840b79a69faf2fb69ffa9f47d7dd80f09909a55","tests/fixtures/projects-approved-content.json":"50a11c45a1c741278148c4668099ca295efd3d6e9ba8ab9b24f84dd26f7bc506","tests/shared-brand-native.cjs":"a7f15c495d2abe7934e1d282a862c2c750c6ba1c2e16b1a6d7bba5e97943eec8","scripts/prepare_shared_brand_preview.py":"6d7bc662ecf1fc1b0e2165ac94c8a45c2eea5861e1cf7c2aabf5d628cf32fc77"}
+          expected = {"public_html/assets/ui/design-system.css":"66a28499c514cb36c4e43ef1bad89782f963a5bf93146fa81f7370f7e85fef74","templates/presentation/shared-header.html":"7a1a98936698f57cfec2cee7e54f0e64c7176dba16c7acfb916125e9b51bc652","templates/presentation/shared-footer.html":"1dcb943ed1bf607aab248361ebf075d498f083fc01a8a4984687ebf72f12e64a","templates/presentation/shared-cta.html":"d1597bb8b7f315eff0fa600d30b2f6a5dccdcfa4340e544841d5554b71f3761e","public_html/assets/marketing-20261006/site.js":"baf0918036519d5d847d41ee812c5f7823823a41158973d999e9ce317cfa0c5d","public_html/assets/refresh-20261006/site-v2.js":"16cf9ec47fb3d251b3439eaf717f9c9e67abe58a5eb21f8d0027bc82f27b27b4","public_html/assets/refresh-20261006/site.js":"75c087398bf581cba22e65d75a86c76e612459e9be394a613d408f5f73c910b1","config/site-brand.json":"eba75c23cd438cdea7d0bfad80943240822c575f91c4d6180036f293a6c56727","config/shared-brand-inputs.json":"dd932a54d3598f18e10e60f5c0514f769f462deaa6e3ea2e9de8c22798aeaae9","scripts/build_shared_brand.py":"5d89a775e0beadf5ca644a35b1cff16ed211bcaffc6246af05346c31967627f9","scripts/check_shared_brand.py":"3ba044d7d48774d85e0d571bc8c24f0417811e67b5702106b50c6ba459b432ce","tests/fixtures/projects-approved-content.json":"dcef03b2601f61bb80a9b3de2a3480fba1cae2e2da74780737ce5bbd1b388110","tests/shared-brand-native.cjs":"a7f15c495d2abe7934e1d282a862c2c750c6ba1c2e16b1a6d7bba5e97943eec8","scripts/prepare_shared_brand_preview.py":"73052c7d8879c197ce7573bc3deb0268ff43df38af4ac182104ad2cb2e0c679a","tests/brmp_content_test.py":"e4ec5d3fe4c8877d7edd388b94669c355ac716203ad3382359e20dc2b6045489","tests/brmp-content-native.cjs":"31f49d5c444ceb31c7f603595c2f628bd9dff225106d1cccf3f02405b754c7fc","tests/seo_content_test.py":"9c6eaa27fcda515ceba167874b0723c0ff84c85ee4d561a5f63efc0fdfa15136"}
           for name, digest in expected.items():
               file = Path(name)
               assert file.is_file() and not file.is_symlink(), "Unsafe SharedBrand source"
@@ -64,8 +67,9 @@ jobs:
             echo "generated=false" >> "$GITHUB_OUTPUT"
           fi
           php -r 'if (PHP_VERSION_ID < 80300 || PHP_VERSION_ID >= 80400) exit(1); echo "Preview PHP: ".PHP_VERSION."\n";'
-          python3 -m py_compile scripts/build_shared_brand.py scripts/check_shared_brand.py scripts/prepare_shared_brand_preview.py
+          python3 -m py_compile scripts/build_shared_brand.py scripts/check_shared_brand.py scripts/prepare_shared_brand_preview.py tests/brmp_content_test.py tests/seo_content_test.py
           node --check tests/shared-brand-native.cjs
+          node --check tests/brmp-content-native.cjs
       - name: Build once from pinned source or verify exact generated candidate
         shell: bash
         env:
@@ -82,6 +86,9 @@ jobs:
       - name: Verify preservation and deterministic configuration propagation
         shell: bash
         run: python3 scripts/check_shared_brand.py --baseline-dir _baseline/public_html --candidate-dir public_html --repo-dir . --output artifacts/shared-brand/source-results.json
+      - name: Exercise only approved BRMP source and affected PHP8.3 renderer
+        shell: bash
+        run: python3 tests/brmp_content_test.py
       - name: Emit scanned public build bytes for the sole integrator
         if: steps.state.outputs.generated != 'true'
         shell: bash
@@ -128,7 +135,9 @@ jobs:
       - name: Test changed template families in native Chromium
         if: steps.state.outputs.generated == 'true'
         shell: bash
-        run: node tests/shared-brand-native.cjs
+        run: |
+          node tests/shared-brand-native.cjs
+          BRMP_BASE_URL=http://127.0.0.1:8765 node tests/brmp-content-native.cjs
       - name: Stop and remove temporary previews
         if: always() && steps.state.outputs.generated == 'true'
         shell: bash
