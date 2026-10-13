@@ -1,5 +1,6 @@
 """Isolated read-only SharedBrand PHP previews; no hosting configuration or publisher."""
 import argparse
+import hashlib
 import json
 import os
 from pathlib import Path
@@ -60,10 +61,36 @@ def prepare(source, target):
     (target/"router.php").write_text(ROUTER,encoding="ascii")
     return copied
 
+
+APPROVED_CONTENT_SHA = "50a11c45a1c741278148c4668099ca295efd3d6e9ba8ab9b24f84dd26f7bc506"
+
+def apply_approved_projects(target):
+    approval_path=Path(__file__).resolve().parent.parent/"tests/fixtures/projects-approved-content.json"
+    if not approval_path.is_file() or approval_path.is_symlink() or hashlib.sha256(approval_path.read_bytes()).hexdigest()!=APPROVED_CONTENT_SHA:
+        raise ValueError("Approved preview content identity mismatch")
+    approval=json.loads(approval_path.read_text(encoding="ascii"))
+    if approval.get("schema_version")!=1 or approval.get("path")!="public_html/projects.html" or len(approval.get("operations",[]))!=2:
+        raise ValueError("Unexpected approved preview scope")
+    file=target/"projects.html"
+    raw=file.read_bytes()
+    identity=approval["baseline_preview"]
+    if len(raw)!=identity["before_bytes"] or hashlib.sha256(raw).hexdigest()!=identity["before_sha256"]:
+        raise ValueError("Immutable baseline Projects preview mismatch")
+    rendered=raw.decode("utf-8")
+    for operation in approval["operations"]:
+        if rendered.count(operation["old"])!=1:
+            raise ValueError("Approved preview operation cardinality")
+        rendered=rendered.replace(operation["old"],operation["new"],1)
+    result=rendered.encode("utf-8")
+    if len(result)!=identity["after_bytes"] or hashlib.sha256(result).hexdigest()!=identity["after_sha256"]:
+        raise ValueError("Approved baseline preview result mismatch")
+    file.write_bytes(result)
+
 def main():
     parser=argparse.ArgumentParser()
     parser.add_argument("--candidate",type=Path)
     parser.add_argument("--baseline",type=Path)
+    parser.add_argument("--approved-content",action="store_true",help="Apply only pinned approved content to the isolated baseline preview")
     parser.add_argument("--stop",type=Path)
     args=parser.parse_args()
     temporary=Path(os.environ["RUNNER_TEMP"]).resolve()
@@ -83,6 +110,7 @@ def main():
     for name,source,port in [("candidate",args.candidate,8765),("baseline",args.baseline,8766)]:
         target=folder/name
         counts.append(prepare(source,target))
+        if name=="baseline" and args.approved_content: apply_approved_projects(target)
         env={key:os.environ[key] for key in ("PATH","LANG") if key in os.environ}
         process=subprocess.Popen(["php","-d","allow_url_fopen=0","-d","allow_url_include=0",
             "-d","display_errors=0","-d","log_errors=0","-d","error_reporting=-1",
