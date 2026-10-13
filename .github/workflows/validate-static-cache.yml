@@ -1,0 +1,142 @@
+name: Verify scoped static asset cache
+on:
+  pull_request:
+    paths:
+      - 'public_html/.htaccess'
+      - 'scripts/probe_cache_headers.py'
+      - 'tests/test_cache_headers.py'
+      - 'tests/test_static_cache.py'
+      - 'scripts/check_static_cache_apache.py'
+      - 'tests/fixtures/cache_headers_before.json'
+      - 'tests/fixtures/static_cache_htaccess_base.txt'
+      - '.github/workflows/validate-static-cache.yml'
+  workflow_run:
+    workflows: ['Deploy to Rumahweb via FTPS']
+    types: [completed]
+permissions:
+  contents: read
+jobs:
+  focused-cache:
+    if: github.event_name == 'pull_request' || (github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_branch == 'main' && github.event.workflow_run.event == 'push' && github.event.workflow_run.head_repository.full_name == github.repository)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    env:
+      CACHE_HEAD: ${{ github.event_name == 'workflow_run' && github.event.workflow_run.head_sha || github.event.pull_request.head.sha }}
+      CACHE_EVENT: ${{ github.event_name }}
+    steps:
+      - name: Checkout exact reviewed source
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          ref: ${{ env.CACHE_HEAD }}
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Verify probe sources and cache-only public scope
+        shell: bash
+        run: |
+          test "$(git rev-parse HEAD)" = "$CACHE_HEAD"
+          python3 - <<'PY'
+          import hashlib, json, os, subprocess
+          from pathlib import Path
+          expected = json.loads(r'''{
+            "scripts/probe_cache_headers.py": [
+              8476,
+              "bbbfca8cce0764a4a11217739c88d9028bf412d7",
+              "271e5555e5c23d943efe225ae6e78443a22cba586a94e9e90b2a4b309228baf2"
+            ],
+            "tests/test_cache_headers.py": [
+              10380,
+              "fc61649b0bedc3d031202acf1a39ee2f378dc71a",
+              "42ca92a8599f3887f856f1200dc8f3e430e1089d7f28634bc0d335a5ed9e2030"
+            ],
+            "scripts/check_static_cache_apache.py": [
+              11882,
+              "aade706c3cb60d453e5572161cc018420f4f6d0f",
+              "f87f560d80059b589b5fac25d71b2ee77f8eb85cb0700bd5938cdd689959fa10"
+            ],
+            "tests/test_static_cache.py": [
+              6442,
+              "a0b2b8b6099ee7e6ed0d2559890aa29893bc9b27",
+              "e250c1bb2f9f47af297e203a6ec30fad460878a0a4a68715faa4741ac0d04a3e"
+            ],
+            "public_html/.htaccess": [
+              3091,
+              "9fc9209f62b760b6a6e0e6c02cb43e44cd9d2e23",
+              "0674a558524f6128fe8f482aeae47cafd45ae225713958af0bbf6a2efb9d44df"
+            ],
+            "tests/fixtures/static_cache_htaccess_base.txt": [
+              2399,
+              "7d59854f5b39f5642b4be9a8048d453ff062c65c",
+              "3ea113bad3488ffd60e5b760a9522166e6f0dbc3a1a19ef944c96c1549396b73"
+            ],
+            "tests/fixtures/cache_headers_before.json": [
+              7794,
+              "d160861e2f7ff35595e3bf416174efd4c81c254c",
+              null
+            ]
+          }''')
+          for filename, (size, blob, digest) in expected.items():
+              path = Path(filename)
+              assert path.is_file() and not path.is_symlink(), "Unsafe or missing cache source"
+              payload = path.read_bytes()
+              assert len(payload) == size, "Cache source size mismatch"
+              identity = hashlib.sha1(b"blob " + str(len(payload)).encode() + b"\0" + payload).hexdigest()
+              assert identity == blob, "Cache source blob mismatch"
+              if digest is not None:
+                  assert hashlib.sha256(payload).hexdigest() == digest, "Cache source hash mismatch"
+          if os.environ["CACHE_EVENT"] == "pull_request":
+              paths = subprocess.check_output(["git", "diff", "--name-only", "a72cca5cd5daabc8c09fdffb917ecd157863c5de", "HEAD", "--", "public_html"], text=True).splitlines()
+              assert set(paths) <= {"public_html/.htaccess"}, "Unexpected public cache scope"
+          print("Exact cache probe sources verified; no extra public scope.")
+          PY
+      - name: Test only offline HTTP parsing and request boundaries
+        run: |
+          python3 -m py_compile scripts/probe_cache_headers.py tests/test_cache_headers.py
+          python3 -m unittest discover -s tests -p test_cache_headers.py -v
+          python3 -m unittest discover -s tests -p test_static_cache.py -v
+      - name: Exercise exact header block on isolated cloud Apache
+        if: github.event_name == 'pull_request'
+        shell: bash
+        run: |
+          if ! command -v apache2 >/dev/null; then
+            sudo apt-get update -qq
+            sudo apt-get install -y --no-install-recommends apache2 apache2-bin
+          fi
+          export QA_CANDIDATE_SHA="$CACHE_HEAD"
+          python3 scripts/check_static_cache_apache.py
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          data = json.loads(Path("artifacts/cache-headers/apache-results.json").read_text())
+          assert data["passed"] == 48 and data["failed"] == 0, "Apache cache matrix failed"
+          print("48 Apache cache checks passed: 200/206/304, duplicate tables, scope and errors.")
+          PY
+      - name: Read public headers without credentials or writes
+        shell: bash
+        run: |
+          mode=observe
+          args=()
+          if [ "$CACHE_EVENT" = workflow_run ]; then
+            mode=enforce
+            test -f tests/fixtures/cache_headers_before.json
+            args+=(--baseline tests/fixtures/cache_headers_before.json)
+          fi
+          python3 scripts/probe_cache_headers.py --mode "$mode" "${args[@]}" --output artifacts/cache-headers/results.json
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          data = json.loads(Path("artifacts/cache-headers/results.json").read_text())
+          for row in data["observations"]:
+              if row["status"] == 200 and row["path"].startswith(("/assets/ui/", "/assets/branding/", "/assets/portfolio-real/responsive/")):
+                  assert not row["set_cookie"], "Static asset unexpectedly sets a cookie"
+          print("Public header report retained; no cookie values or response bodies.")
+          PY
+      - name: Save public header evidence only
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: cache-headers-${{ env.CACHE_HEAD }}-${{ github.event_name }}
+          path: |
+            artifacts/cache-headers/results.json
+            artifacts/cache-headers/apache-results.json
+          if-no-files-found: warn
+          retention-days: 14
