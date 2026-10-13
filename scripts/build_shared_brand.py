@@ -335,11 +335,11 @@ class Tags(HTMLParser):
         self.feed(source)
         if self.stack:
             raise ValueError("Unclosed document structure")
-    def offset(self):
+    def source_offset(self):
         line, col = self.getpos()
         return self.offsets[line - 1] + col
     def handle_starttag(self, tag, attrs):
-        start = self.offset(); raw = self.get_starttag_text()
+        start = self.source_offset(); raw = self.get_starttag_text()
         record = {"tag": tag, "attrs": dict(attrs), "start": start, "open_end": start + len(raw), "end": None}
         self.records.append(record)
         if tag not in ("area", "base", "br", "col", "embed", "hr", "img", "input", "link", "meta", "param", "source", "track", "wbr"):
@@ -349,13 +349,13 @@ class Tags(HTMLParser):
     def handle_startendtag(self, tag, attrs):
         self.handle_starttag(tag, attrs)
         if self.stack and self.stack[-1]["tag"] == tag:
-            self.stack.pop()["end"] = self.offset() + len(self.get_starttag_text())
+            self.stack.pop()["end"] = self.source_offset() + len(self.get_starttag_text())
     def handle_endtag(self, tag):
         if not self.stack or self.stack[-1]["tag"] != tag:
             raise ValueError("Unexpected document nesting: " + tag)
         record = self.stack.pop()
-        close = self.source.find(">", self.offset())
-        record["close_start"] = self.offset(); record["end"] = close + 1
+        close = self.source.find(">", self.source_offset())
+        record["close_start"] = self.source_offset(); record["end"] = close + 1
     def one(self, tag, css=None):
         matches = [r for r in self.records if r["tag"] == tag and (css is None or css in (r["attrs"].get("class") or "").split())]
         if len(matches) != 1:
