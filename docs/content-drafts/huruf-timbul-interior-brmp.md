@@ -4,6 +4,8 @@ Status: **DRAF; GO EDITORIAL MARKETING; ANTRE SETELAH RILIS SHAREDBRAND; BELUM L
 
 [Review Marketing PR18](https://github.com/erwin071996/rumahwebhous/pull/18#issuecomment-6149905569) memberi GO arah editorial dengan dua koreksi alur yang diterapkan dalam draf ini: CTA langsung dari kartu BRMP ke brief dan petunjuk pengisian manual. Review tersebut bukan persetujuan merge/deploy atau hasil uji runtime.
 
+Sinkronisasi sumber: SharedBrand [PR21](https://github.com/erwin071996/rumahwebhous/pull/21) head `54fcff466c1ad35827148c6c6c6a8138230566f3`, merge `dd88f89bc407d16c3af414d759bab6d671044ced`. Paket publikasi minimum pada bagian 9 memakai kartu, anchor, dan formulir yang tetap ada pada sumber tersebut. Status rilis live tetap ditentukan Backend.
+
 Pemilik pekerjaan: Konten & SEO, Pekerja Web 3DKan Advertising. Tanggal penyusunan: 13 Oktober 2026. Baseline sumber repo: `dd31d7305d1571b4fde960ed0b942135a88388a1`. Paket neon box + Gadget Solution yang sudah dirilis melalui PR12, merge commit `cb207d9745e41357dcc6728f8e71e021091966b3`, menjadi konteks pengecualian; paket ini mengambil topik huruf timbul interior dengan bukti BRMP.
 
 ## 1. Kekurangan nyata dan arah editorial
@@ -150,3 +152,48 @@ Tidak ada dokumen ukuran, daftar bahan, penawaran, atau persetujuan teknis BRMP 
 Pemeriksaan dilakukan terarah pada sumber, dua foto, metadata, tujuan tautan, dan cakupan diff. Pembacaan live dilakukan melalui browser web; GET langsung dari shell cloud ditolak oleh jalur jaringan, sehingga tidak tersedia hash respons HTTP baru atau bukti byte-for-byte live untuk paket ini. Tidak ada pengujian runtime, player video, formulir, atau tes besar berulang yang diperlukan untuk perubahan satu draf Markdown. Hasil pemeriksaan aktual dan SHA draf disertakan pada draft PR.
 
 Revisi setelah GO Marketing hanya mengubah draf CTA/petunjuk dan catatan serah terima. Pemeriksaan revisi dibatasi pada kesesuaian teks dengan koreksi review, dipertahankannya judul/meta/foto/caption/alt, serta whitespace diff. Validasi teknis sebelumnya tidak diulang; CTA baru belum diuji runtime maupun live.
+
+## 9. Paket publikasi minimum terhadap SharedBrand
+
+Paket siap disusun Backend sebagai satu pengayaan studi kasus BRMP yang sudah ada, menggunakan dokumentasi asli dan CTA ke brief. Pengayaan layanan yang membutuhkan empat tujuan tautan editorial tambahan pada bagian 3 tidak menjadi prasyarat paket minimum ini. Foto bukti tetap ditampilkan pada portofolio; tidak perlu memperluas schema foto atau allowlist renderer untuk menerbitkan kartu BRMP dan metadata berikut.
+
+**Lokasi dan pemilik perubahan:** Konten & SEO menyerahkan copy hanya melalui file draf ini. Backend mengintegrasikan `public_html/projects.html` pada `article#brmp` dan dua field metadata dalam `public_html/includes/refresh-data.json` pada `services.huruf-timbul`. Frontend mempertahankan shell/komponen SharedBrand dan mengoordinasikan identitas build. [Koordinasi path pada PR21](https://github.com/erwin071996/rumahwebhous/pull/21#issuecomment-6152289108) mencatat pemisahan ini. Kartu Gadget Solution milik PR19, formulir, controller, konfigurasi brand, dan pemantau tidak menjadi target paket ini.
+
+### Isi dan CTA kartu BRMP siap integrasi
+
+Pada sumber SharedBrand, `article#brmp` berada di `projects.html:270–279`; foto, judul, tanggal entri, ringkasan, fakta, video, dan CTA WhatsApp sudah tersedia. Pertahankan struktur tersebut. Sisipkan paragraf berikut di dalam `div.case-body`, setelah blok fakta dan sebelum `div.case-actions`, menggunakan kelas yang sudah ada:
+
+```html
+<p class="case-summary">Foto memperlihatkan logo dan susunan tulisan pada backdrop ruang, dalam kondisi terpasang. Gunakan dokumentasi BRMP untuk menjelaskan bagian komposisi yang menjadi acuan Anda; bahan, ukuran, dan rincian pemasangan pesanan tetap perlu dikonfirmasi tersendiri.</p>
+<p class="case-summary">Pilih Huruf timbul pada brief. Di Ringkasan kebutuhan, tulis ‘Referensi visual: BRMP’, teks/logo, ukuran bidang beserta satuan dan statusnya, lokasi, serta foto yang tersedia. Periksa pesan; file dan foto dilampirkan sendiri saat chat. Pesan dikirim setelah Anda menekan Kirim di WhatsApp.</p>
+```
+
+Tambahkan tautan berikut di dalam `div.case-actions` kartu yang sama, dengan CTA brief sebagai langkah utama dan panduan sebagai pendamping. Tautan video/WhatsApp yang sudah ada tetap tersedia.
+
+```html
+<a class="case-cta" href="#brief-proyek">Siapkan brief huruf timbul interior</a>
+<a class="case-cta" href="/layanan/huruf-timbul">Panduan brief huruf timbul</a>
+```
+
+Gunakan foto utama, caption, dan alt persis seperti bagian 5. Foto utama sudah ada pada kartu SharedBrand; alternatif tidak ikut ditampilkan. Metadata global portofolio tetap mewakili keseluruhan portofolio. Jangan menggantinya dengan metadata satu proyek atau menambahkan testimoni/rating/schema klaim baru.
+
+### Metadata layanan yang sudah didukung
+
+Gabungkan dua field berikut ke record `services.huruf-timbul`; jangan mengganti record atau menghapus body/options/guide/image existing. Title dan description sama dengan hasil review Marketing pada bagian 2. Field string ini sudah didukung renderer SharedBrand `seo.php:20–25`; tidak memerlukan tautan editorial atau schema baru.
+
+```json
+{
+  "seo_title": "Jasa Huruf Timbul: Pilihan & Brief Pesanan | 3DKan",
+  "seo_description": "Pahami pilihan huruf timbul, lihat dokumentasi interior BRMP, dan siapkan teks, logo, ukuran bidang serta foto lokasi sebelum meminta penawaran."
+}
+```
+
+Canonical layanan tetap `/layanan/huruf-timbul`; tidak ada URL baru. Link galeri layanan yang sudah ada tetap mengarah ke portofolio yang memuat studi kasus BRMP. Bagian panduan lengkap dalam draf tetap menjadi copy referensi, bukan instruksi memasukkan URL yang belum didukung ke `detail_sections`.
+
+### Catatan integrasi untuk Backend dan Frontend
+
+Pemeriksaan sumber SharedBrand memastikan anchor `brmp` dan `brief-proyek` masing-masing tersedia satu kali, pilihan **Huruf timbul**, textarea **Ringkasan kebutuhan**, serta instruksi periksa/kirim sendiri masih ada pada `projects.html:392–412`. Tidak ada input file pada formulir. Petunjuk manual di atas mengikuti perilaku tersebut; tidak membutuhkan perubahan form, JavaScript, upload, atau prefill.
+
+`scripts/build_shared_brand.py:548–553` menerima source yang identik dengan input terpin atau output manifest yang sudah dikenal. `docs/shared-brand-build.json` juga menyimpan hash output, main, dan pre-main `projects.html`. Backend dan Frontend perlu membawa perubahan konten yang diterima bersama identitas build yang konsisten, menggunakan alur integrasi yang disetujui; jangan melonggarkan guard atau membangun ulang dari baseline lama yang menghapus copy baru. Pekerja Konten tidak mengubah generator, input pin, manifest, shell, atau controller.
+
+Serah terima cukup satu kandidat integrasi setelah rilis SharedBrand: catat SHA kandidat, pastikan kartu BRMP dan dua field metadata tampil, uji CTA menuju brief serta satu pratinjau sintetis Huruf timbul/Referensi visual: BRMP tanpa mengirim pesan. Backend memverifikasi hasil live setelah penerbitannya sendiri. Pengujian sumber yang tidak berubah tidak perlu diulang oleh Konten; paket minimum ini masih draf dan belum diuji runtime/live.
