@@ -1,0 +1,86 @@
+name: Validate offline CMS pilot
+on:
+  pull_request:
+    paths:
+      - 'cms/**'
+      - 'tests/cms-offline-pilot.php'
+      - '.github/workflows/validate-cms-offline.yml'
+permissions:
+  contents: read
+jobs:
+  offline-pilot:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    env:
+      CMS_CANDIDATE_SHA: ${{ github.event.pull_request.head.sha }}
+    steps:
+      - name: Checkout exact source only
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Verify exact offline sources and unchanged public payload
+        shell: bash
+        run: |
+          test "$(git rev-parse HEAD)" = "$CMS_CANDIDATE_SHA"
+          git diff --exit-code 059a4414b0a7bbc48608246d79b5703ba6b96854 HEAD -- public_html
+          python3 - <<'PY'
+          import hashlib
+          from pathlib import Path
+          expected = {
+            "cms/neon_box_pilot.php": [
+              22861,
+              "15dbaf6bfe53ff5ea521d97e288788fb07f4c1e4a9f32e1ef1667d9bacad6ab2"
+            ],
+            "tests/cms-offline-pilot.php": [
+              30768,
+              "b320544ae65b2e8cef7c4eaac1e772802b5d217984e0cfa3fce122da2c1a0db4"
+            ],
+            "cms/README.md": [
+              6151,
+              "bf171ff194126975b0667af8792c9d33c9ffe2a1a573f68dc2cd9432f082254d"
+            ]
+          }
+          for filename, (size, digest) in expected.items():
+              path = Path(filename)
+              assert path.is_file() and not path.is_symlink(), "Unsafe or missing offline source"
+              payload = path.read_bytes()
+              assert len(payload) == size and hashlib.sha256(payload).hexdigest() == digest, "Offline source integrity mismatch"
+          print("Offline source hashes verified; public_html unchanged.")
+          PY
+      - name: Lint PHP and verify cloud capability only
+        shell: bash
+        run: |
+          php -r 'if (PHP_VERSION_ID < 80100 || !function_exists("proc_open") || !function_exists("symlink") || !function_exists("link")) { fwrite(STDERR, "Required cloud PHP capability unavailable\n"); exit(1); } echo "Cloud PHP CLI: " . PHP_VERSION . "\n";'
+          php -l cms/neon_box_pilot.php
+          php -l tests/cms-offline-pilot.php
+      - name: Exercise only synthetic private persistence and mock authorization
+        shell: bash
+        run: |
+          export CMS_TEST_ROOT="$RUNNER_TEMP/3dkan-cms-offline"
+          export CMS_RESULT_PATH="$GITHUB_WORKSPACE/artifacts/cms-offline/results.json"
+          mkdir -m 700 "$CMS_TEST_ROOT"
+          php -d display_errors=0 -d log_errors=0 tests/cms-offline-pilot.php
+          python3 - <<'PY'
+          import json, os
+          from pathlib import Path
+          root = Path(os.environ["CMS_TEST_ROOT"]).resolve(strict=True)
+          runner = Path(os.environ["RUNNER_TEMP"]).resolve(strict=True)
+          assert root.is_relative_to(runner) and root != runner, "Private test root escaped runner"
+          assert not any(root.iterdir()), "Private test fixtures were not cleaned"
+          result = Path(os.environ["CMS_RESULT_PATH"])
+          assert result.is_file() and not result.is_symlink(), "Missing or unsafe result"
+          data = json.loads(result.read_text())
+          assert data["passed"] == 49 and data["failed"] == 0 and data["not_run"] == 0, "Offline focused gate failed"
+          assert all(item["status"] == "PASS" for item in data["results"]), "Offline result mismatch"
+          print("49 offline PHP checks passed; private fixtures cleaned; hosting capability not inferred.")
+          PY
+      - name: Save redacted results only
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: cms-offline-${{ github.event.pull_request.head.sha }}
+          path: artifacts/cms-offline/results.json
+          if-no-files-found: warn
+          retention-days: 7
