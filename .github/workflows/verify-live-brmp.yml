@@ -1,0 +1,71 @@
+name: Verify focused live BRMP receipt
+on:
+  push:
+    branches:
+      - 'codex/brmp-live-receipt-20261013'
+permissions:
+  contents: read
+jobs:
+  public-receipt:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 3
+    steps:
+      - name: Read one fresh public service response with verified TLS
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import hashlib, json, ssl, urllib.request, urllib.error
+          from html.parser import HTMLParser
+          class NoRedirect(urllib.request.HTTPRedirectHandler):
+              def redirect_request(self, req, fp, code, msg, headers, newurl):
+                  return None
+          class Page(HTMLParser):
+              def __init__(self):
+                  super().__init__(convert_charrefs=True)
+                  self.in_title=False
+                  self.title=[]
+                  self.description=None
+                  self.ids=set()
+                  self.text=[]
+              def handle_starttag(self, tag, attrs):
+                  data=dict(attrs)
+                  if tag=="title": self.in_title=True
+                  if data.get("id"): self.ids.add(data["id"])
+                  if tag=="meta" and data.get("name","").lower()=="description":
+                      self.description=data.get("content")
+              def handle_endtag(self, tag):
+                  if tag=="title": self.in_title=False
+              def handle_data(self, value):
+                  if self.in_title: self.title.append(value)
+                  self.text.append(value)
+          expected_title="Jasa Huruf Timbul: Pilihan & Brief Pesanan | 3DKan"
+          expected_description="Pahami pilihan huruf timbul, lihat dokumentasi interior BRMP, dan siapkan teks, logo, ukuran bidang serta foto lokasi sebelum meminta penawaran."
+          url="https://www.3dkanadvertising.store/layanan/huruf-timbul?receipt=1b28a70b52b391d5a9a139d90932457c170027f0"
+          context=ssl.create_default_context()
+          context.minimum_version=ssl.TLSVersion.TLSv1_2
+          opener=urllib.request.build_opener(NoRedirect(),urllib.request.HTTPSHandler(context=context))
+          request=urllib.request.Request(url,headers={"Cache-Control":"no-cache, no-store","Pragma":"no-cache","User-Agent":"3DKan-public-release-receipt"})
+          try:
+              with opener.open(request,timeout=30) as response:
+                  status=response.status
+                  mime=response.headers.get_content_type()
+                  headers={name:response.headers.get(name) for name in ("Cache-Control","Age","Date","ETag","Last-Modified","Server","Via","Vary") if response.headers.get(name)}
+                  raw=response.read(2097153)
+          except Exception as error:
+              print(json.dumps({"status":"FAIL","category":"FreshPublicResponseUnavailable","error_type":type(error).__name__}))
+              raise SystemExit(1)
+          if len(raw)>2097152:
+              print(json.dumps({"status":"FAIL","category":"PublicResponseLimit"}))
+              raise SystemExit(1)
+          page=Page()
+          page.feed(raw.decode("utf-8"))
+          title="".join(page.title).strip()
+          checks={"status_200":status==200,"html_mime":mime=="text/html","title":title==expected_title,
+                  "description":page.description==expected_description,
+                  "new_section_id":"service-detail-brief-interior-brmp" in page.ids,
+                  "new_section_heading":"Dari dokumentasi interior ke brief pesanan" in " ".join(page.text)}
+          print(json.dumps({"status":"PASS" if all(checks.values()) else "FAIL","response_status":status,
+                            "mime":mime,"bytes":len(raw),"sha256":hashlib.sha256(raw).hexdigest(),
+                            "headers":headers,"checks":checks},sort_keys=True))
+          if not all(checks.values()): raise SystemExit(1)
+          PY
