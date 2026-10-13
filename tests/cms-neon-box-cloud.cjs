@@ -39,6 +39,8 @@ const modes = new Set(["owner", "anonymous", "other", "expired", "csrf-missing",
 let temporaryRoot, runner, sequence = 0;
 const processes = new Set();
 const results = [];
+const selectedCases = process.argv.slice(2);
+let skipped = 0;
 
 function inside(candidate, root) {
     return candidate === root || candidate.startsWith(root + path.sep);
@@ -128,6 +130,7 @@ function transport(mode = "owner", root = privateRoot()) {
     return request;
 }
 async function check(name, action) {
+    if (selectedCases.length && !selectedCases.includes(name)) { skipped++; return; }
     try {
         await action();
         results.push({name, status: "PASS"});
@@ -285,6 +288,7 @@ async function run() {
             assert.equal(bridge.view().approved, false);
             assert.equal(bridge.view().reviewReady, false);
             assert.equal(bridge.view().saved, false);
+            assert.equal(bridge.view().needsReload, false);
             assert.equal(bridge.view().serverRevision, revision);
             denied(await bridge.approve(), "ReviewRequired");
             const saved = ok(await bridge.save());
@@ -310,6 +314,37 @@ async function run() {
             assert.equal(bridge.view().reviewReady, false);
             ok(await bridge.load());
             assert.equal(bridge.view().serverRevision, 2);
+            assert.equal(bridge.view().needsReload, false);
+            assert.deepEqual(snapshot(bridge.model), snapshot(second.model));
+        } finally { await secondRequest.close(); }
+    });
+    await caseCheck("two-session-conflict-revokes-local-approved-state", async (bridge, request) => {
+        filled(bridge);
+        await approved(bridge);
+        const before = snapshot(bridge.model), uiRevision = bridge.view().revision;
+        const secondRequest = transport("owner", request.root);
+        try {
+            const second = createCloudModel(createModel, secondRequest);
+            ok(await second.load());
+            second.model.edit("summary", "Synthetic second-session draft.");
+            assert.equal(ok(await second.save()).state.revision, 2);
+            denied(await bridge.approve(), "Conflict");
+            assert.equal(bridge.view().approved, false);
+            assert.equal(bridge.view().reviewReady, false);
+            assert.equal(bridge.view().previewReady, false);
+            assert.equal(bridge.view().saved, false);
+            assert.equal(bridge.view().needsReload, true);
+            assert.equal(bridge.view().serverRevision, 1);
+            assert.equal(bridge.view().revision, uiRevision);
+            assert.deepEqual(snapshot(bridge.model), before);
+            bridge.model.edit("title", "Synthetic unsaved local edit");
+            const edited = snapshot(bridge.model);
+            denied(await bridge.save(), "Conflict");
+            assert.deepEqual(snapshot(bridge.model), edited);
+            denied(await request("export", {expected_revision: 1}), "Conflict");
+            ok(await bridge.load());
+            assert.equal(bridge.view().serverRevision, 2);
+            assert.equal(bridge.view().needsReload, false);
             assert.deepEqual(snapshot(bridge.model), snapshot(second.model));
         } finally { await secondRequest.close(); }
     });
@@ -581,10 +616,48 @@ async function run() {
         assert.equal(bridge.view().approved, false);
     });
     await check("prototype-has-no-external-side-effects", () => assert.equal(sideEffects, 0));
+    await check("superseded-conflict-preserves-newer-approved-state", async () => {
+        let revision = 0, stored = null, rejectOldApproval, approvals = 0;
+        const delayed = (action, payload) => {
+            if (action === "save") {
+                assert.equal(payload.expected_revision, revision);
+                stored = clone(payload.snapshot);
+                return {ok: true, state: {revision: ++revision, status: "draft", snapshot: stored}};
+            }
+            if (action === "preview") return {ok: true, review: {revision, fingerprint: "0".repeat(64)}};
+            if (action === "approve") {
+                if (++approvals === 1) return new Promise(resolve => {
+                    rejectOldApproval = () => resolve({ok: false, category: "Conflict"});
+                });
+                return {ok: true, state: {revision, status: "approved", snapshot: stored}};
+            }
+            throw new Error("UnexpectedSyntheticAction");
+        };
+        const bridge = filled(createCloudModel(createModel, delayed));
+        ok(await bridge.save());
+        ok(await bridge.preview());
+        const oldApproval = bridge.approve();
+        ok(await bridge.save());
+        ok(await bridge.preview());
+        ok(await bridge.approve());
+        const before = snapshot(bridge.model);
+        rejectOldApproval();
+        denied(await oldApproval, "Conflict");
+        assert.equal(bridge.view().serverRevision, 2);
+        assert.equal(bridge.view().approved, true);
+        assert.equal(bridge.view().reviewReady, true);
+        assert.equal(bridge.view().needsReload, false);
+        assert.deepEqual(snapshot(bridge.model), before);
+    });
 }
 
 (async () => {
-    try { await run(); }
+    try {
+        await run();
+        if (selectedCases.some(name => !results.some(result => result.name === name))) {
+            results.push({name: "focused-case-selection", status: "FAIL", category: "UnknownCase"});
+        }
+    }
     catch {
         results.push({name: "cloud-fixture-setup", status: "FAIL", category: "SetupBoundary"});
         console.log("FAIL cloud-fixture-setup SetupBoundary");
@@ -600,6 +673,6 @@ async function run() {
     }
     const passed = results.filter(result => result.status === "PASS").length;
     const failed = results.length - passed;
-    console.log(JSON.stringify({passed, failed, execution: "Cloud CLI synthetic bridge; no live CMS"}));
+    console.log(JSON.stringify({passed, failed, skipped, execution: "Cloud CLI synthetic bridge; no live CMS"}));
     if (failed) process.exitCode = 1;
 })();

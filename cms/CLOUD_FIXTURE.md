@@ -66,6 +66,9 @@ prevent stale saves from replacing a newer draft.
 The bridge also refuses delayed replies from superseded operations and preserves
 local edits made while a load is pending; an old approval reply cannot approve
 a newer backend revision.
+If the current operation receives a backend `Conflict`, the bridge clears local
+preview/approval and reports `needsReload`, preserving fields and revisions until
+reload. A late conflict from an older operation leaves newer confirmed state intact.
 
 Reload reconstructs a fresh `createModel()` through its existing edit/select/
 rights/cover methods and prepares a session draft. It restores content and media
@@ -99,6 +102,10 @@ If PHP needs an explicit executable path:
 ```sh
 CMS_PHP_BIN=/absolute/path/to/php8.3 node tests/cms-neon-box-cloud.cjs
 ```
+
+Pass exact case names after the script to run only those cases; unknown names fail
+the run and unselected cases are counted as skipped. This avoids repeating the full
+fixture suite for a narrow change.
 
 The runner uses synthetic data and precreated `0700` temporary directories
 outside the checkout and public roots, then removes its private fixtures. Only
