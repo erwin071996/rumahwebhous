@@ -91,6 +91,21 @@ jobs:
               shared_changed = set(subprocess.check_output(["git", "diff", "--name-only", shared_base, "HEAD", "--", "public_html"]).decode().splitlines())
               shared_owned = {entry["path"] for entry in manifest.get("outputs", [])} | {"public_html/assets/ui/design-system.css", "public_html/assets/marketing-20261006/site.js", "public_html/assets/refresh-20261006/site-v2.js", "public_html/assets/refresh-20261006/site.js"}
               benchmark_stable = subprocess.run(["git", "diff", "--quiet", shared_base, "HEAD", "--", "tests/performance.cjs", "tests/native-dependencies.json"]).returncode == 0
+              if not benchmark_stable:
+                  # Only the released c700 SharedBrand JS snapshot may replace its stale live pin.
+                  old_snapshot = subprocess.run(["git", "show", shared_base + ":tests/native-dependencies.json"],
+                                                stdout=subprocess.PIPE, stderr=subprocess.DEVNULL)
+                  old_entry = b'"path": "/assets/marketing-20261006/site.js",\n      "bytes": 10787,\n      "sha256": "c77831ec62e22b7b9a01d7a748fe80e4119b3ed461906e32383527e80e498255"'
+                  new_entry = b'"path": "/assets/marketing-20261006/site.js",\n      "bytes": 10892,\n      "sha256": "baf0918036519d5d847d41ee812c5f7823823a41158973d999e9ce317cfa0c5d"'
+                  unchanged_home_assets_and_benchmark = subprocess.run(
+                      ["git", "diff", "--quiet", shared_base, "HEAD", "--",
+                       "public_html/index.html", "public_html/assets", "tests/performance.cjs"]).returncode == 0
+                  benchmark_stable = (
+                      old_snapshot.returncode == 0 and old_snapshot.stdout.count(old_entry) == 1
+                      and Path("tests/native-dependencies.json").read_bytes()
+                          == old_snapshot.stdout.replace(old_entry, new_entry, 1)
+                      and unchanged_home_assets_and_benchmark
+                  )
               shared = manifest.get("schema_version") == 1 and manifest.get("route_count") == 500 and len(manifest.get("outputs", {})) == 501 and len(manifest.get("managed_sources", [])) == 494 and bool(shared_changed) and shared_changed <= shared_owned and benchmark_stable
           with open(os.environ["GITHUB_OUTPUT"], "a") as output:
               output.write("required=" + ("false" if focused or shared else "true") + "\n")

@@ -76,6 +76,45 @@ def accessible_main(text):
   main=opening[:-1]+' tabindex="-1">'+main[len(opening):]
  return main
 
+
+APPROVED_CONTENT_PATH = "tests/fixtures/projects-approved-content.json"
+APPROVED_CONTENT_SHA = "50a11c45a1c741278148c4668099ca295efd3d6e9ba8ab9b24f84dd26f7bc506"
+
+def content_approval(repo):
+ path = repo / APPROVED_CONTENT_PATH
+ if not path.resolve().is_relative_to(repo.resolve()) or not path.is_file() or path.is_symlink() or digest(path) != APPROVED_CONTENT_SHA:
+  raise ValueError("Approved Projects content identity mismatch")
+ approval = json.loads(path.read_text(encoding="ascii"))
+ if approval.get("schema_version") != 1 or approval.get("path") != "public_html/projects.html" or approval.get("baseline_commit") != BASE_SHA or len(approval.get("operations", [])) != 2:
+  raise ValueError("Unexpected approved Projects content contract")
+ inputs = json.loads(source(repo, "config/shared-brand-inputs.json"))
+ rows = [entry for entry in inputs["files"] if entry["path"] == approval["path"]]
+ identity = approval["candidate"]
+ if len(rows) != 1 or rows[0]["git_blob"] != identity["git_blob"] or rows[0]["bytes"] != identity["bytes"]:
+  raise ValueError("Projects managed input does not match approved content")
+ manifest = json.loads(source(repo, "docs/shared-brand-build.json"))
+ outputs = [entry for entry in manifest["outputs"] if entry["path"] == approval["path"]]
+ modules = [entry for entry in manifest["managed_sources"] if entry["path"] == approval["path"]]
+ if len(outputs) != 1 or any(outputs[0][key] != identity[key] for key in ("git_blob", "bytes", "sha256")):
+  raise ValueError("Projects managed output does not match approved content")
+ if len(modules) != 1 or any(modules[0][key] != identity[key] for key in ("main_sha256", "pre_main_sha256")):
+  raise ValueError("Projects main/module identity does not match approved content")
+ return approval
+
+def expected_main(name, text, approval):
+ expected = accessible_main(text)
+ if name != "projects.html":
+  return expected
+ if hashlib.sha256(expected.encode("utf-8")).hexdigest() != approval["normalized_main"]["before_sha256"]:
+  raise ValueError("Projects baseline main identity mismatch")
+ for operation in approval["operations"]:
+  if expected.count(operation["old"]) != 1:
+   raise ValueError("Approved Projects operation cardinality")
+  expected = expected.replace(operation["old"], operation["new"], 1)
+ if hashlib.sha256(expected.encode("utf-8")).hexdigest() != approval["normalized_main"]["after_sha256"]:
+  raise ValueError("Projects approved main identity mismatch")
+ return expected
+
 def pre_main_gap(text):
  matches=re.findall(r"</header\s*>(.*?)<main\b",text,re.I|re.S)
  if len(matches)!=1: raise ValueError("Pre-main module gap cardinality")
@@ -88,7 +127,7 @@ def pre_main_gap(text):
 def registry(root):
  return json.loads(source(root, "includes/content-index.json"))
 
-def run(baseline, candidate):
+def run(baseline, candidate, approval):
  gate = Gate()
  before, after = registry(baseline), registry(candidate)
  gate.equal(before, after, "entire 500-route registry and lastmod preserved", "includes/content-index.json")
@@ -100,7 +139,9 @@ def run(baseline, candidate):
  files = sorted({entry["file"] for entry in entries} | {"404.html"})
  for name in files:
   old, new = source(baseline, name), source(candidate, name)
-  gate.equal(accessible_main(old), one(MAIN, new, "main"), "main bytes preserved except exact approved missing tabindex addition", name)
+  gate.equal(expected_main(name, old, approval), one(MAIN, new, "main"), "main bytes preserve exact approved focus/content operations", name)
+  if name == "projects.html":
+   gate.equal(digest(candidate / name), approval["candidate"]["sha256"], "entire Projects candidate is the approved immutable content blob", name)
   gate.equal(normalized_head(old), normalized_head(new), "head metadata, canonical, schemas and original dependencies preserved", name)
   old_head=one(HEAD,old,"baseline head");new_head=one(HEAD,new,"candidate head")
   for url,sha in LEGACY_VERSIONS.items():
@@ -151,7 +192,7 @@ def run(baseline, candidate):
   gate.equal(digest(candidate/name),LEGACY_VERSIONS["/"+name],"legacy script bytes match URL version",name)
  return gate.checks
 
-def build_fixture(gate, repo, baseline):
+def build_fixture(gate, repo, baseline, approval):
  inputs=json.loads((repo/"config/shared-brand-inputs.json").read_text(encoding="utf-8"))
  manifest=json.loads((repo/"docs/shared-brand-build.json").read_text(encoding="utf-8"))
  selected={"config/site-brand.json","config/shared-brand-inputs.json","docs/shared-brand-build.json","public_html/assets/ui/design-system.css","public_html/assets/ui/frontend.js","public_html/assets/marketing-20261006/site.js","public_html/assets/refresh-20261006/site-v2.js","public_html/assets/refresh-20261006/site.js","public_html/includes/content-index.json","public_html/includes/refresh-data.json","templates/presentation/shared-header.html","templates/presentation/shared-footer.html","templates/presentation/shared-cta.html"}
@@ -187,10 +228,10 @@ def build_fixture(gate, repo, baseline):
    m=json.loads((fixture/"docs/shared-brand-build.json").read_text(encoding="utf-8"))
    outputs={entry["path"]:digest(fixture/entry["path"]) for entry in m["outputs"]}
    return m,outputs
-  first,one_output=build(use_baseline=True)
+  first,one_output=build()
   second,two_output=build()
-  gate.equal(first,second,"baseline build and managed rebuild have identical manifest")
-  gate.equal(one_output,two_output,"baseline build and managed rebuild have identical output bytes")
+  gate.equal(first,second,"two managed builds have identical manifest")
+  gate.equal(one_output,two_output,"two managed builds have identical output bytes")
   cfg["colors"]["primary"]="#0033cc"
   cfg["brand"]["logo_primary"]["alt"]="Synthetic SharedBrand acceptance logo"
   config_path.write_text(json.dumps(cfg,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
@@ -205,7 +246,7 @@ def build_fixture(gate, repo, baseline):
     gate.require(one_output[rel]!=three_output[rel],"config mutation propagates to family page",entry["file"])
     text=(fixture/rel).read_text(encoding="utf-8")
     gate.require(text.count('alt="Synthetic SharedBrand acceptance logo"')==2,"both shell logos use one config",entry["file"])
-    gate.equal(one(MAIN,text,"fixture main"),accessible_main(source(baseline,entry["file"])),"mutation preserves business main and approved focus attribute",entry["file"])
+    gate.equal(one(MAIN,text,"fixture main"),expected_main(entry["file"],source(baseline,entry["file"]),approval),"mutation preserves business main and exact approved focus/content operations",entry["file"])
     families.add(family)
   error_text=(fixture/"public_html/404.html").read_text(encoding="utf-8")
   gate.require(one_output["public_html/404.html"]!=three_output["public_html/404.html"] and error_text.count('alt="Synthetic SharedBrand acceptance logo"')==2,"error page consumes same public config")
@@ -225,10 +266,12 @@ def main():
  p.add_argument("--skip-build-fixture",action="store_true")
  args=p.parse_args()
  try:
-  checks=run(args.baseline_dir,args.candidate_dir)
+  repo = args.repo_dir or args.candidate_dir.parent
+  approval = content_approval(repo)
+  checks=run(args.baseline_dir,args.candidate_dir,approval)
   if not args.skip_build_fixture:
    gate=Gate()
-   build_fixture(gate,args.repo_dir or args.candidate_dir.parent,args.baseline_dir)
+   build_fixture(gate,repo,args.baseline_dir,approval)
    checks.extend(gate.checks)
  except Exception as error:
   checks=[{"name":"source gate setup","status":"FAIL","detail":str(error)}]

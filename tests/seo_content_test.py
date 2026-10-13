@@ -72,6 +72,24 @@ def approved_main(body):
         return opening[:-1] + ' tabindex="-1">' + value[len(opening):]
     return value
 
+PROJECTS_APPROVAL_SHA = "50a11c45a1c741278148c4668099ca295efd3d6e9ba8ab9b24f84dd26f7bc506"
+
+def restore_approved_projects(payload):
+    file = ROOT / "tests/fixtures/projects-approved-content.json"
+    if not file.is_file() or file.is_symlink() or hashlib.sha256(file.read_bytes()).hexdigest() != PROJECTS_APPROVAL_SHA:
+        raise AssertionError("Approved Projects fixture identity mismatch")
+    approval = json.loads(file.read_text(encoding="ascii"))
+    if approval.get("schema_version") != 1 or approval.get("path") != "public_html/projects.html" or len(approval.get("operations", [])) != 2:
+        raise AssertionError("Unexpected approved Projects contract")
+    if hashlib.sha256(payload).hexdigest() != approval["candidate"]["sha256"]:
+        raise AssertionError("Approved Projects candidate identity mismatch")
+    value = payload.decode("utf-8")
+    for operation in reversed(approval["operations"]):
+        if value.count(operation["new"]) != 1:
+            raise AssertionError("Approved Projects operation cardinality")
+        value = value.replace(operation["new"], operation["old"], 1)
+    return value.replace("\r\n", "\n").replace("\r", "\n")
+
 def head_metadata(body):
     page = Page(body)
     return [(n["tag"], n["attrs"], n["text"]) for n in page.nodes
@@ -236,7 +254,7 @@ class SeoContent(unittest.TestCase):
             '<a class="case-cta" href="/layanan/neon-box">Pilihan dan spesifikasi neon box ↗</a>',
             '<a class="case-cta" href="/layanan/neon-box">Bahas pilihan neon box ↗</a>',
         ]
-        restored = new_html
+        restored = restore_approved_projects((PUBLIC / "projects.html").read_bytes())
         page = Page(new_html)
         for case_id, addition in zip(("gadget-solution", "shop-sign-retail"), additions):
             self.assertEqual(restored.count(addition), 1)
