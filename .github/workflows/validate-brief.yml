@@ -47,7 +47,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          baseline_sha=f4966d1a0ff7e45090abd152a45a69daecf099c9
+          baseline_sha=a73bf893cd1db6d432f584f2bece74b955f94b95
           for page in index.html projects.html; do
             if [ "$page" = index.html ]; then
               public_url=https://www.3dkanadvertising.store/
