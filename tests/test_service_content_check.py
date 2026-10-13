@@ -8,8 +8,22 @@ from pathlib import Path
 from unittest.mock import patch
 import xml.etree.ElementTree as ET
 
-from scripts import deploy_ftps as deploy
-from scripts.service_content_check import verify_service_content
+import importlib.util
+
+def load_script(name, filename):
+    source = Path(__file__).resolve().parents[1] / "scripts" / filename
+    spec = importlib.util.spec_from_file_location(name, source)
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+deploy = load_script("service_deploy_under_test", "deploy_ftps.py")
+import sys
+checker = load_script("service_content_check", "service_content_check.py")
+# Bind both import contexts to this trusted repository module for rollback mocks.
+sys.modules["service_content_check"] = checker
+sys.modules["scripts.service_content_check"] = checker
+verify_service_content = checker.verify_service_content
 
 DOMAIN = "https://www.3dkanadvertising.store"
 SLUG = "neon-box"
@@ -374,8 +388,8 @@ class DeploymentServiceGateTests(unittest.TestCase):
                 deploy, "REPORT", Path(self.folder.name) / "report"), patch.object(
                 deploy, "previous", return_value=old), patch.object(
                 deploy, "Server", return_value=restore), patch.object(
-                deploy, "https", side_effect=self.respond), patch(
-                "scripts.service_content_check.verify_service_content",
+                deploy, "https", side_effect=self.respond), patch.object(
+                checker, "verify_service_content",
                 side_effect=RuntimeError("Reviewed service HTTP check failed: synthetic")) as check:
             with self.assertRaisesRegex(RuntimeError, "synthetic"):
                 deploy.deploy_changes(transport, ["seo.php"], "1" * 40, report,
