@@ -29,9 +29,13 @@ Gunakan foto existing `public_html/assets/portfolio-real/clean/gadget-solution-n
 
 ## Pembagian pekerjaan satu tahap
 
-**Konten & SEO:** terapkan CTA/petunjuk singkat di kartu existing menggunakan fakta/aset di atas; koordinasikan agar tidak membuka artikel atau URL kedua. **Backend:** setelah shared theme menyediakan komponen CTA dan posisi anchor yang stabil, integrasikan paket ini, catat SHA kandidat, lakukan uji terarah, dan tentukan publikasi. Marketing tidak menyunting runtime, tracking/consent, atau workflow.
+**Konten & SEO:** gunakan copy CTA/petunjuk/caption di atas pada kartu existing; tidak diperlukan artikel atau URL kedua. **Frontend:** tempatkan CTA dan petunjuk memakai komponen SharedBrand dalam integrasi arahan Backend setelah rilis SharedBrand; pertahankan konteks manual dan anchor brief. Rekomendasi copy diserahkan melalui PR19; Marketing tidak mengedit path Konten/Frontend.
+
+**Backend:** satu-satunya integrator/penerbit; integrasikan paket setelah rilis SharedBrand, catat SHA kandidat, lakukan uji terarah di bawah, dan tentukan publikasi. Marketing hanya menyelesaikan dokumentasi PR19; tidak menyunting runtime, tracking/consent, atau workflow.
 
 **Dependensi untuk Backend dan parent:** paket siap diimplementasikan, tetapi penerimaan fungsi/tampilan menunggu kandidat shared theme. Pertahankan ID `gadget-solution`, `brief-proyek`, dan formulir yang sudah ada, atau perbarui seluruh tautan terkait dalam integrasi yang sama. Backend mengembalikan SHA kandidat serta bukti uji; parent memantau hasil melalui draft PR. Hasil uji kandidat dan bukti live setelah publikasi harus dicatat terpisah.
+
+**Keputusan Owner:** tidak ada keputusan baru yang diperlukan untuk paket terbatas ini. Copy menggunakan dokumentasi existing dan tidak menambah rincian bisnis atau spesifikasi proyek. Pekerjaan Pemantau tidak menjadi bagian PR19.
 
 ## Penerimaan singkat
 
