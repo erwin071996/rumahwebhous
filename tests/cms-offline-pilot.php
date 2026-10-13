@@ -160,27 +160,44 @@ function cmsWorker(string $testRoot, string $repo): never {
         fwrite(STDOUT, "{\"status\":\"FAIL\",\"category\":\"WorkerBoundary\"}\n");
         exit(2);
     }
+    $stage = 'WorkerSetup';
     try {
         $pilot = cmsPilot($raceReal . '/private', $repo);
-        file_put_contents($raceReal . '/ready-' . $who, 'ready');
+        $stage = 'WorkerReady';
+        cmsRequire(file_put_contents($raceReal . '/ready-' . $who, 'ready') !== false);
+        $stage = 'WorkerBarrier';
+        $barrier = $raceReal . '/barrier';
         $deadline = microtime(true) + 10;
-        while (is_file($raceReal . '/barrier') && microtime(true) < $deadline) usleep(10000);
-        cmsRequire(!is_file($raceReal . '/barrier'));
+        do {
+            // The parent removes this file in another process; refresh PHP's status cache.
+            clearstatcache(true, $barrier);
+            if (!is_file($barrier)) break;
+            usleep(10000);
+        } while (microtime(true) < $deadline);
+        clearstatcache(true, $barrier);
+        if (is_file($barrier)) throw new RuntimeException('BarrierTimeout');
+        $stage = 'WorkerSave';
         $service = cmsService();
         $service['body'] = 'Synthetic concurrent body ' . $who . '.';
         try {
             $saved = $pilot->save(cmsCtx(), CMS_NOW, 0, $service, CMS_RELEASE, CMS_PRIVATE_SENTINEL);
-            fwrite(STDOUT, json_encode(['status' => 'saved', 'revision' => $saved['revision']], JSON_THROW_ON_ERROR) . "\n");
+            fwrite(STDOUT, json_encode(['status' => 'saved', 'revision' => $saved['revision'], 'stage' => 'WorkerSave'], JSON_THROW_ON_ERROR) . "\n");
         } catch (Conflict $error) {
             cmsRequire($error->getMessage() === 'Conflict');
-            fwrite(STDOUT, "{\"status\":\"conflict\",\"category\":\"Conflict\"}\n");
+            fwrite(STDOUT, "{\"status\":\"conflict\",\"category\":\"Conflict\",\"stage\":\"WorkerSave\"}\n");
         }
         exit(0);
     } catch (Throwable $error) {
-        fwrite(STDOUT, "{\"status\":\"FAIL\",\"category\":\"WorkerFailure\"}\n");
+        $known = [Denied::class, Invalid::class, Conflict::class, Storage::class];
+        $category = in_array(get_class($error), $known, true)
+            ? substr(get_class($error), strrpos(get_class($error), '\\') + 1)
+            : ($error->getMessage() === 'BarrierTimeout' ? 'BarrierTimeout' : 'WorkerAssertionOrRuntime');
+        fwrite(STDOUT, json_encode(['status' => 'FAIL', 'category' => $category, 'stage' => $stage], JSON_THROW_ON_ERROR) . "\n");
         exit(2);
     }
 }
+$cmsRaceStage = 'NotStarted';
+$cmsRaceDiagnostics = [];
 $results = [];
 $created = [];
 function cmsCheck(string $name, callable $action): void {
@@ -192,6 +209,10 @@ function cmsCheck(string $name, callable $action): void {
         $known = [Denied::class, Invalid::class, Conflict::class, Storage::class];
         $results[] = ['name' => $name, 'status' => 'FAIL', 'category' => in_array(get_class($error), $known, true)
             ? substr(get_class($error), strrpos(get_class($error), '\\') + 1) : 'AssertionOrRuntime'];
+        if ($name === 'two-process-compare-and-swap') {
+            $results[array_key_last($results)]['stage'] = $GLOBALS['cmsRaceStage'];
+            $results[array_key_last($results)]['workers'] = $GLOBALS['cmsRaceDiagnostics'];
+        }
     }
 }
 function cmsNotRun(string $name, string $category): void {
@@ -452,25 +473,36 @@ try {
     }
     if (function_exists('proc_open')) {
         cmsCase('two-process-compare-and-swap', function (Pilot $unused, string $root) use ($repo): void {
+            global $cmsRaceStage, $cmsRaceDiagnostics;
+            $cmsRaceStage = 'ParentSetup';
             $private = $root . '/private';
             cmsMkdir($private);
             file_put_contents($root . '/barrier', 'wait');
             $workers = [];
             try {
+                $cmsRaceStage = 'ParentSpawn';
                 foreach (['a', 'b'] as $who) {
                     $pipes = [];
-                    $process = proc_open([PHP_BINARY, __FILE__, '--worker', $root, $who],
+                    $process = proc_open([PHP_BINARY, '-d', 'display_errors=0', '-d', 'log_errors=0', __FILE__, '--worker', $root, $who],
                         [0 => ['pipe', 'r'], 1 => ['pipe', 'w'], 2 => ['pipe', 'w']], $pipes, $repo);
                     cmsRequire(is_resource($process));
                     fclose($pipes[0]);
                     $workers[] = [$process, $pipes];
                 }
+                $cmsRaceStage = 'ParentReady';
                 $deadline = microtime(true) + 10;
-                while ((!is_file($root . '/ready-a') || !is_file($root . '/ready-b')) && microtime(true) < $deadline) usleep(10000);
-                cmsRequire(is_file($root . '/ready-a') && is_file($root . '/ready-b'));
-                unlink($root . '/barrier');
+                do {
+                    clearstatcache();
+                    $readyA = is_file($root . '/ready-a'); $readyB = is_file($root . '/ready-b');
+                    if ($readyA && $readyB) break;
+                    usleep(10000);
+                } while (microtime(true) < $deadline);
+                $cmsRaceDiagnostics[] = ['ready_a' => $readyA, 'ready_b' => $readyB];
+                cmsRequire($readyA && $readyB);
+                cmsRequire(unlink($root . '/barrier'));
+                $cmsRaceStage = 'ParentWorkerResult';
                 $outcomes = [];
-                foreach ($workers as [$process, $pipes]) {
+                foreach ($workers as $index => [$process, $pipes]) {
                     stream_set_blocking($pipes[1], false);
                     stream_set_blocking($pipes[2], false);
                     $stdout = ''; $stderr = ''; $exitCode = null;
@@ -487,19 +519,30 @@ try {
                         }
                         usleep(10000);
                     } while (microtime(true) < $deadline);
+                    $message = json_decode($stdout, true);
+                    $knownStatus = ['saved', 'conflict', 'FAIL'];
+                    $knownCategory = ['Denied', 'Invalid', 'Conflict', 'Storage', 'BarrierTimeout', 'WorkerAssertionOrRuntime', 'WorkerBoundary'];
+                    $knownStage = ['WorkerSetup', 'WorkerReady', 'WorkerBarrier', 'WorkerSave'];
+                    $cmsRaceDiagnostics[] = [
+                        'worker' => $index === 0 ? 'a' : 'b', 'exit_code' => $exitCode, 'stderr_present' => $stderr !== '',
+                        'status' => is_array($message) && in_array($message['status'] ?? null, $knownStatus, true) ? $message['status'] : 'InvalidWorkerResult',
+                        'category' => is_array($message) && in_array($message['category'] ?? null, $knownCategory, true) ? $message['category'] : null,
+                        'stage' => is_array($message) && in_array($message['stage'] ?? null, $knownStage, true) ? $message['stage'] : null,
+                    ];
                     cmsRequire($exitCode === 0 && $stderr === '');
                     fclose($pipes[1]); fclose($pipes[2]);
                     proc_close($process);
-                    $message = json_decode($stdout, true, 512, JSON_THROW_ON_ERROR);
-                    cmsRequire(in_array($message['status'], ['saved', 'conflict'], true));
+                    cmsRequire(is_array($message) && in_array($message['status'] ?? null, ['saved', 'conflict'], true));
                     $outcomes[] = $message['status'];
                 }
                 $workers = [];
+                $cmsRaceStage = 'ParentCASAssertion';
                 sort($outcomes);
                 cmsRequire($outcomes === ['conflict', 'saved']);
                 $loaded = cmsPilot($private, $repo)->load(cmsCtx(), CMS_NOW);
                 cmsRequire($loaded['revision'] === 1 && $loaded['status'] === 'draft');
                 cmsRequire(in_array($loaded['public_service']['body'], ['Synthetic concurrent body a.', 'Synthetic concurrent body b.'], true));
+                $cmsRaceStage = 'Complete';
             } finally {
                 foreach ($workers as [$process, $pipes]) {
                     if (is_resource($process)) proc_terminate($process);

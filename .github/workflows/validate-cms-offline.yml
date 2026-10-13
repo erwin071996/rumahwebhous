@@ -34,8 +34,8 @@ jobs:
               "15dbaf6bfe53ff5ea521d97e288788fb07f4c1e4a9f32e1ef1667d9bacad6ab2"
             ],
             "tests/cms-offline-pilot.php": [
-              30768,
-              "b320544ae65b2e8cef7c4eaac1e772802b5d217984e0cfa3fce122da2c1a0db4"
+              33505,
+              "35bd0cf2feb0363c9248d78ca1e3779868b23975977cdf61e0f4f86367c7cd7d"
             ],
             "cms/README.md": [
               6151,
