@@ -18,7 +18,12 @@ def load_script(name, filename):
     return module
 
 deploy = load_script("service_deploy_under_test", "deploy_ftps.py")
-verify_service_content = load_script("service_checker_under_test", "service_content_check.py").verify_service_content
+import sys
+checker = load_script("service_content_check", "service_content_check.py")
+# Bind both import contexts to this trusted repository module for rollback mocks.
+sys.modules["service_content_check"] = checker
+sys.modules["scripts.service_content_check"] = checker
+verify_service_content = checker.verify_service_content
 
 DOMAIN = "https://www.3dkanadvertising.store"
 SLUG = "neon-box"
@@ -383,8 +388,8 @@ class DeploymentServiceGateTests(unittest.TestCase):
                 deploy, "REPORT", Path(self.folder.name) / "report"), patch.object(
                 deploy, "previous", return_value=old), patch.object(
                 deploy, "Server", return_value=restore), patch.object(
-                deploy, "https", side_effect=self.respond), patch(
-                "scripts.service_content_check.verify_service_content",
+                deploy, "https", side_effect=self.respond), patch.object(
+                checker, "verify_service_content",
                 side_effect=RuntimeError("Reviewed service HTTP check failed: synthetic")) as check:
             with self.assertRaisesRegex(RuntimeError, "synthetic"):
                 deploy.deploy_changes(transport, ["seo.php"], "1" * 40, report,
