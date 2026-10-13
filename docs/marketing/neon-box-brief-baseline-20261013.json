@@ -1,0 +1,31 @@
+{
+  "checked_at_utc": "2026-10-13T16:02:22.832380+00:00",
+  "repo_baseline": "dd31d7305d1571b4fde960ed0b942135a88388a1",
+  "method": "targeted repository HTML/JSON parsing; live text corroboration via web reader; shell raw HTTPS blocked by proxy (403); no scripts/network sends",
+  "service_project_link_present": true,
+  "gadget_cta_hrefs": [
+    "https://wa.me/6285340382029?text=Halo%203DKan%2C%20saya%20ingin%20membahas%20neon%20box%20untuk%20toko%20atau%20retail.",
+    "/layanan/neon-box"
+  ],
+  "brief_anchor_present": true,
+  "direct_brief_link_in_gadget_article": false,
+  "baseline": {
+    "contextual_transitions_pass": 1,
+    "contextual_transitions_total": 2,
+    "excludes_global_navigation": true
+  },
+  "repo_assets": [
+    {
+      "path": "public_html/assets/portfolio-real/clean/gadget-solution-neonbox.webp",
+      "bytes": 193204,
+      "sha256": "27f2415816d57c85ecf881aab4aeb7ed03d8593ab77161e1d9cd4b9d48f1d1d3",
+      "referenced_in_gadget_article": true
+    },
+    {
+      "path": "public_html/assets/portfolio-real/videos/gadget-solution-neonbox.mp4",
+      "bytes": 238349,
+      "sha256": "3eb0d1f5c03293bc9971fc4dc598cdb22679b2ed663aff4b7512e1b4e1c643e8",
+      "referenced_in_gadget_article": true
+    }
+  ]
+}
