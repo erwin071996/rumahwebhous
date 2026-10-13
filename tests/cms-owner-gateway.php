@@ -17,6 +17,8 @@ $release = str_repeat('a', 40);
 $now = 1700000000;
 $roots = [];
 $results = [];
+$cases = [];
+$skipped = 0;
 
 function must(bool $condition): void { if (!$condition) throw new LogicException('Assertion'); }
 function clean(string $path): void {
@@ -75,9 +77,9 @@ function invalidMap(array $map): void {
     throw new LogicException('Expected Invalid');
 }
 function test(string $name, callable $fn): void {
-    global $results;
-    try { $fn(); $results[] = ['name' => $name, 'status' => 'PASS']; }
-    catch (Throwable $error) { $results[] = ['name' => $name, 'status' => 'FAIL', 'category' => get_class($error)]; }
+    global $cases;
+    if (isset($cases[$name])) throw new LogicException('Duplicate case');
+    $cases[$name] = $fn;
 }
 
 try {
@@ -237,6 +239,77 @@ try {
             $c->configuredOwner, $c->currentRelease, $c->photoMap, true);
         must(loadDraft($f, $session)['status'] === 200);
     });
+    test('cancel-failure-does-not-advance-draft', function (): void {
+        $f = fixture(); $session = []; prepared($f, $session); approved($f, $session);
+        must(postDraft($f, $session, 'request-publication', ['expected_revision' => 1])['status'] === 200);
+        $path = $f['root'] . '/neon-box-publication-request.json';
+        $held = $f['root'] . '/.held-request.json';
+        $requestBefore = file_get_contents($path);
+        $statePath = $f['root'] . '/neon-box-state.json';
+        $stateBefore = file_get_contents($statePath);
+        $g = gateway($f);
+        must(rename($path, $held) && mkdir($path, 0700));
+        $edit = $f['snapshot']; $edit['fields']['title'] = 'Synthetic cancellation edit';
+        $r = $g->dispatch('POST', [], 'application/json', 'https://www.3dkanadvertising.store',
+            $session['kan_cms_owner']['csrf'], json_encode(['action' => 'save', 'payload' =>
+                ['expected_revision' => 1, 'snapshot' => $edit]], JSON_THROW_ON_ERROR), $session, 1700000000);
+        must($r['status'] === 503);
+        must(file_get_contents($statePath) === $stateBefore && file_get_contents($held) === $requestBefore);
+        $loaded = loadDraft($f, $session)['body']['state'];
+        must($loaded['revision'] === 1 && $loaded['status'] === 'approved' && $loaded['snapshot'] === $f['snapshot']);
+    });
+    test('invalid-snapshot-retains-private-request', function (): void {
+        $f = fixture(); $session = []; prepared($f, $session); approved($f, $session);
+        must(postDraft($f, $session, 'request-publication', ['expected_revision' => 1])['status'] === 200);
+        $path = $f['root'] . '/neon-box-publication-request.json';
+        $before = file_get_contents($path);
+        $statePath = $f['root'] . '/neon-box-state.json';
+        $stateBefore = file_get_contents($statePath);
+        foreach (['title', 'summary'] as $field) {
+            foreach (['', '   ', '<b>bad</b>', 'javascript:bad', 'vbscript:bad', 'data:bad'] as $bad) {
+                $edit = $f['snapshot']; $edit['fields'][$field] = $bad;
+                must(saveDraft($f, $session, 1, $edit)['status'] === 422);
+                must(file_get_contents($path) === $before && file_get_contents($statePath) === $stateBefore);
+            }
+        }
+        $edit = $f['snapshot']; $edit['fields']['fact'] = str_repeat('\\', 2000);
+        must(saveDraft($f, $session, 1, $edit)['status'] === 422);
+        must(file_get_contents($path) === $before && file_get_contents($statePath) === $stateBefore);
+        must(saveDraft($f, $session, 0)['status'] === 409);
+        must(file_get_contents($path) === $before && file_get_contents($statePath) === $stateBefore);
+    });
+    test('revision-ceiling-retains-private-request', function (): void {
+        $f = fixture(); $session = []; prepared($f, $session); approved($f, $session);
+        must(postDraft($f, $session, 'request-publication', ['expected_revision' => 1])['status'] === 200);
+        $statePath = $f['root'] . '/neon-box-state.json';
+        $requestPath = $f['root'] . '/neon-box-publication-request.json';
+        $state = json_decode(file_get_contents($statePath), true, 32, JSON_THROW_ON_ERROR);
+        $request = json_decode(file_get_contents($requestPath), true, 32, JSON_THROW_ON_ERROR);
+        $state['revision'] = PHP_INT_MAX - 1;
+        $state['approval']['revision'] = $state['revision'];
+        $request['source_rev'] = $state['revision'];
+        $request['request_id'] = hash('sha256', $request['prev_release'] . "\n"
+            . $request['source_rev'] . "\n" . $request['output_sha256']);
+        must(file_put_contents($statePath, json_encode($state, JSON_THROW_ON_ERROR | JSON_UNESCAPED_UNICODE
+            | JSON_UNESCAPED_SLASHES) . "\n") !== false);
+        must(file_put_contents($requestPath, json_encode($request, JSON_THROW_ON_ERROR | JSON_UNESCAPED_UNICODE
+            | JSON_UNESCAPED_SLASHES) . "\n") !== false);
+        $stateBefore = file_get_contents($statePath);
+        $requestBefore = file_get_contents($requestPath);
+        $edit = $f['snapshot']; $edit['fields']['title'] = 'Synthetic ceiling edit';
+        must(saveDraft($f, $session, PHP_INT_MAX - 1, $edit)['status'] === 409);
+        must(file_get_contents($statePath) === $stateBefore && file_get_contents($requestPath) === $requestBefore);
+        $loaded = loadDraft($f, $session)['body']['state'];
+        must($loaded['revision'] === PHP_INT_MAX - 1 && $loaded['status'] === 'approved');
+    });
+    test('absolute-expiry-after-valid-activity', function (): void {
+        $f = fixture(); $session = []; prepared($f, $session);
+        must(postDraft($f, $session, 'preview', ['expected_revision' => 1], 1700000899)['status'] === 200);
+        must(postDraft($f, $session, 'preview', ['expected_revision' => 1], 1700001798)['status'] === 200);
+        must(postDraft($f, $session, 'approve', ['expected_revision' => 1], 1700001799)['status'] === 200);
+        must(postDraft($f, $session, 'request-publication', ['expected_revision' => 1], 1700001800)['status'] === 401);
+        must(!isset($session['kan_cms_owner']) && !file_exists($f['root'] . '/neon-box-publication-request.json'));
+    });
     test('one-and-two-approved-map-supported', function (): void {
         $f = fixture(true, ['a' => 'produk-39db8e80530c']); $session = [];
         must(count(loadDraft($f, $session)['body']['config']['media']) === 1);
@@ -248,10 +321,21 @@ try {
         invalidMap(['z' => 'produk-39db8e80530c']);
         invalidMap(['a' => 'produk-39db8e80530c', 'b' => 'produk-39db8e80530c']);
     });
+    $selected = array_slice($argv, 1);
+    if (count(array_unique($selected)) !== count($selected) || array_diff($selected, array_keys($cases)) !== []) {
+        echo json_encode(['runtime' => PHP_VERSION, 'passed' => 0, 'failed' => 1,
+            'skipped' => count($cases), 'category' => 'SelectionError'], JSON_THROW_ON_ERROR) . "\n";
+        exit(2);
+    }
+    foreach ($cases as $name => $fn) {
+        if ($selected !== [] && !in_array($name, $selected, true)) { $skipped++; continue; }
+        try { $fn(); $results[] = ['name' => $name, 'status' => 'PASS']; }
+        catch (Throwable $error) { $results[] = ['name' => $name, 'status' => 'FAIL', 'category' => get_class($error)]; }
+    }
 } finally {
     foreach ($roots as $root) if (is_dir($root) && !is_link($root)) clean($root);
 }
 $failed = count(array_filter($results, fn($row) => $row['status'] !== 'PASS'));
 echo json_encode(['runtime' => PHP_VERSION, 'passed' => count($results) - $failed,
-    'failed' => $failed, 'results' => $results], JSON_THROW_ON_ERROR | JSON_PRETTY_PRINT) . "\n";
+    'failed' => $failed, 'skipped' => $skipped, 'results' => $results], JSON_THROW_ON_ERROR | JSON_PRETTY_PRINT) . "\n";
 exit($failed === 0 ? 0 : 1);

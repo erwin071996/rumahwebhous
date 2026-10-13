@@ -11,11 +11,11 @@ SOURCES = {
     },
     "cms/neon_box_draft_adapter.php": {
         "target": "includes/cms-owner/neon_box_draft_adapter.php",
-        "sha256": "fc37ef83e23c5f2e305bb48d49d27ba6474083418932ef54a0d9dc5d33b6b51f"
+        "sha256": "7a6a15bf0d3c87ab26be8fe396b8217f463d57b503d942f11c599bd797f1752b"
     },
     "cms/owner-gateway.php": {
         "target": "includes/cms-owner/owner-gateway.php",
-        "sha256": "158f14dd7b1ee2d4245ae5e19ac1e60bf7c265d69f3815d34af95ac1b0460f94"
+        "sha256": "4905106fc54b1add90d831212619426463ee563309fdf141e1cef5ab0eddaa21"
     },
     "cms/owner-entry.php": {
         "target": "includes/cms-owner/owner-entry.php",

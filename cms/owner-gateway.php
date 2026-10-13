@@ -194,9 +194,10 @@ final class OwnerGateway
             self::keys($payload, ['expected_revision', 'snapshot']);
             if (!is_array($payload['snapshot'])) throw new Invalid();
             $revision = self::revision($payload['expected_revision'], true);
+            $this->adapter->validateSave($ctx, $now, $revision, $payload['snapshot']);
+            $this->invalidateRequest();
             $state = $this->adapter->save($ctx, $now, $revision, $payload['snapshot']);
             $this->clearReview($session);
-            $this->invalidateRequest();
             return self::success(['state' => $state]);
         }
         self::keys($payload, ['expected_revision']);
