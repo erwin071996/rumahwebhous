@@ -35,7 +35,7 @@ const canonicalSnapshot = value => ({...clone(value), rights: [...value.rights].
 const privateFact = "SYNTHETIC_PRIVATE_FACT_DO_NOT_EXPORT";
 const privateSource = "SYNTHETIC_PRIVATE_SOURCE_DO_NOT_EXPORT";
 const release = "1".repeat(40);
-const modes = new Set(["owner", "anonymous", "other", "expired", "csrf-missing", "next-release"]);
+const modes = new Set(["owner", "anonymous", "other", "expired", "csrf-missing", "next-release", "public-baseline"]);
 let temporaryRoot, runner, sequence = 0;
 const processes = new Set();
 const results = [];
@@ -196,6 +196,40 @@ async function exportFor(bridge, request) {
 
 async function run() {
     setup();
+    await check("current-main-public-baseline-roundtrip", async () => {
+        const baseline = JSON.parse(fs.readFileSync(path.join(repo, "public_html/includes/refresh-data.json"), "utf8"));
+        const request = transport("public-baseline");
+        let reloadedRequest;
+        try {
+            const bridge = filled(createCloudModel(createModel, request), {media: false});
+            bridge.model.select("a", true);
+            bridge.model.right("a", true);
+            bridge.model.cover("a");
+            ok(await bridge.save());
+            const before = snapshot(bridge.model);
+            reloadedRequest = transport("public-baseline", request.root);
+            const fresh = createCloudModel(createModel, reloadedRequest);
+            ok(await fresh.load());
+            assert.deepEqual(snapshot(fresh.model), before);
+            fresh.model.edit("summary", "Synthetic current-baseline edited summary.");
+            await approved(fresh);
+            assert.equal(fresh.view().serverRevision, 2);
+            const result = await exportFor(fresh, reloadedRequest);
+            const output = JSON.parse(result.bytes), expected = clone(baseline);
+            expected.services["neon-box"].name = fresh.view().fields.title;
+            expected.services["neon-box"].intro = fresh.view().fields.summary;
+            expected.services["neon-box"].image = output.services["neon-box"].image;
+            assert(baseline.photos.some(photo => photo.id === expected.services["neon-box"].image));
+            if (typeof baseline.services["neon-box"].image === "string") {
+                assert.equal(output.services["neon-box"].image, baseline.services["neon-box"].image);
+            }
+            assert.deepEqual(output, expected);
+            assert(!result.bytes.includes(privateFact) && !result.bytes.includes(privateSource));
+        } finally {
+            if (reloadedRequest) await reloadedRequest.close();
+            await request.close();
+        }
+    });
     await caseCheck("initial-empty-and-unsaved-boundary", async (bridge) => {
         const result = ok(await bridge.load());
         assert.deepEqual(result.state, {revision: 0, status: "empty", snapshot: null});

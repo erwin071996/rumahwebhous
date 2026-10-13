@@ -56,7 +56,7 @@ function fixtureEmit(array $reply): void {
 try {
     [$root, $repo] = fixtureSetup();
     $mode = $argv[1] ?? 'owner';
-    if (count($argv) > 2 || !in_array($mode, ['owner', 'anonymous', 'other', 'expired', 'csrf-missing', 'next-release'], true)) throw new RuntimeException();
+    if (count($argv) > 2 || !in_array($mode, ['owner', 'anonymous', 'other', 'expired', 'csrf-missing', 'next-release', 'public-baseline'], true)) throw new RuntimeException();
     // Trusted test driver constructs mocks here; request JSON never supplies identity or CSRF.
     $ctx = new OwnerContext(
         $mode === 'anonymous' ? null : ($mode === 'other' ? 'synthetic-other' : FIXTURE_OWNER),
@@ -65,9 +65,21 @@ try {
     );
     $release = $mode === 'next-release' ? str_repeat('2', 40) : FIXTURE_RELEASE;
     $baseline = fixtureBaseline();
+    $photoMap = ['a' => 'fixture-photo-a', 'b' => 'fixture-photo-b', 'c' => 'fixture-photo-c'];
+    if ($mode === 'public-baseline') {
+        // Compatibility check against read-only public input; edits/context/release remain synthetic.
+        $bytes = @file_get_contents($repo . '/public_html/includes/refresh-data.json');
+        if ($bytes === false) throw new RuntimeException();
+        $baseline = json_decode($bytes, true, 32, JSON_THROW_ON_ERROR);
+        $ids = array_column($baseline['photos'], 'id');
+        $cover = $baseline['services']['neon-box']['image'];
+        if (is_string($cover)) array_unshift($ids, $cover);
+        $ids = array_values(array_unique($ids, SORT_STRING));
+        if (count($ids) < 3) throw new RuntimeException();
+        $photoMap = array_combine(['a', 'b', 'c'], array_slice($ids, 0, 3));
+    }
     $pilot = new Pilot($root, [$repo . '/public_html'], $baseline, FIXTURE_OWNER);
-    $adapter = new DraftAdapter($pilot, $baseline['services']['neon-box'],
-        ['a' => 'fixture-photo-a', 'b' => 'fixture-photo-b', 'c' => 'fixture-photo-c'], $release);
+    $adapter = new DraftAdapter($pilot, $baseline['services']['neon-box'], $photoMap, $release);
     $review = null;
 } catch (Throwable $error) {
     fixtureEmit(['ok' => false, 'category' => 'FixtureBoundary']);

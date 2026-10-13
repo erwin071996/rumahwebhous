@@ -107,6 +107,12 @@ Pass exact case names after the script to run only those cases; unknown names fa
 the run and unselected cases are counted as skipped. This avoids repeating the full
 fixture suite for a narrow change.
 
+`current-main-public-baseline-roundtrip` loads the checkout's public
+`includes/refresh-data.json` read-only through CLI mode `public-baseline`.
+Identity, release, draft edits and private notes remain synthetic. This checks
+current service/photo-schema compatibility, save/reload and preservation of all
+other public records; it does not read a hosting store or prove Owner authentication.
+
 The runner uses synthetic data and precreated `0700` temporary directories
 outside the checkout and public roots, then removes its private fixtures. Only
 test names/counts/categories belong in retained evidence. Do not retain draft,
