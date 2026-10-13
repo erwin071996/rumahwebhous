@@ -12,6 +12,10 @@ Kekurangan yang dipilih adalah hubungan **layanan → dokumentasi nyata → data
 
 Sasaran pembaca: calon pemesan identitas ruang kantor atau instansi yang membutuhkan logo dan tulisan pada bidang interior. Halaman layanan tetap melayani kebutuhan huruf timbul secara umum; BRMP berfungsi sebagai satu contoh terdokumentasi.
 
+Koordinasi paket lain: [draft PR19 Marketing](https://github.com/erwin071996/rumahwebhous/pull/19), SHA `8bc4dacd5cc7deb33d38593deb13c553d718740f`, mengatur jalur Neon Box → Gadget Solution → brief, CTA **Siapkan brief neon box**, dan petunjuk pengisian pada kartu Gadget Solution. Paket BRMP ini tidak mengambil CTA/petunjuk tersebut, mengubah kartu Gadget Solution, atau membuka artikel Gadget Solution kedua. Sasaran 1/2 → 2/2 pada PR19 adalah kelengkapan tautan teknis yang dirancang, bukan hasil lead atau penjualan, dan bukan hasil uji paket BRMP.
+
+Kedua paket memakai formulir proyek yang sudah ada sebagai tujuan. Berbagi tujuan formulir tidak berarti menggandakan topik: draf ini menjelaskan data huruf timbul interior berdasarkan bukti BRMP. Anchor `brief-proyek` harus tetap dikoordinasikan oleh Backend dalam integrasi bersama, tanpa menambah formulir atau mekanisme CTA baru pada pekerjaan draf ini.
+
 ## 2. Judul, meta, dan lokasi penempatan yang diusulkan
 
 | Elemen | Draf |
