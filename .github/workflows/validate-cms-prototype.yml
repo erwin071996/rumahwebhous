@@ -1,0 +1,87 @@
+name: Validate inactive CMS prototype
+on:
+  pull_request:
+    paths:
+      - 'tests/fixtures/cms-posting-prototype.html'
+      - 'tests/cms-prototype-controller.cjs'
+      - 'tests/cms-prototype-native.cjs'
+      - '.github/workflows/validate-cms-prototype.yml'
+permissions:
+  contents: read
+jobs:
+  focused-prototype:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 10
+    env:
+      QA_CMS_URL: http://127.0.0.1:8770/cms-posting-prototype.html
+      QA_CMS_ARTIFACT_DIR: artifacts/cms-prototype
+      QA_CMS_CANDIDATE_SHA: ${{ github.event.pull_request.head.sha }}
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Verify exact recovered sources and unchanged hosting payload
+        shell: bash
+        run: |
+          test "$(git rev-parse HEAD)" = "$QA_CMS_CANDIDATE_SHA"
+          git diff --exit-code cb207d9745e41357dcc6728f8e71e021091966b3 HEAD -- public_html
+          python3 - <<'PY'
+          import hashlib
+          from pathlib import Path
+          expected = {
+              "tests/fixtures/cms-posting-prototype.html": (17396, "def41c95a1b217f5960d8570b509cac53c6bd09e555871a0136c9dfec37e304e"),
+              "tests/cms-prototype-controller.cjs": (11164, "c51f656fc6cbe087456473471cfd94bf0f79e12634b2c6739cf79563e2cde057"),
+              "tests/cms-prototype-native.cjs": (6821, "9f90f7d8c905c3ede1c143c9a016ee198ca025d400d9c2e1d784348203391b68"),
+          }
+          for filename, (size, digest) in expected.items():
+              path = Path(filename)
+              assert path.is_file() and not path.is_symlink(), "Missing or unsafe source"
+              payload = path.read_bytes()
+              assert len(payload) == size and hashlib.sha256(payload).hexdigest() == digest, "Source integrity mismatch"
+          print("Three recovered sources verified; public_html unchanged.")
+          PY
+      - name: Use pinned Node runtime
+        uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38
+        with:
+          node-version: '22.23.3'
+          check-latest: false
+          package-manager-cache: false
+      - name: Exercise synthetic model and DOM callbacks
+        run: |
+          node --check tests/cms-prototype-controller.cjs
+          node --check tests/cms-prototype-native.cjs
+          node tests/cms-prototype-controller.cjs
+      - name: Install pinned cloud browser
+        shell: bash
+        run: |
+          export PLAYWRIGHT_BROWSERS_PATH="$RUNNER_TEMP/3dkan-cms-chromium"
+          printf 'PLAYWRIGHT_BROWSERS_PATH=%s\n' "$PLAYWRIGHT_BROWSERS_PATH" >> "$GITHUB_ENV"
+          npm install --prefix "$RUNNER_TEMP/3dkan-cms-qa" --no-audit --no-fund playwright@1.64.0
+          "$RUNNER_TEMP/3dkan-cms-qa/node_modules/.bin/playwright" install --with-deps chromium
+          printf 'NODE_PATH=%s\n' "$RUNNER_TEMP/3dkan-cms-qa/node_modules" >> "$GITHUB_ENV"
+      - name: Exercise only isolated inactive fixture
+        shell: bash
+        run: |
+          python3 -m http.server 8770 --bind 127.0.0.1 --directory tests/fixtures > "$RUNNER_TEMP/3dkan-cms-server.log" 2>&1 &
+          cms_server_pid=$!
+          trap 'kill "$cms_server_pid" 2>/dev/null || true' EXIT
+          ready=false
+          for attempt in {1..20}; do
+            if curl --fail --silent --max-time 2 "$QA_CMS_URL" > /dev/null; then
+              ready=true
+              break
+            fi
+            sleep 1
+          done
+          test "$ready" = true
+          node tests/cms-prototype-native.cjs
+      - name: Save synthetic evidence for review
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: cms-prototype-${{ github.event.pull_request.head.sha }}
+          path: artifacts/cms-prototype
+          if-no-files-found: warn
+          retention-days: 7
