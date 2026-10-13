@@ -1,0 +1,217 @@
+name: Validate CMS Owner package
+on:
+  push:
+    branches: ['codex/cms-owner-activation-20261013']
+permissions:
+  contents: read
+jobs:
+  cms-owner:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - name: Checkout exact source without persisted credentials
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Verify unchanged public payload and existing foundation
+        shell: bash
+        run: |
+          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+          git diff --exit-code 1463609379967383ff7d7f2e56e144b3a2ba8209 HEAD -- public_html
+          python3 - <<'PY'
+          import hashlib
+          from pathlib import Path
+          expected = {
+            "cms/neon_box_pilot.php": "15dbaf6bfe53ff5ea521d97e288788fb07f4c1e4a9f32e1ef1667d9bacad6ab2",
+            "tests/fixtures/cms-posting-prototype.html": "def41c95a1b217f5960d8570b509cac53c6bd09e555871a0136c9dfec37e304e",
+          }
+          for name, digest in expected.items():
+              file = Path(name)
+              assert file.is_file() and not file.is_symlink()
+              assert hashlib.sha256(file.read_bytes()).hexdigest() == digest
+          print("Existing foundation preserved; public payload unchanged.")
+          PY
+      - name: Select exact incremental transaction checks
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import hashlib, os, subprocess
+          from pathlib import Path
+          expected = {
+              "cms/owner-gateway.php": "4905106fc54b1add90d831212619426463ee563309fdf141e1cef5ab0eddaa21",
+              "cms/neon_box_draft_adapter.php": "7a6a15bf0d3c87ab26be8fe396b8217f463d57b503d942f11c599bd797f1752b",
+              "tests/cms-owner-gateway.php": "cc105b71f58b8c577e9bcd1a5fd6e6c28af524c7226204c5dc7e154653f6abf5",
+          }
+          parent = subprocess.check_output(["git", "rev-parse", "HEAD^"], text=True).strip()
+          changed = set(subprocess.check_output(["git", "diff", "--name-only", "HEAD^", "HEAD"], text=True).splitlines())
+          scope = set(expected) | {"scripts/build_cms_owner_package.py", ".github/workflows/validate-cms-owner.yml"}
+          focused = parent == "9ac142f360c2ee3805d82272df55bcbae3f08905" and changed == scope
+          focused = focused and all(hashlib.sha256(Path(name).read_bytes()).hexdigest() == digest for name, digest in expected.items())
+          with open(os.environ["GITHUB_ENV"], "a") as out:
+              out.write("CMS_OWNER_FOCUSED=" + ("true" if focused else "false") + "\n")
+          print("Exact transaction delta only." if focused else "Full package checks selected for other source changes.")
+          PY
+      - name: Lint PHP 8.3 package
+        run: |
+          php -r 'if (PHP_VERSION_ID < 80300 || PHP_VERSION_ID >= 80400) { exit(1); } echo "PHP " . PHP_VERSION . "\n";'
+          php -l cms/owner-gateway.php
+          php -l cms/owner-entry.php
+          php -l cms/owner-index.php
+          php -l cms/owner-endpoint.php
+          php -l cms/neon_box_draft_adapter.php
+          php -l tests/cms-owner-gateway.php
+          php -l tests/fixtures/cms-owner-http.php
+          node --check tests/cms-owner-http.cjs
+      - name: Focused draft and review boundaries
+        shell: bash
+        run: |
+          mkdir -p artifacts/cms-owner
+          if [ "$CMS_OWNER_FOCUSED" = "true" ]; then
+            php -d display_errors=0 -d log_errors=0 tests/cms-owner-gateway.php cancel-failure-does-not-advance-draft invalid-snapshot-retains-private-request absolute-expiry-after-valid-activity revision-ceiling-retains-private-request | tee artifacts/cms-owner/php-results.json
+          else
+            php -d display_errors=0 -d log_errors=0 tests/cms-owner-gateway.php | tee artifacts/cms-owner/php-results.json
+          fi
+      - name: Prove cancellation regression rejects old write order
+        if: env.CMS_OWNER_FOCUSED == 'true'
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import hashlib, json, os, subprocess, tempfile
+          from pathlib import Path
+          old = subprocess.check_output(["git", "show", "9ac142f360c2ee3805d82272df55bcbae3f08905:cms/owner-gateway.php"])
+          assert hashlib.sha256(old).hexdigest() == "158f14dd7b1ee2d4245ae5e19ac1e60bf7c265d69f3815d34af95ac1b0460f94"
+          with tempfile.TemporaryDirectory(prefix="kan-cms-negative-", dir=os.environ["RUNNER_TEMP"]) as temp:
+              root = Path(temp)
+              for name in ["cms/neon_box_pilot.php", "cms/neon_box_draft_adapter.php", "tests/cms-owner-gateway.php", "public_html/includes/refresh-data.json"]:
+                  target = root / name
+                  target.parent.mkdir(parents=True, exist_ok=True)
+                  target.write_bytes(Path(name).read_bytes())
+              (root / "cms/owner-gateway.php").write_bytes(old)
+              run = subprocess.run(["php", "-d", "display_errors=0", "-d", "log_errors=0", str(root / "tests/cms-owner-gateway.php"), "cancel-failure-does-not-advance-draft"], capture_output=True, text=True, timeout=30)
+              report = json.loads(run.stdout)
+              assert run.returncode == 1 and report["passed"] == 0 and report["failed"] == 1 and report["skipped"] == 28
+              assert report["results"] == [{"name": "cancel-failure-does-not-advance-draft", "status": "FAIL", "category": "LogicException"}]
+              (root / "cms/owner-gateway.php").write_bytes(Path("cms/owner-gateway.php").read_bytes())
+              adapter = Path("cms/neon_box_draft_adapter.php").read_text()
+              ceiling = "if (($current['revision'] ?? 0) !== $expectedRevision\n            || $expectedRevision >= PHP_INT_MAX - 1) throw new Conflict();"
+              assert adapter.count(ceiling) == 1
+              adapter = adapter.replace(ceiling, "if (($current['revision'] ?? 0) !== $expectedRevision) throw new Conflict();")
+              assert hashlib.sha256(adapter.encode()).hexdigest() == "87181d3c14c6017940b452fa038234307f0abb964a81590aee527535b3d71ce5"
+              (root / "cms/neon_box_draft_adapter.php").write_text(adapter)
+              limit_run = subprocess.run(["php", "-d", "display_errors=0", "-d", "log_errors=0", str(root / "tests/cms-owner-gateway.php"), "revision-ceiling-retains-private-request"], capture_output=True, text=True, timeout=30)
+              limit_report = json.loads(limit_run.stdout)
+              assert limit_run.returncode == 1 and limit_report["passed"] == 0 and limit_report["failed"] == 1 and limit_report["skipped"] == 28
+              assert limit_report["results"] == [{"name": "revision-ceiling-retains-private-request", "status": "FAIL", "category": "LogicException"}]
+              selection = subprocess.run(["php", "-d", "display_errors=0", "-d", "log_errors=0", "tests/cms-owner-gateway.php", "unknown-focused-case"], capture_output=True, text=True, timeout=30)
+              selection_report = json.loads(selection.stdout)
+              assert selection.returncode == 2 and selection_report["category"] == "SelectionError" and selection_report["passed"] == 0
+          result = {"runtime": report["runtime"], "oldWriteOrderRejected": True, "missingCeilingPreflightRejected": True, "unknownCaseRejected": True, "negativeCasesExecuted": 2}
+          Path("artifacts/cms-owner/negative-results.json").write_text(json.dumps(result) + "\n")
+          print(json.dumps(result))
+          PY
+      - name: Real local PHP session and CSRF round trips
+        if: env.CMS_OWNER_FOCUSED != 'true'
+        shell: bash
+        run: |
+          node tests/cms-owner-http.cjs | tee artifacts/cms-owner/http-results.json
+      - name: Actual loader boundary checks
+        if: env.CMS_OWNER_FOCUSED != 'true'
+        shell: bash
+        run: |
+          php -l tests/cms-owner-entry.php
+          php -d display_errors=0 -d log_errors=0 tests/cms-owner-entry.php | tee artifacts/cms-owner/entry-results.json
+      - name: Focused UI model and transport checks
+        if: env.CMS_OWNER_FOCUSED != 'true'
+        shell: bash
+        run: |
+          node --check cms/owner-ui.js
+          node --check tests/cms-owner-ui.cjs
+          node --check tests/cms-owner-native.cjs
+          node tests/cms-owner-ui.cjs | tee artifacts/cms-owner/ui-results.json
+      - name: Build isolated code package only
+        run: python3 scripts/build_cms_owner_package.py --output "$RUNNER_TEMP/cms-owner-package"
+      - name: Install existing pinned browser test runtime
+        if: env.CMS_OWNER_FOCUSED != 'true'
+        shell: bash
+        run: |
+          npm install --prefix "$RUNNER_TEMP/3dkan-cms-owner" --no-audit --no-fund playwright@1.64.0
+          "$RUNNER_TEMP/3dkan-cms-owner/node_modules/.bin/playwright" install --with-deps chromium
+          printf 'NODE_PATH=%s\n' "$RUNNER_TEMP/3dkan-cms-owner/node_modules" >> "$GITHUB_ENV"
+      - name: Native UI with synthetic isolated API only
+        if: env.CMS_OWNER_FOCUSED != 'true'
+        run: node tests/cms-owner-native.cjs
+      - name: Save code package without private runtime
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: cms-owner-code-${{ github.sha }}
+          path: ${{ runner.temp }}/cms-owner-package
+          if-no-files-found: error
+          retention-days: 3
+      - name: Keep synthetic UI evidence
+        if: always() && env.CMS_OWNER_FOCUSED != 'true'
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: cms-owner-ui-${{ github.sha }}
+          path: artifacts/cms-owner-native
+          if-no-files-found: warn
+          retention-days: 3
+      - name: Keep redacted test results
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: cms-owner-${{ github.sha }}
+          path: artifacts/cms-owner/*.json
+          if-no-files-found: error
+          retention-days: 3
+
+  original-ui-pixels:
+    name: Original synthetic UI pixels (${{ matrix.width }})
+    runs-on: ubuntu-24.04
+    timeout-minutes: 4
+    permissions:
+      actions: read
+    strategy:
+      fail-fast: false
+      matrix:
+        width: [390, 1280]
+    steps:
+      - name: Download exact existing synthetic screenshot artifact
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          artifact-ids: '11853423601'
+          path: ${{ runner.temp }}/cms-owner-original-pixels
+          merge-multiple: true
+          github-token: ${{ github.token }}
+          repository: erwin071996/rumahwebhous
+          run-id: '38475255517'
+      - name: Relay original PNG bytes for visual inspection
+        env:
+          PIXEL_DIR: ${{ runner.temp }}/cms-owner-original-pixels
+          PIXEL_WIDTH: ${{ matrix.width }}
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import base64, hashlib, json, os, struct
+          from pathlib import Path
+          root = Path(os.environ["PIXEL_DIR"])
+          assert {p.relative_to(root).as_posix() for p in root.rglob("*") if p.is_file()} == {"owner-390.png", "owner-1280.png", "results.json"}
+          assert not any(p.is_symlink() for p in root.rglob("*"))
+          report = json.loads((root / "results.json").read_text())
+          assert report["candidateSha"] == "9ac142f360c2ee3805d82272df55bcbae3f08905"
+          assert report["unexpected"] == [] and report["errors"] == []
+          assert len(report["results"]) == 9 and all(row["status"] == "PASS" for row in report["results"])
+          width = int(os.environ["PIXEL_WIDTH"])
+          name = f"owner-{width}.png"
+          payload = (root / name).read_bytes()
+          assert payload[:8] == b"\x89PNG\r\n\x1a\n" and 0 < len(payload) <= 1000000
+          decoded_width, height = struct.unpack(">II", payload[16:24])
+          assert decoded_width == width and 0 < height <= 20000
+          meta = {"name": name, "candidateSha": report["candidateSha"], "artifactId": 11853423601, "bytes": len(payload), "sha256": hashlib.sha256(payload).hexdigest(), "width": width, "height": height, "transformed": False}
+          print("KAN_PNG_META " + json.dumps(meta, separators=(",", ":")))
+          encoded = base64.b64encode(payload).decode("ascii")
+          for offset in range(0, len(encoded), 8192):
+              print("KAN_PNG_DATA " + encoded[offset:offset+8192])
+          print("KAN_PNG_END")
+          PY

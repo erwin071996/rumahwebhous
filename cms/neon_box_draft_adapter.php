@@ -29,8 +29,9 @@ final class DraftAdapter
         private readonly array $photoMap,
         private readonly string $currentRelease
     ) {
-        self::keys($photoMap, ['a', 'b', 'c']);
-        if (count(array_unique(array_values($photoMap), SORT_REGULAR)) !== 3
+        if (count($photoMap) < 1 || count($photoMap) > 3
+            || array_diff(array_keys($photoMap), ['a', 'b', 'c']) !== []) throw new Invalid();
+        if (count(array_unique(array_values($photoMap), SORT_REGULAR)) !== count($photoMap)
             || preg_match('/\A[a-f0-9]{40}\z/', $currentRelease) !== 1) {
             throw new Invalid();
         }
@@ -47,14 +48,28 @@ final class DraftAdapter
             : $this->view($state);
     }
 
-    public function save(OwnerContext $ctx, int $now, int $expectedRevision, array $snapshot): array
+    /** Validate a save before the gateway changes its private handoff file. */
+    public function validateSave(OwnerContext $ctx, int $now, int $expectedRevision, array $snapshot): array
     {
+        if (!$ctx->csrfVerified) throw new Denied();
+        if ($expectedRevision < 0 || $expectedRevision >= PHP_INT_MAX) throw new Invalid();
         $current = $this->state($ctx, $now);
-        if (($current['revision'] ?? 0) !== $expectedRevision) throw new Conflict();
+        if (($current['revision'] ?? 0) !== $expectedRevision
+            || $expectedRevision >= PHP_INT_MAX - 1) throw new Conflict();
         if ($current !== null) $this->view($current);
         $snapshot = $this->normalize($snapshot);
         $note = self::encode(['schema_version' => 1, 'snapshot' => $snapshot]);
         if (strlen($note) > 4000) throw new Invalid();
+        $public = json_encode($this->service($snapshot), JSON_THROW_ON_ERROR | JSON_PRETTY_PRINT
+            | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) . "\n";
+        if (strlen($public) > 96000) throw new Invalid();
+        return $snapshot;
+    }
+
+    public function save(OwnerContext $ctx, int $now, int $expectedRevision, array $snapshot): array
+    {
+        $snapshot = $this->validateSave($ctx, $now, $expectedRevision, $snapshot);
+        $note = self::encode(['schema_version' => 1, 'snapshot' => $snapshot]);
         $state = $this->pilot->save($ctx, $now, $expectedRevision,
             $this->service($snapshot), $this->currentRelease, $note);
         $this->issuedReview = null;
@@ -136,6 +151,9 @@ final class DraftAdapter
             $text = $fields[$key];
             if (!is_string($text) || strlen($text) > $max || preg_match('//u', $text) !== 1
                 || preg_match('/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/', $text) === 1) throw new Invalid();
+            if (in_array($key, ['title', 'summary'], true)
+                && (trim($text) === '' || str_contains($text, '<') || str_contains($text, '>')
+                    || preg_match('/(?:javascript|vbscript|data)\s*:/i', $text) === 1)) throw new Invalid();
             $normalizedFields[$key] = $text;
         }
         $normalizedFields['verified'] = $fields['verified'];
