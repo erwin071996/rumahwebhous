@@ -1,6 +1,8 @@
 # Draf Konten & SEO — Huruf Timbul Interior / BRMP
 
-Status: **DRAF UNTUK REVIEW MARKETING; BELUM LIVE.**
+Status: **DRAF; GO EDITORIAL MARKETING; ANTRE SETELAH RILIS SHAREDBRAND; BELUM LIVE.**
+
+[Review Marketing PR18](https://github.com/erwin071996/rumahwebhous/pull/18#issuecomment-6149905569) memberi GO arah editorial dengan dua koreksi alur yang diterapkan dalam draf ini: CTA langsung dari kartu BRMP ke brief dan petunjuk pengisian manual. Review tersebut bukan persetujuan merge/deploy atau hasil uji runtime.
 
 Pemilik pekerjaan: Konten & SEO, Pekerja Web 3DKan Advertising. Tanggal penyusunan: 13 Oktober 2026. Baseline sumber repo: `dd31d7305d1571b4fde960ed0b942135a88388a1`. Paket neon box + Gadget Solution yang sudah dirilis melalui PR12, merge commit `cb207d9745e41357dcc6728f8e71e021091966b3`, menjadi konteks pengecualian; paket ini mengambil topik huruf timbul interior dengan bukti BRMP.
 
@@ -29,10 +31,12 @@ Kedua paket memakai formulir proyek yang sudah ada sebagai tujuan. Berbagi tujua
 | Tujuan tautan bukti | `/projects.html#brmp` |
 | Teks CTA brief | Susun brief proyek Anda |
 | Tujuan CTA brief | `/projects.html#brief-proyek` |
+| Teks CTA utama pada kartu BRMP | Siapkan brief huruf timbul interior |
+| Tujuan CTA kartu BRMP pada halaman portofolio | `#brief-proyek` |
 
 Penempatan utama: blok pengayaan setelah penjelasan pilihan dan persiapan pada `/layanan/huruf-timbul`, sebelum tautan wilayah layanan. Urutan isi: bukti BRMP, cara membaca referensi, checklist brief, lalu CTA. Foto terpilih adalah dokumentasi hasil, bukan pengganti contoh produk seluruh material.
 
-Penempatan pendamping: satu tautan teks pada kartu `projects.html#brmp`, label **Panduan brief huruf timbul**, tujuan `/layanan/huruf-timbul`. Cukup satu penghubung balik; tidak menggandakan seluruh isi panduan di portofolio. Dua penempatan ini adalah usulan untuk review dan integrasi terpisah.
+Penempatan pada kartu `projects.html#brmp`: CTA utama **Siapkan brief huruf timbul interior**, `href="#brief-proyek"`, di dekat dokumentasi BRMP dengan petunjuk manual pada bagian 3. Tautan **Panduan brief huruf timbul** ke `/layanan/huruf-timbul` menjadi tautan pendamping. CTA langsung memberi langkah bukti → brief; kartu tidak menggandakan seluruh panduan layanan. Penempatan ini tetap rancangan untuk integrasi Backend setelah rilis SharedBrand.
 
 ## 3. Draf isi untuk pembaca
 
@@ -69,6 +73,14 @@ Sebutkan apakah Anda menginginkan huruf tanpa lampu atau tampilan menyala. Jika 
 Anda bisa memulai dengan data yang tersedia. Target penggunaan menjadi informasi untuk dibahas; kesepakatan waktu dan lingkup pekerjaan mengikuti penawaran. Jangan menyalin ukuran atau menyimpulkan bahan pesanan dari foto BRMP.
 
 [Susun brief proyek Anda](https://www.3dkanadvertising.store/projects.html#brief-proyek). Untuk menyiapkan lampiran, baca [panduan file logo](https://www.3dkanadvertising.store/panduan/menyiapkan-file-logo) dan [panduan ukuran bidang](https://www.3dkanadvertising.store/panduan/mengukur-bidang-signage).
+
+### Tambahan copy pada kartu portofolio BRMP
+
+CTA: **Siapkan brief huruf timbul interior**, `href="#brief-proyek"`.
+
+Petunjuk di dekat CTA: **Pilih Huruf timbul pada brief. Di Ringkasan kebutuhan, tulis ‘Referensi visual: BRMP’, teks/logo, ukuran bidang beserta satuan dan statusnya, lokasi, serta foto yang tersedia. Periksa pesan; file dan foto dilampirkan sendiri saat chat. Pesan dikirim setelah Anda menekan Kirim di WhatsApp.**
+
+Catatan integrasi: pengguna memilih jenis dan mengisi referensi secara manual. Copy ini tidak menjanjikan prefill, upload file/foto melalui formulir, atau pengiriman otomatis. Penyusunan pesan maupun pembukaan WhatsApp tidak dihitung sebagai chat terkirim, lead, atau penjualan.
 
 ## 4. Format brief yang dapat disalin
 
@@ -125,9 +137,9 @@ Tidak ada dokumen ukuran, daftar bahan, penawaran, atau persetujuan teknis BRMP 
 
 ## 7. Serah terima, dependensi, dan keputusan
 
-**Marketing:** review apakah sudut identitas ruang kantor/instansi sesuai prioritas pemasaran, lalu periksa judul, meta, alur bukti ke brief, serta caption/alt. Tetapkan foto utama; alternatif tidak menambah sudut dokumentasi yang berarti. Beri keputusan editorial pada paket ini sebelum integrasi.
+**Marketing:** GO arah editorial tercatat pada komentar review yang ditautkan di awal. Dua koreksi CTA/petunjuk sudah diterapkan pada draf; judul/meta serta foto utama/caption/alt dipertahankan. Foto utama `kementerian-pertanian-brmp.webp` dipilih; alternatif tidak ikut ditampilkan. Review Marketing tidak mengulang validasi teknis dan bukan hasil uji runtime atau persetujuan publikasi.
 
-**Backend `01a12fa4-2d86-7662-a313-a575901a201b`:** setelah review Marketing, tentukan integrasi dalam pekerjaan terpisah dan tetap menjadi satu-satunya integrator/penerbit. Paket ini hanya teks draf. Pemeriksaan sumber menunjukkan `public_html/seo.php:29` membatasi tautan editorial ke `/projects.html#gadget-solution` dan `/cara-pemesanan.html`, sedangkan blok editorial saat ini tidak menerima foto. Karena itu, tautan BRMP/brief/panduan dan penempatan foto di atas **belum dapat diasumsikan siap dimasukkan ke record editorial**. Pilih penempatan yang didukung setelah review; jangan memaksakan data tidak didukung, karena renderer dapat menolak record. Tidak ada perubahan renderer, validasi, template, generator, atau `public_html` dalam paket ini.
+**Backend `01a12fa4-2d86-7662-a313-a575901a201b`:** integrasi tetap antre setelah rilis SharedBrand; tentukan penempatan dengan komponen dan anchor yang didukung dalam pekerjaan terpisah, sebagai satu-satunya integrator/penerbit. Paket ini hanya teks draf. Pemeriksaan sumber menunjukkan `public_html/seo.php:29` membatasi tautan editorial ke `/projects.html#gadget-solution` dan `/cara-pemesanan.html`, sedangkan blok editorial saat ini tidak menerima foto. Karena itu, tautan BRMP/brief/panduan dan penempatan foto di atas **belum dapat diasumsikan siap dimasukkan ke record editorial**. Pilih penempatan yang didukung setelah review; jangan memaksakan data tidak didukung, karena renderer dapat menolak record. Tidak ada perubahan renderer, validasi, template, generator, atau `public_html` dalam paket ini.
 
 **Parent:** gunakan paket ini sebagai hasil draf yang konkret dan dapat ditinjau. Pengamatan halaman publik hanya memastikan konteks konten yang dibaca; bukan bukti deploy draf. Verifikasi halaman hasil integrasi menjadi pekerjaan Backend setelah penerbitan yang diotorisasi. Tidak ada merge, deploy, permintaan indeks ulang, perubahan keamanan, akses persisten, pembelian layanan, atau kontak pelanggan pada pekerjaan ini.
 
@@ -136,3 +148,5 @@ Tidak ada dokumen ukuran, daftar bahan, penawaran, atau persetujuan teknis BRMP 
 ## 8. Batas verifikasi
 
 Pemeriksaan dilakukan terarah pada sumber, dua foto, metadata, tujuan tautan, dan cakupan diff. Pembacaan live dilakukan melalui browser web; GET langsung dari shell cloud ditolak oleh jalur jaringan, sehingga tidak tersedia hash respons HTTP baru atau bukti byte-for-byte live untuk paket ini. Tidak ada pengujian runtime, player video, formulir, atau tes besar berulang yang diperlukan untuk perubahan satu draf Markdown. Hasil pemeriksaan aktual dan SHA draf disertakan pada draft PR.
+
+Revisi setelah GO Marketing hanya mengubah draf CTA/petunjuk dan catatan serah terima. Pemeriksaan revisi dibatasi pada kesesuaian teks dengan koreksi review, dipertahankannya judul/meta/foto/caption/alt, serta whitespace diff. Validasi teknis sebelumnya tidak diulang; CTA baru belum diuji runtime maupun live.
