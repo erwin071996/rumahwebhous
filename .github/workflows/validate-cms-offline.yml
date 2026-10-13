@@ -4,6 +4,10 @@ on:
     paths:
       - 'cms/**'
       - 'tests/cms-offline-pilot.php'
+      - 'tests/cms-neon-box-cloud.cjs'
+      - 'tests/fixtures/cms-neon-box-bridge.cjs'
+      - 'tests/fixtures/cms-neon-box-cloud.php'
+      - 'tests/fixtures/cms-posting-prototype.html'
       - '.github/workflows/validate-cms-offline.yml'
 permissions:
   contents: read
@@ -24,7 +28,7 @@ jobs:
         shell: bash
         run: |
           test "$(git rev-parse HEAD)" = "$CMS_CANDIDATE_SHA"
-          git diff --exit-code 059a4414b0a7bbc48608246d79b5703ba6b96854 HEAD -- public_html
+          git diff --exit-code 1b28a70b52b391d5a9a139d90932457c170027f0 HEAD -- public_html
           python3 - <<'PY'
           import hashlib
           from pathlib import Path
@@ -76,6 +80,15 @@ jobs:
           assert all(item["status"] == "PASS" for item in data["results"]), "Offline result mismatch"
           print("49 offline PHP checks passed; private fixtures cleaned; hosting capability not inferred.")
           PY
+      - name: Exercise synthetic Neon Box cloud adapter
+        shell: bash
+        run: |
+          php -r 'if (PHP_VERSION_ID < 80300 || PHP_VERSION_ID >= 80400) { fwrite(STDERR, "Cloud adapter fixture requires PHP CLI 8.3.x\n"); exit(1); }'
+          node --check tests/cms-neon-box-cloud.cjs
+          node --check tests/fixtures/cms-neon-box-bridge.cjs
+          php -l cms/neon_box_draft_adapter.php
+          php -l tests/fixtures/cms-neon-box-cloud.php
+          node tests/cms-neon-box-cloud.cjs
       - name: Save redacted results only
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
