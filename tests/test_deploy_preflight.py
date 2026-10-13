@@ -486,6 +486,7 @@ class LiveStaticPageTests(unittest.TestCase):
             (site / "includes").mkdir()
             rows = [{"path": "/synthetic/" + str(i)} for i in range(500)]
             (site / "includes/content-index.json").write_text(json.dumps({"groups": {"synthetic": rows}}))
+            (site / "includes/refresh-data.json").write_text(json.dumps({"services": {"neon-box": {}}}))
             current = {
                 "/": b"<html>Synthetic current home</html>",
                 "/projects.html": b"<html>Synthetic current portfolio</html>",

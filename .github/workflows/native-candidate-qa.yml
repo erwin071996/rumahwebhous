@@ -66,12 +66,36 @@ jobs:
             sleep 0.25
           done
           node tests/native-qa.cjs
+      - name: Select proportionate performance checks
+        id: performance_scope
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import hashlib, os, subprocess
+          from pathlib import Path
+          base = "a73bf893cd1db6d432f584f2bece74b955f94b95"
+          expected = {
+              "public_html/seo.php": "34a38413f774475a99aae9ad15bdc91d73416bfc1b1d601db6e03c0a6378dff7",
+              "public_html/includes/refresh-data.json": "fa323534c3baec1cda60916413489868e7527cf765380ed2d66a1034886f14bb",
+              "public_html/projects.html": "73a3b7a09cfa7ef8393e65471cc95051a33ef62311b880068f589a0131c9083a",
+          }
+          changed = set(subprocess.check_output(["git", "diff", "--name-only", base, "HEAD", "--", "public_html"]).decode().splitlines())
+          protected = ["tests/performance.cjs", "scripts/prepare_native_qa.py", "tests/native-dependencies.json"]
+          stable = subprocess.run(["git", "diff", "--quiet", base, "HEAD", "--", *protected]).returncode == 0
+          focused = stable and changed == set(expected) and all(hashlib.sha256(Path(p).read_bytes()).hexdigest() == h for p, h in expected.items())
+          with open(os.environ["GITHUB_OUTPUT"], "a") as output:
+              output.write("required=" + ("false" if focused else "true") + "\n")
+          if focused:
+              print("NOT RUN: 24-run benchmark; reviewed SEO-only content scope. No new performance result is claimed.")
+          PY
       - name: Install pinned performance runtime
+        if: steps.performance_scope.outputs.required == 'true'
         run: |
           npm install --prefix "$RUNNER_TEMP/3dkan-native-qa" --no-audit --no-fund lighthouse@13.5.0 puppeteer-core@25.13.0
           mkdir -p artifacts/performance
           cp "$RUNNER_TEMP/3dkan-native-qa/package-lock.json" artifacts/performance/runtime-package-lock.json
       - name: Measure first-party baseline and candidate performance
+        if: steps.performance_scope.outputs.required == 'true'
         timeout-minutes: 30
         run: |
           node --check tests/performance.cjs

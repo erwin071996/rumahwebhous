@@ -294,7 +294,24 @@ def verify_live():
             local_path = "index.html" if path == "/" else "projects.html"
             if html != (SITE / local_path).read_bytes():
                 raise RuntimeError("Live static page differs from the reviewed source: " + local_path)
-    return {"sitemaps": 11, "unique_urls": 500, "http_samples": 9}
+    samples = 9
+    service_check = None
+    data = json.loads((SITE / "includes/refresh-data.json").read_text(encoding="utf-8"))
+    record = data["services"]["neon-box"]
+    if any(key in record for key in ("seo_title", "seo_description", "detail_heading", "detail_sections")):
+        try:
+            from scripts.service_content_check import verify_service_content
+        except ModuleNotFoundError as error:
+            if error.name != "scripts":
+                raise
+            from service_content_check import verify_service_content
+        service_check = verify_service_content(https("/layanan/neon-box"), record,
+                                               domain=DOMAIN, slug="neon-box")
+        samples += 1
+    result = {"sitemaps": 11, "unique_urls": 500, "http_samples": samples}
+    if service_check is not None:
+        result["service_content"] = service_check
+    return result
 
 
 def baseline_preflight(server, manifest):

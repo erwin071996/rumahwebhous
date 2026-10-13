@@ -1,0 +1,38 @@
+name: Validate focused service content
+on:
+  pull_request:
+    paths:
+      - 'public_html/seo.php'
+      - 'public_html/includes/refresh-data.json'
+      - 'public_html/projects.html'
+      - 'scripts/service_content_check.py'
+      - 'scripts/deploy_ftps.py'
+      - 'tests/seo_content_test.py'
+      - 'tests/test_service_content_check.py'
+      - '.github/workflows/validate-seo-content.yml'
+permissions:
+  contents: read
+jobs:
+  focused-content:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Compile semantic checker and focused tests
+        run: python3 -m py_compile scripts/service_content_check.py tests/seo_content_test.py tests/test_service_content_check.py
+      - name: Exercise stale and malformed response refusal
+        run: python3 -m unittest discover -s tests -p test_service_content_check.py -v
+      - name: Stage immutable previous service source
+        run: |
+          mkdir -p "$RUNNER_TEMP/seo-baseline"
+          git archive a73bf893cd1db6d432f584f2bece74b955f94b95 public_html | tar -x -C "$RUNNER_TEMP/seo-baseline"
+      - name: Lint and render only affected service contract
+        env:
+          SEO_BASELINE_DIR: ${{ runner.temp }}/seo-baseline/public_html
+        run: |
+          php -l public_html/seo.php
+          python3 tests/seo_content_test.py
