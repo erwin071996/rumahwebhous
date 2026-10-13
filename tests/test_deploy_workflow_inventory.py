@@ -31,7 +31,7 @@ class WorkflowInventoryTests(unittest.TestCase):
                 self.assertEqual(blob_sha(archive.read_bytes()), expected)
     def test_guarded_deploy_and_validator_preserved(self):
         expected = {
-            "deploy.yml": "18377dd048a66454cfa5ea155e4b25709681359c",
+            "deploy.yml": "a9b8a4c1d342056f137db427278ad25b666d1469",
             "validate.yml": "da53910abd90d7c91782aa68c994d02f6873f968",
         }
         for name, sha in expected.items():

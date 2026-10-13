@@ -1,11 +1,12 @@
 <?php
 require_once __DIR__ . '/includes/tracking-query.php';
+require_once __DIR__ . '/includes/shared-brand.php';
 // Existing /layanan/... and /kota/... URLs are preserved. No user-provided HTML is rendered.
 $data = json_decode(file_get_contents(__DIR__ . '/includes/refresh-data.json'), true);
 if (!is_array($data)) { http_response_code(503); exit('Halaman sementara tidak tersedia.'); }
 function e($value) { return htmlspecialchars((string)$value, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'); }
 function j($value) { return json_encode($value, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT); }
-function wa_link($message) { return 'https://wa.me/6285340382029?text=' . rawurlencode($message); }
+function wa_link($message) { return kan_shared_whatsapp($message); }
 
 // Optional editorial fields are committed public copy, not a CMS input endpoint.
 function service_editorial($record) {
@@ -82,12 +83,13 @@ $robots = $prod && $city && !in_array($prod,$data['legacy_services'],true) ? 'no
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title><?= e($title) ?></title><meta name="description" content="<?= e($description) ?>"><meta name="robots" content="<?= e($robots) ?>">
 <link rel="canonical" href="<?= e($canonical) ?>"><meta name="theme-color" content="#14202e">
-<link rel="icon" href="<?= e($asset) ?>/favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="/assets/marketing-20261006/site.css"><script src="/assets/marketing-20261006/site.js" defer></script>
+<link rel="icon" href="<?= e($asset) ?>/favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="/assets/marketing-20261006/site.css"><script src="/assets/marketing-20261006/site.js?v=baf0918036519d5d" defer></script>
 <meta property="og:type" content="website"><meta property="og:locale" content="id_ID"><meta property="og:site_name" content="3DKan Advertising"><meta property="og:title" content="<?= e($title) ?>"><meta property="og:description" content="<?= e($description) ?>"><meta property="og:url" content="<?= e($canonical) ?>"><meta property="og:image" content="<?= e($domain . ($image ? $image['large'] : $data['photos'][0]['large'])) ?>"><meta name="twitter:card" content="summary_large_image">
 <script type="application/ld+json"><?= j($graph) ?></script>
 <script async src="https://www.googletagmanager.com/gtag/js?id=AW-467644163"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','AW-467644163');</script>
-</head><body><?php readfile(__DIR__.'/includes/refresh-header.html'); ?>
-<main id="main"><section class="page-intro"><div class="container"><nav class="breadcrumbs" aria-label="Jejak halaman"><a href="/">Beranda</a><span aria-hidden="true">/</span><?php if ($service): ?><a href="<?= e('/layanan/'.$prod) ?>"><?= e($service['name']) ?></a><?php endif; ?><?php if ($cityName): ?><span><?= e($cityName) ?></span><?php endif; ?></nav>
+<?php kan_shared_head(); ?>
+</head><body class="kan-site"><?php kan_shared_header(parse_url($canonical, PHP_URL_PATH)); ?>
+<main id="main" tabindex="-1"><section class="page-intro"><div class="container"><nav class="breadcrumbs" aria-label="Jejak halaman"><a href="/">Beranda</a><span aria-hidden="true">/</span><?php if ($service): ?><a href="<?= e('/layanan/'.$prod) ?>"><?= e($service['name']) ?></a><?php endif; ?><?php if ($cityName): ?><span><?= e($cityName) ?></span><?php endif; ?></nav>
 <p class="eyebrow"><?= $cityName ? 'WILAYAH LAYANAN · '.e($cityName) : 'LAYANAN 3DKAN' ?></p><h1><?= e($h1) ?></h1><p><?= e($service ? $service['intro'] : 'Desain, produksi, dan pemasangan huruf timbul, neon box, serta identitas usaha. Kirim kebutuhan dan lokasi untuk membahas penawaran yang sesuai.') ?></p></div></section>
 <section class="section"><div class="container">
 <?php if ($service): ?>
@@ -105,4 +107,4 @@ $robots = $prod && $city && !in_array($prod,$data['legacy_services'],true) ? 'no
 </div></section><section class="section section-soft"><div class="container"><p class="eyebrow">JELAJAHI LEBIH LANJUT</p><h2><?= $service && !$cityName ? 'Koordinasi layanan di Sulawesi Selatan.' : 'Pilihan lain untuk identitas usaha Anda.' ?></h2><div class="related-links">
 <?php if ($service && !$cityName): foreach ($data['cities'] as $slug=>$name): ?><a href="<?= e('/kota/'.$slug) ?>"><?= e($name) ?></a><?php endforeach; else: foreach ($data['services'] as $slug=>$item): if($slug===$prod)continue; ?><a href="<?= e('/layanan/'.$slug) ?>"><?= e($item['name']) ?></a><?php endforeach; endif; ?>
 <a href="/wilayah.html">Semua wilayah layanan ↗</a></div></div></section></main>
-<?php readfile(__DIR__.'/includes/refresh-footer.html'); ?></body></html>
+<?php kan_shared_footer(); ?></body></html>

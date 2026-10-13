@@ -19,8 +19,12 @@ async function main() {
     assert.equal(new Set(ids).size, ids.length, name + ": duplicate IDs");
     for (const match of html.matchAll(/\bhref="#([^"]+)"/g)) assert.ok(ids.includes(match[1]), name + ": missing local anchor " + match[1]);
     for (const source of ["/assets/marketing-20261006/site.js", "/assets/marketing-20261006/tools.js", "/assets/ui/frontend.js", "/assets/ui/brief.js"]) {
-      assert.equal(Array.from(html.matchAll(/\bsrc="([^"]+)"/g)).filter(m => m[1] === source).length, 1, name + ": script dependency must remain exactly once");
+      const versions = { "/assets/marketing-20261006/site.js": "baf0918036519d5d", "/assets/ui/frontend.js": "0f2137981e0b5e6e" };
+      const expectedSource = versions[source] ? source + "?v=" + versions[source] : source;
+      const references = Array.from(html.matchAll(/<script\b[^>]*\bsrc="([^"]+)"/g), m => m[1]).filter(value => value === source || value.startsWith(source + "?"));
+      assert.deepEqual(references, [expectedSource], name + ": exact reviewed script dependency must remain exactly once");
     }
+    if (name === "projects.html") for (const id of ["client-tools", "copy-portfolio-link", "print-portfolio", "client-tool-status", "portfolio-share-fallback", "portfolio-share-url"]) assert.equal(ids.filter(value => value === id).length, 1, name + ": retained toolbar ID " + id);
     assert.ok(!html.includes('id="client-tools-js"') && !html.includes('id="real-portfolio-js"'), name + ": legacy controller must not duplicate listeners");
   }
   const result = await runFrontendControllerTests(js);

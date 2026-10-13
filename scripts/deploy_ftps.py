@@ -189,6 +189,66 @@ class Server:
             raise CurlError(result.returncode, error[:500])
         return result.stdout
 
+    def read_many(self, paths):
+        """Read known existing before-images in serial curl batches; never write."""
+        paths = list(paths)
+        if len(paths) != len(set(paths)):
+            raise ValueError("Duplicate before-image path")
+        for path in paths:
+            safe(path)
+            if path == STATE_PATH:
+                raise ValueError("Release state must use its individual read guard")
+        if not paths:
+            return {}
+        # Custom request/read adapters retain their existing virtual dispatch.
+        # Only this strict curl backend can safely reuse its control connection.
+        if type(self).read is not Server.read or type(self).request is not Server.request:
+            return {path: self.read(path) for path in paths}
+        captured = {}
+        for start in range(0, len(paths), 20):
+            batch = paths[start:start + 20]
+            with tempfile.TemporaryDirectory(prefix="3dkan-before-images-") as folder:
+                outputs = [Path(folder) / f"{index:02d}.bin" for index in range(len(batch))]
+                config = [
+                    "silent", "show-error", "ssl-reqd", "ipv4", "fail-early",
+                    "tlsv1.2", 'tls-max = "1.2"', 'ftp-method = "singlecwd"',
+                    "connect-timeout = 12", "max-time = 60",
+                    "retry = 2", "retry-delay = 1", "retry-max-time = 150",
+                    "user = " + self.quoted(self.user + ":" + self.password),
+                    "write-out = " + self.quoted("%{exitcode}\\n"),
+                ]
+                for path, output in zip(batch, outputs):
+                    self.trace("read", path)
+                    config += [
+                        "url = " + self.quoted("ftp://" + self.host + ":21/public_html/" + quote(path, safe="/")),
+                        "output = " + self.quoted(output),
+                    ]
+                # Repeated URL/output options are sequential in one process.
+                # Existing per-transfer retry limits remain; a batch is bounded.
+                deadline = min(210 * len(batch), 900)
+                try:
+                    result = subprocess.run(
+                        [self.curl, "-q", "--config", "-"],
+                        input=("\n".join(config) + "\n").encode(),
+                        capture_output=True, timeout=deadline,
+                        creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0),
+                    )
+                except subprocess.TimeoutExpired:
+                    raise CurlError(28, f"FTPS before-image batch exceeded the {deadline}-second subprocess deadline") from None
+                if result.returncode:
+                    # Server-controlled stderr may contain credentials or data.
+                    # Keep it captured, but never include any excerpt in reports.
+                    raise CurlError(result.returncode, "FTPS before-image read batch failed")
+                receipts = result.stdout.splitlines()
+                if len(receipts) != len(batch) or any(code != b"0" for code in receipts):
+                    raise RuntimeError("FTPS before-image transfer receipt differs")
+                for path, output in zip(batch, outputs):
+                    if output.is_symlink() or not output.is_file():
+                        raise RuntimeError("FTPS before-image batch output missing")
+                    captured[path] = output.read_bytes()
+            print(f"FTPS before-image batch verified: {len(batch)} existing files", flush=True)
+        return captured
+
     def read(self, path):
         self.trace("read", path)
         try:
@@ -362,11 +422,17 @@ def deploy_changes(server, changes, base, report, *, state_update=None,
             backup = REPORT / "before" / STATE_PATH
             backup.parent.mkdir(parents=True, exist_ok=True)
             backup.write_bytes(old_state)
+    old_by_path = {path: previous(base, "public_html/" + safe(path)) for path in changes}
+    known_paths = [path for path in changes if old_by_path[path] is not None]
+    reader = getattr(server, "read_many", None)
+    before_images = reader(known_paths) if callable(reader) else {}
+    if callable(reader) and set(before_images) != set(known_paths):
+        raise RuntimeError("FTPS before-image batch inventory differs")
     prepared = []
     for path in changes:
         desired = (SITE / safe(path)).read_bytes()
-        old = previous(base, "public_html/" + path)
-        remote = server.read(path)
+        old = old_by_path[path]
+        remote = before_images[path] if path in before_images else server.read(path)
         if remote == desired:
             report["already_current"].append(path)
             continue
