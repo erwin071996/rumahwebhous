@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noindex, nofollow, noarchive">
+    <meta name="referrer" content="no-referrer">
+    <title>Pekerja Web — Status Tim</title>
+    <link rel="stylesheet" href="./dashboard.css">
+    <script src="./dashboard.js" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#teams">Langsung ke status tim</a>
+    <main class="dashboard">
+      <header class="page-header">
+        <div>
+          <p class="eyebrow">3DKan · Ruang Owner</p>
+          <h1>Pekerja Web<span class="heading-dot" aria-hidden="true">.</span></h1>
+          <p class="page-description">Status tim, hasil terakhir, dan langkah berikut dalam satu tampilan.</p>
+        </div>
+        <div class="connection-panel">
+          <span id="connection-badge" class="connection-badge" data-state="loading">Memuat sumber</span>
+          <p id="connection-message" role="status" aria-live="polite">Menunggu data status yang dapat diverifikasi.</p>
+          <button id="refresh-button" class="refresh-button" type="button">Periksa sumber</button>
+        </div>
+      </header>
+
+      <aside class="publication-note" aria-label="Status publikasi dashboard">
+        <span aria-hidden="true">◈</span>
+        <p><strong>Publikasi dashboard tertahan.</strong> Akses Owner-only harus diverifikasi sebelum dashboard diterbitkan.</p>
+      </aside>
+
+      <section class="source-panel" aria-label="Waktu sumber dan pembaruan tampilan">
+        <div class="source-time">
+          <span class="field-label">Sumber terakhir diperbarui</span>
+          <time id="source-updated">Belum tersedia</time>
+        </div>
+        <div class="source-time">
+          <span class="field-label">Tampilan terakhir diperiksa</span>
+          <time id="view-checked">Belum diperiksa</time>
+        </div>
+        <p class="source-explanation">Tampilan memeriksa JSON setiap <strong>3 detik</strong> saat tab terlihat. Sumber diperbarui <strong>hanya saat laporan masuk</strong>; pemeriksaan tampilan bukan bukti tim sedang bekerja.</p>
+      </section>
+
+      <section class="release-panel" aria-labelledby="release-heading">
+        <div class="release-main">
+          <p class="eyebrow">PRIORITAS RILIS</p>
+          <div class="release-title-row">
+            <h2 id="release-heading">Prioritas rilis</h2>
+            <span id="release-stage" class="stage-badge" data-stage="unknown">Belum diketahui</span>
+          </div>
+          <p id="release-summary">Bukti rilis belum dimuat. Source/draf, uji, dan live ditampilkan sebagai tahap yang berbeda.</p>
+          <p id="release-history" class="history-note" hidden></p>
+        </div>
+        <div class="release-evidence">
+          <span class="field-label">Bukti terakhir</span>
+          <span id="release-sha" class="sha-value">SHA belum tersedia</span>
+          <a id="release-pr" class="evidence-link" hidden target="_blank" rel="noopener noreferrer">Lihat PR <span aria-hidden="true">↗</span></a>
+          <time id="release-observed">Waktu bukti belum tersedia</time>
+        </div>
+      </section>
+
+      <section class="team-section" aria-labelledby="teams-heading">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">DELAPAN KARTU · BERDASARKAN BUKTI</p>
+            <h2 id="teams-heading">Status tim</h2>
+          </div>
+          <span id="freshness-note" class="freshness-note">Status tanpa bukti segar: tidak diketahui</span>
+        </div>
+        <div id="status-counts" class="status-counts" aria-label="Jumlah tim per status"></div>
+        <div id="teams" class="team-grid" aria-busy="true">
+          <p class="loading-note">Memuat delapan kartu status tim…</p>
+        </div>
+      </section>
+
+      <footer class="page-footer">
+        <p>Ikon bergerak hanya untuk status <strong>Bekerja</strong> dengan bukti segar. Bukti yang lebih lama dari 15 menit, belum tersedia, atau gagal dibaca ditandai <strong>Tidak diketahui</strong>.</p>
+        <p>Situs dapat tersedia 24 jam. Aktivitas agent tidak dipantau terus-menerus; feed ini mengikuti laporan yang masuk. Semua waktu ditampilkan dalam UTC.</p>
+      </footer>
+      <noscript><p class="noscript-note">JavaScript diperlukan untuk memuat status. Tidak ada status kerja yang dapat disimpulkan dari halaman ini sampai sumber berhasil dibaca.</p></noscript>
+    </main>
+
+    <template id="team-card-template">
+      <article class="team-card" data-status="unknown">
+        <div class="card-header">
+          <div class="team-identity">
+            <span class="team-symbol" aria-hidden="true"></span>
+            <h3 class="team-name"></h3>
+          </div>
+          <span class="status-badge"><span class="status-icon" aria-hidden="true">?</span><span class="status-label">Tidak diketahui</span></span>
+        </div>
+        <span class="field-label result-label">Hasil terakhir</span>
+        <p class="team-summary">Bukti status belum tersedia.</p>
+        <p class="team-history history-note" hidden></p>
+        <dl class="team-details">
+          <div><dt>Langkah berikut</dt><dd class="team-next">Menunggu laporan terverifikasi.</dd></div>
+          <div><dt>Menunggu siapa</dt><dd class="team-waiting">Belum diketahui</dd></div>
+        </dl>
+        <div class="card-footer">
+          <time class="team-observed">Bukti belum tersedia</time>
+          <div class="team-evidence" aria-label="Tautan bukti"></div>
+        </div>
+      </article>
+    </template>
+  </body>
+</html>

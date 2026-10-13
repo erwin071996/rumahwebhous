@@ -1,0 +1,97 @@
+{
+  "schemaVersion": 1,
+  "updatedAt": null,
+  "staleAfterSeconds": 900,
+  "refreshIntervalMs": 3000,
+  "sourceMode": "report-driven",
+  "release": {
+    "label": "Prioritas rilis",
+    "stage": "unknown",
+    "sha": null,
+    "prUrl": null,
+    "summary": "Belum ada bukti rilis.",
+    "observedAt": null
+  },
+  "teams": [
+    {
+      "id": "backend",
+      "name": "Backend",
+      "status": "unknown",
+      "summary": "Belum ada laporan terverifikasi.",
+      "nextStep": "Menunggu feed privat yang dapat diverifikasi.",
+      "waitingFor": null,
+      "observedAt": null,
+      "evidence": []
+    },
+    {
+      "id": "frontend",
+      "name": "Frontend",
+      "status": "unknown",
+      "summary": "Belum ada laporan terverifikasi.",
+      "nextStep": "Menunggu feed privat yang dapat diverifikasi.",
+      "waitingFor": null,
+      "observedAt": null,
+      "evidence": []
+    },
+    {
+      "id": "pemeriksa",
+      "name": "Pemeriksa",
+      "status": "unknown",
+      "summary": "Belum ada laporan terverifikasi.",
+      "nextStep": "Menunggu feed privat yang dapat diverifikasi.",
+      "waitingFor": null,
+      "observedAt": null,
+      "evidence": []
+    },
+    {
+      "id": "cms",
+      "name": "CMS",
+      "status": "unknown",
+      "summary": "Belum ada laporan terverifikasi.",
+      "nextStep": "Menunggu feed privat yang dapat diverifikasi.",
+      "waitingFor": null,
+      "observedAt": null,
+      "evidence": []
+    },
+    {
+      "id": "kontenseo",
+      "name": "KontenSEO",
+      "status": "unknown",
+      "summary": "Belum ada laporan terverifikasi.",
+      "nextStep": "Menunggu feed privat yang dapat diverifikasi.",
+      "waitingFor": null,
+      "observedAt": null,
+      "evidence": []
+    },
+    {
+      "id": "marketing",
+      "name": "Marketing",
+      "status": "unknown",
+      "summary": "Belum ada laporan terverifikasi.",
+      "nextStep": "Menunggu feed privat yang dapat diverifikasi.",
+      "waitingFor": null,
+      "observedAt": null,
+      "evidence": []
+    },
+    {
+      "id": "rilis",
+      "name": "Rilis",
+      "status": "unknown",
+      "summary": "Belum ada laporan terverifikasi.",
+      "nextStep": "Menunggu feed privat yang dapat diverifikasi.",
+      "waitingFor": null,
+      "observedAt": null,
+      "evidence": []
+    },
+    {
+      "id": "pemantau",
+      "name": "Pemantau",
+      "status": "unknown",
+      "summary": "Belum ada laporan terverifikasi.",
+      "nextStep": "Menunggu feed privat yang dapat diverifikasi.",
+      "waitingFor": null,
+      "observedAt": null,
+      "evidence": []
+    }
+  ]
+}
