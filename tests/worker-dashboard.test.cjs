@@ -37,6 +37,7 @@ function browser() {
     },
     createDocumentFragment() { const node = new Element(); node.fragment = true; return node; },
     createElement() { return new Element(); },
+    createElementNS() { return new Element(); },
     createTextNode(value) { const node = new Element(); node.textContent = value; return node; },
     addEventListener(key, handler) { events[key] = handler; },
     querySelectorAll() { return (ids.teams?.children || []).filter(node => node.dataset.status === 'working'); }
@@ -93,7 +94,9 @@ test('eight factual cards and independent source/view timestamps', async () => {
   const app = browser();
   await app.respond(app.fresh());
   assert.equal(app.ids.teams.children.length, 8);
+  assert.equal(app.ids['activity-routes'].children.length, 8);
   assert.equal(app.ids.teams.children[0].dataset.status, 'working');
+  assert.equal(app.ids['activity-routes'].children[0].dataset.status, 'working');
   assert.notEqual(app.ids['source-updated'].dateTime, undefined);
   assert.match(app.ids['view-checked'].dateTime, /Z$/);
   assert.equal(app.requests[0].options.cache, 'no-store');
@@ -118,6 +121,7 @@ test('hidden aborts request and pauses polling; visible refreshes immediately', 
   const signal = app.requests[0].options.signal;
   await app.visible(false);
   assert.equal(signal.aborted, true);
+  assert.ok(app.ids['activity-routes'].children.every(route => route.dataset.status === 'unknown'));
   await app.advance(60000);
   assert.equal(app.requests.length, 1);
   await app.visible(true);
@@ -157,13 +161,16 @@ test('stale or unreadable evidence stops work and preserves labelled history', a
   data.teams[0].observedAt = new Date(Date.parse(data.updatedAt) - 901000).toISOString().replace('.000Z', 'Z');
   await app.respond(data);
   assert.equal(app.ids.teams.children[0].dataset.status, 'unknown');
+  assert.equal(app.ids['activity-routes'].children[0].dataset.status, 'unknown');
   app.click();
   await app.respond(app.fresh());
   assert.equal(app.ids.teams.children[0].dataset.status, 'working');
+  assert.equal(app.ids['activity-routes'].children[0].dataset.status, 'working');
   await app.advance(3000);
   app.requests.at(-1).reject(new Error('offline'));
   await flush();
   assert.equal(app.ids.teams.children[0].dataset.status, 'unknown');
+  assert.equal(app.ids['activity-routes'].children[0].dataset.status, 'unknown');
   assert.match(app.ids.teams.children[0].fields['.team-history'].textContent, /riwayat|terakhir tercatat/);
 });
 
@@ -186,6 +193,7 @@ test('stale feed time demotes all cards even when JSON can still be fetched', as
   data.teams.forEach(team => { team.observedAt = data.updatedAt; });
   await app.respond(data);
   assert.ok(app.ids.teams.children.every(card => card.dataset.status === 'unknown'));
+  assert.ok(app.ids['activity-routes'].children.every(route => route.dataset.status === 'unknown'));
   assert.equal(app.ids['connection-badge'].dataset.state, 'stale');
 });
 
