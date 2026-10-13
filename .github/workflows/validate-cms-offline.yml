@@ -24,7 +24,7 @@ jobs:
         shell: bash
         run: |
           test "$(git rev-parse HEAD)" = "$CMS_CANDIDATE_SHA"
-          git diff --exit-code 059a4414b0a7bbc48608246d79b5703ba6b96854 HEAD -- public_html
+          git diff --exit-code c700dae84430ceae55ab6746e9fe51cbebfa2eda HEAD -- public_html
           python3 - <<'PY'
           import hashlib
           from pathlib import Path

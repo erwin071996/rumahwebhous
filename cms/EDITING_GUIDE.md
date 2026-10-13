@@ -69,6 +69,6 @@ Kontrak dan cara uji fokus tersedia di [CLOUD_FIXTURE.md](CLOUD_FIXTURE.md).
 
 Paket ini diselaraskan dengan `main` pada `c700dae84430ceae55ab6746e9fe51cbebfa2eda`;
 tree `public_html` identik dan Pilot/suite49/README tetap cocok dengan hash guard.
-Workflow CMS masih memakai `059a441…`. Handoff Backend: pin baseline public-tree
-ke `c700dae…`, dengan scope seluruh `public_html`, exact-head dan hash tetap utuh.
+Workflow CMS memin baseline public-tree ke `c700dae…`, dengan scope seluruh
+`public_html`, exact-head dan hash tetap utuh; koreksi ini tetap direview Backend.
 Pin CMS ini berbeda dari pin sumber build SharedBrand `dd31d730…` di atas.
