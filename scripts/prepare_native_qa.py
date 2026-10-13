@@ -4,9 +4,11 @@ import argparse
 from datetime import datetime, timezone
 import hashlib
 import json
+import os
 from pathlib import Path, PurePosixPath
 import re
 import ssl
+import subprocess
 import time
 from urllib.error import HTTPError, URLError
 from urllib.request import HTTPRedirectHandler, HTTPSHandler, Request, build_opener
@@ -77,6 +79,67 @@ def read_public(entry, opener):
         time.sleep(attempt + 1)
 
 
+def shared_brand_overrides(root):
+    """Capture exact candidate bytes before legacy public dependency downloads."""
+    repo = root.resolve().parent
+    relative_manifest = "docs/shared-brand-build.json"
+    manifest_file = repo / relative_manifest
+    if not manifest_file.exists():
+        return []
+    if manifest_file.is_symlink() or not manifest_file.is_file():
+        raise RuntimeError("Unsafe SharedBrand build manifest")
+    tracked = subprocess.run(["git", "show", "HEAD:" + relative_manifest], cwd=repo,
+                             stdout=subprocess.PIPE, stderr=subprocess.DEVNULL, timeout=10)
+    if tracked.returncode or tracked.stdout != manifest_file.read_bytes():
+        raise RuntimeError("SharedBrand fixture requires the tracked exact-head manifest")
+    expected_head = os.environ.get("QA_CANDIDATE_SHA")
+    if expected_head:
+        if not re.fullmatch(r"[0-9a-f]{40}", expected_head):
+            raise ValueError("Invalid SharedBrand candidate identity")
+        actual_head = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=repo,
+                                              stderr=subprocess.DEVNULL, timeout=10).decode("ascii").strip()
+        if actual_head != expected_head:
+            raise RuntimeError("SharedBrand fixture candidate identity mismatch")
+    manifest = json.loads(tracked.stdout.decode("utf-8"))
+    if manifest.get("schema_version") != 1 or manifest.get("route_count") != 500:
+        raise ValueError("Invalid SharedBrand build manifest")
+    records = manifest.get("outputs")
+    if not isinstance(records, list):
+        raise ValueError("Invalid SharedBrand generated output inventory")
+    token_records = [entry for entry in records if entry.get("path") == "public_html/assets/ui/brand-tokens.css"]
+    if len(token_records) != 1:
+        raise ValueError("Missing SharedBrand generated token record")
+    token = token_records[0]
+    entries = [
+        {"path": "/assets/ui/brand-tokens.css", "bytes": token.get("bytes"),
+         "sha256": token.get("sha256"), "mime": "text/css",
+         "checkoutSource": "public_html/assets/ui/brand-tokens.css"},
+        {"path": "/assets/ui/design-system.css", "bytes": 12437,
+         "sha256": "66a28499c514cb36c4e43ef1bad89782f963a5bf93146fa81f7370f7e85fef74",
+         "mime": "text/css", "checkoutSource": "public_html/assets/ui/design-system.css"},
+        {"path": "/assets/marketing-20261006/site.js", "bytes": 10892,
+         "sha256": "baf0918036519d5d847d41ee812c5f7823823a41158973d999e9ce317cfa0c5d",
+         "mime": "javascript", "checkoutSource": "public_html/assets/marketing-20261006/site.js"},
+    ]
+    captured = []
+    for entry in entries:
+        relative = validate_entry(entry)
+        if entry["checkoutSource"] != "public_html/" + str(relative):
+            raise ValueError("Invalid SharedBrand candidate fixture source")
+        source = root.joinpath(*relative.parts)
+        if source.is_symlink() or not source.is_file() or not source.resolve().is_relative_to(root.resolve()):
+            raise RuntimeError("Missing or unsafe SharedBrand candidate: " + entry["path"])
+        with source.open("rb") as stream:
+            data = stream.read(entry["bytes"] + 1)
+        verify_data(entry, data, "text/javascript" if entry["mime"] == "javascript" else entry["mime"])
+        try:
+            data.decode("utf-8")
+        except UnicodeError:
+            raise RuntimeError("Invalid SharedBrand candidate encoding: " + entry["path"]) from None
+        captured.append((entry, relative, data))
+    return captured
+
+
 def prepare(root, manifest_file, output):
     manifest = json.loads(manifest_file.read_text(encoding="utf-8"))
     if manifest.get("schemaVersion") != 1 or manifest.get("origin") != ORIGIN:
@@ -88,12 +151,14 @@ def prepare(root, manifest_file, output):
     if len(set(paths)) != len(paths):
         raise ValueError("Duplicate public QA dependency")
     root = root.resolve()
+    shared_overrides = shared_brand_overrides(root)
     context = ssl.create_default_context()
     context.minimum_version = ssl.TLSVersion.TLSv1_2
     opener = build_opener(NoRedirect(), HTTPSHandler(context=context))
     records = []
     candidate_records = []
     fixture = output.parent / "fixture"
+    baseline_fixture = output.parent / "baseline-fixture"
     output.parent.mkdir(parents=True, exist_ok=True)
     for entry, relative in zip(entries, paths):
         source = entry.get("checkoutSource")
@@ -109,16 +174,29 @@ def prepare(root, manifest_file, output):
         else:
             data, mime = read_public(entry, opener)
             kind = "public HTTPS GET (default verified TLS; redirects refused)"
-        target.parent.mkdir(parents=True, exist_ok=True)
-        target.write_bytes(data)
+        if not shared_overrides:
+            target.parent.mkdir(parents=True, exist_ok=True)
+            target.write_bytes(data)
         artifact_file = fixture.joinpath(*relative.parts)
         artifact_file.parent.mkdir(parents=True, exist_ok=True)
         artifact_file.write_bytes(data)
+        if shared_overrides:
+            original_file = baseline_fixture.joinpath(*relative.parts)
+            original_file.parent.mkdir(parents=True, exist_ok=True)
+            original_file.write_bytes(data)
         records.append({"path": entry["path"], "source": kind, "status": 200 if source is None else None,
                         "mime": mime, "bytes": len(data), "sha256": hashlib.sha256(data).hexdigest(),
                         "obtainedAt": datetime.now(timezone.utc).isoformat()})
         output.write_text(json.dumps({"manifestObservation": manifest.get("observedAt"),
                           "provenance": manifest.get("provenance"), "records": records}, indent=2) + "\n", encoding="utf-8")
+    shared_records = []
+    for entry, relative, data in shared_overrides:
+        artifact_file = fixture.joinpath(*relative.parts)
+        artifact_file.parent.mkdir(parents=True, exist_ok=True)
+        artifact_file.write_bytes(data)
+        shared_records.append({"path": entry["path"], "source": "reviewed exact-head SharedBrand candidate checkout",
+                               "mime": entry["mime"], "bytes": len(data),
+                               "sha256": hashlib.sha256(data).hexdigest()})
     # Derivatives are a separate reviewed inventory; original 17 inputs stay exact.
     derivative_manifest = json.loads(Path("tests/homepage-image-manifest.json").read_text(encoding="utf-8"))
     expected_derivatives = {
@@ -159,7 +237,8 @@ def prepare(root, manifest_file, output):
                                   "bytes": len(data), "sha256": hashlib.sha256(data).hexdigest()})
     output.write_text(json.dumps({"manifestObservation": manifest.get("observedAt"),
                       "provenance": manifest.get("provenance"), "records": records,
-                      "candidateFiles": candidate_records}, indent=2) + "\n", encoding="utf-8")
+                      "candidateFiles": candidate_records, "sharedBrandOverrides": shared_records,
+                      "baselineFixture": "baseline-fixture" if shared_overrides else None}, indent=2) + "\n", encoding="utf-8")
     print(f"Prepared {len(records)} verified dependencies and {len(candidate_records)} reviewed candidate files for isolated loopback QA.")
 
 

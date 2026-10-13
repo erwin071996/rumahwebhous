@@ -29,6 +29,10 @@ async function check(name,fn) {try{await fn();report(name,"PASS");}catch(e){repo
 const analytics=u=>/^(www\.googletagmanager\.com|www\.google-analytics\.com|region\d+\.google-analytics\.com)$/.test(u.hostname);
 async function context(origin,viewport,js=true) {
  const c=await browser.newContext({viewport,javaScriptEnabled:js,serviceWorkers:"block"});
+ if(js)await c.addInitScript(()=>{
+  Object.defineProperty(navigator,"clipboard",{configurable:true,value:{writeText:async()=>{throw Error("QA mocked clipboard denial");}}});
+  window.__kanPrintCalls=0;window.print=()=>{window.__kanPrintCalls++;};
+ });
  await c.routeWebSocket("**/*",ws=>{violations.push({category:"websocket"});ws.close();});
  await c.route("**/*",route=>{
   const req=route.request(),u=new URL(req.url()),method=req.method(),body=req.postData()||"";
@@ -45,12 +49,14 @@ async function context(origin,viewport,js=true) {
  });
  return c;
 }
-async function open(c,origin,url) {
+async function open(c,origin,url,js=true) {
  const p=await c.newPage();p.setDefaultTimeout(5000);
  p.on("pageerror",e=>runtimeErrors.push({origin:origin===base?"candidate":"baseline",path:url,error:e.message}));
  p.on("response",r=>{if(r.status()>=400&&["script","stylesheet","image"].includes(r.request().resourceType()))unavailable.push({path:new URL(r.url()).pathname,status:r.status()});});
  const r=await p.goto(new URL(url,origin).href,{waitUntil:"load",timeout:15000});
  assert(r&&r.status()===200,"Expected HTTP200 for "+url);
+ if(js&&await p.locator(".knowledge-search").count())await p.waitForFunction(()=>/halaman tersedia/.test(document.querySelector("#search-status").textContent)&&document.querySelectorAll("#knowledge-results a").length>0,null,{timeout:5000});
+ if(js)await settle(p);
  return p;
 }
 async function signature(p) {
@@ -88,7 +94,22 @@ async function cssGate() {
   const result=await p.evaluate(css=>{
    const stripped=css.replace(/\/\*[\s\S]*?\*\//g,""),preludes=Array.from(stripped.matchAll(/([^{}]+)\{/g),m=>m[1].trim());
    const selectors=preludes.filter(s=>!s.startsWith("@"));
-   if(!selectors.every(s=>CSS.supports("selector("+s+")")))throw Error("Authored selector rejected");
+   function splitSelectorList(value) {
+    const parts=[],stack=[];let quote="",start=0;
+    const append=end=>{const part=value.slice(start,end).trim();if(!part)throw Error("Empty authored selector");parts.push(part);};
+    for(let i=0;i<value.length;i++) {
+     const char=value[i];
+     if(char==="\\"){if(i+1===value.length)throw Error("Trailing selector escape");i++;continue;}
+     if(quote){if(char===quote)quote="";continue;}
+     if(char==='"'||char==="'"){quote=char;continue;}
+     if(char==="("||char==="["){stack.push(char);continue;}
+     if(char===")"||char==="]"){if(stack.pop()!==(char===")"?"(":"["))throw Error("Unbalanced authored selector");continue;}
+     if(char===","&&!stack.length){append(i);start=i+1;}
+    }
+    if(quote||stack.length)throw Error("Unclosed authored selector");
+    append(value.length);return parts;
+   }
+   for(const list of selectors)for(const selector of splitSelectorList(list))if(!CSS.supports("selector("+selector+")"))throw Error("Authored selector rejected: "+selector);
    const sheet=new CSSStyleSheet();sheet.replaceSync(css);
    const flatten=rules=>Array.from(rules).reduce((n,r)=>n+(r.type===CSSRule.STYLE_RULE?1:r.cssRules?flatten(r.cssRules):0),0);
    return{authored:selectors.length,parsed:flatten(sheet.cssRules)};
@@ -147,6 +168,17 @@ async function modules(p,url) {
    assert.equal(await p.locator(".real-card:not([hidden])").count(),count);
    assert.equal(await p.locator('.real-filter[aria-pressed="true"]').count(),1);
   }
+  for(const id of ["client-tools","copy-portfolio-link","print-portfolio","client-tool-status","portfolio-share-fallback","portfolio-share-url"])assert.equal(await p.locator("#"+id).count(),1,"Retained toolbar ID: "+id);
+  assert.equal(await p.locator("#copy-portfolio-link").isDisabled(),false);
+  assert.equal(await p.locator("#print-portfolio").isDisabled(),false);
+  await p.locator("#copy-portfolio-link").click();await focused(p,"#portfolio-share-url");
+  assert(await p.locator("#portfolio-share-fallback").isVisible());
+  assert.equal(await p.locator("#portfolio-share-url").inputValue(),new URL("/projects.html#studi-kasus",base).href);
+  assert.equal(await p.locator("#portfolio-share-url").getAttribute("name"),null);
+  assert.equal(await p.locator("#portfolio-share-url").getAttribute("readonly"),"");
+  assert(!/tersalin/.test(await p.locator("#client-tool-status").textContent()));
+  await p.locator("#print-portfolio").click();
+  assert.equal(await p.evaluate(()=>window.__kanPrintCalls),1,"Toolbar print invokes existing controller once (mocked)");
   const trigger=p.locator("#cimb-niaga .real-video");await trigger.click();await focused(p,"#real-video-close");
   await p.keyboard.press("Escape");await focused(p,"#cimb-niaga .real-video");
   assert(await p.locator("#real-video-player").evaluate(v=>v.paused&&!v.hasAttribute("src")));
@@ -169,7 +201,7 @@ async function modules(p,url) {
 async function noJs(url) {
  const c=await context(base,{width:390,height:844},false);
  try {
-  const p=await open(c,base,url);
+  const p=await open(c,base,url,false);
   assert.equal(await p.locator(".menu-toggle").isVisible(),false);assert(await p.locator("#site-nav").isVisible());
   assert.equal(await p.locator("body").evaluate(e=>e.classList.contains("kan-nav-ready")),false);
   assert(await p.locator("#site-nav > a[href]").first().evaluate(e=>{const r=e.getBoundingClientRect();return r.width>0&&r.height>0;}));
@@ -204,7 +236,7 @@ async function noJs(url) {
  } catch(e){report("focused runner setup","FAIL",e.message);}
  finally {
   if(browser)await browser.close().catch(e=>report("browser cleanup","FAIL",e.message));
-  const reportData={candidateSha:process.env.QA_CANDIDATE_SHA||"UNKNOWN",baselineSha:"dd31d7305d1571b4fde960ed0b942135a88388a1",runtime:{playwright:require("playwright/package.json").version,chromium:version||null},results,artifacts,blocked,violations,unavailable,runtimeErrors,visualReview:"PENDING",limitations:["Screenshots are generated evidence; parent must inspect pixels for visual acceptance.","MP4 error context only; existing reviewed real-media proof remains separate.","No production hosting, API/config/auth source, settings, form POST, WA navigation or CMS writer used.","Legacy /portfolio.php requests use a synthetic empty JSON list; existing rendered cards are retained. Search uses the exact local public search-index snapshot."]};
+  const reportData={candidateSha:process.env.QA_CANDIDATE_SHA||"UNKNOWN",baselineSha:"dd31d7305d1571b4fde960ed0b942135a88388a1",runtime:{playwright:require("playwright/package.json").version,chromium:version||null},results,artifacts,blocked,violations,unavailable,runtimeErrors,visualReview:"PENDING",limitations:["Screenshots are generated evidence; parent must inspect pixels for visual acceptance.","MP4 error context only; existing reviewed real-media proof remains separate.","Clipboard denial and window.print are mocked to verify retained toolbar plumbing; no PDF rendering claim.","No production hosting, API/config/auth source, settings, form POST, WA navigation or CMS writer used.","Legacy /portfolio.php requests use a synthetic empty JSON list; existing rendered cards are retained. Search uses the exact local public search-index snapshot."]};
   await fs.writeFile(path.join(out,"results.json"),JSON.stringify(reportData,null,2)+"\n");
   console.log(JSON.stringify({passed:results.filter(r=>r.status==="PASS").length,failed:results.filter(r=>r.status==="FAIL").length,diagnostics:results.filter(r=>r.status!=="PASS"),artifactDir:out},null,2));
   if(results.some(r=>r.status!=="PASS"))process.exitCode=1;

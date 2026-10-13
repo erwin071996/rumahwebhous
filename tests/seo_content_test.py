@@ -6,6 +6,7 @@ import copy
 import hashlib
 import json
 import os
+import re
 from pathlib import Path
 import shutil
 import subprocess
@@ -22,6 +23,7 @@ PINNED = {
 }
 FILES = ("seo.php", "includes/refresh-data.json", "includes/tracking-query.php",
          "includes/refresh-header.html", "includes/refresh-footer.html", "404.html")
+SHARED_FILES = ("includes/shared-brand.php", "includes/site-brand.json", "includes/refresh-brand-head.html")
 LEGACY = ("name", "symbol", "intro", "body", "options", "guide", "image")
 OPTIONAL = ("seo_title", "seo_description", "detail_heading", "detail_sections")
 
@@ -56,6 +58,26 @@ class Page(HTMLParser):
         if len(found) != 1:
             raise AssertionError("Expected exactly one " + tag + " " + str(attrs))
         return found[0]
+
+def main_content(body):
+    matches = re.findall(r"<main\b[^>]*>.*?</main\s*>", body, re.I | re.S)
+    if len(matches) != 1:
+        raise AssertionError("Expected exactly one public main")
+    return matches[0]
+
+def approved_main(body):
+    value = main_content(body)
+    opening = re.match(r"<main\b[^>]*>", value, re.I).group()
+    if not re.search(r"\btabindex\s*=", opening, re.I):
+        return opening[:-1] + ' tabindex="-1">' + value[len(opening):]
+    return value
+
+def head_metadata(body):
+    page = Page(body)
+    return [(n["tag"], n["attrs"], n["text"]) for n in page.nodes
+            if n["tag"] in {"title", "meta"}
+            or n["tag"] == "link" and n["attrs"].get("rel") == "canonical"
+            or n["tag"] == "script" and n["attrs"].get("type") == "application/ld+json"]
 
 PHP_RUNNER = r"""
 $site=$argv[1]; $_SERVER['REQUEST_URI']=$argv[2];
@@ -96,7 +118,8 @@ class SeoContent(unittest.TestCase):
     @classmethod
     def prepare(cls, source, name):
         target = Path(cls.temp.name) / name
-        for relative in FILES:
+        dependencies = FILES + (SHARED_FILES if "require_once __DIR__ . '/includes/shared-brand.php';" in (source / "seo.php").read_text(encoding="utf-8") else ())
+        for relative in dependencies:
             original = source / relative
             if original.is_symlink() or not original.is_file():
                 raise RuntimeError("Missing/unsafe renderer dependency: " + relative)
@@ -114,6 +137,14 @@ class SeoContent(unittest.TestCase):
         result = subprocess.run(command, capture_output=True, timeout=10, check=True)
         self.assertEqual(result.stderr, b"", "PHP emitted a warning/error")
         return json.loads(result.stdout.decode("utf-8"))
+    def assert_content_response(self, new, old):
+        self.assertEqual(new["status"], old["status"])
+        if not re.search(r"<main\b", old["body"], re.I):
+            self.assertEqual(new["body"], old["body"])
+            return
+        self.assertEqual(main_content(new["body"]), approved_main(old["body"]))
+        self.assertEqual(head_metadata(new["body"]), head_metadata(old["body"]))
+
     def fixture(self, name, change):
         target = self.prepare(self.new, name)
         data = copy.deepcopy(self.new_data)
@@ -149,7 +180,7 @@ class SeoContent(unittest.TestCase):
                 old = self.render(self.old, "/layanan/" + slug)
                 new = self.render(self.new, "/layanan/" + slug)
                 self.assertEqual(old["status"], 200)
-                self.assertEqual(new, old)
+                self.assert_content_response(new, old)
 
     def test_03_metadata_canonical_robots_and_schema(self):
         response = self.render()
@@ -177,7 +208,7 @@ class SeoContent(unittest.TestCase):
         sections = self.neon["detail_sections"]
         self.assertEqual(len(sections), 3)
         old = Page(self.render(self.old)["body"])
-        self.assertEqual(len(page.find("h2")), len(old.find("h2")) + 3)
+        self.assertEqual(sum("main" in n["ancestors"] for n in page.find("h2")), sum("main" in n["ancestors"] for n in old.find("h2")) + 3)
         ids = [n["attrs"]["id"] for n in page.nodes if "id" in n["attrs"]]
         self.assertEqual(len(ids), len(set(ids)))
         for section in sections:
@@ -213,11 +244,16 @@ class SeoContent(unittest.TestCase):
                      if case_id in n["ancestors"] and n["attrs"].get("class") == "case-cta"]
             self.assertEqual(len(links), 1, case_id)
             restored = restored.replace(addition, "", 1)
-        self.assertEqual(restored, old_html)
+        self.assertEqual(main_content(restored), approved_main(old_html))
+        self.assertEqual(head_metadata(restored), head_metadata(old_html))
+        old_page = Page(old_html)
+        for id, tag in {"client-tools":"div", "copy-portfolio-link":"button", "print-portfolio":"button",
+                        "client-tool-status":"span", "portfolio-share-fallback":"div", "portfolio-share-url":"input"}.items():
+            self.assertEqual(page.one(tag, id=id)["attrs"], old_page.one(tag, id=id)["attrs"])
 
     def test_07_optional_absence_retains_legacy_render(self):
         target = self.fixture("no-editorial", lambda record: [record.pop(k) for k in OPTIONAL])
-        self.assertEqual(self.render(target), self.render(self.old))
+        self.assert_content_response(self.render(target), self.render(self.old))
 
     def test_08_text_is_escaped_once(self):
         value = '<img src=x onerror="synthetic()"> & "quoted" \'single\''
@@ -279,7 +315,7 @@ class SeoContent(unittest.TestCase):
         self.assertEqual(self.render(uri="/seo.php", params={"produk": "neon-box"}),
                          self.render(self.old, "/seo.php", {"produk": "neon-box"}))
         self.assertEqual(self.render(uri="/seo.php", params={"produk": "neon-box"})["status"], 301)
-        self.assertEqual(self.render(uri="/layanan/unknown"), self.render(self.old, "/layanan/unknown"))
+        self.assert_content_response(self.render(uri="/layanan/unknown"), self.render(self.old, "/layanan/unknown"))
         self.assertEqual(self.render(uri="/layanan/unknown")["status"], 404)
 
 if __name__ == "__main__":

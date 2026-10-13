@@ -44,7 +44,7 @@ jobs:
           python3 - <<'PY'
           import hashlib
           from pathlib import Path
-          expected = {"public_html/assets/ui/design-system.css":"66a28499c514cb36c4e43ef1bad89782f963a5bf93146fa81f7370f7e85fef74","templates/presentation/shared-header.html":"7a1a98936698f57cfec2cee7e54f0e64c7176dba16c7acfb916125e9b51bc652","templates/presentation/shared-footer.html":"1dcb943ed1bf607aab248361ebf075d498f083fc01a8a4984687ebf72f12e64a","templates/presentation/shared-cta.html":"d1597bb8b7f315eff0fa600d30b2f6a5dccdcfa4340e544841d5554b71f3761e","public_html/assets/marketing-20261006/site.js":"baf0918036519d5d847d41ee812c5f7823823a41158973d999e9ce317cfa0c5d","public_html/assets/refresh-20261006/site-v2.js":"16cf9ec47fb3d251b3439eaf717f9c9e67abe58a5eb21f8d0027bc82f27b27b4","public_html/assets/refresh-20261006/site.js":"75c087398bf581cba22e65d75a86c76e612459e9be394a613d408f5f73c910b1","config/site-brand.json":"eba75c23cd438cdea7d0bfad80943240822c575f91c4d6180036f293a6c56727","config/shared-brand-inputs.json":"1aa590ebe6ecd78c7322020dcfde541b0de5f68df93be03a624e1ec56f3aa93d","scripts/build_shared_brand.py":"de561c0c423a2a3ecf44257fff555f2b29e30d261606e760ecc95a1c5813a0c4","scripts/check_shared_brand.py":"4e6f7c3618c8777832ed7aaf1699324863b50f082f87b9b6cfc388711708671e","tests/shared-brand-native.cjs":"f719051d3757e60ad30d6c72f074e1d04bfb2c9555bcfc10f261bb20b0bae80b","scripts/prepare_shared_brand_preview.py":"7d0a5f635ed714f1abdf7e81522b4528e8ec48149d40b15cfbae43107b8609d9"}
+          expected = {"public_html/assets/ui/design-system.css":"66a28499c514cb36c4e43ef1bad89782f963a5bf93146fa81f7370f7e85fef74","templates/presentation/shared-header.html":"7a1a98936698f57cfec2cee7e54f0e64c7176dba16c7acfb916125e9b51bc652","templates/presentation/shared-footer.html":"1dcb943ed1bf607aab248361ebf075d498f083fc01a8a4984687ebf72f12e64a","templates/presentation/shared-cta.html":"d1597bb8b7f315eff0fa600d30b2f6a5dccdcfa4340e544841d5554b71f3761e","public_html/assets/marketing-20261006/site.js":"baf0918036519d5d847d41ee812c5f7823823a41158973d999e9ce317cfa0c5d","public_html/assets/refresh-20261006/site-v2.js":"16cf9ec47fb3d251b3439eaf717f9c9e67abe58a5eb21f8d0027bc82f27b27b4","public_html/assets/refresh-20261006/site.js":"75c087398bf581cba22e65d75a86c76e612459e9be394a613d408f5f73c910b1","config/site-brand.json":"eba75c23cd438cdea7d0bfad80943240822c575f91c4d6180036f293a6c56727","config/shared-brand-inputs.json":"1aa590ebe6ecd78c7322020dcfde541b0de5f68df93be03a624e1ec56f3aa93d","scripts/build_shared_brand.py":"5d89a775e0beadf5ca644a35b1cff16ed211bcaffc6246af05346c31967627f9","scripts/check_shared_brand.py":"51bd954e8a6ca89ab22d8a49199ceeeaf8ef4659ca69dac5b9fbaaa51c4e4b0c","tests/shared-brand-native.cjs":"a7f15c495d2abe7934e1d282a862c2c750c6ba1c2e16b1a6d7bba5e97943eec8","scripts/prepare_shared_brand_preview.py":"7d0a5f635ed714f1abdf7e81522b4528e8ec48149d40b15cfbae43107b8609d9"}
           for name, digest in expected.items():
               file = Path(name)
               assert file.is_file() and not file.is_symlink(), "Unsafe SharedBrand source"
@@ -52,7 +52,13 @@ jobs:
           print("Exact SharedBrand sources verified.")
           PY
           if git cat-file -e HEAD:docs/shared-brand-build.json 2>/dev/null; then
-            echo "generated=true" >> "$GITHUB_OUTPUT"
+            manifest_blob="$(git rev-parse HEAD:docs/shared-brand-build.json)"
+            if [ "$manifest_blob" = "88b4c79b6f685d86c1ece20e5c6f7439d91376d7" ]; then
+              echo "generated=false" >> "$GITHUB_OUTPUT"
+              echo "Verified prior manifest retained; rebuild from pinned baseline to add pre-main preservation proof."
+            else
+              echo "generated=true" >> "$GITHUB_OUTPUT"
+            fi
           else
             echo "generated=false" >> "$GITHUB_OUTPUT"
           fi

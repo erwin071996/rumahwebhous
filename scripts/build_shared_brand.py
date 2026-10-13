@@ -407,6 +407,24 @@ def version_legacy_scripts(source, versions):
         head = pattern.sub(lambda item, path=path, sha=sha: item.group(1) + path + "?v=" + sha[:16] + item.group(2), head)
     return source[:match.start()] + head + source[match.end():]
 
+def pre_main_content(source):
+    tags = Tags(source)
+    header = tags.one("header", "site-header")
+    main = tags.one("main")
+    start = header["end"]
+    begin, end = "<!-- SharedBrand:header -->", "<!-- /SharedBrand:header -->"
+    if begin in source or end in source:
+        if source.count(begin) != 1 or source.count(end) != 1:
+            raise ValueError("Invalid managed header")
+        marker_start = source.index(begin)
+        marker_end = source.index(end, marker_start) + len(end)
+        if not marker_start <= header["start"] < header["end"] <= marker_end <= main["start"]:
+            raise ValueError("Managed header boundary mismatch")
+        start = marker_end
+    if start > main["start"]:
+        raise ValueError("Unexpected pre-main module placement")
+    return source[start:main["start"]]
+
 def focusable_main(source):
     tags = Tags(source)
     main = tags.one("main")
@@ -422,6 +440,7 @@ def static_document(source, cfg, templates, route, head_markup, script_versions)
     source = version_legacy_scripts(focusable_main(source), script_versions)
     old = Tags(source); body = old.one("body"); main = old.one("main"); footer = old.one("footer", "site-footer")
     main_bytes = source[main["start"]:main["end"]]
+    before_main = pre_main_content(source)
     header_html, footer_html = render_shell(cfg, templates, route, original_cta(source, cfg))
     if not main["end"] <= footer["start"] < footer["end"] < body["end"]:
         raise ValueError("Unexpected footer placement")
@@ -436,7 +455,7 @@ def static_document(source, cfg, templates, route, head_markup, script_versions)
         if not footer_start <= footer["start"] < footer["end"] <= footer_end:
             raise ValueError("Managed footer boundary mismatch")
     source = source[:footer_start] + footer_html + source[footer_end:]
-    source = source[:body["open_end"]] + header_html + source[main["start"]:]
+    source = source[:body["open_end"]] + header_html + before_main + source[main["start"]:]
     # Keep optional legacy floating CTA markup intact; design-system hides it.
     body_text = source[body["start"]:body["open_end"]]
     if "class" in body["attrs"]:
@@ -450,6 +469,8 @@ def static_document(source, cfg, templates, route, head_markup, script_versions)
     new = Tags(source); new_main = new.one("main")
     if source[new_main["start"]:new_main["end"]] != main_bytes:
         raise ValueError("Main content changed")
+    if pre_main_content(source) != before_main:
+        raise ValueError("Pre-main module changed")
     return source
 
 PHP_ADAPTER = r'''<?php
@@ -521,6 +542,8 @@ def build(repo, baseline_repo=None):
         raise ValueError("Unexpected input pin")
     old_manifest = json.loads(read(repo, MANIFEST)) if (repo / MANIFEST).is_file() and not baseline_repo else {}
     prior = {entry["path"]: entry["sha256"] for entry in old_manifest.get("outputs", [])}
+    prior_modules = {entry["path"]: entry.get("pre_main_sha256") for entry in old_manifest.get("managed_sources", [])}
+    pinned_inputs = {entry["path"]: entry["git_blob"] for entry in inputs["files"]}
     sources = {}
     for entry in inputs["files"]:
         raw = read(source_root, entry["path"])
@@ -578,10 +601,15 @@ def build(repo, baseline_repo=None):
     managed_sources = []
     for path, route in sorted(docs.items()):
         original = sources[path].decode("utf-8")
+        if not baseline_repo and git_blob(sources[path]) != pinned_inputs[path]:
+            expected_module = prior_modules.get(path)
+            if not expected_module or digest(pre_main_content(original).encode("utf-8")) != expected_module:
+                raise ValueError("Pinned baseline rebuild required for pre-main module: " + path)
         rendered = static_document(original, cfg, templates, route, head_markup, script_versions)
         out[path] = rendered.encode("utf-8")
         parsed = Tags(rendered); main = parsed.one("main")
-        managed_sources.append({"path": path, "main_sha256": digest(rendered[main["start"]:main["end"]].encode("utf-8"))})
+        managed_sources.append({"path": path, "main_sha256": digest(rendered[main["start"]:main["end"]].encode("utf-8")),
+                                "pre_main_sha256": digest(pre_main_content(rendered).encode("utf-8"))})
     php_source = sources["public_html/seo.php"].decode("utf-8")
     out["public_html/seo.php"] = php_document(php_source, script_versions).encode("utf-8")
     manifest = {"schema_version": 1, "base_commit": BASE_COMMIT, "config_sha256": digest(json_bytes(cfg)),

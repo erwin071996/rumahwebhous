@@ -76,6 +76,15 @@ def accessible_main(text):
   main=opening[:-1]+' tabindex="-1">'+main[len(opening):]
  return main
 
+def pre_main_gap(text):
+ matches=re.findall(r"</header\s*>(.*?)<main\b",text,re.I|re.S)
+ if len(matches)!=1: raise ValueError("Pre-main module gap cardinality")
+ value=matches[0]
+ marker="\n<!-- /SharedBrand:header -->"
+ if value.startswith(marker): value=value[len(marker):]
+ if "/SharedBrand:header" in value: raise ValueError("Unexpected header marker in module gap")
+ return value
+
 def registry(root):
  return json.loads(source(root, "includes/content-index.json"))
 
@@ -120,6 +129,7 @@ def run(baseline, candidate):
    if name != "seo.php":
     gate.require(marker in new, "shared generated shell marker", name)
   if name != "seo.php":
+   gate.equal(pre_main_gap(old),pre_main_gap(new),"pre-main non-shell modules preserve exact bytes/IDs/attributes",name)
    gate.require(len(BRAND_LINK.findall(new)) == 2 and len(FRONTEND_SCRIPT.findall(new)) == 1, "single generated tokens, design CSS and R6 controller", name)
  for name in FROZEN:
   gate.equal(digest(baseline / name), digest(candidate / name), "frozen public module/data/master bytes", name)
