@@ -328,7 +328,9 @@ assert(await img.evaluate((el,responsiveHome)=>{
 const backing=el.closest(".brand")||el.closest(".footer-brand");
 if(!backing)return false;
 const r=el.getBoundingClientRect(),s=getComputedStyle(el),b=getComputedStyle(backing);
-const expected=responsiveHome?{path:"/assets/branding/logo-3dkan-688.webp",width:688,height:220}:{path:"/assets/branding/logo-3dkan-original.jpg",width:2048,height:654};
+const responsiveLogo=responsiveHome||document.body.classList.contains("kan-site");
+if(responsiveLogo&&(el.getAttribute("src")!=="/assets/branding/logo-3dkan-original.jpg"||el.getAttribute("width")!=="2048"||el.getAttribute("height")!=="654"))return false;
+const expected=responsiveLogo?{path:"/assets/branding/logo-3dkan-688.webp",width:688,height:220}:{path:"/assets/branding/logo-3dkan-original.jpg",width:2048,height:654};
 return new URL(el.currentSrc).pathname===expected.path&&el.naturalWidth===expected.width&&el.naturalHeight===expected.height&&Math.abs(r.width/r.height-2048/654)<.01&&s.objectFit==="contain"&&s.filter==="none"&&s.opacity==="1"&&s.mixBlendMode==="normal"&&b.backgroundColor==="rgb(255, 255, 255)"&&r.left>=-1&&r.right<=innerWidth+1;
 },url==="/"),"Verified logo geometry/backing failed: "+selector);
 }

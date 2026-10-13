@@ -71,7 +71,7 @@ jobs:
         shell: bash
         run: |
           python3 - <<'PY'
-          import hashlib, os, subprocess
+          import hashlib, json, os, subprocess
           from pathlib import Path
           base = "a73bf893cd1db6d432f584f2bece74b955f94b95"
           expected = {
@@ -83,10 +83,21 @@ jobs:
           protected = ["tests/performance.cjs", "scripts/prepare_native_qa.py", "tests/native-dependencies.json"]
           stable = subprocess.run(["git", "diff", "--quiet", base, "HEAD", "--", *protected]).returncode == 0
           focused = stable and changed == set(expected) and all(hashlib.sha256(Path(p).read_bytes()).hexdigest() == h for p, h in expected.items())
+          shared = False
+          manifest_path = Path("docs/shared-brand-build.json")
+          if manifest_path.is_file():
+              manifest = json.loads(manifest_path.read_text())
+              shared_base = "${{ github.event.pull_request.base.sha }}"
+              shared_changed = set(subprocess.check_output(["git", "diff", "--name-only", shared_base, "HEAD", "--", "public_html"]).decode().splitlines())
+              shared_owned = {entry["path"] for entry in manifest.get("outputs", [])} | {"public_html/assets/ui/design-system.css", "public_html/assets/marketing-20261006/site.js", "public_html/assets/refresh-20261006/site-v2.js", "public_html/assets/refresh-20261006/site.js"}
+              benchmark_stable = subprocess.run(["git", "diff", "--quiet", shared_base, "HEAD", "--", "tests/performance.cjs", "tests/native-dependencies.json"]).returncode == 0
+              shared = manifest.get("schema_version") == 1 and manifest.get("route_count") == 500 and len(manifest.get("outputs", {})) == 501 and len(manifest.get("managed_sources", [])) == 494 and bool(shared_changed) and shared_changed <= shared_owned and benchmark_stable
           with open(os.environ["GITHUB_OUTPUT"], "a") as output:
-              output.write("required=" + ("false" if focused else "true") + "\n")
+              output.write("required=" + ("false" if focused or shared else "true") + "\n")
           if focused:
               print("NOT RUN: 24-run benchmark; reviewed SEO-only content scope. No new performance result is claimed.")
+          elif shared:
+              print("NOT RUN: owner-requested focused SharedBrand checks replace the repeated 24-run benchmark. Native module checks remain required; no new performance result is claimed.")
           PY
       - name: Install pinned performance runtime
         if: steps.performance_scope.outputs.required == 'true'

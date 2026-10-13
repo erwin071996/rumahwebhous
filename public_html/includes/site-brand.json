@@ -1,0 +1,259 @@
+{
+  "brand": {
+    "display_name": "3DKan Advertising",
+    "favicon_path": "/assets/refresh-20261006/favicon.svg",
+    "home_href": "/",
+    "logo_primary": {
+      "alt": "3DKan Advertising",
+      "height": 654,
+      "path": "/assets/branding/logo-3dkan-original.jpg",
+      "revision": "original-2072e61f",
+      "screen_derivative": {
+        "git_blob": "4f5791193ff1dcd83546bf0c24bbf5ca584a4b2b",
+        "height": 220,
+        "master_sha256": "2072e61fb6c1391a8c893dd9f37dcb95846220c6d9a4118d4b72ec83b84405d0",
+        "path": "/assets/branding/logo-3dkan-688.webp",
+        "width": 688
+      },
+      "sha256": "2072e61fb6c1391a8c893dd9f37dcb95846220c6d9a4118d4b72ec83b84405d0",
+      "width": 2048
+    }
+  },
+  "colors": {
+    "accent": "#174bfa",
+    "background": "#ffffff",
+    "border": "#d8e0ed",
+    "primary": "#123bd6",
+    "secondary": "#102347",
+    "surface": "#f3f6fc",
+    "text": "#17243c",
+    "text_muted": "#4e607a"
+  },
+  "contact": {
+    "email": "info@3dkanadvertising.store",
+    "phone_display": "0853-4038-2029",
+    "phone_e164": "+6285340382029",
+    "social_links": [
+      {
+        "href": "https://www.instagram.com/3dkan.advertising",
+        "label": "Instagram \u2197"
+      },
+      {
+        "href": "https://www.tiktok.com/@3dkan.advertising",
+        "label": "TikTok \u2197"
+      }
+    ]
+  },
+  "cta": {
+    "primary": {
+      "href_or_message_template": "Halo 3DKan Advertising, saya ingin konsultasi kebutuhan signage.",
+      "kind": "whatsapp",
+      "label": "Minta penawaran"
+    }
+  },
+  "footer": {
+    "columns": [
+      {
+        "items": [
+          {
+            "href": "/produk.html",
+            "label": "Katalog produk"
+          },
+          {
+            "href": "/projects.html",
+            "label": "Portofolio proyek"
+          },
+          {
+            "href": "/panduan.html",
+            "label": "Pustaka panduan"
+          },
+          {
+            "href": "/bantuan/pusat-pengetahuan",
+            "label": "Cari jawaban & alat"
+          },
+          {
+            "href": "/wilayah.html",
+            "label": "Wilayah layanan"
+          }
+        ],
+        "title": "Jelajahi"
+      },
+      {
+        "items": [
+          {
+            "href": "/about.html",
+            "label": "Kenali 3DKan"
+          },
+          {
+            "href": "/cara-pemesanan.html",
+            "label": "Cara pemesanan"
+          },
+          {
+            "href": "/alat/susun-brief",
+            "label": "Siapkan brief"
+          },
+          {
+            "href": "/bantuan/rujukan-editorial",
+            "label": "Rujukan & cara kami menulis"
+          },
+          {
+            "href": "/bantuan/privasi-pengunjung",
+            "label": "Privasi pengunjung"
+          }
+        ],
+        "title": "Mulai dengan jelas"
+      },
+      {
+        "items": [
+          {
+            "href": "/toko/toko-1",
+            "label": "3DKan Advertising \u2014 Toko 1 \u2197"
+          },
+          {
+            "href": "/toko/toko-2",
+            "label": "3DKan Advertising \u2014 Toko 2 \u2197"
+          },
+          {
+            "href": "/toko/toko-3",
+            "label": "3DKan Advertising \u2014 Toko 3 \u2197"
+          }
+        ],
+        "title": "Temui kami"
+      }
+    ],
+    "copyright_template": "\u00a9 {year} {brand}",
+    "copyright_year": 2026,
+    "intro_lines": [
+      "Nama yang Anda bangun.",
+      "Identitas yang kami bantu wujudkan."
+    ],
+    "region_label": "Sulawesi Selatan & Sulawesi Tenggara"
+  },
+  "layout": {
+    "border_radius": {
+      "card": "1.375rem",
+      "control": ".75rem"
+    },
+    "container_max_width": "1200px",
+    "spacing_scale": {
+      "lg": "1.5rem",
+      "md": "1rem",
+      "section": "clamp(3rem,6vw,5.5rem)",
+      "sm": ".75rem",
+      "xl": "2rem",
+      "xs": ".25rem"
+    }
+  },
+  "navigation": {
+    "active_path_rules": {
+      "/about.html": [
+        "/about.html"
+      ],
+      "/bantuan/pusat-pengetahuan#alat": [
+        "/alat/"
+      ],
+      "/contact.html": [
+        "/contact.html",
+        "/toko/"
+      ],
+      "/panduan.html": [
+        "/panduan.html",
+        "/panduan/",
+        "/topik/"
+      ],
+      "/projects.html": [
+        "/projects.html"
+      ]
+    },
+    "items": [
+      {
+        "href": "/layanan/huruf-timbul",
+        "label": "Huruf Timbul"
+      },
+      {
+        "href": "/layanan/neon-flex",
+        "label": "Neon Flex"
+      },
+      {
+        "href": "/layanan/papan-nama",
+        "label": "Papan Nama"
+      },
+      {
+        "href": "/layanan/stiker-cutting",
+        "label": "Stiker Cutting"
+      },
+      {
+        "href": "/layanan/neon-box",
+        "label": "Neon Box"
+      },
+      {
+        "href": "/layanan/reklame",
+        "label": "Reklame"
+      },
+      {
+        "href": "/layanan/nametag",
+        "label": "Nametag"
+      },
+      {
+        "href": "/projects.html",
+        "label": "Portofolio"
+      },
+      {
+        "href": "/panduan.html",
+        "label": "Panduan"
+      },
+      {
+        "href": "/bantuan/pusat-pengetahuan#alat",
+        "label": "Alat bantu"
+      },
+      {
+        "href": "/about.html",
+        "label": "Tentang"
+      },
+      {
+        "href": "/contact.html",
+        "label": "Lokasi"
+      }
+    ]
+  },
+  "schema_version": 1,
+  "shell": {
+    "business_bar": {
+      "locations_href": "/contact.html#toko",
+      "locations_label": "3 lokasi toko",
+      "tagline": "Desain \u00b7 Produksi \u00b7 Pemasangan"
+    },
+    "email_label": "Email \u2197",
+    "feature": {
+      "eyebrow": "BELUM TAHU PILIH APA?",
+      "heading": "Mulai dari fungsi. Baru pilih bahan.",
+      "links": [
+        {
+          "href": "/produk.html",
+          "label": "Katalog bahan & bentuk \u2197"
+        },
+        {
+          "href": "/alat/susun-brief",
+          "label": "Siapkan brief pesanan \u2197"
+        }
+      ],
+      "text": "Bandingkan pilihan material dan susun kebutuhan sebelum meminta penawaran."
+    },
+    "menu_label": "Menu",
+    "nav_label": "Navigasi utama",
+    "services_eyebrow": "IDENTITAS USAHA ANDA",
+    "services_label": "Layanan",
+    "skip_label": "Langsung ke isi",
+    "social_label": "Kanal resmi 3DKan"
+  },
+  "theme_version": "shared-brand-1",
+  "typography": {
+    "font_family_body": "Inter,\"Segoe UI\",Arial,sans-serif",
+    "font_family_headings": "Inter,\"Segoe UI\",Arial,sans-serif",
+    "font_weights": {
+      "body": 400,
+      "headings": 800
+    },
+    "line_height_body": 1.65
+  }
+}

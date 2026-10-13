@@ -1,0 +1,25 @@
+/* Generated from config/site-brand.json; edit the configuration. */
+:root {
+  --kan-color-accent: #174bfa;
+  --kan-color-background: #ffffff;
+  --kan-color-border: #d8e0ed;
+  --kan-color-muted: #4e607a;
+  --kan-color-primary: #123bd6;
+  --kan-color-secondary: #102347;
+  --kan-color-surface: #f3f6fc;
+  --kan-color-text: #17243c;
+  --kan-content-width: 1200px;
+  --kan-font-body: Inter,"Segoe UI",Arial,sans-serif;
+  --kan-font-heading: Inter,"Segoe UI",Arial,sans-serif;
+  --kan-line-height: 1.65;
+  --kan-radius-card: 1.375rem;
+  --kan-radius-control: .75rem;
+  --kan-space-lg: 1.5rem;
+  --kan-space-md: 1rem;
+  --kan-space-section: clamp(3rem,6vw,5.5rem);
+  --kan-space-sm: .75rem;
+  --kan-space-xl: 2rem;
+  --kan-space-xs: .25rem;
+  --kan-weight-body: 400;
+  --kan-weight-heading: 800;
+}
