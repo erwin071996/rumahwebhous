@@ -10,7 +10,8 @@
     toggle.addEventListener('click', () => { const open=toggle.getAttribute('aria-expanded')!=='true'; toggle.setAttribute('aria-expanded',String(open)); nav.toggleAttribute('data-open',open); });
     nav.addEventListener('click', e => { if(e.target.closest('a')) closeMenu(); });
     document.addEventListener('click', e => { if(!e.target.closest('.site-header')) closeMenu(); });
-    window.matchMedia('(min-width:761px)').addEventListener('change',closeMenu);
+    if (document.body.classList.contains('kan-site')) document.body.classList.add('kan-nav-ready');
+    else window.matchMedia('(min-width:761px)').addEventListener('change',closeMenu);
   }
   document.addEventListener('keydown', e => { if(e.key==='Escape') closeMenu(); });
 

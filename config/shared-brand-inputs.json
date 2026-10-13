@@ -1,0 +1,2509 @@
+{
+  "schema_version": 1,
+  "base_commit": "dd31d7305d1571b4fde960ed0b942135a88388a1",
+  "registry_path": "public_html/includes/content-index.json",
+  "groups": {
+    "utama": 8,
+    "layanan": 7,
+    "wilayah": 24,
+    "produk": 9,
+    "panduan": 12,
+    "tutorial": 400,
+    "topik": 20,
+    "alat": 14,
+    "toko": 3,
+    "informasi": 3
+  },
+  "files": [
+    {
+      "path": "public_html/404.html",
+      "git_blob": "3de2db3e898ae40711d7896974c2b39757498d1e",
+      "bytes": 5736
+    },
+    {
+      "path": "public_html/about.html",
+      "git_blob": "002cdd59c229e90631444f16685d316301d8642c",
+      "bytes": 13603
+    },
+    {
+      "path": "public_html/cara-pemesanan.html",
+      "git_blob": "d098ddb59605d47dc6f6e762a7537908a675bd03",
+      "bytes": 10894
+    },
+    {
+      "path": "public_html/contact.html",
+      "git_blob": "b4216735f6b1379c8a9f89e93269b9147617b005",
+      "bytes": 11454
+    },
+    {
+      "path": "public_html/includes/content-index.json",
+      "git_blob": "92c058f3ae4cca00d8846859b7afd8d6a59089b4",
+      "bytes": 326056
+    },
+    {
+      "path": "public_html/includes/content-v2/alat/alat--banding-penawaran.html",
+      "git_blob": "e21ded111c01f96251fc64a55ed948bf35d8ec63",
+      "bytes": 12361
+    },
+    {
+      "path": "public_html/includes/content-v2/alat/alat--berat-volumetrik.html",
+      "git_blob": "d02b4eda58255264ebb7ad8e02d29dfb545b8410",
+      "bytes": 11013
+    },
+    {
+      "path": "public_html/includes/content-v2/alat/alat--bidang-efektif.html",
+      "git_blob": "91005dc0b2c927e7011e111694bb8a2e4c488250",
+      "bytes": 11076
+    },
+    {
+      "path": "public_html/includes/content-v2/alat/alat--checklist-penerimaan.html",
+      "git_blob": "9692556c051ff6eb7580e73545a37d31b9083ccd",
+      "bytes": 12328
+    },
+    {
+      "path": "public_html/includes/content-v2/alat/alat--energi-lampu.html",
+      "git_blob": "25cd0056b61485813c68fc47d29de1e6b8316c70",
+      "bytes": 10958
+    },
+    {
+      "path": "public_html/includes/content-v2/alat/alat--hitung-karakter.html",
+      "git_blob": "43e60b141343d21fafa7ab96feef63f69a6ab9d6",
+      "bytes": 10454
+    },
+    {
+      "path": "public_html/includes/content-v2/alat/alat--konversi-satuan.html",
+      "git_blob": "3f18b008e1d04a9149ae94ad0ea95f7eb438d13d",
+      "bytes": 10486
+    },
+    {
+      "path": "public_html/includes/content-v2/alat/alat--log-perawatan.html",
+      "git_blob": "5ff3a7637ba147e4e5f20f8f16d89cb5ae8249d0",
+      "bytes": 11161
+    },
+    {
+      "path": "public_html/includes/content-v2/alat/alat--luas-panel.html",
+      "git_blob": "bf4e55ce6705153fb6b8d69af3c2ebea6c7626e4",
+      "bytes": 10626
+    },
+    {
+      "path": "public_html/includes/content-v2/alat/alat--proporsi-logo.html",
+      "git_blob": "52847ccf5ec0b5602f512eb1cba9be996e3651a3",
+      "bytes": 10582
+    },
+    {
+      "path": "public_html/includes/content-v2/alat/alat--resolusi-cetak.html",
+      "git_blob": "4859687d301c7b3b4d684526411e7be1c96b86a8",
+      "bytes": 10408
+    },
+    {
+      "path": "public_html/includes/content-v2/alat/alat--skala-gambar.html",
+      "git_blob": "23c24061295a255ba77e928e64f7870ae750f37b",
+      "bytes": 10517
+    },
+    {
+      "path": "public_html/includes/content-v2/alat/alat--susun-brief.html",
+      "git_blob": "57af843c79d171b482bcf20204f8c9818e04cfee",
+      "bytes": 11546
+    },
+    {
+      "path": "public_html/includes/content-v2/alat/alat--ukuran-lingkaran.html",
+      "git_blob": "447721b5a20923ebc7c220ae05d27eda7cf39b12",
+      "bytes": 10334
+    },
+    {
+      "path": "public_html/includes/content-v2/informasi/bantuan--privasi-pengunjung.html",
+      "git_blob": "d98e7c4ce5ae86bb4aee7d58517f1e49248ba955",
+      "bytes": 9572
+    },
+    {
+      "path": "public_html/includes/content-v2/informasi/bantuan--pusat-pengetahuan.html",
+      "git_blob": "20fef519ed7ea4bef0c15b5705db50d35265db88",
+      "bytes": 13767
+    },
+    {
+      "path": "public_html/includes/content-v2/informasi/bantuan--rujukan-editorial.html",
+      "git_blob": "67830e3c67a58aa99ce634195f931bf4caec41f5",
+      "bytes": 18246
+    },
+    {
+      "path": "public_html/includes/content-v2/panduan/brief-pesanan-banyak-titik.html",
+      "git_blob": "9e2f842777589b9a05f3aa583bbc813ed25cd8af",
+      "bytes": 11309
+    },
+    {
+      "path": "public_html/includes/content-v2/panduan/frontlight-backlight-nonlampu.html",
+      "git_blob": "f51a95cb13b6a91bcfc9fb804dcd9590f17df8d8",
+      "bytes": 11534
+    },
+    {
+      "path": "public_html/includes/content-v2/panduan/membaca-penawaran-signage.html",
+      "git_blob": "52e203a78d5f9d97c26eead73db8577a0b7786e0",
+      "bytes": 11282
+    },
+    {
+      "path": "public_html/includes/content-v2/panduan/memilih-neon-box.html",
+      "git_blob": "557aab9e823145457ab88645410ab405f4357c34",
+      "bytes": 11301
+    },
+    {
+      "path": "public_html/includes/content-v2/panduan/mengganti-papan-lama.html",
+      "git_blob": "c54a1f230b28f58520e8d9f1bae6087fcbf05bcf",
+      "bytes": 11428
+    },
+    {
+      "path": "public_html/includes/content-v2/panduan/mengukur-bidang-signage.html",
+      "git_blob": "2dd7af6077e218fcd19d1547cc6a2ff8ac50b60e",
+      "bytes": 11654
+    },
+    {
+      "path": "public_html/includes/content-v2/panduan/menyiapkan-file-logo.html",
+      "git_blob": "2165df0d83590791a8d609afc186182ff3408cdc",
+      "bytes": 11689
+    },
+    {
+      "path": "public_html/includes/content-v2/panduan/merawat-signage.html",
+      "git_blob": "30cae08cbc0ff992df2b38a21940700591cb060b",
+      "bytes": 11680
+    },
+    {
+      "path": "public_html/includes/content-v2/panduan/nametag-dan-daftar-nama.html",
+      "git_blob": "e69ee517599b72a8616c7481de026761a4bd8206",
+      "bytes": 11219
+    },
+    {
+      "path": "public_html/includes/content-v2/panduan/neon-flex-untuk-interior.html",
+      "git_blob": "54bd43d326a8a3dbcfdc6c8b9515b31b8d934012",
+      "bytes": 11399
+    },
+    {
+      "path": "public_html/includes/content-v2/panduan/pengiriman-signage-luar-kota.html",
+      "git_blob": "62c328b1682f3c8af99adfd99e9d776561dd88a5",
+      "bytes": 11519
+    },
+    {
+      "path": "public_html/includes/content-v2/panduan/stiker-cutting-untuk-kaca.html",
+      "git_blob": "ce978785021e19b0de524effafc414ead037ccaf",
+      "bytes": 11739
+    },
+    {
+      "path": "public_html/includes/content-v2/produk/huruf-timbul-acp.html",
+      "git_blob": "824e6b87623465c662602bf23bc4f48e5fc0ac15",
+      "bytes": 11661
+    },
+    {
+      "path": "public_html/includes/content-v2/produk/huruf-timbul-akrilik-spon.html",
+      "git_blob": "f089acbebe02b5eaa802890e06069dc0077edf3e",
+      "bytes": 11800
+    },
+    {
+      "path": "public_html/includes/content-v2/produk/huruf-timbul-akrilik.html",
+      "git_blob": "1b5afa4b3a15c60de94e17e348cac6e79e62a9cf",
+      "bytes": 11734
+    },
+    {
+      "path": "public_html/includes/content-v2/produk/huruf-timbul-galvanis.html",
+      "git_blob": "a8d7c0011db2ef0288d02d8f67e82534cc5974a7",
+      "bytes": 11744
+    },
+    {
+      "path": "public_html/includes/content-v2/produk/huruf-timbul-mdf.html",
+      "git_blob": "6079e87637b258ceba308af68b933e36be4bfccd",
+      "bytes": 11785
+    },
+    {
+      "path": "public_html/includes/content-v2/produk/huruf-timbul-stainless.html",
+      "git_blob": "2f50a04096f5f5bc93f639220b1439ee1e7fbde1",
+      "bytes": 11859
+    },
+    {
+      "path": "public_html/includes/content-v2/produk/nametag-akrilik.html",
+      "git_blob": "d6d78b13371863de057af28c26554b05008e97ae",
+      "bytes": 11587
+    },
+    {
+      "path": "public_html/includes/content-v2/produk/neon-box-bulat.html",
+      "git_blob": "7f6d4e54cef64cdde350c4f5b84c592a42ab619a",
+      "bytes": 11621
+    },
+    {
+      "path": "public_html/includes/content-v2/produk/neon-box-kotak.html",
+      "git_blob": "1cd38d287a90587b350c36606ec39d9846917ade",
+      "bytes": 11533
+    },
+    {
+      "path": "public_html/includes/content-v2/toko/toko--toko-1.html",
+      "git_blob": "680b21f09353bfd6e682fbd9ad00175c8104e33f",
+      "bytes": 11735
+    },
+    {
+      "path": "public_html/includes/content-v2/toko/toko--toko-2.html",
+      "git_blob": "f0f354714940508ff3044e0fd6df5d19462142cb",
+      "bytes": 11735
+    },
+    {
+      "path": "public_html/includes/content-v2/toko/toko--toko-3.html",
+      "git_blob": "21d4a42fcfb8f2c0f49646be7afa98e8f67755ba",
+      "bytes": 11734
+    },
+    {
+      "path": "public_html/includes/content-v2/topik/topik--akrilik.html",
+      "git_blob": "378bbc9a0504436b2d5183ab5841e4ac96de6bff",
+      "bytes": 17391
+    },
+    {
+      "path": "public_html/includes/content-v2/topik/topik--brief.html",
+      "git_blob": "79f738294da26c440eaf0240b647aa2eaab781c1",
+      "bytes": 16896
+    },
+    {
+      "path": "public_html/includes/content-v2/topik/topik--file.html",
+      "git_blob": "a34c650a26378ca4001b8d00a7dad691469c9e63",
+      "bytes": 17537
+    },
+    {
+      "path": "public_html/includes/content-v2/topik/topik--interior.html",
+      "git_blob": "f97ac87910b0639fbcc7410267910b6b92c54e72",
+      "bytes": 17069
+    },
+    {
+      "path": "public_html/includes/content-v2/topik/topik--jenis-usaha.html",
+      "git_blob": "d35cef06dbe4c58ea896ef9d538076c029ee93aa",
+      "bytes": 17086
+    },
+    {
+      "path": "public_html/includes/content-v2/topik/topik--led.html",
+      "git_blob": "59b4a7c674245f70cfa548cfde9c3a63ca5693c8",
+      "bytes": 16782
+    },
+    {
+      "path": "public_html/includes/content-v2/topik/topik--neon-box.html",
+      "git_blob": "05b1b40f6eb3c8be5ce5d768ce8d8fc73e44ed3f",
+      "bytes": 17034
+    },
+    {
+      "path": "public_html/includes/content-v2/topik/topik--neon-flex.html",
+      "git_blob": "52459903726eb8138b45dbccbf6be8ef3e53b4ae",
+      "bytes": 17096
+    },
+    {
+      "path": "public_html/includes/content-v2/topik/topik--panel-metal.html",
+      "git_blob": "1e57d7b64cdebde7128c20bed1716d84609d4030",
+      "bytes": 17077
+    },
+    {
+      "path": "public_html/includes/content-v2/topik/topik--pelanggan.html",
+      "git_blob": "df1569bfea0831f6d43177949d1485bea117309d",
+      "bytes": 17426
+    },
+    {
+      "path": "public_html/includes/content-v2/topik/topik--pemasangan.html",
+      "git_blob": "bcf288557810e2c28717575caf06515048954ea6",
+      "bytes": 16965
+    },
+    {
+      "path": "public_html/includes/content-v2/topik/topik--pemeriksaan.html",
+      "git_blob": "4aef47d4c8e8f3007a77aaccd2dcb4f233be547d",
+      "bytes": 16565
+    },
+    {
+      "path": "public_html/includes/content-v2/topik/topik--penawaran.html",
+      "git_blob": "cc730f6652e655ea36555fa3f68555cde05d0599",
+      "bytes": 16375
+    },
+    {
+      "path": "public_html/includes/content-v2/topik/topik--pengiriman.html",
+      "git_blob": "fbffec51795b8087006b3051b7531cff46f78d4a",
+      "bytes": 16914
+    },
+    {
+      "path": "public_html/includes/content-v2/topik/topik--perawatan.html",
+      "git_blob": "2020fa5a35c9eccb924e949b5b867b90cb987bac",
+      "bytes": 17139
+    },
+    {
+      "path": "public_html/includes/content-v2/topik/topik--stainless.html",
+      "git_blob": "c64919ebdbe0bfbabb39ff8b4ed4fd091abfe735",
+      "bytes": 17218
+    },
+    {
+      "path": "public_html/includes/content-v2/topik/topik--stiker.html",
+      "git_blob": "8c0d26599e0394d914d24aeff50f2e36f3ce5e21",
+      "bytes": 16790
+    },
+    {
+      "path": "public_html/includes/content-v2/topik/topik--tipografi.html",
+      "git_blob": "fd6dc282f46a06ea3fd9f0161ba93de10d4fbd30",
+      "bytes": 17048
+    },
+    {
+      "path": "public_html/includes/content-v2/topik/topik--ukuran.html",
+      "git_blob": "ce34777d039c85aa283ecbe0e85490cdf079094c",
+      "bytes": 16639
+    },
+    {
+      "path": "public_html/includes/content-v2/topik/topik--warna.html",
+      "git_blob": "f7c8b99a97b11dd97641d67bbca05429053bafa8",
+      "bytes": 16716
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--kapan-huruf-sambung-cocok-untuk-signage.html",
+      "git_blob": "97e4a2acf1ac25b75dee626f6f4b993d2f044ccc",
+      "bytes": 15340
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--memadukan-stainless-dan-akrilik-dalam-satu-identitas.html",
+      "git_blob": "a6fecefdb692fd67f1ab11ce2402f0e857e816f2",
+      "bytes": 15223
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--memahami-fungsi-akrilik-diffuser-pada-huruf-menyala.html",
+      "git_blob": "ae0a4f0c8cdaf1d243ccc5162befba9430541614",
+      "bytes": 15292
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--memahami-istilah-galvanis-pada-huruf-timbul.html",
+      "git_blob": "91674a75d53dcb8a4f223250cdf4dcbaaa34d1c6",
+      "bytes": 15085
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--memahami-perbedaan-inti-panel-tanpa-mengklaim-tahan-api.html",
+      "git_blob": "1e9b0ed260c3087f6a81f2bbd7c491aeb4a0b8d7",
+      "bytes": 15296
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--memastikan-gambar-tertaut-ikut-dalam-paket-desain.html",
+      "git_blob": "6f82b7b6b45a54338ce7ddc137129fe438b91a70",
+      "bytes": 14816
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--memastikan-nama-ruangan-cocok-dengan-pintu-tujuan.html",
+      "git_blob": "d91c224acda29724d498362cfdd45f1cf795f676",
+      "bytes": 15242
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--memastikan-perawatan-tidak-menutupi-akses-servis.html",
+      "git_blob": "6c3676ce7c16311e1f69004edeb862113d1e0972",
+      "bytes": 14794
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--membaca-biaya-tambahan-akibat-perubahan-ukuran.html",
+      "git_blob": "c67e34441819b8da6b688aa2b8cab1bfd9630415",
+      "bytes": 14769
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--membaca-harga-berbasis-sentimeter-tinggi-huruf.html",
+      "git_blob": "ef8b9d03d108678580bec77d05c3d8ad6eadcd0d",
+      "bytes": 14765
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--membaca-ketebalan-total-dan-kulit-aluminium-pada-acp.html",
+      "git_blob": "f5e33144d1ba25cc052d718c98022ecb90ba4cc1",
+      "bytes": 15217
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--membaca-lingkup-revisi-desain-dalam-penawaran.html",
+      "git_blob": "899525fd22a81166fceaf17d3fbd00972211a97b",
+      "bytes": 14810
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--membaca-penawaran-stainless-dengan-finishing-berbeda.html",
+      "git_blob": "88e1c0c44eedd075929bb63884fe79bd2f10fe67",
+      "bytes": 15297
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--membaca-pilihan-perlindungan-pengiriman-tanpa-menganggap-otomatis.html",
+      "git_blob": "1dd743f68fffad4e7301463a6bc4bd109ef131a7",
+      "bytes": 15604
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--membagi-produk-besar-menjadi-modul-pengiriman.html",
+      "git_blob": "96f6b268143c1eaaec21cc64840e8860051a5908",
+      "bytes": 15221
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--membahas-bau-bahan-dan-waktu-siap-pakai-interior.html",
+      "git_blob": "2934cfda1ef371651a63211e6ffde26d4e6007d0",
+      "bytes": 15058
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--membahas-bekas-sambungan-pada-huruf-metal.html",
+      "git_blob": "b1723ef63316c97772a2b9122f625d799a74f522",
+      "bytes": 15237
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--membahas-jalur-kabel-agar-tidak-merusak-tampilan.html",
+      "git_blob": "d60a06bd00a3b74d3d9c1f9b637438f3b481157c",
+      "bytes": 15159
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--membahas-ketebalan-neon-box-tanpa-mengejar-bentuk-paling-tipis.html",
+      "git_blob": "2e6b3bc39d6a2d9bc193d76eec3d07fdf029d75f",
+      "bytes": 15626
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--membahas-kondensasi-atau-air-yang-terlihat-pada-neon-box.html",
+      "git_blob": "759bc5bdb8ea01c12aa67cd9ed2135978c9c27fb",
+      "bytes": 15367
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--membahas-kondisi-cuaca-dalam-jadwal-pemasangan.html",
+      "git_blob": "13394f32765e1a24e5d000af27ec1961506764c2",
+      "bytes": 15233
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--membahas-pemasangan-pada-bidang-yang-dekat-instalasi-listrik.html",
+      "git_blob": "f061250b66760cb03df296f63d0bc57ae69abdbd",
+      "bytes": 15507
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--membahas-perlindungan-area-potongan-dan-sambungan-metal.html",
+      "git_blob": "4bfd879839f1633a84cb937df8dda685a4e98fea",
+      "bytes": 15427
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--membahas-terang-yang-nyaman-untuk-tetangga-dan-pengunjung.html",
+      "git_blob": "a6e5e00641b6e1b96afa12c1fd18f6c97f4a459f",
+      "bytes": 15381
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--membandingkan-akrilik-berwarna-dengan-akrilik-berlapis-stiker.html",
+      "git_blob": "53076bd5f4afca6c165ed4bf38481329d66a6c44",
+      "bytes": 15536
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--membandingkan-biaya-awal-dan-kemudahan-perawatan.html",
+      "git_blob": "0f9d4ce6e6dca357451f36ab41222005149768a4",
+      "bytes": 14936
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--membandingkan-cahaya-antarhuruf-tanpa-menilai-dari-foto-saja.html",
+      "git_blob": "8c6d8a058d7cddf284a78489fb6c9fbff3d7d9db",
+      "bytes": 14994
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--membandingkan-dua-konsep-signage-secara-adil.html",
+      "git_blob": "278357331bd3fb3e82f0d45ca5ddb9f8cbdb39f0",
+      "bytes": 15236
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--membandingkan-dua-sistem-lampu-dalam-penawaran.html",
+      "git_blob": "8a3df30bb8da80a98c04ed3b7f86ffd859e9797c",
+      "bytes": 15259
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--membandingkan-finishing-doff-dan-mengilap.html",
+      "git_blob": "773a23d151dfc83a9355f07a91d55131b59f7dba",
+      "bytes": 15230
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--membandingkan-huruf-padat-dan-berlapis-untuk-display.html",
+      "git_blob": "5c4fa4e2d824c54347661ce888ee10b5e46a084e",
+      "bytes": 14888
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--membandingkan-ketebalan-stainless-untuk-bentuk-berbeda.html",
+      "git_blob": "95e95e85c46ccc97120a0cdee97cbeefab255c94",
+      "bytes": 15296
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--membandingkan-kondisi-signage-dengan-foto-awal-secara-wajar.html",
+      "git_blob": "ebb6b00e11ee1f94dd20f15f682f84a68a7536d5",
+      "bytes": 15040
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--membandingkan-paket-dengan-dan-tanpa-lampu.html",
+      "git_blob": "5099c2ae53aca154a9e6799ca5d17cde3b3ce76d",
+      "bytes": 14676
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--membandingkan-panel-datar-dan-panel-berbentuk-kotak.html",
+      "git_blob": "10cac551b5dc6c846f6bcc4d77ef11f5c2608aed",
+      "bytes": 14992
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--membandingkan-penawaran-dengan-bahan-yang-berbeda.html",
+      "git_blob": "5af19798a2710f163eabe93105519ede5edc3925",
+      "bytes": 14758
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--membedakan-acp-dari-lembar-aluminium-padat.html",
+      "git_blob": "0cc3fb19032ac60be66a4bb77b00697dfad7dd64",
+      "bytes": 15112
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--membedakan-akrilik-cast-dan-extruded-saat-meminta-penawaran.html",
+      "git_blob": "a4e85a0a53e4d61093e806751d2b0953fd525d6c",
+      "bytes": 15598
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--membedakan-akrilik-solid-dan-huruf-akrilik-berongga.html",
+      "git_blob": "e66ba8e482a442501d91d5b6a003e7cbaaedef6f",
+      "bytes": 15332
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--membedakan-arah-tekuk-neon-flex.html",
+      "git_blob": "a4d947b0375845f6254de02d90a25fcb5e563ac2",
+      "bytes": 14897
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--membedakan-bahan-display-sementara-dan-identitas-permanen.html",
+      "git_blob": "3fc2cba3caa0626d9cb703aed77d812b3a217294",
+      "bytes": 15213
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--membedakan-biaya-sampel-dan-biaya-produksi-massal.html",
+      "git_blob": "3b59ac2d31aa893e7cc0ddab082fe239c351372e",
+      "bytes": 14854
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--membedakan-cacat-produk-dan-perubahan-desain-setelah-produksi.html",
+      "git_blob": "523009ae1d0d3a96e67a0c2acbd2815e13bd0b26",
+      "bytes": 15133
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--membedakan-catu-daya-tegangan-konstan-dan-arus-konstan.html",
+      "git_blob": "55f933cec274ae2807a2cd3be235616d892cd723",
+      "bytes": 15308
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--membedakan-dekorasi-neon-flex-dan-penanda-utama-usaha.html",
+      "git_blob": "c877eb1ad49785e15f70ed02e4f473d24a48b43b",
+      "bytes": 15483
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--membedakan-diameter-dan-keliling-neon-box-bulat.html",
+      "git_blob": "c9a3d9bc1e9825dc2f906363b4b83ad1505ebb97",
+      "bytes": 15187
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--membedakan-dinding-struktural-dan-lapisan-dekoratif.html",
+      "git_blob": "f8c3213c2251245f9638059b6eb390b52dc85720",
+      "bytes": 15258
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--membedakan-estimasi-awal-dan-penawaran-final.html",
+      "git_blob": "81a135e338a31e819c395613e40f51873d3b9cf1",
+      "bytes": 14729
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--membedakan-film-permanen-dan-removable.html",
+      "git_blob": "44db054794770b4b4d16c3ac56e6a8213b1cd30f",
+      "bytes": 15088
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--membedakan-finishing-hairline-dan-mirror-pada-huruf-stainless.html",
+      "git_blob": "b4b9bc60f3a595f9a60ca208561ffc8a09e90355",
+      "bytes": 15361
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--membedakan-gambar-mockup-dan-gambar-kerja-produksi.html",
+      "git_blob": "4cc3629e0d2d7c9d85861e7494690ab339dbb7ed",
+      "bytes": 14951
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--membedakan-halaman-wilayah-layanan-dan-alamat-toko.html",
+      "git_blob": "34b1b4a916f79deab3170d4b49751503670fb469",
+      "bytes": 15465
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--membedakan-harga-per-huruf-dan-harga-satu-paket-signage.html",
+      "git_blob": "c1194e19d9f5c800bd3d81a442d07d9ad225f0d2",
+      "bytes": 15125
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--membedakan-jarak-antarhuruf-dan-lebar-huruf.html",
+      "git_blob": "aa926abe0d682466ae20a308c3eaa102774e25ab",
+      "bytes": 15229
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--membedakan-kebutuhan-identitas-usaha-dan-papan-promosi.html",
+      "git_blob": "a405f0fa3962b084c27a5d5c31735057bd41511c",
+      "bytes": 15477
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--membedakan-logo-vektor-dan-gambar-piksel.html",
+      "git_blob": "4c13e6bf5f0e5f70339c4a13d6f2d99f30b16263",
+      "bytes": 15169
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--membedakan-muka-akrilik-dan-backlite-pada-neon-box.html",
+      "git_blob": "8458fd71f3ff3f92409243fcb08ebe4de77d0994",
+      "bytes": 15327
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--membedakan-muka-stainless-dan-huruf-seluruh-badan-stainless.html",
+      "git_blob": "7bc67eb542e348c629f4b2edf8f87442cb85aafa",
+      "bytes": 15413
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--membedakan-neon-box-identitas-dan-papan-menu-menyala.html",
+      "git_blob": "42ca4f1650399fed3cdc1d826692ec05dc872634",
+      "bytes": 15481
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--membedakan-panjang-jalur-neon-flex-dan-panjang-papan.html",
+      "git_blob": "a3b968f280432d87096c6cc17528fd7baebd07eb",
+      "bytes": 15315
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--membedakan-perlindungan-komponen-dan-ketahanan-seluruh-rakitan.html",
+      "git_blob": "f01c022c69ccdd036d3ae51763d26c404c432098",
+      "bytes": 15519
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--membedakan-pesanan-produksi-saja-dan-produksi-plus-pemasangan.html",
+      "git_blob": "301d98c76274281e58c44c00ea55b8a43b71c9d8",
+      "bytes": 15603
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--membedakan-rangka-pendukung-dan-panel-penutup.html",
+      "git_blob": "e9354cc78ae29748705d6933b603736152854985",
+      "bytes": 14764
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--membedakan-satu-warna-dan-rgb-pada-neon-flex.html",
+      "git_blob": "e62f58fcb64f141f3fd38bf148d009146026cab8",
+      "bytes": 15208
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--membedakan-sitemap-terbaca-dan-halaman-terindeks.html",
+      "git_blob": "50d4c19db42fbc02168bcb747b1c011487d2e17f",
+      "bytes": 15458
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--membedakan-stiker-cutting-dan-stiker-cetak.html",
+      "git_blob": "3df1429c2211e134ed98a524e0160f15a73b1fa8",
+      "bytes": 15216
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--membedakan-tahan-lembap-dan-tahan-air-pada-papan-serat.html",
+      "git_blob": "046839a04ffa5b90a4b77d5d12525e0a16677834",
+      "bytes": 15246
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--membedakan-tiang-neon-box-dan-braket-dinding.html",
+      "git_blob": "c90f16c515328f3f223ccc184f39f451d8506e64",
+      "bytes": 15169
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--membedakan-ukuran-bidang-dan-ukuran-tulisan.html",
+      "git_blob": "7a3563fcb21e63a6998944d6771fd50d8fcee1b9",
+      "bytes": 15239
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--membedakan-ukuran-produk-dan-ukuran-paket-kiriman.html",
+      "git_blob": "6a65bfd8521c452da6796af5369bbf436f14df75",
+      "bytes": 15227
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--membedakan-umur-komponen-dan-garansi-signage.html",
+      "git_blob": "60c7fc63369487327a1d2bfac91279d850c0ce9b",
+      "bytes": 15274
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--membedakan-volt-dan-watt-pada-spesifikasi-lampu-signage.html",
+      "git_blob": "871848d369f6118edc82d44221f03628e62ed015",
+      "bytes": 15214
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--membedakan-warna-cetak-dan-warna-bahan-padat.html",
+      "git_blob": "bfb549b43e0c49a833c73a81ac70fd4ee7225d42",
+      "bytes": 15252
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--membedakan-warna-putih-hangat-dan-putih-dingin-pada-contoh.html",
+      "git_blob": "2aa9dd033d738ce70259c04a973bf3ceb7f2993f",
+      "bytes": 15422
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--membedakan-warna-putih-opak-dan-putih-tembus-cahaya.html",
+      "git_blob": "a851618f2a5ae7eae0fce2d36109c74f3134003f",
+      "bytes": 15388
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--membersihkan-debu-pada-akrilik-tanpa-menggosok-kering.html",
+      "git_blob": "3dfc3283a771583eeb83465581972d93caece6be",
+      "bytes": 15407
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--membuat-artikel-bersumber-tanpa-menyalin-klaim-pabrikan.html",
+      "git_blob": "aba26336fa1a68d8a746ac2fbf7917a8361f8650",
+      "bytes": 15553
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--membuat-checklist-kirim-terima-untuk-signage-custom.html",
+      "git_blob": "0cce6134b69c23295606567642cfda5e01554058",
+      "bytes": 15356
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--membuat-daftar-nama-yang-aman-dari-kesalahan-ejaan.html",
+      "git_blob": "281737b58cee1ddeb5ab364dbd7167d0f9c15df5",
+      "bytes": 14850
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--membuat-daftar-prioritas-ketika-anggaran-signage-terbatas.html",
+      "git_blob": "16021af487a8029a5a8561662399ff3f4c498ddc",
+      "bytes": 15456
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--membuat-daftar-temuan-yang-mudah-ditindaklanjuti.html",
+      "git_blob": "f2fb7bc304ccf614a728f1ec2a3e25a3ac919999",
+      "bytes": 14880
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--membuat-denah-sederhana-titik-signage-interior.html",
+      "git_blob": "be4f4f2df91f19dd3190379181d2109fc9cf06e8",
+      "bytes": 15181
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--membuat-desain-yang-tetap-jelas-pada-foto-promosi.html",
+      "git_blob": "005603d01c4f16c17833c0372761122829a875f4",
+      "bytes": 15456
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--membuat-gambar-acuan-untuk-file-yang-sulit-dibuka.html",
+      "git_blob": "21fa810c55ea775314e4acf9094d843f818e30a0",
+      "bytes": 14748
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--membuat-halaman-kontak-untuk-beberapa-toko.html",
+      "git_blob": "b6192304290e7d272163eac5bb96d1b9568c19d1",
+      "bytes": 14848
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--membuat-identitas-apotek-tanpa-mengaburkan-informasi-penting.html",
+      "git_blob": "d8788c8deb347fb6967bf28fe123a730817ad76f",
+      "bytes": 15569
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--membuat-identitas-kantor-yang-konsisten-dari-lobby-ke-ruangan.html",
+      "git_blob": "bc1d037a94827f7b9811deb0f7d780967aa0bfb7",
+      "bytes": 15573
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--membuat-internal-link-yang-membantu-keputusan-produk.html",
+      "git_blob": "5ee7b505c7ab5b2efd95242b9e0dc0f2045845a7",
+      "bytes": 14864
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--membuat-jadwal-perawatan-berdasarkan-kondisi-lokasi.html",
+      "git_blob": "321814f968153da71b3e6680c2d4cc82e7a0e430",
+      "bytes": 14748
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--membuat-kode-qr-yang-menuju-informasi-berguna.html",
+      "git_blob": "a83ca73e17e276e6f79d70761450652792312486",
+      "bytes": 14737
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--membuat-komposisi-papan-dengan-satu-pesan-utama.html",
+      "git_blob": "0099fcb4ea64445235f6799230fae0096fc450b7",
+      "bytes": 15227
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--membuat-palet-warna-untuk-huruf-dan-bidang-pendukung.html",
+      "git_blob": "78ed588f6fa4d3eca5b66bccb462d24efe1282ef",
+      "bytes": 15343
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--membuat-panduan-order-yang-memisahkan-diskusi-dan-persetujuan.html",
+      "git_blob": "3dd01bfed7733874223e846b546c45c79eb28ec2",
+      "bytes": 15114
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--membuat-papan-bengkel-yang-mudah-dikenali-pengendara.html",
+      "git_blob": "304d71b738d85fc60294b34ed01639727c3b47e8",
+      "bytes": 15381
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--membuat-papan-kantor-desa-dengan-informasi-terverifikasi.html",
+      "git_blob": "ef3ec8ceb7b3e93e090f7379463e46ce0d1e0782",
+      "bytes": 15472
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--membuat-papan-toko-kosmetik-yang-membedakan-merek-toko-dan-produk.html",
+      "git_blob": "72dfe32a60a5742b0f1b4e0666809ed7d7648b16",
+      "bytes": 15549
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--membuat-pemeriksaan-awal-setelah-beberapa-hari-penggunaan.html",
+      "git_blob": "f2ae9fd0de390def54825a7ed91c118d6260c0a5",
+      "bytes": 15001
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--membuat-penanda-gudang-yang-tidak-tertukar-antar-pintu.html",
+      "git_blob": "c915fae33fc2aea77c88219c6ea0ca2a81bafcda",
+      "bytes": 15425
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--membuat-penanda-penginapan-yang-membantu-tamu-malam-hari.html",
+      "git_blob": "286eff50f1f83b2f5c4769af47963edaec5c4085",
+      "bytes": 15397
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--membuat-profil-usaha-yang-kuat-tanpa-angka-rekaan.html",
+      "git_blob": "b830bc20f7b9b6d11b3ed929bf53f09bc7924f56",
+      "bytes": 14965
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--membuat-referensi-bahan-dari-sampel-fisik.html",
+      "git_blob": "22888b7ac10e462726f1c8cdfd35f4f4dc0faa77",
+      "bytes": 15427
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--membuat-sampel-satu-huruf-sebelum-pesanan-interior-banyak.html",
+      "git_blob": "c232e1417eca5d40ba7e45405fc8de0e3aff3302",
+      "bytes": 15065
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--membuat-signage-agen-pengiriman-dengan-alur-layanan-jelas.html",
+      "git_blob": "46f69ee0e2a77252d102b0e1342a5922ae0802ee",
+      "bytes": 15550
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--membuat-spesifikasi-panel-metal-untuk-pesanan-ulang.html",
+      "git_blob": "076d087d7811b25e0c605b41cc2f516d2d56a42d",
+      "bytes": 14913
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--membuat-stiker-petunjuk-tanpa-menghalangi-transparansi-pintu.html",
+      "git_blob": "40460b9f514a65b974a5ca570e4f6ef3d460fe38",
+      "bytes": 15467
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--membuat-tabel-perbandingan-vendor-yang-tidak-menyesatkan.html",
+      "git_blob": "d5bc12fff7946541f18bbc39eed0814ee7c960f4",
+      "bytes": 15061
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--memeriksa-apakah-ongkos-kirim-sudah-termasuk.html",
+      "git_blob": "1181f58d9dc6150933fe5f73377eba18fa305cf9",
+      "bytes": 14664
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--memeriksa-bentuk-huruf-dari-sudut-miring.html",
+      "git_blob": "120f96a9604096376b618dacecdd974e35a4f991",
+      "bytes": 15020
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--memeriksa-diskon-tanpa-mengubah-lingkup-pesanan.html",
+      "git_blob": "5e4cfed49e7a520116392ffdf225cf4f522317e6",
+      "bytes": 14711
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--memeriksa-ejaan-sebelum-huruf-timbul-diproduksi.html",
+      "git_blob": "9c98e43dc84b7a291365198ad36186ff0b6c0b2c",
+      "bytes": 14842
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--memeriksa-fungsi-lampu-melalui-petugas-yang-kompeten.html",
+      "git_blob": "2111601750a3887fc608a1a05c8c922e95aed48c",
+      "bytes": 15032
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--memeriksa-garis-ganda-pada-file-potong.html",
+      "git_blob": "f3057a32b7d22f07a502509825ecf2908db99c54",
+      "bytes": 14719
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--memeriksa-grafis-dua-sisi-agar-tidak-tertukar.html",
+      "git_blob": "36351f950bd40795e9b4757ca2dfbe09739f4b70",
+      "bytes": 14745
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--memeriksa-hasil-tracing-sebelum-diproduksi.html",
+      "git_blob": "a35055543db71f4fe36c9bd52d16704323368f87",
+      "bytes": 15245
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--memeriksa-kerataan-panel-akrilik-pada-desain-besar.html",
+      "git_blob": "0780146925d371bd6e63357423d529c971c6d095",
+      "bytes": 15407
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--memeriksa-keseragaman-cahaya-pada-sudut-tulisan-neon-flex.html",
+      "git_blob": "d9d097f021af086356ce53e3893a26068454d2f9",
+      "bytes": 15454
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--memeriksa-kesesuaian-daftar-nama-pada-pesanan-banyak-unit.html",
+      "git_blob": "37bb4550470818e2a3ac1d4e9928160086869cfb",
+      "bytes": 14979
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--memeriksa-keterbacaan-logo-saat-diperkecil.html",
+      "git_blob": "7d0dbe070c1e0d1248099e8a69f126e5acdbc812",
+      "bytes": 15323
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--memeriksa-nomor-resi-untuk-beberapa-paket.html",
+      "git_blob": "ae07865a6f1cbbd47fc5b9c0de201bc8c473b6bb",
+      "bytes": 15092
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--memeriksa-objek-tersembunyi-di-luar-halaman-desain.html",
+      "git_blob": "9fa4b742af1ff2ed5cbd7473e563f1a0c1f879f5",
+      "bytes": 14892
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--memeriksa-papan-setelah-cuaca-buruk-dari-posisi-aman.html",
+      "git_blob": "73be96b791b20351bc33e08102ef980a8c26229b",
+      "bytes": 15063
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--memeriksa-produk-setelah-dipindahkan-ke-lokasi-baru.html",
+      "git_blob": "4f7b543ca0069bdf125c51af01895ad1b5ef8e4a",
+      "bytes": 14918
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--memeriksa-signage-sebelum-dipakai-kembali-setelah-disimpan.html",
+      "git_blob": "14d3cf16abb26990f9ade9f8eee618da3dd2cd1e",
+      "bytes": 14974
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--memeriksa-sisi-dan-belakang-huruf-sesuai-lingkup.html",
+      "git_blob": "3d11f8c222e14a3d2ef4161c6e5f4d5beb1345b9",
+      "bytes": 14966
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--memeriksa-tampilan-papan-saat-lampu-mati.html",
+      "git_blob": "21d483b6b26b8586f12b04cde68b7fdcd0a84efe",
+      "bytes": 15133
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--memeriksa-tautan-setelah-perubahan-nama-halaman.html",
+      "git_blob": "3c078e59a7d4e997df974adbe0fbe240504ccd1d",
+      "bytes": 15186
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--memeriksa-tiga-lokasi-usaha-agar-tidak-menampilkan-pin-ganda.html",
+      "git_blob": "f8ee7f9ce7a8493622b2a5ed3db5ec35df2b5564",
+      "bytes": 15556
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--memeriksa-titik-potong-pada-desain-neon-flex.html",
+      "git_blob": "a6154669a2161a8f311a05085026072f67dfebf1",
+      "bytes": 15090
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--memeriksa-warna-barang-dengan-acuan-yang-sama.html",
+      "git_blob": "a95c59a643c95e8459f77ba1f172b46088bb21db",
+      "bytes": 14820
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--memeriksa-warna-desain-dari-layar-ponsel.html",
+      "git_blob": "9640ad8c932cbeba152b1bf269465088a7ceeebf",
+      "bytes": 15138
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--memeriksa-warna-setelah-file-berpindah-aplikasi.html",
+      "git_blob": "0c7f1f08d4c0acb4d13ca735b9d0d5b612f251c7",
+      "bytes": 14899
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--memesan-signage-saat-logo-usaha-belum-final.html",
+      "git_blob": "c01dc4d83bf1b7c41f7330650d444697392115ba",
+      "bytes": 15344
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--memesan-ulang-satu-bagian-stiker-yang-rusak.html",
+      "git_blob": "0b4d23b97e3d2a71b05621c368c9e6e6d4f22831",
+      "bytes": 15107
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--memilih-acp-sebagai-bidang-belakang-huruf-timbul.html",
+      "git_blob": "958a5981968425560768f919352b0b687aa8f4c7",
+      "bytes": 15359
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--memilih-akrilik-bening-atau-putih-untuk-huruf-timbul.html",
+      "git_blob": "a75b8b46cbabbe8f0d1a89680716e7a78bb95a23",
+      "bytes": 15448
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--memilih-akrilik-untuk-logo-berlapis.html",
+      "git_blob": "67f6dadf9023f45921626d77399d28ce90cab465",
+      "bytes": 15011
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--memilih-akrilik-warna-untuk-identitas-tanpa-lampu.html",
+      "git_blob": "6f474b197af027b0cd1f9095746122c81d334c04",
+      "bytes": 15258
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--memilih-alas-bening-atau-berwarna-untuk-neon-flex.html",
+      "git_blob": "0fe4734a0290bace425b89c6c68c67561659f3dc",
+      "bytes": 15161
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--memilih-bentuk-alas-mengikuti-huruf-atau-bidang-utuh.html",
+      "git_blob": "abbe953d8a36210d4548cf1994a4dfa73ad31a6a",
+      "bytes": 15400
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--memilih-bentuk-bulat-untuk-logo-yang-panjang.html",
+      "git_blob": "9568b764e4a8fa38cbb88fa7724af9fb369321ae",
+      "bytes": 15160
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--memilih-bingkai-tanpa-mengurangi-ruang-baca.html",
+      "git_blob": "61a36e075aef591e573971d2692f9040c69367d9",
+      "bytes": 15104
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--memilih-cutting-beberapa-warna-tanpa-kehilangan-posisi.html",
+      "git_blob": "1d7f2b66acc2c42fadb4ed6ca153d346049ae921",
+      "bytes": 15166
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--memilih-foam-pvc-sesuai-seri-dan-penggunaan.html",
+      "git_blob": "fefe06476d76a744ccd5ea563928cd7eb457aa5a",
+      "bytes": 14941
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--memilih-galvanis-sebagai-badan-dan-akrilik-sebagai-muka.html",
+      "git_blob": "51a0f0c8da480799caac0a699a1e11cd9506162c",
+      "bytes": 15510
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--memilih-huruf-dekoratif-untuk-dinding-bertekstur.html",
+      "git_blob": "49dccdf6d523f620a3fbbeccdcf7f5cc2b56a2cf",
+      "bytes": 14836
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--memilih-huruf-mdf-untuk-ruang-interior.html",
+      "git_blob": "1cf5d4375b2c59152dde317a4c380f0a0d1f5fc6",
+      "bytes": 15118
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--memilih-huruf-ringan-untuk-backdrop-acara.html",
+      "git_blob": "c7c6188b0ad3118a1a51951dd956d966e3d2094e",
+      "bytes": 14642
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--memilih-huruf-stainless-nonlampu-untuk-dinding-interior.html",
+      "git_blob": "4a0d0af9b002f7516251514b3b1903850754453d",
+      "bytes": 15297
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--memilih-jenis-huruf-untuk-nama-toko-yang-dibaca-dari-jalan.html",
+      "git_blob": "619bab1069de181d6c1d40d30fa218b3ee2202e1",
+      "bytes": 15595
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--memilih-ketebalan-goresan-untuk-huruf-berlampu.html",
+      "git_blob": "fd6eb428065754ad04483d6ca760a0d2977fcff4",
+      "bytes": 15301
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--memilih-kontras-tulisan-terhadap-warna-dinding.html",
+      "git_blob": "8f06e8812eb402ad7f2f67ecfc64e8d704757084",
+      "bytes": 15096
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--memilih-latar-untuk-efek-backlight.html",
+      "git_blob": "16b638bc4a263f60a85b53f6cc3b9cde2c569df8",
+      "bytes": 14939
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--memilih-neon-box-kotak-untuk-informasi-beberapa-baris.html",
+      "git_blob": "2c34ff219666e2c3b62f30580c3b02b50ad931ae",
+      "bytes": 15320
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--memilih-neon-box-satu-sisi-atau-dua-sisi.html",
+      "git_blob": "d9c5128e93ed5fb6c305a74a69fe1b4178a6cb4f",
+      "bytes": 15163
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--memilih-neon-flex-untuk-tulisan-atau-garis-dekoratif.html",
+      "git_blob": "c0bfd05b5d71808e85ec01b049d54360871df4d6",
+      "bytes": 15304
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--memilih-panel-warna-standar-atau-warna-khusus.html",
+      "git_blob": "91f24fe120f7a2cffc1dd034ff0f5c6d16065812",
+      "bytes": 14871
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--memilih-papan-nama-ruangan-yang-mudah-diperbarui.html",
+      "git_blob": "afbac8f3feef1f9f5d0d73319bfd6a80293f82c2",
+      "bytes": 14807
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--memilih-penanggung-jawab-persetujuan-desain.html",
+      "git_blob": "a6ccaa1378838e6201ee2ddea57571e27f6f8a7f",
+      "bytes": 15342
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--memilih-rata-kiri-atau-rata-tengah-pada-papan.html",
+      "git_blob": "46e97b3aece637be48118b11266fdf3cd1e7244b",
+      "bytes": 15247
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--memilih-stainless-untuk-lokasi-dekat-laut.html",
+      "git_blob": "f76ecceb6b26139130bc042527c895b3162e8c0e",
+      "bytes": 15115
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--memilih-stiker-buram-untuk-privasi-tanpa-menutup-seluruh-pandangan.html",
+      "git_blob": "e055c7a59e6f49af18db2ff51b8aef9d6b5d6576",
+      "bytes": 15453
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--memilih-stiker-pada-permukaan-melengkung.html",
+      "git_blob": "32128de80510aff4ca1fd5fdf3d5757ef2b16435",
+      "bytes": 14864
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--memilih-titik-acuan-saat-mengukur-beberapa-papan.html",
+      "git_blob": "ea32d8be5b7cc5c35fa245c4d95e78b674504115",
+      "bytes": 15237
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--memilih-tulisan-neon-flex-untuk-sudut-foto.html",
+      "git_blob": "2b3380f60adeb9e85a1d1fda14f51de2dc7ac65f",
+      "bytes": 15119
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--memilih-ukuran-gambar-berdasarkan-piksel-dan-ukuran-cetak.html",
+      "git_blob": "10db3ac482b7fececc1385b559109245a2b8f62f",
+      "bytes": 15479
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--memilih-warna-penunjuk-arah-yang-tidak-mengandalkan-kode-saja.html",
+      "git_blob": "a231b97c9ffa4a8552c829c3e820397457c953d0",
+      "bytes": 15629
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--memilih-warna-stiker-untuk-kaca-transparan.html",
+      "git_blob": "d759223fd4244d63c3bd0724d577649c06ded20f",
+      "bytes": 15008
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--meminta-bukti-material-tanpa-merusak-produk.html",
+      "git_blob": "d27421007014da8ef974c7abdb0819fed362ea85",
+      "bytes": 15310
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--meminta-grade-stainless-yang-jelas-pada-penawaran.html",
+      "git_blob": "afa4615edc7c559f227e3b1a6d19e011433db532",
+      "bytes": 15429
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--memisahkan-barang-dan-aksesori-pada-daftar-kemasan.html",
+      "git_blob": "7f1da183333845a67d64006424d9b953b883e6aa",
+      "bytes": 15211
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--memisahkan-biaya-bahan-dan-pekerjaan-lokasi.html",
+      "git_blob": "5fd7fbd9c73d6c8613a544af5e0d05ff555b9bc4",
+      "bytes": 14646
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--memisahkan-pembersihan-kosmetik-dan-perbaikan-konstruksi.html",
+      "git_blob": "67ee221746cee1814cd4bb95416451c282e6e853",
+      "bytes": 14870
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--memisahkan-perawatan-muka-dan-komponen-listrik.html",
+      "git_blob": "ad3bd6a68f1d29839584e1aa413ffbe3378da73a",
+      "bytes": 14736
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--memisahkan-tugas-pemesan-dan-installer-pada-hari-kerja.html",
+      "git_blob": "f53d9fa8083a6756c66bbe0ee2104045cf0adef7",
+      "bytes": 15328
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--memperhatikan-sambungan-kaca-pada-stiker-logo-besar.html",
+      "git_blob": "f0304d8880ab2c1b86612fe25902b99ccd225826",
+      "bytes": 15061
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--memperhitungkan-tebal-badan-huruf-dalam-desain.html",
+      "git_blob": "927138709e5b211bb1c7b43e1cecb32678e0ee80",
+      "bytes": 15128
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--memperjelas-huruf-yang-lubang-dalamnya-terlalu-kecil.html",
+      "git_blob": "b8cfdbaa0e2fa57b8b5f4593b6c551d1212a34a1",
+      "bytes": 15373
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--memperkirakan-lebar-tulisan-panjang-sebelum-desain-final.html",
+      "git_blob": "516ad4607542cc64132b0afc4f61bea3b871e68a",
+      "bytes": 15431
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--memperkirakan-skala-logo-tanpa-mengubah-proporsi.html",
+      "git_blob": "e63540b7959338864c70a05be0c4efa45630f539",
+      "bytes": 15326
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--mempersiapkan-area-bongkar-muat-signage.html",
+      "git_blob": "8ee76600716ac10b7c4984b42d54acdec4b66517",
+      "bytes": 15022
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--mempersiapkan-desain-cetak-untuk-muka-neon-box.html",
+      "git_blob": "add47f0c6b0217b2001709e585f9a5c942ec730d",
+      "bytes": 15270
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--mempersiapkan-papan-metal-untuk-penggunaan-sementara.html",
+      "git_blob": "591fffe778e7ee326e8f163280313faeceaf874e",
+      "bytes": 14820
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--mempersiapkan-pemasangan-pada-gedung-dengan-aturan-pengelola.html",
+      "git_blob": "d192cec748d58f3e1d41e9908df773d9f6af1a3d",
+      "bytes": 15381
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--mempersiapkan-penerimaan-neon-box-sebelum-dipasang.html",
+      "git_blob": "dc5a3f1cd5f5b037a48cad64f229daf1940e4d44",
+      "bytes": 15390
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--mempersiapkan-penggantian-stiker-lama.html",
+      "git_blob": "4204fe38505563e590b31f830893cd0021e7b07f",
+      "bytes": 14967
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--mempersiapkan-pengiriman-logo-dengan-bagian-menonjol.html",
+      "git_blob": "acfc84ce5f9794453cce62108e0d81e2bcc1ec59",
+      "bytes": 15272
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--mempersiapkan-penyimpanan-huruf-stainless-sebelum-dipasang.html",
+      "git_blob": "078ac6269b50c53b21e0e20096ff637f347fda61",
+      "bytes": 15558
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--menampilkan-portofolio-tanpa-menyamakan-referensi-dengan-proyek.html",
+      "git_blob": "a9a9f36ce26388cdfc41f9042c9b6ae309deb2e6",
+      "bytes": 15236
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--menangani-laporan-huruf-berkedip-dengan-aman.html",
+      "git_blob": "a9e6bf70705a1903e8b75aba11d3e837b5a2cabd",
+      "bytes": 15026
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--menangani-stiker-yang-mulai-terangkat-di-sudut.html",
+      "git_blob": "32b54f248e3ef8e0e4c4af61571972934dadc1fd",
+      "bytes": 15034
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--menata-tanda-baca-dan-simbol-pada-huruf-timbul.html",
+      "git_blob": "e5e938819db299ad16219f751d07019dd01d909e",
+      "bytes": 15457
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--mencatat-kerusakan-cat-sebelum-melakukan-touch-up.html",
+      "git_blob": "45ba54c29edf76bef9a3284f8a3da80191c14a36",
+      "bytes": 14904
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--mencatat-ketinggian-pemasangan-tanpa-memanjat.html",
+      "git_blob": "e62568ca0f585ee221723efea0cf9a6b08876415",
+      "bytes": 15306
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--mencatat-penghalang-pada-bidang-pemasangan.html",
+      "git_blob": "fba94d34b30a821e9dc253e3df77711dfd858f6d",
+      "bytes": 15251
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--mencatat-sistem-kendali-pada-serah-terima-signage.html",
+      "git_blob": "110b48df2ca2e2215eb5e78b026c69a619189731",
+      "bytes": 15194
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--mencatat-ukuran-stiker-sebagai-ukuran-potong-atau-bidang-desain.html",
+      "git_blob": "bce66b46d471694d9bc6c852e78f53bafbcb6f19",
+      "bytes": 15478
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--mencegah-angka-telepon-sulit-dibaca-pada-papan.html",
+      "git_blob": "990f34ccc5eb3f596bbab8919cccf035744a3fd5",
+      "bytes": 15381
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--mencocokkan-jumlah-huruf-dan-simbol-saat-barang-diterima.html",
+      "git_blob": "d1f6829c0618e4e11a0471b1ec26d23b9d173571",
+      "bytes": 14889
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--mendesain-detail-kecil-yang-dapat-dikerjakan-dengan-cutting.html",
+      "git_blob": "48c0861ed3eb31e3d50d79a2b71b46714fe12f1c",
+      "bytes": 15412
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--mendesain-huruf-vertikal-pada-bidang-sempit.html",
+      "git_blob": "816bd27179da145a2053f64a785172d19a52b4b1",
+      "bytes": 15165
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--mendesain-identitas-usaha-rumahan-tanpa-membingungkan-tetangga.html",
+      "git_blob": "5ebd28f015b87fbd301341a03860e7b7b4bb3b33",
+      "bytes": 15546
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--mendesain-neon-flex-untuk-foto-produk-tanpa-klaim-palsu.html",
+      "git_blob": "06baac55e5b35e835d629a1f0e397d17419fffe4",
+      "bytes": 15585
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--mendesain-papan-salon-dengan-identitas-dan-privasi-seimbang.html",
+      "git_blob": "212453619bb4cc11bbc9527e7ca190b80fa96f96",
+      "bytes": 15463
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--mendesain-penanda-toko-bangunan-dengan-akses-bongkar-barang.html",
+      "git_blob": "e61841256ee151b8a45051fe5c1e925a0e85c4f7",
+      "bytes": 15497
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--mendesain-stiker-jam-operasional-yang-mudah-diperbarui.html",
+      "git_blob": "38ceaf774e9d87029f21e05503a04a77126acc92",
+      "bytes": 15181
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--mendokumentasikan-noda-pada-stainless-tanpa-diagnosis-berlebihan.html",
+      "git_blob": "322513583928eeb71ced55465b7e556d8de4dd90",
+      "bytes": 15684
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--mendokumentasikan-retak-kecil-pada-akrilik-sebelum-digunakan.html",
+      "git_blob": "4f4744e873d18950484ed98d6de9d46c64aaa1e0",
+      "bytes": 15452
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--menempatkan-ruang-kosong-agar-papan-tidak-terasa-penuh.html",
+      "git_blob": "3376ed3f0d9c7cf2ec1d8ca5359e2a4facaffade",
+      "bytes": 15308
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--menentukan-alamat-penagihan-dan-alamat-kirim-yang-berbeda.html",
+      "git_blob": "c62ecc395ee73879cb7c25ccd15595c857eb74bb",
+      "bytes": 15342
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--menentukan-apakah-dimmer-diperlukan-pada-signage.html",
+      "git_blob": "3f75728392e0940df22ef1fbd7a56865dc68cc12",
+      "bytes": 15389
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--menentukan-apakah-kedua-muka-neon-box-perlu-desain-berbeda.html",
+      "git_blob": "013437a328ab85d2677cb6bb065ab97eac65235c",
+      "bytes": 15337
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--menentukan-apakah-kontur-harus-tertutup.html",
+      "git_blob": "b4091ddd865780c863c1efcb46c0ef91ba5287f2",
+      "bytes": 14580
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--menentukan-apakah-logo-interior-bisa-dilepas-kembali.html",
+      "git_blob": "6ba0704648a729b862e2710fa6a01d05b2315f32",
+      "bytes": 14896
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--menentukan-apakah-neon-flex-perlu-portabel.html",
+      "git_blob": "fda176acb5aae95cbd81dec8a4c9c45bee7cb6db",
+      "bytes": 15155
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--menentukan-apakah-permukaan-akrilik-perlu-transparan.html",
+      "git_blob": "0f611f4a9f2b6ae8528fd9eb7b757c97f81d7372",
+      "bytes": 15433
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--menentukan-apakah-peti-diperlukan-untuk-signage.html",
+      "git_blob": "84196e93b86034423fc13f82a1e0914d5cf8dd20",
+      "bytes": 15374
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--menentukan-apakah-signage-perlu-menyala.html",
+      "git_blob": "6e07734df2d82719849233b37416982a7d4f2db3",
+      "bytes": 15238
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--menentukan-apakah-sisi-huruf-stainless-perlu-terlihat.html",
+      "git_blob": "dfda519f4f3e89826eead800e754e2829df4a5b3",
+      "bytes": 15388
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--menentukan-apakah-tepi-acp-perlu-ditutup-atau-dilipat.html",
+      "git_blob": "419f05a9dbfbddd730e946ae0c28702c993e75d4",
+      "bytes": 15204
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--menentukan-area-dokumentasi-yang-tidak-mengganggu-pekerjaan.html",
+      "git_blob": "f19b116bd967422655d9a72ac78e9d929abde8df",
+      "bytes": 15536
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--menentukan-area-efektif-setelah-dikurangi-margin.html",
+      "git_blob": "dbc5490a5f72e451ff31ad8fdddc5702e95d1486",
+      "bytes": 15369
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--menentukan-detail-kecil-pada-bahan-ringan.html",
+      "git_blob": "49b0a8430a6c0dc2312088bcb4000407eab825c5",
+      "bytes": 14779
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--menentukan-finishing-cat-untuk-huruf-mdf.html",
+      "git_blob": "392c734977a43d444382073d17ff44971007ad7c",
+      "bytes": 15078
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--menentukan-harapan-cahaya-pada-stainless-backlight.html",
+      "git_blob": "1316c6377a2039018b68372c781b767ad1e32376",
+      "bytes": 15391
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--menentukan-informasi-yang-tidak-perlu-ada-di-papan-utama.html",
+      "git_blob": "b6a7f48b443b54cbeb04f0783bccec578b587374",
+      "bytes": 15447
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--menentukan-jumlah-jenis-huruf-dalam-satu-papan.html",
+      "git_blob": "64ca6c91b78311c4c50f3208e092db4ccb8e075a",
+      "bytes": 15179
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--menentukan-kapan-konsultasi-cukup-dan-kapan-survei-dibutuhkan.html",
+      "git_blob": "05a5c4bf2415c537840f1982fb590c38915d0752",
+      "bytes": 15743
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--menentukan-kapan-slogan-perlu-dipisahkan-dari-logo.html",
+      "git_blob": "7c739bb6ba7f3f0089a00815a4c41f29f0ac028f",
+      "bytes": 15246
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--menentukan-kebutuhan-alat-akses-tanpa-memilih-dari-harga-saja.html",
+      "git_blob": "47c8994875161f909618cc93f7f1cc39c0de8758",
+      "bytes": 15472
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--menentukan-kebutuhan-pemasangan-lokal-setelah-barang-dikirim.html",
+      "git_blob": "8469d71ac5cb943f3d98dbc5b6e03365d4a00392",
+      "bytes": 15524
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--menentukan-letak-keluaran-kabel-pada-tulisan-neon-flex.html",
+      "git_blob": "9f4501db73c5c412084cc5930b82d59dd23a94c7",
+      "bytes": 15303
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--menentukan-lokasi-catu-daya-sejak-tahap-desain.html",
+      "git_blob": "f2a884f1ef63f57f6df3490ece9f38232845e895",
+      "bytes": 15170
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--menentukan-muka-terlihat-setelah-dikurangi-bingkai-neon-box.html",
+      "git_blob": "540a7da9f9db62d8ca0310808b111e60c3c33cfc",
+      "bytes": 15417
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--menentukan-penggunaan-huruf-kapital-penuh.html",
+      "git_blob": "bc09a3ca370d513daa2d5d008cf6f5c59e112259",
+      "bytes": 15379
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--menentukan-permukaan-yang-akan-terlihat-pada-akrilik-berlapis-warna.html",
+      "git_blob": "c73dfb3f1e9654c810fed33b2edaa04f97222ed8",
+      "bytes": 15611
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--menentukan-satuan-skala-pada-templat-pemasangan.html",
+      "git_blob": "bad90d250faf19b8f4ae05e419e1269c488abd1f",
+      "bytes": 14838
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--menentukan-sisi-pemasangan-stiker-kaca.html",
+      "git_blob": "f28949f62b646649e0a78f0423d57e191020dbda",
+      "bytes": 14967
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--menentukan-titik-temu-tim-pemasang-dan-pemesan.html",
+      "git_blob": "3ec86543662017c6dd7b4dada29a1e746e65a170",
+      "bytes": 15247
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--menentukan-tugas-utama-papan-nama-sebelum-memilih-bahan.html",
+      "git_blob": "c244722b9e9b6885bbd4a42914e7ffb79e6f3cf3",
+      "bytes": 15666
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--menentukan-tujuan-qr-tanpa-membagikan-data-sensitif.html",
+      "git_blob": "9176898f3c1592c4985657e3560a5d6dcacf39f8",
+      "bytes": 14786
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--menentukan-ukuran-kemasan-sebelum-merencanakan-pengiriman.html",
+      "git_blob": "00e4d6419b5ebcb1aa3ce9bbf511ff559f6bd53f",
+      "bytes": 15364
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--menentukan-ukuran-tulisan-neon-flex-dari-kontur-huruf.html",
+      "git_blob": "b5cf1a7f241a6662a521b209100d66931461b83f",
+      "bytes": 15351
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--menentukan-warna-badan-neon-box-terhadap-bangunan.html",
+      "git_blob": "cb0cca669bdc36f6349a7575dbad7fefe552f230",
+      "bytes": 15247
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--menentukan-warna-lampu-tanpa-mengubah-identitas-merek.html",
+      "git_blob": "01df794a8aaca03e9f2a0fc8f4875f395e0bc9a7",
+      "bytes": 15340
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--menentukan-warna-neon-flex-agar-sesuai-interior.html",
+      "git_blob": "a81027d4d799a42fed552cd037d09dafac5863f6",
+      "bytes": 15199
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--menetapkan-nama-file-versi-final-yang-tidak-membingungkan.html",
+      "git_blob": "eb1d3446082b729710b876ce6ef600f11d8367e0",
+      "bytes": 14834
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--menetapkan-toleransi-ukuran-dalam-persetujuan-desain.html",
+      "git_blob": "8e506e8ff0c95f18c6da6da6f3800f1d362e2c54",
+      "bytes": 15368
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--mengarsipkan-paket-produksi-agar-pesanan-berikutnya-konsisten.html",
+      "git_blob": "11982ae47192fdb88133426d91a4007a3fe7fe49",
+      "bytes": 15059
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--mengatur-aksen-dan-karakter-khusus-pada-logo.html",
+      "git_blob": "cd60e2e97242d51010f695ee0303a99ceb8119c2",
+      "bytes": 15302
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--mengatur-jadwal-kirim-tanpa-menyamakan-dengan-jadwal-pasang.html",
+      "git_blob": "ef59e3230648a24b09c36fb27fdbab691993066e",
+      "bytes": 15440
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--mengatur-jarak-huruf-secara-optis.html",
+      "git_blob": "1ae900d361ac056be49e7210f65fe982f3bb42d4",
+      "bytes": 15035
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--mengatur-label-koli-untuk-pesanan-banyak-titik.html",
+      "git_blob": "049240d65b46bc6ae11c3f703d6936c16ad0f076",
+      "bytes": 15169
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--mengatur-menu-website-agar-pelanggan-menemukan-bahan.html",
+      "git_blob": "b1888dfc797a57a91a7fb64509352a22e3a914a7",
+      "bytes": 14964
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--mengatur-nama-usaha-dan-jenis-layanan-dalam-satu-susunan.html",
+      "git_blob": "bc5c53b8e7109893b9527e1604fc08faf4581efd",
+      "bytes": 15384
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--mengatur-neon-box-pada-fasad-yang-mempunyai-kanopi.html",
+      "git_blob": "5e862c0469e24b3324776c0ea72f7c60ca97897e",
+      "bytes": 15285
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--mengatur-pemasangan-saat-pekerjaan-renovasi-belum-selesai.html",
+      "git_blob": "6aa5c28bd5b9373cab700837297403890de1a2a7",
+      "bytes": 15480
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--mengatur-pembagian-kata-pada-tulisan-neon-flex-panjang.html",
+      "git_blob": "76747daf923230134245f5deac41ad350d43dfb3",
+      "bytes": 15403
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--mengatur-penampilan-belakang-produk-yang-berdiri-bebas.html",
+      "git_blob": "a6dcce6f3f2aa41fb7bf364ee16e4a7bf8cb5afa",
+      "bytes": 14998
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--mengatur-pengambilan-langsung-dari-workshop.html",
+      "git_blob": "f1dd3af95ad346c45cd43f4df933b01f2c4f4a6c",
+      "bytes": 15211
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--mengatur-penyimpanan-signage-yang-tidak-sedang-dipakai.html",
+      "git_blob": "9ad4905674c4565e2f0279aa0a23e0e225e2b0f0",
+      "bytes": 14830
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--mengatur-sambungan-pada-tulisan-akrilik-panjang.html",
+      "git_blob": "3e766e67efcfae790876bef29c6b085df2394870",
+      "bytes": 15237
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--mengatur-sambungan-panel-acp-agar-tidak-mengganggu-logo.html",
+      "git_blob": "816fdc14dbb40e0a84c1be0cf2f731dee73c702a",
+      "bytes": 15196
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--mengatur-satu-identitas-untuk-beberapa-cabang-usaha.html",
+      "git_blob": "a16b0df65b1b533d3612d088456f05b08c209eb2",
+      "bytes": 15368
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--mengatur-transit-sementara-sebelum-barang-sampai-toko.html",
+      "git_blob": "818f0ad3b3bae7591da0c80a40a7d346164ee234",
+      "bytes": 15418
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--mengecek-akses-pintu-setelah-pemasangan-signage.html",
+      "git_blob": "ba29c9b707de01da9e59c8bfdb6e947be9ebbdd4",
+      "bytes": 15143
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--mengecek-apakah-barang-melewati-pintu-dan-koridor.html",
+      "git_blob": "fd691bb4d6976916be26fefbaf59ab916cd503f9",
+      "bytes": 15340
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--mengecek-apakah-panduan-penggunaan-sudah-dipahami-staf.html",
+      "git_blob": "00a80839ebecd35a37a05fcfd386145a6c4bec23",
+      "bytes": 15035
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--mengecek-arah-tekstur-pada-satu-set-huruf.html",
+      "git_blob": "eaf4d512c6870d89973bac03e58eba92f012bcc7",
+      "bytes": 15005
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--mengecek-arah-warna-metalik-pada-panel.html",
+      "git_blob": "57afeee5f1c351dbfb81d9e6d70955fe11d78ab2",
+      "bytes": 14660
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--mengecek-bahan-akrilik-pada-huruf-yang-sering-disentuh.html",
+      "git_blob": "be07ab42abad11a6f6d36f7b6a80e1eb1c490612",
+      "bytes": 15398
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--mengecek-barang-yang-tidak-boleh-ditumpuk.html",
+      "git_blob": "093344d91d0c1cf177b3d154e4e48bbe579018fa",
+      "bytes": 15250
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--mengecek-foto-papan-yang-tampak-terlalu-terang.html",
+      "git_blob": "beb27bf2fdcb2bc21e55937d0cf0d210359f3d2d",
+      "bytes": 15246
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--mengecek-gelembung-pada-stiker-yang-baru-dipasang.html",
+      "git_blob": "0d3ddb25331f4786df1d9f0245d25b9d8552355b",
+      "bytes": 15241
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--mengecek-jumlah-komponen-pada-pesanan-logo-dan-tulisan.html",
+      "git_blob": "dfe08090dcc2f5affb777d5739df1a4de64ab8b0",
+      "bytes": 14759
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--mengecek-kebersihan-area-setelah-pemasangan.html",
+      "git_blob": "6b68813536dc0c45d7f0b8d15b64260cc01847c4",
+      "bytes": 14767
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--mengecek-kebersihan-stainless-setelah-pekerjaan-bangunan.html",
+      "git_blob": "882afcb6dc2dbd785d5f8c655b435810f414a80c",
+      "bytes": 15497
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--mengecek-kelayakan-neon-flex-untuk-luar-ruang.html",
+      "git_blob": "a6782cfb9ab63af3313de874af8a32cbbe948ef4",
+      "bytes": 15159
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--mengecek-kemungkinan-penyok-pada-huruf-metal-saat-pengiriman.html",
+      "git_blob": "ee18395ec8a77b1cd2e7358316065d8ae72d557e",
+      "bytes": 15050
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--mengecek-ketebalan-akrilik-tanpa-menyamakan-dengan-tebal-huruf.html",
+      "git_blob": "f46c70594e7e1999916e2c41cfdc4c2b673c97da",
+      "bytes": 15556
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--mengecek-keterbacaan-neon-box-dari-dua-arah-jalan.html",
+      "git_blob": "4d460703bf71f2cb436bf2d34ca1fb1de6dd41a9",
+      "bytes": 15206
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--mengecek-masa-berlaku-penawaran-sebelum-memesan.html",
+      "git_blob": "a6b40e8d4190378a4b0b08f712cdde86106b4b7e",
+      "bytes": 14880
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--mengecek-permukaan-muka-tanpa-menggoresnya.html",
+      "git_blob": "4dc67921f849f1749ffbb9524e9040b2c95ec535",
+      "bytes": 14689
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--mengecek-permukaan-panel-sebelum-dipasangi-huruf.html",
+      "git_blob": "036fbaab378c474a7d8926695c1c4a975219fdbc",
+      "bytes": 14833
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--mengecek-perubahan-bentuk-neon-flex-setelah-pengiriman.html",
+      "git_blob": "5d3896b4df629d6305d748919571a3a7c2dd70c1",
+      "bytes": 15315
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--mengecek-posisi-neon-box-terhadap-jalur-orang.html",
+      "git_blob": "394cad75f3f6bc8c262ad95c60e7fcb313dc8d7f",
+      "bytes": 15123
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--mengecek-rincian-penawaran-saat-pesanan-dibagi-beberapa-tahap.html",
+      "git_blob": "b480367f12314e0df1065b00bea6d7dd984b5e7e",
+      "bytes": 15118
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--mengecek-stiker-pada-area-yang-sering-dibersihkan.html",
+      "git_blob": "07bf9f0f161863734b2b5ba813fce706666c074e",
+      "bytes": 15235
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--mengecek-ujung-dan-bagian-kecil-pada-logo.html",
+      "git_blob": "6ba80f0536b9366ffc37e71e20c4beddd53b73f2",
+      "bytes": 14739
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--mengecek-ukuran-dokumen-sebelum-ekspor-pdf.html",
+      "git_blob": "9a0fdcb8deea606492882e3301f1bd5fa413f755",
+      "bytes": 14583
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--mengecek-ukuran-keseluruhan-terhadap-gambar-persetujuan.html",
+      "git_blob": "071b2979c34cd477b90fe263ce1fb113a896a67a",
+      "bytes": 15001
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--mengecek-ulang-ukuran-setelah-renovasi-fasad.html",
+      "git_blob": "b5724414dcec3a04db27f1f02eaca0bd5e2e4c04",
+      "bytes": 15332
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--mengecek-urutan-dan-jarak-huruf-pada-pemasangan.html",
+      "git_blob": "35e75ed87fca6b0df50ab25afd468afdb31a3de9",
+      "bytes": 14772
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--mengecek-warna-tidak-seragam-pada-satu-set-huruf.html",
+      "git_blob": "7cada5724f3be871a3aa21547892eed2e05a9ee6",
+      "bytes": 15193
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--mengekspor-desain-untuk-tinjauan-pelanggan-tanpa-membocorkan-data-lain.html",
+      "git_blob": "d09100f675ca71437dd9439ad1494b59a33af5dd",
+      "bytes": 15192
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--mengelola-pergantian-satu-komponen-tanpa-kehilangan-spesifikasi.html",
+      "git_blob": "e3e0538a7a2573b7c1103728d1107443b1c71c41",
+      "bytes": 14989
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--mengenali-bahan-inti-pada-akrilik-spon.html",
+      "git_blob": "537933be203e895716c7621a4174b331f9bf1f82",
+      "bytes": 14641
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--mengenali-batas-klaim-akrilik-tahan-cuaca.html",
+      "git_blob": "2bcb28590b06553f13ebee1facf3fa0973a033ef",
+      "bytes": 15104
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--mengenali-batas-klaim-led-hemat-energi.html",
+      "git_blob": "c1a22d6d795406047a87a60a5b692805f5c11ace",
+      "bytes": 15126
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--mengevaluasi-apakah-konten-membantu-pelanggan-yang-tepat.html",
+      "git_blob": "f70b48e83df84bbea1069a495c065d74f74813e9",
+      "bytes": 15579
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--mengevaluasi-pergantian-satu-huruf-stainless-yang-rusak.html",
+      "git_blob": "cdd62e99f4322233a2fa9bbfd612fba9642b00ad",
+      "bytes": 15422
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--mengevaluasi-perubahan-warna-tanpa-menyalahkan-satu-bahan.html",
+      "git_blob": "b7aefe38202ae19e4b2d5859154bb230133af9dd",
+      "bytes": 14969
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--mengevaluasi-tepi-akrilik-pada-produk-yang-dibaca-dekat.html",
+      "git_blob": "0c96c408f9342919d96632709147a722137cdf41",
+      "bytes": 15371
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--menggunakan-aksen-warna-pada-tombol-dan-papan-informasi.html",
+      "git_blob": "628231f6ab30421958953071c2ef70053479a83c",
+      "bytes": 15404
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--menggunakan-gambar-panduan-dengan-keterangan-yang-bisa-dibaca.html",
+      "git_blob": "8b007a029df3e125e94947c6e2019cfd0b8853f3",
+      "bytes": 15467
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--menggunakan-warna-merek-pada-fasad-yang-sudah-ramai.html",
+      "git_blob": "5d64412c738e5df183ed57b654d74650d3c434eb",
+      "bytes": 15331
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--menghindari-efek-bayangan-berlebihan-pada-desain-potong.html",
+      "git_blob": "f11cfc6fc4ca74732437543f7bbdecb43bd1fb8c",
+      "bytes": 15378
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--menghindari-pemotongan-laser-pada-pvc.html",
+      "git_blob": "eae6361dcefdefae6f356c6ebe2664cdf848d116",
+      "bytes": 15223
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--menghindari-perubahan-font-ketika-file-dibuka-di-komputer-lain.html",
+      "git_blob": "1f12b6ea8e3e04a1295b9d46c35797b0338d019b",
+      "bytes": 15633
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--menghitung-berat-volumetrik-dengan-pembagi-ekspedisi-yang-benar.html",
+      "git_blob": "d9c62bfda68c37ee4cac966b9039e08cf82e302e",
+      "bytes": 15533
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--menghitung-biaya-listrik-papan-dari-pemakaian-nyata.html",
+      "git_blob": "150c683e5718ef5e638bcb8aa8aa233ec97f0397",
+      "bytes": 15325
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--menghitung-perkiraan-jumlah-watt-dari-daftar-modul.html",
+      "git_blob": "e4164c3c5c0b1e281ed35887d6e4bf44fc44c0ab",
+      "bytes": 15351
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--menghubungkan-papan-fisik-dengan-halaman-kontak-yang-benar.html",
+      "git_blob": "b3a7ae8978afc7d66fddc63315804c7464500018",
+      "bytes": 15046
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--mengirim-file-desain-melalui-chat-tanpa-menurunkan-kualitas-sumber.html",
+      "git_blob": "3af145045eeaa72b8465efd439206c2f2ced79f3",
+      "bytes": 15321
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--mengonfirmasi-orientasi-panah-sebelum-pemasangan.html",
+      "git_blob": "a94dfbe0ec80428f742a0045494e58e6e3d9218f",
+      "bytes": 15179
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--menguji-nama-toko-dengan-pembaca-yang-belum-mengenalnya.html",
+      "git_blob": "bd1b056136c2ccf029bbf27ebf49f89689c4ecc4",
+      "bytes": 15556
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--mengukur-fasad-dari-foto-dengan-satu-ukuran-pembanding.html",
+      "git_blob": "cd5dae3a69029552dc47a1d23ca4b8f3ee968e7e",
+      "bytes": 15490
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--mengukur-huruf-kapital-dan-tinggi-keseluruhan-tulisan.html",
+      "git_blob": "5285d58caaa4e33527d8be72682c0f9f7dc690a1",
+      "bytes": 15346
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--mengukur-papan-pengganti-tanpa-terjebak-ukuran-papan-lama.html",
+      "git_blob": "7fc6c84feffa927b914ebbf74891d0b7469803f4",
+      "bytes": 15456
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--mengukur-susunan-huruf-dua-baris.html",
+      "git_blob": "a5c4d80ca61ddd7042f46fdd713f37d70909f192",
+      "bytes": 14946
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--mengumpulkan-referensi-desain-tanpa-menyalin-merek-orang.html",
+      "git_blob": "7675960ff71b6c04682f84cc64454cd4a77a473c",
+      "bytes": 15630
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--mengurangi-benturan-saat-membersihkan-sekitar-signage.html",
+      "git_blob": "c4b1b83d8bf02e3d773460eeafcf1d2a92e4d626",
+      "bytes": 14983
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--menilai-biaya-desain-sebagai-pekerjaan-tersendiri.html",
+      "git_blob": "224514c445339ebc0df984ad962f01ed6f3e5cc7",
+      "bytes": 14921
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--menilai-grafis-neon-box-pada-siang-dan-malam.html",
+      "git_blob": "27a2e7c53a2ce49d090c06ea8d0c9fa88d4ff8dc",
+      "bytes": 15078
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--menilai-huruf-galvanis-dengan-finishing-cat.html",
+      "git_blob": "d48ac7a9bdc6eb4fd6ecd8033c63383b92cad039",
+      "bytes": 15188
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--menilai-huruf-tebal-tanpa-menutup-ruang-negatif.html",
+      "git_blob": "72473aec7f5f559be8e43a1aab5afc109e5558f5",
+      "bytes": 15242
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--menilai-kebutuhan-signage-sebelum-rebranding.html",
+      "git_blob": "1608c71100c0e45b362251e66909accec99b3a11",
+      "bytes": 15225
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--menilai-pantulan-huruf-cermin-pada-resepsionis.html",
+      "git_blob": "daa8de8624d28f75d9cb06344ad476060cec71f0",
+      "bytes": 15122
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--menilai-permukaan-sebelum-memesan-stiker-dinding.html",
+      "git_blob": "b476c5211b88dc543e78cd176a9fc30610376c11",
+      "bytes": 15055
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--menilai-stainless-berwarna-emas-tanpa-menyangka-emas-murni.html",
+      "git_blob": "738c2b24c4516a3220c3a7e2a2602e4300244e3b",
+      "bytes": 15485
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--menilai-tepi-bahan-inti-pada-logo-indoor.html",
+      "git_blob": "dac2ac688885e759b5c90e65cf68b41cf318a2e9",
+      "bytes": 14630
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--menilai-warna-metal-pada-ruangan-terang.html",
+      "git_blob": "182496f12a6fb5304ae7c3bbb4fe241ff43660a7",
+      "bytes": 15244
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--menjaga-akrilik-dari-goresan-saat-menerima-barang.html",
+      "git_blob": "e1129c550ff627e6a32529876e91810553123e45",
+      "bytes": 15352
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--menjaga-bidang-yang-baru-selesai-dari-kerusakan-pemasangan.html",
+      "git_blob": "e34d168f63bce9a9fd08ed39bb3fdbff9789015e",
+      "bytes": 15429
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--menjaga-hierarki-ketika-logo-dan-teks-sama-kuat.html",
+      "git_blob": "460d44d6bbf6f6b2d8f5da5c58dbce6632da219e",
+      "bytes": 15294
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--menjaga-logo-interior-dari-benturan-furnitur.html",
+      "git_blob": "d98f380bce9326c1a3e36fd25f2443236c1df8e3",
+      "bytes": 14714
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--menulis-judul-panduan-sesuai-pertanyaan-calon-pembeli.html",
+      "git_blob": "47a389a36464ae664d7e3b734951751b2962001e",
+      "bytes": 15357
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--menulis-pesan-pertama-yang-membuat-konsultasi-signage-lebih-cepat.html",
+      "git_blob": "c571205755ad4637a65207c006ee67350842fa6a",
+      "bytes": 15773
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--menuliskan-ukuran-dalam-milimeter-dan-sentimeter-dengan-aman.html",
+      "git_blob": "2b33f1672886290e75ad5cb0dfaf56ad259804ed",
+      "bytes": 15463
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--menutup-serah-terima-tanpa-kehilangan-daftar-tindak-lanjut.html",
+      "git_blob": "29be468c0dc3805bd0afb63aa0b52b66f61c010a",
+      "bytes": 15032
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--menyambungkan-instagram-dan-tiktok-tanpa-menghambat-kontak.html",
+      "git_blob": "e21ce3b3acb7700516c6f2fdfe2f2a2b0bf0e1b9",
+      "bytes": 15158
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--menyediakan-email-sebagai-alternatif-konsultasi.html",
+      "git_blob": "7065d750160c9ccce3b140790dee2fe1afe3e302",
+      "bytes": 14800
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--menyepakati-akses-kerja-ketika-toko-tetap-buka.html",
+      "git_blob": "81ecfa9fc219e06269bfc7fc87cbae8a67bbcf7d",
+      "bytes": 15340
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--menyepakati-bunyi-dan-getaran-yang-perlu-dilaporkan.html",
+      "git_blob": "0922aa066cff75bd338be816345d010753b58e00",
+      "bytes": 15306
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--menyepakati-dokumen-setelah-pekerjaan-terpasang.html",
+      "git_blob": "2b250c651d44a0c2c5cc09638546bdf2616acee4",
+      "bytes": 15171
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--menyepakati-finishing-stiker-doff-atau-glossy.html",
+      "git_blob": "3c39d02f581f13e214b972fedbd904f6d56b4650",
+      "bytes": 15053
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--menyepakati-jenis-perekat-tanpa-memilih-dari-nama-dagang-saja.html",
+      "git_blob": "e8d750a3c20adb525cf20634d445de96bfe3b94d",
+      "bytes": 15524
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--menyepakati-pajak-dan-dokumen-tanpa-menebak-tarif.html",
+      "git_blob": "5ed83155311197b7c060af629e0b887f435177af",
+      "bytes": 14907
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--menyepakati-perubahan-posisi-di-lapangan.html",
+      "git_blob": "91294f4e64ed0ce35a6e54f4492bfc8dff8b596a",
+      "bytes": 15226
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--menyepakati-tahap-pembayaran-yang-mudah-dilacak.html",
+      "git_blob": "07ae6a03dee74e2c2528677324c745cdd41d8f3f",
+      "bytes": 14819
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--menyepakati-warna-badan-huruf-yang-berbeda-dari-muka.html",
+      "git_blob": "e8810379cf077fa992da1bf3bd019a38abf1421d",
+      "bytes": 14804
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--menyesuaikan-brief-signage-dengan-usaha-yang-menyewa-ruko.html",
+      "git_blob": "30d90f1c2ead0caa196e70d9a2ac4ecb66cd1380",
+      "bytes": 15494
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--menyetujui-perubahan-warna-akibat-penggantian-bahan.html",
+      "git_blob": "104cbe5850fc309b4af06cdcdd0f91b83fe31858",
+      "bytes": 15499
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--menyiapkan-foto-survei-pemasangan-yang-berguna.html",
+      "git_blob": "e4ad19e37a48d31330a485a41953e0f6d843e2d6",
+      "bytes": 15217
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--menyiapkan-logo-satu-warna-untuk-cutting.html",
+      "git_blob": "5765692a46f0699cf831060cdd5be553a0ead434",
+      "bytes": 14636
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--menyiapkan-penerima-yang-bisa-memeriksa-paket.html",
+      "git_blob": "07db61e8deedbc0c0d2116ce1b5c640b370d5a56",
+      "bytes": 15227
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--menyiapkan-pengiriman-ke-pulau-dengan-tujuan-akhir-jelas.html",
+      "git_blob": "0531c7425f9bccbf568c70f177d3244c43cb5c7c",
+      "bytes": 15337
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--menyiapkan-permintaan-servis-dengan-nomor-pesanan.html",
+      "git_blob": "d7674ea2ce18b76c56fd3dfed3760ffe438364da",
+      "bytes": 14771
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--menyiapkan-teks-menjadi-kurva-sambil-menyimpan-versi-edit.html",
+      "git_blob": "0984b5c5b92b362075fd5b90281d8514259468ae",
+      "bytes": 15442
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--menyiapkan-versi-logo-untuk-penggunaan-terang-dan-gelap.html",
+      "git_blob": "2578126395b521ee02ec5560305e315457eda4e1",
+      "bytes": 14959
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--menyimpan-catatan-gangguan-lampu-yang-membantu-teknisi.html",
+      "git_blob": "ccfdbf1a078bff1149be6ba97f53536951e5a88a",
+      "bytes": 14934
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--menyimpan-data-komponen-untuk-penggantian-lampu.html",
+      "git_blob": "3088d7d259a4ec26012638ecade5d82a92cda6b0",
+      "bytes": 15214
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--menyimpan-foto-serah-terima-yang-bisa-dipakai-untuk-servis.html",
+      "git_blob": "78785320c001842dcb63e890e19ab5216dd57a7c",
+      "bytes": 15073
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--menyimpan-huruf-foam-sebelum-acara.html",
+      "git_blob": "d7625b8d9dceda8b4bbc79b1f0bab9b805fc8c6f",
+      "bytes": 14628
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--menyimpan-kemasan-untuk-kebutuhan-retur-atau-servis.html",
+      "git_blob": "4183d01017bb12d164315aa321262412060dd7c4",
+      "bytes": 15319
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--menyimpan-remote-dan-petunjuk-neon-flex.html",
+      "git_blob": "e30a057f8b2f79cf93a72cc6fcc438610920292e",
+      "bytes": 15064
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--menyimpan-stiker-sebelum-waktu-pemasangan.html",
+      "git_blob": "30691b8b782d5ff6d8df3315ac5c8c4d35418f2f",
+      "bytes": 14985
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--menyusun-anggaran-beberapa-titik-tanpa-meratakan-semua-biaya.html",
+      "git_blob": "d8ece334b7d2871678b57a226c36b4dda7d143a2",
+      "bytes": 15109
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--menyusun-booth-pameran-agar-merek-terlihat-dari-lorong.html",
+      "git_blob": "2448f149d4f2415af9b2a9beedab3d7193c8e9be",
+      "bytes": 15333
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--menyusun-brief-signage-untuk-toko-yang-belum-buka.html",
+      "git_blob": "c9bf8e36e6f6661061123153942d9c0bc1f2ebc6",
+      "bytes": 15396
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--menyusun-buku-log-perawatan-signage-untuk-usaha.html",
+      "git_blob": "fe1762e735db061785b0fc4056e9c694e8f34593",
+      "bytes": 14773
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--menyusun-catatan-perawatan-untuk-signage-stainless.html",
+      "git_blob": "319cb1df98b2fb5e83dac7c7b39fd80c93ed3c66",
+      "bytes": 15362
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--menyusun-daftar-bahan-pembersih-yang-diperbolehkan.html",
+      "git_blob": "7360841c6b7aad2d9e59e3b04697bc46e4f0ebb2",
+      "bytes": 14925
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--menyusun-daftar-kesiapan-sehari-sebelum-pemasangan.html",
+      "git_blob": "530998747aeb5b65d5c1a8c4cb81fad8de151467",
+      "bytes": 15248
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--menyusun-daftar-signage-untuk-satu-gedung.html",
+      "git_blob": "47d1ca3b7463da5a39ba96c8b9aa446b2ea93231",
+      "bytes": 15255
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--menyusun-jadwal-mundur-dari-tanggal-pembukaan-toko.html",
+      "git_blob": "e5513a11a724083fd3d1ec28af8a2a3832994cef",
+      "bytes": 15372
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--menyusun-jadwal-nyala-yang-sesuai-jam-usaha.html",
+      "git_blob": "2afcaf17d0d41be5ec711481e1df0054e81d321b",
+      "bytes": 15068
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--menyusun-logo-berwarna-banyak-tanpa-membuat-bidang-kacau.html",
+      "git_blob": "34c8b32ad6085fa1eb02938de21eaa2cdeb5cc6c",
+      "bytes": 15405
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--menyusun-papan-laundry-dengan-informasi-yang-tidak-cepat-usang.html",
+      "git_blob": "2c502154fe3ad907bf5b9e5588f893855c786d9b",
+      "bytes": 15509
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--menyusun-satu-paket-identitas-untuk-usaha-baru.html",
+      "git_blob": "9665b733bd58deebda1c4af413c0202a09d016e7",
+      "bytes": 15231
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--menyusun-signage-kafe-antara-fasad-dan-interior.html",
+      "git_blob": "49af9666a05f950cb7a1bcc01624ccfcfc43650f",
+      "bytes": 15192
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--menyusun-signage-restoran-dengan-area-pesan-dan-ambil.html",
+      "git_blob": "fcd9a91af5997a48de53bb82bfe46fb267bc421f",
+      "bytes": 15434
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--menyusun-spesifikasi-akrilik-yang-dapat-dibandingkan-antar-vendor.html",
+      "git_blob": "1015dc6f4d0ca0048e22fd7be57b6c399fbfdf61",
+      "bytes": 15579
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--menyusun-spesifikasi-huruf-interior-untuk-pemakaian-berulang.html",
+      "git_blob": "f42ac86a620da012931091b9ac6cd7df0ac98e86",
+      "bytes": 15046
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--menyusun-spesifikasi-neon-box-yang-lengkap.html",
+      "git_blob": "5f3031582e306c9371907f3c59cc5cef4ee7fac2",
+      "bytes": 15224
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--menyusun-spesifikasi-neon-flex-sebelum-konfirmasi-pesanan.html",
+      "git_blob": "9e07ef528e1bc30f2b07cad12e0e404b1f412bee",
+      "bytes": 15474
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--menyusun-spesifikasi-stiker-agar-harga-mudah-dibandingkan.html",
+      "git_blob": "b6a50b20ad6c3a198dec3321feb6824dc86526e7",
+      "bytes": 15330
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--menyusun-tombol-whatsapp-berdasarkan-kebutuhan-pelanggan.html",
+      "git_blob": "cb113219e7fc1402bcb6cdbddd0dd19b2b94d632",
+      "bytes": 15066
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--merancang-huruf-nama-masjid-pada-bidang-arsitektur.html",
+      "git_blob": "455b70cee1074897516d77fe92b4abd42af1a94e",
+      "bytes": 15440
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--merancang-identitas-fasad-untuk-toko-pakaian.html",
+      "git_blob": "0c6c7ab7283579b3f2003ca762c0936e539d8547",
+      "bytes": 15182
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--merancang-kebutuhan-papan-untuk-usaha-musiman.html",
+      "git_blob": "2d44052df1a64d1afe297855f293d96f3866b30a",
+      "bytes": 15284
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--merancang-papan-klinik-dengan-jalur-pengunjung-yang-jelas.html",
+      "git_blob": "e55e0da00f40ec771e75c5ff548f9b98ecd384c5",
+      "bytes": 15439
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--merancang-signage-sekolah-yang-mudah-dipahami-tamu.html",
+      "git_blob": "a381909d0744c87fcea12fa2800edea3a08748ae",
+      "bytes": 15423
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--merawat-huruf-nonlampu-di-meja-pelayanan.html",
+      "git_blob": "c1bed127ea6a879fc4988f76c1f647dfa3d1d61e",
+      "bytes": 14620
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--merawat-stainless-sesuai-finishing-permukaannya.html",
+      "git_blob": "5b6f44f22cee5bb103e6082d2eac8cc411a55823",
+      "bytes": 15157
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--merekam-pembukaan-kemasan-sebagai-dokumentasi-penerimaan.html",
+      "git_blob": "fe87260cbb5f71d5f2b0ad918362f92e821ef69d",
+      "bytes": 15493
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--merekam-ukuran-panel-kaca-yang-terbagi-beberapa-daun.html",
+      "git_blob": "b952e92b42e64f8b8125c0991aaede5812c5954d",
+      "bytes": 15383
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--merencanakan-akses-servis-untuk-huruf-yang-menyala.html",
+      "git_blob": "e91e40060627d2c8207d3109f47853b9a0effa4b",
+      "bytes": 15338
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--merencanakan-pembongkaran-papan-lama-sebagai-lingkup-terpisah.html",
+      "git_blob": "79f0bbd3b60a46f30ca3328c8a841f1eec7fe66b",
+      "bytes": 15456
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--merencanakan-penggantian-muka-neon-box-di-masa-depan.html",
+      "git_blob": "acc1c1f31b2ce8f4fcb59eb294591f5963131318",
+      "bytes": 15382
+    },
+    {
+      "path": "public_html/includes/content-v2/tutorial/panduan--merencanakan-perawatan-papan-pada-lokasi-sulit-dijangkau.html",
+      "git_blob": "f26a2839030bd9698ae9032ef6142d1fae83ed17",
+      "bytes": 14979
+    },
+    {
+      "path": "public_html/includes/content-v2/wilayah/bantaeng.html",
+      "git_blob": "416a6637c7cdc4dbd94fdd143b8572c092640e75",
+      "bytes": 12985
+    },
+    {
+      "path": "public_html/includes/content-v2/wilayah/barru.html",
+      "git_blob": "302f9a72ead0a4b69f4f6d178a633b510a29a30c",
+      "bytes": 12776
+    },
+    {
+      "path": "public_html/includes/content-v2/wilayah/bone.html",
+      "git_blob": "5173db40b4a892848078e2cb7d02eb2b2fa1deed",
+      "bytes": 12879
+    },
+    {
+      "path": "public_html/includes/content-v2/wilayah/bulukumba.html",
+      "git_blob": "e15a48f827c897048d3edab516ac1095b115ed01",
+      "bytes": 12933
+    },
+    {
+      "path": "public_html/includes/content-v2/wilayah/enrekang.html",
+      "git_blob": "a1ee6e8e7b5fc14da1e330a788d2d90183bc6e64",
+      "bytes": 12884
+    },
+    {
+      "path": "public_html/includes/content-v2/wilayah/gowa.html",
+      "git_blob": "eef47e5692934cf6cce2af05f7a5f50b65c7b7e9",
+      "bytes": 12961
+    },
+    {
+      "path": "public_html/includes/content-v2/wilayah/jeneponto.html",
+      "git_blob": "be6df8bbcbe8a19fd46ef304d45f0d9931e13ab5",
+      "bytes": 12895
+    },
+    {
+      "path": "public_html/includes/content-v2/wilayah/kepulauan-selayar.html",
+      "git_blob": "0bf188d438c724316b782cd26177ad4a016c6dcb",
+      "bytes": 13127
+    },
+    {
+      "path": "public_html/includes/content-v2/wilayah/luwu-timur.html",
+      "git_blob": "c11a82d7856184947166c4560a98cdc4d126f6a3",
+      "bytes": 12974
+    },
+    {
+      "path": "public_html/includes/content-v2/wilayah/luwu-utara.html",
+      "git_blob": "51c74cb85136b88f6e2a4e56fccef1c73e581712",
+      "bytes": 12923
+    },
+    {
+      "path": "public_html/includes/content-v2/wilayah/luwu.html",
+      "git_blob": "bd5d2fa1ccd00c2490d036696fb51dc4051985bc",
+      "bytes": 12824
+    },
+    {
+      "path": "public_html/includes/content-v2/wilayah/makassar.html",
+      "git_blob": "63a5de02c566c5806e7beb414a284fa0ccb76113",
+      "bytes": 13150
+    },
+    {
+      "path": "public_html/includes/content-v2/wilayah/maros.html",
+      "git_blob": "8cc0625bab0d2936b52f710779bf00efb97b15a8",
+      "bytes": 12999
+    },
+    {
+      "path": "public_html/includes/content-v2/wilayah/palopo.html",
+      "git_blob": "be91c5bd2457477ecd8b82aee11a04753e215051",
+      "bytes": 12846
+    },
+    {
+      "path": "public_html/includes/content-v2/wilayah/pangkajene-dan-kepulauan.html",
+      "git_blob": "1c4c1e085dbd7c3fee63c1b8313c8ec6b1c8ddf8",
+      "bytes": 13261
+    },
+    {
+      "path": "public_html/includes/content-v2/wilayah/parepare.html",
+      "git_blob": "05955e250e6c3743d49361c3dc23cde32d203547",
+      "bytes": 12835
+    },
+    {
+      "path": "public_html/includes/content-v2/wilayah/pinrang.html",
+      "git_blob": "c8e664cb84ea8a23847f08b15efb8d28b6bd465a",
+      "bytes": 12862
+    },
+    {
+      "path": "public_html/includes/content-v2/wilayah/sidenreng-rappang.html",
+      "git_blob": "9c9cf2ab599ba515ba733f339e2a5b41baf1c472",
+      "bytes": 12998
+    },
+    {
+      "path": "public_html/includes/content-v2/wilayah/sinjai.html",
+      "git_blob": "b8abdd974c976aa3da6f702ded472e57f8612de3",
+      "bytes": 12993
+    },
+    {
+      "path": "public_html/includes/content-v2/wilayah/soppeng.html",
+      "git_blob": "ea14ffca9ccf4213e629786e589c62e80e1e8091",
+      "bytes": 12946
+    },
+    {
+      "path": "public_html/includes/content-v2/wilayah/takalar.html",
+      "git_blob": "3d0740b892a8b42fdb3eb77985d4521d7e57dbb4",
+      "bytes": 12869
+    },
+    {
+      "path": "public_html/includes/content-v2/wilayah/tana-toraja.html",
+      "git_blob": "641d95d6795034bc19b649516406ee6bf407c0fb",
+      "bytes": 12940
+    },
+    {
+      "path": "public_html/includes/content-v2/wilayah/toraja-utara.html",
+      "git_blob": "071371eedce82ecab7e087162373167c9f825ad7",
+      "bytes": 12887
+    },
+    {
+      "path": "public_html/includes/content-v2/wilayah/wajo.html",
+      "git_blob": "859dffaa32c91b545a11e6278c6f4b444966e52d",
+      "bytes": 12794
+    },
+    {
+      "path": "public_html/includes/refresh-footer.html",
+      "git_blob": "3fa8d83b045874ac791ef3a8f34ee02772a8e6c0",
+      "bytes": 1926
+    },
+    {
+      "path": "public_html/includes/refresh-header.html",
+      "git_blob": "6c8e274786357a73b179fd637ca0afa10a4c7637",
+      "bytes": 2479
+    },
+    {
+      "path": "public_html/index.html",
+      "git_blob": "ac88f2e37e43d460fbea6fb35bf93b65e6946783",
+      "bytes": 39229
+    },
+    {
+      "path": "public_html/panduan.html",
+      "git_blob": "082c224e3ac36d9b8745d4ad8fe785571c0a87ba",
+      "bytes": 16403
+    },
+    {
+      "path": "public_html/produk.html",
+      "git_blob": "a440e2d933a8a66a05e5c1537695db9889b72075",
+      "bytes": 12696
+    },
+    {
+      "path": "public_html/projects.html",
+      "git_blob": "42ed5e865719cd160627ddea429cd32442539248",
+      "bytes": 60397
+    },
+    {
+      "path": "public_html/seo.php",
+      "git_blob": "d3c2480a068066ee2585245581e542cb9e7665d6",
+      "bytes": 14029
+    },
+    {
+      "path": "public_html/wilayah.html",
+      "git_blob": "9f3d5f642c3748d5ea1c8823ea02dbc28efb5374",
+      "bytes": 12027
+    }
+  ]
+}

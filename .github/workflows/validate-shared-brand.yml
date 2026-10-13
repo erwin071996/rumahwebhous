@@ -1,0 +1,143 @@
+name: Build and validate SharedBrand
+on:
+  pull_request:
+    paths:
+      - 'config/site-brand.json'
+      - 'config/shared-brand-inputs.json'
+      - 'templates/presentation/**'
+      - 'public_html/**'
+      - 'docs/shared-brand-build.json'
+      - 'scripts/build_shared_brand.py'
+      - 'scripts/check_shared_brand.py'
+      - 'scripts/prepare_shared_brand_preview.py'
+      - 'tests/shared-brand-native.cjs'
+      - '.github/workflows/validate-shared-brand.yml'
+permissions:
+  contents: read
+jobs:
+  shared-brand:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    env:
+      QA_CANDIDATE_SHA: ${{ github.event.pull_request.head.sha }}
+      QA_REPO_DIR: .
+      QA_ARTIFACT_DIR: artifacts/shared-brand
+    steps:
+      - name: Checkout exact candidate without persisted credentials
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 1
+          persist-credentials: false
+      - name: Checkout immutable existing baseline for comparison
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          ref: dd31d7305d1571b4fde960ed0b942135a88388a1
+          fetch-depth: 1
+          persist-credentials: false
+          path: _baseline
+      - name: Verify exact sources and tracked build state
+        id: state
+        shell: bash
+        run: |
+          test "$(git rev-parse HEAD)" = "$QA_CANDIDATE_SHA"
+          python3 - <<'PY'
+          import hashlib
+          from pathlib import Path
+          expected = {"public_html/assets/ui/design-system.css":"66a28499c514cb36c4e43ef1bad89782f963a5bf93146fa81f7370f7e85fef74","templates/presentation/shared-header.html":"7a1a98936698f57cfec2cee7e54f0e64c7176dba16c7acfb916125e9b51bc652","templates/presentation/shared-footer.html":"1dcb943ed1bf607aab248361ebf075d498f083fc01a8a4984687ebf72f12e64a","templates/presentation/shared-cta.html":"d1597bb8b7f315eff0fa600d30b2f6a5dccdcfa4340e544841d5554b71f3761e","public_html/assets/marketing-20261006/site.js":"baf0918036519d5d847d41ee812c5f7823823a41158973d999e9ce317cfa0c5d","public_html/assets/refresh-20261006/site-v2.js":"16cf9ec47fb3d251b3439eaf717f9c9e67abe58a5eb21f8d0027bc82f27b27b4","public_html/assets/refresh-20261006/site.js":"75c087398bf581cba22e65d75a86c76e612459e9be394a613d408f5f73c910b1","config/site-brand.json":"eba75c23cd438cdea7d0bfad80943240822c575f91c4d6180036f293a6c56727","config/shared-brand-inputs.json":"1aa590ebe6ecd78c7322020dcfde541b0de5f68df93be03a624e1ec56f3aa93d","scripts/build_shared_brand.py":"0277c131860c02276768ad712c027a9bd29128bf55f39dd2b79b416353a45af5","scripts/check_shared_brand.py":"4e6f7c3618c8777832ed7aaf1699324863b50f082f87b9b6cfc388711708671e","tests/shared-brand-native.cjs":"f719051d3757e60ad30d6c72f074e1d04bfb2c9555bcfc10f261bb20b0bae80b","scripts/prepare_shared_brand_preview.py":"7d0a5f635ed714f1abdf7e81522b4528e8ec48149d40b15cfbae43107b8609d9"}
+          for name, digest in expected.items():
+              file = Path(name)
+              assert file.is_file() and not file.is_symlink(), "Unsafe SharedBrand source"
+              assert hashlib.sha256(file.read_bytes()).hexdigest() == digest, "SharedBrand source identity mismatch"
+          print("Exact SharedBrand sources verified.")
+          PY
+          if git cat-file -e HEAD:docs/shared-brand-build.json 2>/dev/null; then
+            echo "generated=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "generated=false" >> "$GITHUB_OUTPUT"
+          fi
+          php -r 'if (PHP_VERSION_ID < 80300 || PHP_VERSION_ID >= 80400) exit(1); echo "Preview PHP: ".PHP_VERSION."\n";'
+          python3 -m py_compile scripts/build_shared_brand.py scripts/check_shared_brand.py scripts/prepare_shared_brand_preview.py
+          node --check tests/shared-brand-native.cjs
+      - name: Build once from pinned source or verify exact generated candidate
+        shell: bash
+        env:
+          GENERATED: ${{ steps.state.outputs.generated }}
+        run: |
+          if [ "$GENERATED" = true ]; then
+            python3 scripts/build_shared_brand.py --repo . --baseline _baseline --check
+          else
+            python3 scripts/build_shared_brand.py --repo . --baseline _baseline
+          fi
+          python3 scripts/check_site.py --repo-root .
+          php -l public_html/seo.php
+          php -l public_html/includes/shared-brand.php
+      - name: Verify preservation and deterministic configuration propagation
+        shell: bash
+        run: python3 scripts/check_shared_brand.py --baseline-dir _baseline/public_html --candidate-dir public_html --repo-dir . --output artifacts/shared-brand/source-results.json
+      - name: Emit scanned public build bytes for the sole integrator
+        if: steps.state.outputs.generated != 'true'
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import subprocess
+          result = subprocess.run(["python3","scripts/build_shared_brand.py","--repo",".","--baseline","_baseline","--check","--emit-transfer"],capture_output=True,text=True)
+          if result.returncode:
+              raise SystemExit("Public build transfer failed; no raw source diagnostic emitted.")
+          identity = [line for line in result.stdout.splitlines() if line.startswith("SHARED_BRAND_TREE_IDENTITY=")]
+          values = [line.removeprefix("SHARED_BRAND_TREE_DATA_B64=") for line in result.stdout.splitlines() if line.startswith("SHARED_BRAND_TREE_DATA_B64=")]
+          assert len(identity)==1 and len(values)==1, "Missing bounded public transfer"
+          print(identity[0])
+          data=values[0]
+          chunks=[data[i:i+8192] for i in range(0,len(data),8192)]
+          print("SHARED_BRAND_TREE_PARTS="+str(len(chunks)))
+          for index,chunk in enumerate(chunks):
+              print("SHARED_BRAND_TREE_DATA_B64_PART_"+str(index).zfill(4)+"="+chunk)
+          PY
+      - name: Install pinned native browser only for the generated candidate
+        if: steps.state.outputs.generated == 'true'
+        shell: bash
+        run: |
+          npm install --ignore-scripts --no-package-lock --no-save playwright@1.64.0
+          npx playwright install --with-deps chromium
+      - name: Prepare isolated read-only previews
+        if: steps.state.outputs.generated == 'true'
+        shell: bash
+        run: |
+          python3 scripts/prepare_shared_brand_preview.py --candidate public_html --baseline _baseline/public_html
+          python3 - <<'PY'
+          import time,urllib.request
+          for port in (8765,8766):
+              for attempt in range(80):
+                  try:
+                      with urllib.request.urlopen("http://127.0.0.1:"+str(port)+"/",timeout=2) as response:
+                          assert response.status==200
+                      break
+                  except (OSError,AssertionError):
+                      if attempt==79: raise
+                      time.sleep(.1)
+          print("Two isolated read-only previews ready.")
+          PY
+      - name: Test changed template families in native Chromium
+        if: steps.state.outputs.generated == 'true'
+        shell: bash
+        run: node tests/shared-brand-native.cjs
+      - name: Stop and remove temporary previews
+        if: always() && steps.state.outputs.generated == 'true'
+        shell: bash
+        run: |
+          if [ -n "${QA_FIXTURE_STATE:-}" ]; then
+            python3 scripts/prepare_shared_brand_preview.py --stop "$QA_FIXTURE_STATE"
+          fi
+      - name: Save focused results and screenshots only
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: shared-brand-${{ github.event.pull_request.head.sha }}
+          path: |
+            artifacts/shared-brand/source-results.json
+            artifacts/shared-brand/results.json
+            artifacts/shared-brand/*.png
+            artifacts/shared-brand/*.json
+          if-no-files-found: warn
+          retention-days: 14
