@@ -8,8 +8,17 @@ from pathlib import Path
 from unittest.mock import patch
 import xml.etree.ElementTree as ET
 
-from scripts import deploy_ftps as deploy
-from scripts.service_content_check import verify_service_content
+import importlib.util
+
+def load_script(name, filename):
+    source = Path(__file__).resolve().parents[1] / "scripts" / filename
+    spec = importlib.util.spec_from_file_location(name, source)
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+deploy = load_script("service_deploy_under_test", "deploy_ftps.py")
+verify_service_content = load_script("service_checker_under_test", "service_content_check.py").verify_service_content
 
 DOMAIN = "https://www.3dkanadvertising.store"
 SLUG = "neon-box"

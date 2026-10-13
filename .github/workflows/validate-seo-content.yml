@@ -26,6 +26,15 @@ jobs:
         run: python3 -m py_compile scripts/service_content_check.py tests/seo_content_test.py tests/test_service_content_check.py
       - name: Exercise stale and malformed response refusal
         run: python3 -m unittest discover -s tests -p test_service_content_check.py -v
+      - name: Exercise actual production preflight import context
+        run: |
+          python3 - <<'PY'
+          import runpy, sys
+          from pathlib import Path
+          sys.path[0] = str(Path("scripts").resolve())
+          module = runpy.run_path("scripts/deploy_ftps.py", run_name="preflight_test")
+          module["require_local_checks"]()
+          PY
       - name: Stage immutable previous service source
         run: |
           mkdir -p "$RUNNER_TEMP/seo-baseline"
