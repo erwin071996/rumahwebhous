@@ -90,6 +90,45 @@ jobs:
               shared_base = "${{ github.event.pull_request.base.sha }}"
               shared_changed = set(subprocess.check_output(["git", "diff", "--name-only", shared_base, "HEAD", "--", "public_html"]).decode().splitlines())
               shared_owned = {entry["path"] for entry in manifest.get("outputs", [])} | {"public_html/assets/ui/design-system.css", "public_html/assets/marketing-20261006/site.js", "public_html/assets/refresh-20261006/site-v2.js", "public_html/assets/refresh-20261006/site.js"}
+              # One explicitly reviewed BRMP service-data delta may join SharedBrand's owned paths.
+              data_path = Path("public_html/includes/refresh-data.json")
+              approval_path = Path("tests/fixtures/projects-approved-content.json")
+              approved_data = False
+              if (data_path.is_file() and not data_path.is_symlink()
+                      and hashlib.sha256(data_path.read_bytes()).hexdigest() == "cffc9ff8a9f02ceac7bfd19054bbdca581b486e6ed311516ab03d584497d9d4e"
+                      and approval_path.is_file() and not approval_path.is_symlink()
+                      and hashlib.sha256(approval_path.read_bytes()).hexdigest() == "dcef03b2601f61bb80a9b3de2a3480fba1cae2e2da74780737ce5bbd1b388110"):
+                  approval = json.loads(approval_path.read_text(encoding="ascii"))
+                  spec = approval.get("service_data", {})
+                  operations = spec.get("operations", [])
+                  unchanged_home_assets_and_benchmark = subprocess.run(
+                      ["git", "diff", "--quiet", shared_base, "HEAD", "--",
+                       "public_html/index.html", "public_html/assets", "tests/performance.cjs"]).returncode == 0
+                  old_data = subprocess.run(
+                      ["git", "show", shared_base + ":public_html/includes/refresh-data.json"],
+                      stdout=subprocess.PIPE, stderr=subprocess.DEVNULL)
+                  if (spec.get("path") == "public_html/includes/refresh-data.json"
+                          and spec.get("service") == "huruf-timbul" and len(operations) == 1
+                          and old_data.returncode == 0 and unchanged_home_assets_and_benchmark):
+                      raw = data_path.read_bytes()
+                      text = raw.decode("utf-8")
+                      operation = operations[0]
+                      if text.count(operation["new"]) == 1:
+                          restored = text.replace(operation["new"], operation["old"], 1).encode("utf-8")
+                          before = json.loads(restored)
+                          editorial = spec["editorial"]
+                          record = before["services"]["huruf-timbul"]
+                          approved_data = (restored == old_data.stdout
+                              and len(restored) == 23211
+                              and hashlib.sha256(restored).hexdigest() == "fa323534c3baec1cda60916413489868e7527cf765380ed2d66a1034886f14bb"
+                              and len(record) == 7 and len(before["services"]) == 7
+                              and set(editorial) == {"seo_title", "seo_description", "detail_sections"}
+                              and not set(editorial).intersection(record))
+                          if approved_data:
+                              before["services"]["huruf-timbul"].update(editorial)
+                              approved_data = json.loads(raw) == before
+                          if approved_data:
+                              shared_owned.add("public_html/includes/refresh-data.json")
               benchmark_stable = subprocess.run(["git", "diff", "--quiet", shared_base, "HEAD", "--", "tests/performance.cjs", "tests/native-dependencies.json"]).returncode == 0
               if not benchmark_stable:
                   # Only the released c700 SharedBrand JS snapshot may replace its stale live pin.

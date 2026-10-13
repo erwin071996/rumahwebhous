@@ -72,14 +72,14 @@ def approved_main(body):
         return opening[:-1] + ' tabindex="-1">' + value[len(opening):]
     return value
 
-PROJECTS_APPROVAL_SHA = "50a11c45a1c741278148c4668099ca295efd3d6e9ba8ab9b24f84dd26f7bc506"
+PROJECTS_APPROVAL_SHA = "dcef03b2601f61bb80a9b3de2a3480fba1cae2e2da74780737ce5bbd1b388110"
 
 def restore_approved_projects(payload):
     file = ROOT / "tests/fixtures/projects-approved-content.json"
     if not file.is_file() or file.is_symlink() or hashlib.sha256(file.read_bytes()).hexdigest() != PROJECTS_APPROVAL_SHA:
         raise AssertionError("Approved Projects fixture identity mismatch")
     approval = json.loads(file.read_text(encoding="ascii"))
-    if approval.get("schema_version") != 1 or approval.get("path") != "public_html/projects.html" or len(approval.get("operations", [])) != 2:
+    if approval.get("schema_version") != 1 or approval.get("path") != "public_html/projects.html" or len(approval.get("operations", [])) != 3:
         raise AssertionError("Unexpected approved Projects contract")
     if hashlib.sha256(payload).hexdigest() != approval["candidate"]["sha256"]:
         raise AssertionError("Approved Projects candidate identity mismatch")
@@ -89,6 +89,36 @@ def restore_approved_projects(payload):
             raise AssertionError("Approved Projects operation cardinality")
         value = value.replace(operation["new"], operation["old"], 1)
     return value.replace("\r\n", "\n").replace("\r", "\n")
+
+def approved_service_editorial():
+    file = ROOT / "tests/fixtures/projects-approved-content.json"
+    if not file.is_file() or file.is_symlink() or hashlib.sha256(file.read_bytes()).hexdigest() != PROJECTS_APPROVAL_SHA:
+        raise AssertionError("Approved content fixture identity mismatch")
+    spec = json.loads(file.read_text(encoding="ascii"))["service_data"]
+    if spec["path"] != "public_html/includes/refresh-data.json" or spec["service"] != "huruf-timbul" or len(spec["operations"]) != 1:
+        raise AssertionError("Unexpected approved service contract")
+    file = PUBLIC / "includes/refresh-data.json"
+    if not file.is_file() or file.is_symlink():
+        raise AssertionError("Unsafe approved service source")
+    raw = file.read_bytes()
+    if len(raw) != spec["candidate"]["bytes"] or hashlib.sha256(raw).hexdigest() != spec["candidate"]["sha256"]:
+        raise AssertionError("Approved service source identity mismatch")
+    text = raw.decode("utf-8")
+    operation = spec["operations"][0]
+    if text.count(operation["new"]) != 1:
+        raise AssertionError("Approved service source cardinality")
+    restored = text.replace(operation["new"],operation["old"],1).encode("utf-8")
+    if len(restored) != spec["baseline"]["bytes"] or hashlib.sha256(restored).hexdigest() != spec["baseline"]["sha256"]:
+        raise AssertionError("Approved service restoration identity mismatch")
+    before, after = json.loads(restored), json.loads(raw)
+    expected = copy.deepcopy(before)
+    editorial = spec["editorial"]
+    if set(editorial) != {"seo_title","seo_description","detail_sections"}:
+        raise AssertionError("Unexpected approved service fields")
+    expected["services"]["huruf-timbul"].update(editorial)
+    if after != expected:
+        raise AssertionError("Approved service changed unrelated data")
+    return editorial
 
 def head_metadata(body):
     page = Page(body)
@@ -130,6 +160,7 @@ class SeoContent(unittest.TestCase):
         cls.old_data = json.loads((cls.old / "includes/refresh-data.json").read_text(encoding="utf-8"))
         cls.new_data = json.loads((cls.new / "includes/refresh-data.json").read_text(encoding="utf-8"))
         cls.neon = cls.new_data["services"]["neon-box"]
+        cls.huruf_editorial = approved_service_editorial()
     @classmethod
     def tearDownClass(cls):
         cls.temp.cleanup()
@@ -187,6 +218,9 @@ class SeoContent(unittest.TestCase):
             if slug == "neon-box":
                 self.assertEqual({k: old[k] for k in LEGACY}, {k: new[k] for k in LEGACY})
                 self.assertEqual(set(new), set(old) | set(OPTIONAL))
+            elif slug == "huruf-timbul":
+                self.assertEqual({k: new[k] for k in old}, old)
+                self.assertEqual({k:v for k,v in new.items() if k not in old}, self.huruf_editorial)
             else:
                 self.assertEqual(old, new, slug)
 
@@ -196,7 +230,14 @@ class SeoContent(unittest.TestCase):
         for slug in slugs:
             with self.subTest(slug=slug):
                 old = self.render(self.old, "/layanan/" + slug)
-                new = self.render(self.new, "/layanan/" + slug)
+                site = self.new
+                if slug == "huruf-timbul":
+                    site = self.prepare(self.new, "huruf-before-approved-editorial")
+                    data = copy.deepcopy(self.new_data)
+                    for key in self.huruf_editorial:
+                        data["services"][slug].pop(key)
+                    (site / "includes/refresh-data.json").write_text(json.dumps(data,ensure_ascii=False),encoding="utf-8")
+                new = self.render(site, "/layanan/" + slug)
                 self.assertEqual(old["status"], 200)
                 self.assert_content_response(new, old)
 

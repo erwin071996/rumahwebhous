@@ -1,21 +1,21 @@
 {
   "baseline_commit": "dd31d7305d1571b4fde960ed0b942135a88388a1",
   "baseline_preview": {
-    "after_bytes": 60785,
-    "after_sha256": "c280ac9a9dad0392c870e87ee3f31bf3cee696859f715ec7ee5491ded45c5f2c",
+    "after_bytes": 61561,
+    "after_sha256": "91247b5890f7ba65c9d1a43035a8f6a7bb72c0a5599b7c9034b3bac35670855b",
     "before_bytes": 60397,
     "before_sha256": "73a3b7a09cfa7ef8393e65471cc95051a33ef62311b880068f589a0131c9083a"
   },
   "candidate": {
-    "bytes": 61461,
-    "git_blob": "905fcee846879c97132a8aaa210c7d67696b7886",
-    "main_sha256": "91f974d0b19d8aa46da43b7a055824122c19dbc7187c78b89314ca2edea95c1f",
+    "bytes": 62237,
+    "git_blob": "edff5564b8c725f474314634f9f4fa65deead2cb",
+    "main_sha256": "9ef0fbe3ad2912fc5c63c76f86acccc3b347851963073b1ac3c1e5d26928fa58",
     "pre_main_sha256": "bcca0728bbcbbf9226695e6b0ab65d5b9a126c0bb7a5c1202f9d81adc48106cc",
-    "sha256": "b199918bff23ebd2f2dc6050ecf6b0baac8ac836728f1e45abc5c0206ebcf284"
+    "sha256": "3499272ee89c26fcf6d8ecbbcb61585ad1f5961bc5fdeb33561da96e0b18b3b1"
   },
-  "input_commit": "c700dae84430ceae55ab6746e9fe51cbebfa2eda",
+  "input_commit": "96742610742375e39a3688555ed45dbe7ff48701",
   "normalized_main": {
-    "after_sha256": "414ad362aca562d364fc702fc75c21d2170b28307aee82c38bcf943ef7c57159",
+    "after_sha256": "c5c3c3b992345c1844f6f02ebd89f4b81c9cfa0f9654be250141ab9e52147a58",
     "before_sha256": "cdd270aabed94968cdabfe681d73e4369a4487a2685c433c4acefdd4b2b48f61"
   },
   "operations": [
@@ -26,8 +26,48 @@
     {
       "new": "<section class=\"brief-section\" id=\"brief-proyek\" tabindex=\"-1\">",
       "old": "<section class=\"brief-section\" id=\"brief-proyek\">"
+    },
+    {
+      "new": "<article class=\"case-study\" id=\"brmp\">\n  <div class=\"case-visual\"><img src=\"/assets/portfolio-real/clean/kementerian-pertanian-brmp.webp\" alt=\"Interior signage Kementerian Pertanian BRMP oleh 3DKan Advertising\" loading=\"lazy\" width=\"1012\" height=\"1800\" decoding=\"async\"><span class=\"case-sector\">INSTANSI \u00b7 INTERIOR SIGNAGE</span></div>\n  <div class=\"case-body\"><p class=\"case-kicker\">KEMENTERIAN PERTANIAN \u2014 BRMP \u00b7 18 JULI 2026</p><h3>Identitas ruang dengan huruf timbul</h3><p class=\"case-summary\">Komposisi logo dan huruf timbul untuk memperkuat identitas ruang pada backdrop interior instansi.</p>\n    <div class=\"case-facts\">\n      <div class=\"case-fact\"><small>KEBUTUHAN</small><strong>Identitas interior yang formal dan mudah dikenali</strong></div>\n      <div class=\"case-fact\"><small>FORMAT PEKERJAAN</small><strong>Logo \u00b7 huruf timbul \u00b7 backdrop ruang</strong></div>\n      <div class=\"case-fact\"><small>DOKUMENTASI</small><strong>Identitas interior terpasang</strong></div>\n      <div class=\"case-fact\"><small>HASIL</small><strong>Identitas ruang terpasang sebagai focal point interior</strong></div>\n    </div>\n    <p class=\"case-summary\">Foto memperlihatkan logo dan susunan tulisan pada backdrop ruang, dalam kondisi terpasang. Gunakan dokumentasi BRMP untuk menjelaskan bagian komposisi yang menjadi acuan Anda; bahan, ukuran, dan rincian pemasangan pesanan tetap perlu dikonfirmasi tersendiri.</p>\n    <p class=\"case-summary\">Pilih Huruf timbul pada brief. Di Ringkasan kebutuhan, tulis \u2018Referensi visual: BRMP\u2019, teks/logo, ukuran bidang beserta satuan dan statusnya, lokasi, serta foto yang tersedia. Periksa pesan; file dan foto dilampirkan sendiri saat chat. Pesan dikirim setelah Anda menekan Kirim di WhatsApp.</p>\n    <div class=\"case-actions\"><a class=\"case-cta\" href=\"#brief-proyek\">Siapkan brief huruf timbul interior</a><a class=\"case-cta\" href=\"/layanan/huruf-timbul\">Panduan brief huruf timbul</a><button class=\"case-video real-video\" data-video=\"/assets/portfolio-real/videos/kementerian-pertanian-brmp.mp4\" data-title=\"Kementerian Pertanian \u2014 BRMP\" type=\"button\" disabled>Lihat video proyek \u25b6</button><a class=\"case-cta\" href=\"https://wa.me/6285340382029?text=Halo%203DKan%2C%20saya%20ingin%20membahas%20signage%20interior%20untuk%20kantor%20atau%20instansi.\" target=\"_blank\" rel=\"noopener noreferrer\">Bahas proyek serupa \u2197</a></div>\n  </div>\n</article>",
+      "old": "<article class=\"case-study\" id=\"brmp\">\n  <div class=\"case-visual\"><img src=\"/assets/portfolio-real/clean/kementerian-pertanian-brmp.webp\" alt=\"Interior signage Kementerian Pertanian BRMP oleh 3DKan Advertising\" loading=\"lazy\" width=\"1012\" height=\"1800\" decoding=\"async\"><span class=\"case-sector\">INSTANSI \u00b7 INTERIOR SIGNAGE</span></div>\n  <div class=\"case-body\"><p class=\"case-kicker\">KEMENTERIAN PERTANIAN \u2014 BRMP \u00b7 18 JULI 2026</p><h3>Identitas ruang dengan huruf timbul</h3><p class=\"case-summary\">Komposisi logo dan huruf timbul untuk memperkuat identitas ruang pada backdrop interior instansi.</p>\n    <div class=\"case-facts\">\n      <div class=\"case-fact\"><small>KEBUTUHAN</small><strong>Identitas interior yang formal dan mudah dikenali</strong></div>\n      <div class=\"case-fact\"><small>FORMAT PEKERJAAN</small><strong>Logo \u00b7 huruf timbul \u00b7 backdrop ruang</strong></div>\n      <div class=\"case-fact\"><small>DOKUMENTASI</small><strong>Identitas interior terpasang</strong></div>\n      <div class=\"case-fact\"><small>HASIL</small><strong>Identitas ruang terpasang sebagai focal point interior</strong></div>\n    </div>\n    <div class=\"case-actions\"><button class=\"case-video real-video\" data-video=\"/assets/portfolio-real/videos/kementerian-pertanian-brmp.mp4\" data-title=\"Kementerian Pertanian \u2014 BRMP\" type=\"button\" disabled>Lihat video proyek \u25b6</button><a class=\"case-cta\" href=\"https://wa.me/6285340382029?text=Halo%203DKan%2C%20saya%20ingin%20membahas%20signage%20interior%20untuk%20kantor%20atau%20instansi.\" target=\"_blank\" rel=\"noopener noreferrer\">Bahas proyek serupa \u2197</a></div>\n  </div>\n</article>"
     }
   ],
   "path": "public_html/projects.html",
-  "schema_version": 1
+  "schema_version": 1,
+  "service_data": {
+    "baseline": {
+      "bytes": 23211,
+      "git_blob": "fc9117952bee5cd0002d16cac077284e92b9a556",
+      "sha256": "fa323534c3baec1cda60916413489868e7527cf765380ed2d66a1034886f14bb"
+    },
+    "candidate": {
+      "bytes": 24691,
+      "git_blob": "6fbf29a1705440cfd16371beaa80b5d162c1deda",
+      "sha256": "cffc9ff8a9f02ceac7bfd19054bbdca581b486e6ed311516ab03d584497d9d4e"
+    },
+    "editorial": {
+      "detail_sections": [
+        {
+          "heading": "Dari dokumentasi interior ke brief pesanan",
+          "id": "brief-interior-brmp",
+          "links": [],
+          "paragraphs": [
+            "Portofolio 3DKan mencantumkan 18 Juli 2026 pada entri identitas interior Kementerian Pertanian \u2014 BRMP. Foto memperlihatkan logo dan susunan tulisan pada backdrop ruang, dalam kondisi terpasang. Gunakan contoh ini untuk menjelaskan bagian komposisi yang menjadi acuan Anda; bahan, ukuran, dan rincian pemasangan pesanan tetap perlu dikonfirmasi tersendiri.",
+            "Siapkan teks dan logo, foto bidang, lebar \u00d7 tinggi bidang beserta satuan dan status ukur atau perkiraan, lokasi, jumlah titik, serta pilihan pencahayaan yang ingin dibahas. Buka galeri portofolio yang ditautkan di halaman ini untuk melihat dokumentasi BRMP dan menggunakan CTA Siapkan brief huruf timbul interior.",
+            "Pilih Huruf timbul pada brief. Di Ringkasan kebutuhan, tulis \u2018Referensi visual: BRMP\u2019, teks/logo, ukuran bidang beserta satuan dan statusnya, lokasi, serta foto yang tersedia. Periksa pesan; file dan foto dilampirkan sendiri saat chat. Pesan dikirim setelah Anda menekan Kirim di WhatsApp."
+          ]
+        }
+      ],
+      "seo_description": "Pahami pilihan huruf timbul, lihat dokumentasi interior BRMP, dan siapkan teks, logo, ukuran bidang serta foto lokasi sebelum meminta penawaran.",
+      "seo_title": "Jasa Huruf Timbul: Pilihan & Brief Pesanan | 3DKan"
+    },
+    "operations": [
+      {
+        "new": "      \"image\": \"produk-dbfee5defde1\",\n      \"seo_title\": \"Jasa Huruf Timbul: Pilihan & Brief Pesanan | 3DKan\",\n      \"seo_description\": \"Pahami pilihan huruf timbul, lihat dokumentasi interior BRMP, dan siapkan teks, logo, ukuran bidang serta foto lokasi sebelum meminta penawaran.\",\n      \"detail_sections\": [\n        {\n          \"id\": \"brief-interior-brmp\",\n          \"heading\": \"Dari dokumentasi interior ke brief pesanan\",\n          \"paragraphs\": [\n            \"Portofolio 3DKan mencantumkan 18 Juli 2026 pada entri identitas interior Kementerian Pertanian \u2014 BRMP. Foto memperlihatkan logo dan susunan tulisan pada backdrop ruang, dalam kondisi terpasang. Gunakan contoh ini untuk menjelaskan bagian komposisi yang menjadi acuan Anda; bahan, ukuran, dan rincian pemasangan pesanan tetap perlu dikonfirmasi tersendiri.\",\n            \"Siapkan teks dan logo, foto bidang, lebar \u00d7 tinggi bidang beserta satuan dan status ukur atau perkiraan, lokasi, jumlah titik, serta pilihan pencahayaan yang ingin dibahas. Buka galeri portofolio yang ditautkan di halaman ini untuk melihat dokumentasi BRMP dan menggunakan CTA Siapkan brief huruf timbul interior.\",\n            \"Pilih Huruf timbul pada brief. Di Ringkasan kebutuhan, tulis \u2018Referensi visual: BRMP\u2019, teks/logo, ukuran bidang beserta satuan dan statusnya, lokasi, serta foto yang tersedia. Periksa pesan; file dan foto dilampirkan sendiri saat chat. Pesan dikirim setelah Anda menekan Kirim di WhatsApp.\"\n          ],\n          \"links\": []\n        }\n      ]\n    },\n    \"neon-flex\": {",
+        "old": "      \"image\": \"produk-dbfee5defde1\"\n    },\n    \"neon-flex\": {"
+      }
+    ],
+    "path": "public_html/includes/refresh-data.json",
+    "service": "huruf-timbul"
+  }
 }
