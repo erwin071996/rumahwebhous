@@ -1,0 +1,80 @@
+name: Validate PHP 8.3 compatibility
+on:
+  pull_request:
+    paths:
+      - 'public_html/**/*.php'
+      - 'public_html/includes/content-index.json'
+      - 'public_html/includes/refresh-data.json'
+      - 'cms/neon_box_pilot.php'
+      - 'tests/cms-offline-pilot.php'
+      - 'scripts/php83_source_audit.php'
+      - 'tests/php83_compatibility_test.py'
+      - '.github/workflows/validate-php83-compatibility.yml'
+permissions:
+  contents: read
+jobs:
+  php83-compatibility:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    env:
+      PHP83_CANDIDATE_SHA: ${{ github.event.pull_request.head.sha }}
+    steps:
+      - name: Checkout exact reviewed source without credentials
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 1
+          persist-credentials: false
+      - name: Verify test source integrity and exact PHP 8.3 cloud runtime
+        shell: bash
+        run: |
+          test "$(git rev-parse HEAD)" = "$PHP83_CANDIDATE_SHA"
+          python3 - <<'PY'
+          import hashlib
+          from pathlib import Path
+          expected = {
+              "scripts/php83_source_audit.php": (4942, "2ee2714a65eb33a4a06f0ed8b7566398fe73d708"),
+              "tests/php83_compatibility_test.py": (18682, "cc5c14b123c2b998ffc0c3ab5cc25384d0fd8de5"),
+          }
+          for filename, (length, digest) in expected.items():
+              file = Path(filename)
+              assert file.is_file() and not file.is_symlink(), "Unsafe compatibility source"
+              raw = file.read_bytes()
+              actual = hashlib.sha1(b"blob " + str(len(raw)).encode() + b"\0" + raw).hexdigest()
+              assert len(raw) == length and actual == digest, "Compatibility source identity mismatch"
+          print("Exact test source verified.")
+          PY
+          php -r 'if (PHP_VERSION_ID < 80300 || PHP_VERSION_ID >= 80400) { fwrite(STDERR, "Exact PHP8.3 cloud runtime required\n"); exit(1); } echo "Cloud PHP CLI: " . PHP_VERSION . "\n";'
+          php -l scripts/php83_source_audit.php
+          python3 -m py_compile tests/php83_compatibility_test.py
+      - name: Run focused isolated public PHP functions
+        shell: bash
+        run: python3 tests/php83_compatibility_test.py
+      - name: Verify focused results only
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import json, os
+          from pathlib import Path
+          file = Path("artifacts/php83-compatibility/results.json")
+          assert file.is_file() and not file.is_symlink(), "Missing focused result"
+          result = json.loads(file.read_text())
+          assert result["candidate_sha"] == os.environ["PHP83_CANDIDATE_SHA"], "Candidate identity mismatch"
+          assert len(result["results"]) == 10 and all(item["status"] == "PASS" for item in result["results"]), "Focused compatibility gate failed"
+          assert result["runtime"]["id"] >= 80300 and result["runtime"]["id"] < 80400, "Runtime is not PHP8.3"
+          assert result["coverage"] == {
+              "content_routes": 485, "services": 7, "redirect_cases": 6,
+              "sitemap_documents": 11, "sitemap_urls": 500, "static_pages": 8,
+          }, "Focused coverage mismatch"
+          assert len(result["source_audit"]["files"]) == 9 and not result["source_audit"]["issues"], "Full PHP source audit failed"
+          assert result["reused_evidence"]["offline_cms"]["passed"] == 49 and result["reused_evidence"]["offline_cms"]["library_and_test_blobs_verified_unchanged"], "Existing CMS evidence mismatch"
+          print("PHP8.3 focused source/render gate passed; prior exact CMS49 evidence reused; hosting/API activation not inferred.")
+          PY
+      - name: Save redacted compatibility results only
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: php83-compatibility-${{ github.event.pull_request.head.sha }}
+          path: artifacts/php83-compatibility/results.json
+          if-no-files-found: warn
+          retention-days: 7
