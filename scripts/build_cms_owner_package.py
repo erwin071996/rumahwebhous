@@ -5,6 +5,10 @@ import json
 from pathlib import Path
 
 SOURCES = {
+    "cms/owner-request-guard.php": {
+        "target": "includes/cms-owner/owner-request-guard.php",
+        "sha256": "6f3522030e156cfdaa354e1d7bbd5d79ae199ca811ed207982e3afee7285e5ad"
+    },
     "cms/neon_box_pilot.php": {
         "target": "includes/cms-owner/neon_box_pilot.php",
         "sha256": "15dbaf6bfe53ff5ea521d97e288788fb07f4c1e4a9f32e1ef1667d9bacad6ab2"
